@@ -744,13 +744,13 @@ export default function App() {
                 <Train className="w-5 h-5" />
               </div>
               <span className="text-lg font-bold font-heading text-white tracking-tight">
-                Stepless Busan
+                Florer (플로레르)
               </span>
             </div>
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">
               {language === 'KR' 
-                ? '부산 지하철 이용객들의 평등하고 자유로운 지상 이동을 지원하기 위해 설계된 교통약자 특화형 오지 편의 채널입니다. 본 서비스는 공공데이터 연계 및 수동 감사 데이터를 기반으로 수집 및 가꾸어집니다.' 
-                : 'A dedicated public transit and sidewalk helper to establish smooth, accessible tourist pathways throughout Seomyeon, Jeonpo, and Bujeon.'}
+                ? '부산 지하철 이용객들의 평등하고 자유로운 지상 이동을 지원하기 위해 설계된 교통약자 특화형 편의 플랫폼입니다. 본 서비스는 공공데이터 연계 및 수동 검증 데이터를 기반으로 운영됩니다.' 
+                : 'A dedicated public transit helper to establish smooth, accessible pathways throughout major transit hubs.'}
             </p>
           </div>
 
@@ -786,17 +786,17 @@ export default function App() {
             </h4>
             <p className="text-xs font-sans text-slate-400">
               {language === 'KR' 
-                ? '부산 16개 구역 전철역 엘리베이터 데이터 현행화 제의 및 제보 누락 문의는 지원 메일을 이용해 연락 주시기 바랍니다.' 
-                : 'For comments or suggesting detailed accessibility paths, contact the Stepless Busan support team.'}
+                ? '부산 전철역 엘리베이터 데이터 현행화 제의 및 제보 누락 문의는 지원 메일을 이용해 연락 주시기 바랍니다.' 
+                : 'For comments or suggesting detailed accessibility paths, contact the Florer support team.'}
             </p>
             <p className="text-xs font-mono font-bold text-slate-200">
-              support@stepless-busan.kr
+              support@florer.co.kr
             </p>
           </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800/80 mt-12 pt-6 text-2xs sm:text-xs text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-2">
-          <span>© 2026 Stepless Busan. All rights reserved.</span>
+          <span>© 2026 Florer. All rights reserved.</span>
           <div className="flex gap-4">
             <a href="#" className="hover:text-slate-300 hover:underline">{language === 'KR' ? '이용약관' : 'Terms'}</a>
             <a href="#" className="hover:text-slate-300 hover:underline">{language === 'KR' ? '개인정보처리방침' : 'Privacy'}</a>
