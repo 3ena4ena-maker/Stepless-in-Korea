@@ -348,7 +348,6 @@ export default function App() {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-slate-800">{language === 'KR' ? '실시간 검증 출구' : 'Verified Accessibility Exits'}</h4>
-                    <p className="text-xs text-slate-500 mt-0.5">{language === 'KR' ? '실제 보도블록 턱 높이 및 경지 점검' : 'Direct physical slope audits'}</p>
                   </div>
                 </div>
               </div>
