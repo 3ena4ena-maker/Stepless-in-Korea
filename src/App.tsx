@@ -125,7 +125,7 @@ export default function App() {
   const [reportSuccess, setReportSuccess] = useState<boolean>(false);
 
   // Active expanded exit details
-  const [expandedExitNum, setExpandedExitNum] = useState<string | null>('7번 출구');
+  const [expandedExitNum, setExpandedExitNum] = useState<string | null>(null);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'KR' ? 'EN' : 'KR');
@@ -373,17 +373,8 @@ export default function App() {
                           id={`quick-station-tab-${s.id}`}
                           onClick={() => {
                             setSelectedStationId(s.id);
-                            // Auto expand first exit of checked station to give immediate response
-                            const filtered = s.exits.filter(exit => {
-                              if (activePathFilter === 'ACCESSIBLE') return exit.hasElevator && exit.isAccessible;
-                              if (activePathFilter === 'CARRY') return exit.hasElevator || exit.hasEscalator;
-                              return true;
-                            });
-                            if (filtered.length > 0) {
-                              setExpandedExitNum(filtered[0].number);
-                            } else {
-                              setExpandedExitNum(null);
-                            }
+                            // Keep all detailed pathways collapsed initially as requested
+                            setExpandedExitNum(null);
                           }}
                           className={`py-3 px-2 sm:py-4 rounded-2xl text-xs sm:text-base font-extrabold transition-all border flex flex-col items-center justify-center gap-1 cursor-pointer ${
                             isActive
@@ -555,11 +546,8 @@ export default function App() {
                               directionDesc={exit.directionDesc}
                               exitNumber={exit.number}
                               stationName={activeStation.name}
-                              onGoogleMap={() => {
-                                const query = `${activeStation.name} ${exit.number}`;
-                                window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`);
-                              }}
-                              onNaverMap={() => window.open(exit.naverMapUrl)}
+                              googleMapUrl={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${activeStation.name} ${exit.number}`)}`}
+                              naverMapUrl={exit.naverMapUrl}
                               language={language}
                             />
                           </div>

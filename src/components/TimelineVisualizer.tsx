@@ -13,8 +13,8 @@ interface TimelineVisualizerProps {
   directionDesc: string;
   exitNumber: string;
   stationName: string;
-  onGoogleMap: () => void;
-  onNaverMap: () => void;
+  googleMapUrl: string;
+  naverMapUrl: string;
   language: 'KR' | 'EN';
 }
 
@@ -22,8 +22,8 @@ export default function TimelineVisualizer({
   directionDesc,
   exitNumber,
   stationName,
-  onGoogleMap,
-  onNaverMap,
+  googleMapUrl,
+  naverMapUrl,
   language
 }: TimelineVisualizerProps) {
   return (
@@ -42,20 +42,24 @@ export default function TimelineVisualizer({
         
         {/* Real Korean Integrations (Google Maps & Naver Map Search) */}
         <div className="flex items-center gap-1.5">
-          <button
-            onClick={onGoogleMap}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-white hover:bg-slate-700 text-xs font-bold transition-all cursor-pointer"
+          <a
+            href={googleMapUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-white hover:bg-slate-700 text-xs font-bold transition-all no-underline shrink-0"
           >
             <span className="text-xs">🌐</span>
             <span>{language === 'KR' ? '구글맵' : 'Google Maps'}</span>
-          </button>
-          <button
-            onClick={onNaverMap}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#03C75A] text-white hover:opacity-90 text-xs font-bold transition-all cursor-pointer"
+          </a>
+          <a
+            href={naverMapUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#03C75A] text-white hover:opacity-90 text-xs font-bold transition-all no-underline shrink-0"
           >
             <ArrowUpRight className="w-3 h-3 text-white" />
             <span>{language === 'KR' ? '네이버 지도' : 'Naver Map'}</span>
-          </button>
+          </a>
         </div>
       </div>
 
