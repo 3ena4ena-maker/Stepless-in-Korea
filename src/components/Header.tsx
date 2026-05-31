@@ -36,7 +36,7 @@ export default function Header({ currentTab, setCurrentTab, language, toggleLang
             </div>
             <div>
               <span className="text-xl font-bold font-heading tracking-tight text-slate-800 flex items-center gap-1.5">
-                Florer <span className="text-xs bg-emerald-50 text-emerald-700 font-sans px-2 py-0.5 rounded-full font-bold">플로레르</span>
+                Stepless <span className="text-xs bg-emerald-50 text-emerald-700 font-sans px-2 py-0.5 rounded-full font-bold">Busan</span>
               </span>
               <p className="text-[10px] text-slate-400 font-sans font-medium -mt-1">
                 계단 없는 최적의 부산 지하철 길잡이
