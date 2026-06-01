@@ -474,7 +474,7 @@ export const STATIONS: Station[] = [
     englishName: 'Bujeon Station',
     lines: ['1', '동해'],
     elevatorCount: 2,
-    escalatorCount: 0,
+    escalatorCount: 2,
     toiletLocation: '무장애 개찰구 내부 통로 지하 1층',
     isTransferStation: true,
     accentColor: 'from-[#004481] to-[#004960]',
@@ -558,6 +558,39 @@ export const STATIONS: Station[] = [
             desc: '6번 출구 연계 지상형 엘리베이터',
             facilityType: 'ELEVATOR',
             tip: '기차역 환승 야외 인도로 계단 및 단차 없이 부드럽게 상승 연동해주는 양방향 엘리베이터입니다.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '서면지하도상가 부전몰 5번 출구',
+        isAccessible: false,
+        isStrollerFriendly: true,
+        hasElevator: false,
+        hasEscalator: true,
+        facilityDirection: 'BOTH',
+        tip: '상행 및 하행 에스컬레이터가 모두 제공되어 계단을 오르내리지 않고 편리하게 부전시장 방면 지상으로 오갈 수 있는 편리한 통로입니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '부전전통시장, 부전약국, 서면 부전몰 지하상가 방면',
+        latitude: 35.1605,
+        longitude: 129.0596,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/서면지하도상가 부전몰 5번출구',
+        naverMapUrl: 'https://map.naver.com/v5/search/서면지하도상가 부전몰 5번출구',
+        pathwayTimeline: [
+          {
+            id: 'bj-bjm5-step1',
+            name: '지하상가/대합실 (B1F)',
+            desc: '서면지하도상가 부전몰 연결 통로',
+            facilityType: 'GATE',
+            tip: '부전몰 지하상가 길을 따라 5번 출구 분기점으로 이동해 주십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bj-bjm5-step2',
+            name: '부전몰 5번 출구 에스컬레이터 (B1F ↔ 1F)',
+            desc: '지상 인도 연결 상하행 에스컬레이터',
+            facilityType: 'ESCALATOR',
+            tip: '상행과 하행 에스컬레이터 모두 원활하게 탑승 및 이용 가능하여 유모차나 캐리어 소지자(에스컬레이터 이용 가능자) 편의를 대폭 올려줍니다.',
             status: 'OPERATIONAL'
           }
         ]
