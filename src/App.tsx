@@ -577,11 +577,11 @@ export default function App() {
               {/* Search Header */}
               <div>
                 <h2 className="text-2xl font-extrabold font-heading text-slate-800">
-                  {language === 'KR' ? '서면·전포·부전 역사 둘러보기' : 'Bento Grid Transit Index'}
+                  {language === 'KR' ? '부산 주요 전철역 무장애 정보 둘러보기' : 'Bento Grid Transit Index'}
                 </h2>
                 <p className="text-sm text-slate-500 mt-1">
                   {language === 'KR' 
-                    ? '부산진구 핵심 주요역의 총 엘리베이터 수, 에스컬레이터 대수 및 편의화장실 위치를 한눈에 비교하고 탐색해보세요.' 
+                    ? '부산 핵심 주요역의 총 엘리베이터 수, 에스컬레이터 대수 및 편의화장실 위치를 한눈에 비교하고 탐색해보세요.' 
                     : 'Analyze general escalators, elevator configurations and accessible facilities across major transit sectors.'}
                 </p>
 
