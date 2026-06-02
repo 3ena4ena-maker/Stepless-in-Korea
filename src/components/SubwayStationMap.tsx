@@ -43,7 +43,13 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
 
     // Detect if they saved client ID under VITE_NAVER_CLIENT_SECRET or any other custom naming pattern by accident
     const naverKeys = Object.keys(env).filter(key => key.startsWith('VITE_NAVER_CLIENT'));
-    const customKey = naverKeys.find(key => key !== 'VITE_NAVER_CLIENT_ID' && env[key] && env[key] !== 'x7vtxblyj1' && env[key] !== 'jig5o1hthp');
+    const customKey = naverKeys.find(key => 
+      key !== 'VITE_NAVER_CLIENT_ID' && 
+      key !== 'VITE_NAVER_CLIENT_SECRET' && 
+      env[key] && 
+      env[key] !== 'x7vtxblyj1' && 
+      env[key] !== 'jig5o1hthp'
+    );
 
     if ((!clientId || clientId === 'x7vtxblyj1' || clientId === 'jig5o1hthp') && customKey) {
       clientId = env[customKey];
