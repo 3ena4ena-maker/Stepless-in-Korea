@@ -762,11 +762,11 @@ export default function App() {
             </h4>
             <p className="text-xs font-sans text-slate-400">
               {language === 'KR' 
-                ? '부산 전철역 엘리베이터 데이터 현행화 제의 및 제보 누락 문의는 지원 메일을 이용해 연락 주시기 바랍니다.' 
-                : 'For comments or suggesting detailed accessibility paths, contact the floreur support team.'}
+                ? '부산 전철역 엘리베이터 데이터 현행화 제의, 제보 누락 문의 및 제휴문의는 지원 메일을 이용해 연락 주시기 바랍니다.' 
+                : 'For comments or suggesting detailed accessibility paths, contact the support team.'}
             </p>
             <p className="text-xs font-mono font-bold text-slate-200">
-              support@floreur.co.kr
+              floreur88@gmail.com
             </p>
           </div>
         </div>
