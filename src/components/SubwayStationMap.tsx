@@ -74,7 +74,7 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
     if (!existingScript) {
       const script = document.createElement('script');
       script.id = scriptId;
-      script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}&submodules=geocoder`;
+      script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${clientId}&submodules=geocoder`;
       script.async = true;
       script.onload = () => {
         if (window.naver && window.naver.maps) {
