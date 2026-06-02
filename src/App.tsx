@@ -31,6 +31,7 @@ import {
 } from 'lucide-react';
 import Header from './components/Header';
 import TimelineVisualizer from './components/TimelineVisualizer';
+import SubwayStationMap from './components/SubwayStationMap';
 import { STATIONS, INITIAL_REPORTS } from './data';
 import { Station, ExitInfo, FacilityReport, StatusType } from './types';
 
@@ -378,6 +379,11 @@ export default function App() {
                       );
                     })}
                   </div>
+                </div>
+
+                {/* 🗺️ Naver Map-linked Station Map Component (Directly Below Selection Space) */}
+                <div id="station-map-container" className="bg-white rounded-3xl border border-slate-100 shadow-[0_4px_22px_rgb(0,0,0,0.02)] overflow-hidden">
+                  <SubwayStationMap station={activeStation} language={language} />
                 </div>
 
                 {/* Sub-Tabs selection representing companion types */}
