@@ -20,20 +20,6 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
   
   const [scriptLoaded, setScriptLoaded] = useState<boolean>(false);
   const [loadError, setLoadError] = useState<boolean>(false);
-  const [showTroubleshoot, setShowTroubleshoot] = useState<boolean>(true);
-  const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
-  const [activeClientId, setActiveClientId] = useState<string>('');
-
-  const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';
-  const currentDevOrigin = 'https://ais-dev-lmd5tw7gcedelyinmkxrgj-402749827742.asia-east1.run.app';
-  const currentPreOrigin = 'https://ais-pre-lmd5tw7gcedelyinmkxrgj-402749827742.asia-east1.run.app';
-
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopiedUrl(text);
-      setTimeout(() => setCopiedUrl(null), 2000);
-    });
-  };
 
   // 1. Asynchronously Load Naver Maps API script
   useEffect(() => {
@@ -59,11 +45,9 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
       clientId = 'jig5o1hthp';
     }
 
-    setActiveClientId(clientId);
-
-    // Dynamic error hook in window to prevent default browser alert dialog and render our beautiful troubleshooting panel instead!
+    // Dynamic error hook in window to prevent default browser alert dialog
     window.navermaps_auth_error = () => {
-      console.warn("Naver Maps API Authentication failed. Intercepted event to show interactive troubleshooting panel safely.");
+      console.warn("Naver Maps API Authentication failed.");
       setLoadError(true);
     };
 
@@ -256,153 +240,6 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
           </div>
         ) : (
           <div className="w-full h-full" ref={mapElement} id="subway-naver-map" />
-        )}
-      </div>
-
-      {/* 🗝️ PRO TIP: Naver Maps Live Domain / Certification Failure troubleshooting widget */}
-      <div className="bg-slate-50/50 p-4 border-t border-slate-100">
-        <button
-          type="button"
-          onClick={() => setShowTroubleshoot(!showTroubleshoot)}
-          className="w-full flex items-center justify-between text-left text-slate-700 hover:text-slate-950 font-bold text-xs"
-        >
-          <span className="flex items-center gap-1.5 text-blue-600 font-extrabold text-xs">
-            🔑 {language === 'KR' ? '네이버 지도 "인증 실패" (회색 화면) 해결 가이드' : 'Fix "Naver Maps API Auth Failed" Error'}
-          </span>
-          <span className="text-[10px] text-slate-400 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-lg transition-colors cursor-pointer">
-            {showTroubleshoot ? (language === 'KR' ? '도움말 닫기 ▲' : 'Close ▲') : (language === 'KR' ? '해결 가이드 열기 ▼' : 'Open Guide ▼')}
-          </span>
-        </button>
-
-        {showTroubleshoot && (
-          <div className="mt-3.5 space-y-4 border-t border-slate-200/60 pt-4 text-[12px] text-slate-600 leading-relaxed animate-fade-in text-left">
-            <div className="p-3.5 bg-blue-50/65 text-blue-950 rounded-2xl border border-blue-100/50 text-[11.5px] leading-relaxed">
-              {language === 'KR' ? (
-                <>
-                  💡 <strong>지도가 흐리게 보이거나 "인증 실패"가 뜨는 원인:</strong> 현재 접속 중인 이 웹페이지의 주소(Domain)가 사용자님의 <strong>네이버 클라우드 플랫폼(NCP) Application 관리의 Web 서비스 URL</strong>로 승인 등록되어 있지 않거나, 발급받으신 클라이언트 <code>Client ID</code> 값이 맞지 않기 때문입니다. 아래 안내를 따라 쉽게 조처해 보세요!
-                </>
-              ) : (
-                <>
-                  💡 <strong>Why auth fails:</strong> Your current browser page domain is not whitelisted in the <strong>Web Service URL</strong> of your Naver Cloud Platform console Application settings, or the <code>Client ID</code> is missing or incorrect. Follow these steps to resolve!
-                </>
-              )}
-            </div>
-
-            <div className="space-y-4">
-              {/* Step 1 */}
-              <div className="space-y-1.5">
-                <p className="font-extrabold text-slate-800 flex items-center gap-1.5">
-                  <span className="w-5 h-5 flex items-center justify-center rounded-full bg-slate-900 text-white font-black text-[10px]">1</span>
-                  {language === 'KR' ? '웹 서비스 URL (Web Service URL) 영역에 도메인 추가 등록' : 'Whitelisting Service URLs'}
-                </p>
-                <p className="text-slate-500 pl-6.5 text-[11px] leading-relaxed">
-                  {language === 'KR' ? (
-                    <>
-                      네이버 클라우드 콘솔의 <strong className="text-slate-900">AI·NAVER API &gt; Application</strong> 관리 화면에서 해당 앱의 <strong>[변경]</strong>을 눌러 아래의 실시간 주소들을 복사하여 <strong>"Web 서비스 URL"</strong> 리스트에 차례대로 추가(Enter 줄바꿈)해 주신 다음 변경 사항을 저장해 주시길 권해 드립니다:
-                    </>
-                  ) : (
-                    <>
-                      In Naver Cloud Console under <strong className="text-slate-900">AI·NAVER API &gt; Application</strong>, select your app, click <strong>[Edit]</strong>, and add these domains into the <strong>"Web Service URL"</strong> box:
-                    </>
-                  )}
-                </p>
-
-                {/* URLs lists with 원클릭 복사 */}
-                <div className="pl-6.5 space-y-1.5 mt-2">
-                  {[
-                    { label: language === 'KR' ? '현재 접속 주소' : 'Current URL', value: currentOrigin },
-                    { label: 'AI Studio Parent URL', value: 'https://ai.studio' },
-                    { label: 'AI Studio Parent URL 2', value: 'https://aistudio.google.com' },
-                    { label: language === 'KR' ? '로컬 웹개발 주소' : 'Local Host URL', value: 'http://localhost:3000' },
-                    { label: language === 'KR' ? '로컬 웹개발 주소 2' : 'Local Host URL 2', value: 'http://127.0.0.1:3000' },
-                    { label: 'Dynamic Dev URL', value: currentDevOrigin },
-                    { label: 'Dynamic Share URL', value: currentPreOrigin }
-                  ].filter(v => v.value).map((urlObj, idx) => (
-                    <div key={idx} className="flex items-center justify-between gap-2 p-1.5 px-3 bg-white border border-slate-200/60 rounded-xl hover:border-slate-300 transition-colors">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <span className="text-[9.5px] bg-slate-100 text-slate-500 font-extrabold px-1.5 py-0.5 rounded shrink-0">{urlObj.label}</span>
-                        <code className="text-[10px] text-slate-700 font-mono select-all truncate">{urlObj.value}</code>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleCopy(urlObj.value)}
-                        className="px-2 py-1 text-[10px] font-black bg-slate-900 text-white hover:bg-slate-800 rounded-lg active:scale-95 transition-all shrink-0 cursor-pointer"
-                      >
-                        {copiedUrl === urlObj.value ? (language === 'KR' ? '✔️ 복사됨!' : '✔️ Copied!') : (language === 'KR' ? '복사' : 'Copy')}
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Step 2 */}
-              <div className="space-y-1.5">
-                <p className="font-extrabold text-slate-800 flex items-center gap-1.5">
-                  <span className="w-5 h-5 flex items-center justify-center rounded-full bg-slate-900 text-white font-black text-[10px]">2</span>
-                  {language === 'KR' ? '콘솔 리전 설정 한국(KR) 확인 및 서비스 선택 체크' : 'Select Korea Region & Web Dynamic Map'}
-                </p>
-                <p className="text-slate-500 pl-6.5 text-[11px] leading-relaxed">
-                  {language === 'KR' ? (
-                    <>
-                      NCP 콘솔 최상단 우측 리전 드롭다운이 <strong className="text-slate-900">Korea (한국 리전)</strong>으로 잡혀 있어야 합니다. 다른 리전(싱가포르 등)에서는 서비스 체크박스 목록에 <strong className="text-emerald-700 font-bold">"Web Dynamic Map"</strong> 선택지가 완전히 표시되지 않습니다.
-                    </>
-                  ) : (
-                    <>
-                      Please ensure the Region selector at the top right of the Naver Cloud Console is set to <strong className="text-slate-900">Korea (KR)</strong> region. Singapore/Global users cannot see <strong className="text-emerald-600">"Web Dynamic Map"</strong> in their product checklist.
-                    </>
-                  )}
-                </p>
-              </div>
-
-              {/* Step 3 */}
-              <div className="space-y-1.5">
-                <p className="font-extrabold text-slate-800 flex items-center gap-1.5">
-                  <span className="w-5 h-5 flex items-center justify-center rounded-full bg-slate-900 text-white font-black text-[10px]">3</span>
-                  {language === 'KR' ? '이 앱의 VITE_NAVER_CLIENT_ID 설정 등록' : 'Declare Client ID Variable'}
-                </p>
-                <p className="text-slate-500 pl-6.5 text-[11px] leading-relaxed">
-                  {language === 'KR' ? (
-                    <>
-                      네이버 콘솔 앱 관리의 <code>Client ID</code> 값을 복수하신 다음, 이 화면의 <strong>AI Studio의 Settings 메뉴 &gt; Secrets 탭</strong> 혹은 로컬 환경의 `.env` 파일에 <code>VITE_NAVER_CLIENT_ID</code>라는 키 이름으로 저장해 주시면 맵이 활성화됩니다!
-                    </>
-                  ) : (
-                    <>
-                      Once the client credential is created, copy the <code>Client ID</code> and paste it as <code>VITE_NAVER_CLIENT_ID</code> in the **Secrets** panel in AI Studio Settings or your local `.env` file to initialize the dynamic maps successfully.
-                    </>
-                  )}
-                </p>
-
-                {/* Live Client ID Indicator inside the Guide */}
-                <div className="pl-6.5 mt-2">
-                  <div className="p-3 bg-slate-100 rounded-xl space-y-1">
-                    <div className="flex items-center justify-between text-[11px]">
-                      <span className="font-bold text-slate-700">{language === 'KR' ? '🔍 현재 앱이 인식한 Client ID:' : '🔍 Client ID read by App:'}</span>
-                      <code className="px-1.5 py-0.5 bg-white border border-slate-200 text-slate-900 font-mono text-[11.5px] rounded">{activeClientId || '(empty)'}</code>
-                    </div>
-                    {activeClientId === 'jig5o1hthp' ? (
-                      <p className="text-[10px] text-emerald-700 font-extrabold leading-normal bg-emerald-50 p-2 rounded-lg border border-emerald-100/50">
-                        ✅ {language === 'KR' 
-                          ? '성공: 사용자님의 네이버 Client ID(jig5o1hthp) 설정이 기본으로 완벽하게 연동되었습니다! 현재 접속 도메인이 모두 NCP 콘솔에 완벽하게 등록되어 지도가 즉시 정상 출력됩니다.' 
-                          : 'Success: Your custom Naver Client ID (jig5o1hthp) is successfully integrated as the default fallback! The map will render instantly on your authorized domains.'}
-                      </p>
-                    ) : activeClientId === 'x7vtxblyj1' ? (
-                      <p className="text-[10px] text-amber-700 font-extrabold leading-normal bg-amber-50 p-2 rounded-lg border border-amber-100/50">
-                        ⚠️ {language === 'KR' 
-                          ? '주의: 이전 기본 데모용 Client ID(x7vtxblyj1)를 사용 중입니다. 본인의 Client ID로 환경 설정을 해주셔야 정상 작동합니다.' 
-                          : 'Warning: Currently using the legacy dynamic demo Client ID (x7vtxblyj1). Set your own Client ID to ensure uninterrupted service.'}
-                      </p>
-                    ) : (
-                      <p className="text-[10px] text-emerald-700 font-extrabold leading-normal bg-emerald-50 p-2 rounded-lg border border-emerald-100/50">
-                        ✅ {language === 'KR' 
-                          ? '성공: 커스텀 Client ID 설정이 정상적으로 로드되었습니다! 이제 지도가 승인된 도메인(Web 서비스 URL)에서 올바르게 표시됩니다.' 
-                          : 'Success: Custom Client ID loaded successfully! The map will render once the domain is registered.'}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         )}
       </div>
     </div>
