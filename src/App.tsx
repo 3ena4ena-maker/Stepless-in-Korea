@@ -340,18 +340,6 @@ export default function App() {
                 </div>
               )}
 
-              {/* Stats bento rows - simplified & reduced to half size */}
-              <div className="flex justify-start text-left col-span-2">
-                <div className="w-full sm:w-1/2 bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-                  <div className="p-3.5 rounded-xl bg-emerald-50 text-emerald-600 text-xl font-bold">
-                    22개
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-slate-800">{language === 'KR' ? '실시간 검증 출구' : 'Verified Accessibility Exits'}</h4>
-                  </div>
-                </div>
-              </div>
-
               {/* EXITS EXPLORER SECTION */}
               <div id="exits-explorer-section" className="scroll-mt-20 space-y-6 text-left">
                 

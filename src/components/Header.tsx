@@ -18,7 +18,7 @@ export default function Header({ currentTab, setCurrentTab, language, toggleLang
 
   const menuItems = [
     { id: 'home', label: language === 'KR' ? '홈' : 'Home', icon: Compass },
-    { id: 'search', label: language === 'KR' ? '검색/지도' : 'Search', icon: Train },
+    { id: 'search', label: language === 'KR' ? '검색 및 출구 정보' : 'Station Info', icon: Train },
   ];
 
   return (
