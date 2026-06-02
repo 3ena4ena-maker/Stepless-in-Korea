@@ -37,24 +37,19 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
 
   // 1. Asynchronously Load Naver Maps API script
   useEffect(() => {
-    // Read client ID from env with extensive fallbacks
-    let clientId = import.meta.env.VITE_NAVER_CLIENT_ID;
+    // Read client ID from env with extensive fallbacks (defaulting to user-registered jig5o1hthp)
+    const env = (import.meta as any).env || {};
+    let clientId = env.VITE_NAVER_CLIENT_ID;
 
-    // Detect if they saved client ID under another custom naming pattern by accident (exclude secret key)
-    const naverKeys = Object.keys(import.meta.env).filter(key => key.startsWith('VITE_NAVER_CLIENT'));
-    const customKey = naverKeys.find(key => 
-      key !== 'VITE_NAVER_CLIENT_ID' && 
-      key !== 'VITE_NAVER_CLIENT_SECRET' && 
-      import.meta.env[key] && 
-      import.meta.env[key] !== 'x7vtxblyj1' && 
-      import.meta.env[key] !== 'jig5o1hthp'
-    );
+    // Detect if they saved client ID under VITE_NAVER_CLIENT_SECRET or any other custom naming pattern by accident
+    const naverKeys = Object.keys(env).filter(key => key.startsWith('VITE_NAVER_CLIENT'));
+    const customKey = naverKeys.find(key => key !== 'VITE_NAVER_CLIENT_ID' && env[key] && env[key] !== 'x7vtxblyj1' && env[key] !== 'jig5o1hthp');
 
     if ((!clientId || clientId === 'x7vtxblyj1' || clientId === 'jig5o1hthp') && customKey) {
-      clientId = import.meta.env[customKey];
+      clientId = env[customKey];
     }
 
-    if (!clientId || clientId === 'x7vtxblyj1') {
+    if (!clientId) {
       clientId = 'jig5o1hthp';
     }
 
@@ -79,7 +74,7 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
     if (!existingScript) {
       const script = document.createElement('script');
       script.id = scriptId;
-      script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${clientId}`;
+      script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}&submodules=geocoder`;
       script.async = true;
       script.onload = () => {
         if (window.naver && window.naver.maps) {
@@ -245,11 +240,6 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
                 ? '네이버 클라우드 환경의 Client ID 설정값 및 리전이 Korea(한국) 국한으로 잘 지정되었는지 확인해 주십시오.' 
                 : 'Please make sure VITE_NAVER_CLIENT_ID is active and configured for Korea region nodes.'}
             </p>
-            <div className="text-[10px] text-slate-600 bg-slate-100 p-2.5 rounded-xl border border-slate-200 mt-2 font-mono text-left space-y-1">
-              <div>[디버그 정보 / Debug Info]</div>
-              <div>• 현재 접속 도메인: <span className="font-bold text-slate-800">{currentOrigin}</span></div>
-              <div>• 사용 중인 Client ID: <span className="font-bold text-slate-850 bg-white px-1.5 py-0.5 border border-slate-200 rounded font-mono">{activeClientId || 'empty'}</span></div>
-            </div>
           </div>
         ) : !scriptLoaded ? (
           <div className="w-full h-full flex flex-col items-center justify-center space-y-3">
