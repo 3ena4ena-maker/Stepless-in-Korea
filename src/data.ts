@@ -28,8 +28,8 @@ export const STATIONS: Station[] = [
         tip: '상행 및 하행 에스컬레이터가 모두 완비되어 있어 계단을 오르내리지 않고 편리하게 지상으로 출입하실 수 있습니다.',
         status: 'OPERATIONAL',
         directionDesc: '서면로, 신한은행 서면점, 부전2동 행정복지센터 방면',
-        latitude: 35.157152,
-        longitude: 129.058348,
+        latitude: 35.157395,
+        longitude: 129.058585,
         kakaoMapUrl: 'https://map.kakao.com/link/search/서면역 5번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/서면역 5번출구',
         pathwayTimeline: [
@@ -69,8 +69,8 @@ export const STATIONS: Station[] = [
         tip: '롯데백화점 부산본점 지상 및 지하와 평탄하게 직결되는 엘리베이터 전용 출구입니다. 유모차와 휠체어 이용객이 가장 안전하고 편안하게 보행할 수 있는 노선입니다.',
         status: 'OPERATIONAL',
         directionDesc: '롯데백화점 부산본점, 서면시장, 가야 및 범천 방면',
-        latitude: 35.157582,
-        longitude: 129.058441,
+        latitude: 35.157426,
+        longitude: 129.057889,
         kakaoMapUrl: 'https://map.kakao.com/link/search/서면역 7번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/서면역 7번출구',
         pathwayTimeline: [
@@ -122,8 +122,8 @@ export const STATIONS: Station[] = [
         tip: '영광도서 및 서면문화로 방향 출구로, 상행과 하행 에스컬레이터가 모두 깔끔하게 완비되어 보행 편의성이 매우 뛰어납니다.',
         status: 'OPERATIONAL',
         directionDesc: '영광도서, 서면문화로, 부산시민공원 방면',
-        latitude: 35.158220,
-        longitude: 129.058319,
+        latitude: 35.158060,
+        longitude: 129.057845,
         kakaoMapUrl: 'https://map.kakao.com/link/search/서면역 9번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/서면역 9번출구',
         pathwayTimeline: [
@@ -163,8 +163,8 @@ export const STATIONS: Station[] = [
         tip: '상행 전용 에스컬레이터가 준비되어 지상 1층으로 올라갈 때는 계단 없이 아주 쾌적하게 탑승 이동할 수 있습니다. (내려올 때는 계단만 존재하오니 주의바랍니다)',
         status: 'OPERATIONAL',
         directionDesc: '부산진소방서, 전포동 아파트 방면, 전포초등학교 방면',
-        latitude: 35.157814,
-        longitude: 129.060142,
+        latitude: 35.158023,
+        longitude: 129.059811,
         kakaoMapUrl: 'https://map.kakao.com/link/search/서면역 10번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/서면역 10번출구',
         pathwayTimeline: [
@@ -196,8 +196,8 @@ export const STATIONS: Station[] = [
         tip: '지상행 상행 에스컬레이터와 양방향 엘리베이터가 모두 설치되어 있어, 영광도서 및 부암역 방향으로 통행하시는 휠체어와 유모차 동선에 최고의 편안함을 제공합니다.',
         status: 'OPERATIONAL',
         directionDesc: '영광도서 서면본점, 부산진구청, 부암동 방면',
-        latitude: 35.158431,
-        longitude: 129.058983,
+        latitude: 35.158118,
+        longitude: 129.058585,
         kakaoMapUrl: 'https://map.kakao.com/link/search/서면역 11번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/서면역 11번출구',
         pathwayTimeline: [
@@ -238,8 +238,8 @@ export const STATIONS: Station[] = [
         tip: '수직형 배리어프리 엘리베이터 전용 출구로, 대현프리몰 지하상가 초입 및 신한은행 금융골목 방향으로 차별 없이 안전하고 쾌적한 무단차 이동을 원하시는 관광객에게 최적으로 가이드됩니다.',
         status: 'OPERATIONAL',
         directionDesc: '대현프리몰 지하상가, 버거킹 서면중앙점, 신한은행 금융골목 방면',
-        latitude: 35.158302,
-        longitude: 129.059631,
+        latitude: 35.158892,
+        longitude: 129.060202,
         kakaoMapUrl: 'https://map.kakao.com/link/search/서면역 12번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/서면역 12번출구',
         pathwayTimeline: [
@@ -271,8 +271,8 @@ export const STATIONS: Station[] = [
         tip: '지상용 엘리베이터 및 상향 에스컬레이터가 모두 완비된 배리어프리 출구입니다. 올리브영 서면로점과 신한은행 서면점, 부전시장 초입 방향으로 수월하게 관광하실 때 가장 편안하게 권장되는 최고 추천 동선입니다.',
         status: 'OPERATIONAL',
         directionDesc: '신한은행 서면지점, 부전동 행정복지센터, 서면 메디컬스트리트, 부전시장 방면',
-        latitude: 35.157121,
-        longitude: 129.060152,
+        latitude: 35.158377,
+        longitude: 129.059142,
         kakaoMapUrl: 'https://map.kakao.com/link/search/서면역 13번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/서면역 13번출구',
         pathwayTimeline: [
@@ -328,8 +328,8 @@ export const STATIONS: Station[] = [
         tip: '3번과 4번 출구 사이에 위치한 지상 엘리베이터를 통해 부산진소방서 방면으로 단차 없이 출로할 수 있어 휠체어와 유모차 이동에 탁월합니다.',
         status: 'OPERATIONAL',
         directionDesc: '부산진소방서, 전포돌산공원, 전포1파출소, 도로교통공단 부산지부 방면',
-        latitude: 35.152861,
-        longitude: 129.062222,
+        latitude: 35.152576,
+        longitude: 129.065168,
         kakaoMapUrl: 'https://map.kakao.com/link/search/전포역 3번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/전포역 3번출구',
         pathwayTimeline: [
@@ -369,8 +369,8 @@ export const STATIONS: Station[] = [
         tip: '경남공고 및 전포1동 주민센터로 향하는 4번 출구에는 편안한 지상형 엘리베이터가 연결되어 있고 대형 유모차가 진입하기에도 여유롭습니다.',
         status: 'OPERATIONAL',
         directionDesc: '경남공업고등학교, 한강아파트, 전포1동 주민센터, 전포종합사회복지관 방면',
-        latitude: 35.153351,
-        longitude: 129.062261,
+        latitude: 35.152577,
+        longitude: 129.065617,
         kakaoMapUrl: 'https://map.kakao.com/link/search/전포역 4번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/전포역 4번출구',
         pathwayTimeline: [
@@ -410,8 +410,8 @@ export const STATIONS: Station[] = [
         tip: '전포사잇길 및 카페거리 북단 방향으로 이동하는 7번 출구에는 편안한 상행 및 하행 에스컬레이터가 모두 완비되어 있어 한 단계 더 쾌적하게 보행 이동을 단축해줍니다.',
         status: 'OPERATIONAL',
         directionDesc: '전포사잇길, 놀이마루, 전포테마거리, 전포 카페거리 북측 방면',
-        latitude: 35.154231,
-        longitude: 129.062531,
+        latitude: 35.154128,
+        longitude: 129.065143,
         kakaoMapUrl: 'https://map.kakao.com/link/search/전포역 7번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/전포역 7번출구',
         pathwayTimeline: [
@@ -443,8 +443,8 @@ export const STATIONS: Station[] = [
         tip: '서면 아이파크 아파트 단지 및 버거샵 전포점 방향의 8번 출구는 상행 및 하행 양방향 에스컬레이터가 모두 완비되어 있어 지상 1층까지 완전히 평탄하게 왕복할 수 있습니다.',
         status: 'OPERATIONAL',
         directionDesc: '서면 아이파크 아파트, 버거샵 전포점, 부산진여자중학교, 전포고개 방면',
-        latitude: 35.153921,
-        longitude: 129.062921,
+        latitude: 35.154073,
+        longitude: 129.065595,
         kakaoMapUrl: 'https://map.kakao.com/link/search/전포역 8번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/전포역 8번출구',
         pathwayTimeline: [
@@ -481,6 +481,72 @@ export const STATIONS: Station[] = [
     alertNotice: '부전역 내에는 에스컬레이터가 전혀 없으며, 3번과 6번 출구의 엘리베이터를 이용하여 전용 탑승하셔야 합니다.',
     exits: [
       {
+        number: '서면지하도상가 부전몰 3번 출구',
+        isAccessible: false,
+        isStrollerFriendly: true,
+        hasElevator: false,
+        hasEscalator: true,
+        facilityDirection: 'BOTH',
+        tip: '상행 및 하행 에스컬레이터가 모두 원활하게 작동 중이며, 유모차 소지자나 캐리어 등을 소지한 승객들이 계단 없이 부전몰 지하상가와 지상을 가볍게 오갈 수 있도록 돕는 통로입니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '부전지구대, 부전시장 방면, 서면 부전몰 지하상가 방면',
+        latitude: 35.160067,
+        longitude: 129.060794,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/서면지하도상가 부전몰 3번출구',
+        naverMapUrl: 'https://map.naver.com/v5/search/서면지하도상가 부전몰 3번출구',
+        pathwayTimeline: [
+          {
+            id: 'bj-bjm3-step1',
+            name: '지하상가/대합실 (B1F)',
+            desc: '서면지하도상가 부전몰 연결 통로',
+            facilityType: 'GATE',
+            tip: '부전몰 지하상가 동선을 따라 3번 출구 에스컬레이터 지점으로 무단차 이동하세요.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bj-bjm3-step2',
+            name: '부전몰 3번 출구 에스컬레이터 (B1F ↔ 1F)',
+            desc: '지상 인도 연결 상하행 에스컬레이터',
+            facilityType: 'ESCALATOR',
+            tip: '상행 및 하행 양방향 에스컬레이터가 완비되어 가파른 계단을 걷지 않고 편안하게 전동 이동할 수 있습니다.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '서면지하도상가 부전몰 5번 출구',
+        isAccessible: false,
+        isStrollerFriendly: true,
+        hasElevator: false,
+        hasEscalator: true,
+        facilityDirection: 'BOTH',
+        tip: '상행 및 하행 에스컬레이터가 모두 제공되어 계단을 오르내리지 않고 편리하게 부전시장 방면 지상으로 오갈 수 있는 편리한 통로입니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '부전전통시장, 부전약국, 서면 부전몰 지하상가 방면',
+        latitude: 35.161028,
+        longitude: 129.061543,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/서면지하도상가 부전몰 5번출구',
+        naverMapUrl: 'https://map.naver.com/v5/search/서면지하도상가 부전몰 5번출구',
+        pathwayTimeline: [
+          {
+            id: 'bj-bjm5-step1',
+            name: '지하상가/대합실 (B1F)',
+            desc: '서면지하도상가 부전몰 연결 통로',
+            facilityType: 'GATE',
+            tip: '부전몰 지하상가 길을 따라 5번 출구 분기점으로 이동해 주십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bj-bjm5-step2',
+            name: '부전몰 5번 출구 에스컬레이터 (B1F ↔ 1F)',
+            desc: '지상 인도 연결 상하행 에스컬레이터',
+            facilityType: 'ESCALATOR',
+            tip: '상행과 하행 에스컬레이터 모두 원활하게 탑승 및 이용 가능하여 유모차나 캐리어 소지자(에스컬레이터 이용 가능자) 편의를 대폭 올려줍니다.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
         number: '3번 출구',
         isAccessible: true,
         isStrollerFriendly: true,
@@ -490,8 +556,8 @@ export const STATIONS: Station[] = [
         tip: '3번 출구에 엘리베이터가 단독 설치되어 있어, 휠체어나 무거운 유모차를 동반한 대중교통 승객이 보도 단차 없이 인도까지 안전하고 수평하게 진출입하기 최상입니다.',
         status: 'OPERATIONAL',
         directionDesc: '부전지구대, 부전1동 주민센터 방면',
-        latitude: 35.159981,
-        longitude: 129.059152,
+        latitude: 35.162330,
+        longitude: 129.062564,
         kakaoMapUrl: 'https://map.kakao.com/link/search/부전역 3번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/부전역 3번출구',
         pathwayTimeline: [
@@ -522,39 +588,6 @@ export const STATIONS: Station[] = [
         ]
       },
       {
-        number: '서면지하도상가 부전몰 5번 출구',
-        isAccessible: false,
-        isStrollerFriendly: true,
-        hasElevator: false,
-        hasEscalator: true,
-        facilityDirection: 'BOTH',
-        tip: '상행 및 하행 에스컬레이터가 모두 제공되어 계단을 오르내리지 않고 편리하게 부전시장 방면 지상으로 오갈 수 있는 편리한 통로입니다.',
-        status: 'OPERATIONAL',
-        directionDesc: '부전전통시장, 부전약국, 서면 부전몰 지하상가 방면',
-        latitude: 35.160121,
-        longitude: 129.059421,
-        kakaoMapUrl: 'https://map.kakao.com/link/search/서면지하도상가 부전몰 5번출구',
-        naverMapUrl: 'https://map.naver.com/v5/search/서면지하도상가 부전몰 5번출구',
-        pathwayTimeline: [
-          {
-            id: 'bj-bjm5-step1',
-            name: '지하상가/대합실 (B1F)',
-            desc: '서면지하도상가 부전몰 연결 통로',
-            facilityType: 'GATE',
-            tip: '부전몰 지하상가 길을 따라 5번 출구 분기점으로 이동해 주십시오.',
-            status: 'OPERATIONAL'
-          },
-          {
-            id: 'bj-bjm5-step2',
-            name: '부전몰 5번 출구 에스컬레이터 (B1F ↔ 1F)',
-            desc: '지상 인도 연결 상하행 에스컬레이터',
-            facilityType: 'ESCALATOR',
-            tip: '상행과 하행 에스컬레이터 모두 원활하게 탑승 및 이용 가능하여 유모차나 캐리어 소지자(에스컬레이터 이용 가능자) 편의를 대폭 올려줍니다.',
-            status: 'OPERATIONAL'
-          }
-        ]
-      },
-      {
         number: '6번 출구',
         isAccessible: true,
         isStrollerFriendly: true,
@@ -564,8 +597,8 @@ export const STATIONS: Station[] = [
         tip: '6번 출구에 쾌적한 엘리베이터가 완비되어 있어, 코레일 부전역(기차역 일반열차) 환승 및 부전인삼시장, 전통시장 이용객이 턱과 장벽 없이 안전하게 이동할 수 있는 유일한 기차역 연계 수송구입니다.',
         status: 'OPERATIONAL',
         directionDesc: '부전 기차역(국철/ITX 환승), 부전인삼시장, 부전전통시장 방면',
-        latitude: 35.161321,
-        longitude: 129.060128,
+        latitude: 35.162942,
+        longitude: 129.063419,
         kakaoMapUrl: 'https://map.kakao.com/link/search/부전역 6번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/부전역 6번출구',
         pathwayTimeline: [
@@ -618,8 +651,8 @@ export const STATIONS: Station[] = [
         tip: '2번출구와 4번출구 사이 야외 인도변에 위치한 외부 무장애 전용 엘리베이터입니다. 계단 통행이 불가능하거나 캐리어/유모차가 동반된 승객이 우동 및 해운대 주거지 방면으로 완벽히 턱 없이 지상 이동할 수 있는 최적 경로입니다.',
         status: 'OPERATIONAL',
         directionDesc: '해운대 우동, 기계공고, 서포1길 및 해운대 세무서 방면',
-        latitude: 35.163351,
-        longitude: 129.159152,
+        latitude: 35.163764,
+        longitude: 129.158772,
         kakaoMapUrl: 'https://map.kakao.com/link/search/해운대역 엘리베이터',
         naverMapUrl: 'https://map.naver.com/v5/search/해운대역 엘리베이터',
         pathwayTimeline: [
@@ -659,8 +692,8 @@ export const STATIONS: Station[] = [
         tip: '5번출구와 7번출구 사이 야외 인도 중앙에 수직으로 작동하는 무장애 전용 실외 엘리베이터입니다. 승강장 엘리베이터부터 지상까지 단 하나의 계단도 밟지 않고 지상 휠체어 전용 경사로까지 연결되는 완전한 배리어 프리 동선입니다.',
         status: 'OPERATIONAL',
         directionDesc: '해운대 구남로 광장, 해운대해수욕장 휠체어/유모차 전용 통로',
-        latitude: 35.162981,
-        longitude: 129.158702,
+        latitude: 35.163423,
+        longitude: 129.158868,
         kakaoMapUrl: 'https://map.kakao.com/link/search/해운대역 엘리베이터',
         naverMapUrl: 'https://map.naver.com/v5/search/해운대역 엘리베이터',
         pathwayTimeline: [
@@ -713,8 +746,8 @@ export const STATIONS: Station[] = [
         tip: '5번 출구 바로 옆 인도변에 세워진 배리어 프리 엘리베이터입니다. 광안대교 전망의 아름다운 광안리 해변 방향 인도로 완만한 무턱 보도가 즉각 배치됩니다.',
         status: 'OPERATIONAL',
         directionDesc: '광안리 해수욕장, 민락수변공원, 광안2동 행정복지센터 방면',
-        latitude: 35.157621,
-        longitude: 129.115421,
+        latitude: 35.157083,
+        longitude: 129.113203,
         kakaoMapUrl: 'https://map.kakao.com/link/search/광안역 5번출구 엘리베이터',
         naverMapUrl: 'https://map.naver.com/v5/search/광안역 5번출구 엘리베이터',
         pathwayTimeline: [
@@ -754,8 +787,8 @@ export const STATIONS: Station[] = [
         tip: '6번 출구 인도 안쪽에 위치하고 있는 전용 야외 엘리베이터입니다. 가성비 높은 복복 쇼핑점, 한바다중학교 및 인접 밀집 주택 보행 구역 방향으로 장애 없이 이동하기 가장 안전합니다.',
         status: 'OPERATIONAL',
         directionDesc: '수영동 행정복지센터, 한바다중학교, 홈플러스익스프레스 광안점, 광안4동 방면',
-        latitude: 35.158121,
-        longitude: 129.114821,
+        latitude: 35.156996,
+        longitude: 129.112831,
         kakaoMapUrl: 'https://map.kakao.com/link/search/광안역 6번출구 엘리베이터',
         naverMapUrl: 'https://map.naver.com/v5/search/광안역 6번출구 엘리베이터',
         pathwayTimeline: [
@@ -808,8 +841,8 @@ export const STATIONS: Station[] = [
         tip: '지상 1층 인도로 올라가는 전용 상행 에스컬레이터가 작동하고 있는 구역입니다. 하행 이용 시에는 인접 백화점 연결로 우회 혹은 전용 기기를 이용하는 것이 더욱 안락합니다.',
         status: 'OPERATIONAL',
         directionDesc: '롯데백화점 광복점 정문, 남포동 극장가 사거리 방면',
-        latitude: 35.097221,
-        longitude: 129.034821,
+        latitude: 35.097539,
+        longitude: 129.033506,
         kakaoMapUrl: 'https://map.kakao.com/link/search/남포역 2번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/남포역 2번출구',
         pathwayTimeline: [

@@ -152,37 +152,67 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
 
     // Map exits and build markers
     exits.forEach(exit => {
-      let emoji = '👟';
-      if (exit.hasElevator) emoji = '🛗';
-      else if (exit.hasEscalator) emoji = '🪜';
-
       const line = station.lines[0];
       let mapAccentColor = '#004481'; // default 블루
       if (line === '2') mapAccentColor = '#1b6d24'; // 초록
       else if (line === '동해') mapAccentColor = '#004960'; // 동해 블루
 
+      let iconHtml = '';
+      if (exit.hasElevator) {
+        iconHtml = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="${mapAccentColor}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; flex-shrink: 0; display: inline-block; vertical-align: middle;">
+            <rect x="3" y="3" width="18" height="18" rx="2.5" />
+            <path d="M 7.5 10 L 9.5 7 L 11.5 10 Z" fill="${mapAccentColor}" stroke="none" />
+            <path d="M 7.5 14 L 9.5 17 L 11.5 14 Z" fill="${mapAccentColor}" stroke="none" />
+            <line x1="14.5" y1="3" x2="14.5" y2="21" stroke-dasharray="2 2" stroke-width="1.5" />
+            <path d="M 14.5 12 L 17.5 12" />
+            <path d="M 17.5 12 L 16 10.5" />
+            <path d="M 17.5 12 L 16 13.5" />
+          </svg>
+        `;
+      } else if (exit.hasEscalator) {
+        iconHtml = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="${mapAccentColor}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; flex-shrink: 0; display: inline-block; vertical-align: middle;">
+            <circle cx="10" cy="7.5" r="1.8" fill="${mapAccentColor}" stroke="none" />
+            <path d="M 10 10.2 L 10 14" stroke="${mapAccentColor}" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M 3.5 19.5 L 7.5 19.5 C 9.5 19.5, 10.5 18, 12 15.5 L 15.5 10 C 17 8, 18 7, 20.5 7 L 22.5 7" />
+          </svg>
+        `;
+      } else {
+        iconHtml = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; flex-shrink: 0; display: inline-block; vertical-align: middle;">
+            <path d="M 3.5 19.5 L 7.5 19.5 L 7.5 15.5 L 11.5 15.5 L 11.5 11.5 L 15.5 11.5 L 15.5 7.5 L 20.5 7.5" />
+          </svg>
+        `;
+      }
+
+      // Precise pixel-perfect marker dimensions
+      const markerWidth = 140;
+      const markerHeight = 44;
+
       // Styled custom HTML content conforming to strict anchor constraints
-      // Utilizing relative space and absolute translate offset to pivot exactly at bottom-center of triangle pin
+      // Designed inside a fixed container of 140x44 pixels with bottom-center flex-alignment.
+      // Even if the bubble text overflows wide, the align-items: center ensures symmetrical center-alignment.
       const markerContent = `
-        <div style="position: relative; pointer-events: none;">
-          <div style="position: absolute; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center; pointer-events: none;">
-            <!-- Premium bubble label containing exit name and its mobility emoji -->
-            <div style="background-color: white; border: 2.5px solid ${mapAccentColor}; border-radius: 9999px; padding: 5px 12px; font-weight: 850; font-size: 11px; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 4.5px; pointer-events: auto; transform: scale(1.0); transition: transform 0.2s ease-in-out;">
-              <span style="font-size: 13px; line-height: 1;">${emoji}</span>
-              <span style="color: #0f172a; font-family: system-ui, sans-serif; letter-spacing: -0.02e; font-weight: 900;">${exit.number}</span>
-            </div>
-            <!-- Pin Arrow Indicator -->
-            <div style="width: 0; height: 0; border-left: 6.5px solid transparent; border-right: 6.5px solid transparent; border-top: 7px solid ${mapAccentColor}; margin-top: -1px; pointer-events: none;"></div>
+        <div style="width: ${markerWidth}px; height: ${markerHeight}px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative; pointer-events: none;">
+          <!-- Premium bubble label containing exit name and its mobility SVG icon -->
+          <div style="background-color: white; border: 2.5px solid ${mapAccentColor}; border-radius: 9999px; padding: 5px 12px; font-weight: 850; font-size: 11px; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 4.5px; pointer-events: auto;">
+            <div style="display: flex; align-items: center; justify-content: center; width: 16px; height: 16px;">${iconHtml}</div>
+            <span style="color: #0f172a; font-family: system-ui, sans-serif; letter-spacing: -0.02em; font-weight: 900;">${exit.number}</span>
           </div>
+          <!-- Pin Arrow Indicator -->
+          <div style="width: 0; height: 0; border-left: 6.5px solid transparent; border-right: 6.5px solid transparent; border-top: 7px solid ${mapAccentColor}; margin-top: -1px; pointer-events: none;"></div>
         </div>
       `;
 
+      // Define anchor point precisely at (0.5 * Width, 1.0 * Height) i.e. bottom center
       const marker = new window.naver.maps.Marker({
         position: new window.naver.maps.LatLng(exit.latitude, exit.longitude),
         map: mapInstance.current,
         icon: {
           content: markerContent,
-          anchor: new window.naver.maps.Point(0, 0)
+          size: new window.naver.maps.Size(markerWidth, markerHeight),
+          anchor: new window.naver.maps.Point(markerWidth * 0.5, markerHeight)
         }
       });
 
