@@ -132,52 +132,89 @@ export default function App() {
     setLanguage(prev => prev === 'KR' ? 'EN' : 'KR');
   };
 
+  const findNearestStepFreeExit = (lat: number, lng: number) => {
+    const getDistanceInMeters = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+      const ky = 111132;
+      const kx = Math.cos(lat1 * Math.PI / 180) * 111319;
+      const dx = Math.abs(lon1 - lon2) * kx;
+      const dy = Math.abs(lat1 - lat2) * ky;
+      return Math.round(Math.sqrt(dx * dx + dy * dy));
+    };
+
+    const candidates: { station: Station; exit: ExitInfo; distance: number }[] = [];
+    STATIONS.forEach(station => {
+      station.exits.forEach(exit => {
+        if (exit.hasElevator || exit.isAccessible) {
+          const dist = getDistanceInMeters(lat, lng, exit.latitude, exit.longitude);
+          candidates.push({ station, exit, distance: dist });
+        }
+      });
+    });
+
+    if (candidates.length > 0) {
+      candidates.sort((a, b) => a.distance - b.distance);
+      return candidates[0];
+    }
+    return null;
+  };
+
   const requestNearbyGuide = () => {
     setGeoLoading(true);
     setGeoResult(null);
 
-    // Run real geolocation or high fidelity fallback simulation matching 부산진구
+    const processPosition = (userLat: number, userLng: number, isSimulated: boolean) => {
+      const nearest = findNearestStepFreeExit(userLat, userLng);
+      if (nearest) {
+        setSelectedStationId(nearest.station.id);
+        
+        const stationName = nearest.station.name;
+        const exitNumber = nearest.exit.number;
+        const distance = nearest.distance;
+        
+        setGeoResult({
+          stationName,
+          exitNumber,
+          distance,
+          details: '',
+          lat: nearest.exit.latitude,
+          lng: nearest.exit.longitude
+        });
+
+        // Smooth scroll to the Naver Map container
+        setTimeout(() => {
+          const mapEl = document.getElementById('station-map-container');
+          if (mapEl) {
+            mapEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 250);
+      }
+      setGeoLoading(false);
+    };
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setTimeout(() => {
-            // Seomyeon intersection central approximation
-            const userLat = position.coords.latitude;
-            const userLng = position.coords.longitude;
-            
-            // Calculate a plausible distance or mock localized nearest output based on Seomyeon center range
-            setGeoResult({
-              stationName: '서면역',
-              exitNumber: '7번 출구',
-              distance: 140, // meters
-              details: language === 'KR' 
-                ? '현재 위치가 서면역사 본관과 매우 가깝습니다. 경사가 없고 백화점 승강기가 연결되어 캐리어/유모차 이동에 가장 탁월합니다.'
-                : 'You are very close to Seomyeon Station. Exit 7 offers the flattest path with Department Store elevator connection.',
-              lat: 35.1577,
-              lng: 129.0583
-            });
-            setGeoLoading(false);
+            processPosition(position.coords.latitude, position.coords.longitude, false);
           }, 800);
         },
-        (() => {
+        () => {
           // Simulation fallback for sandboxed iframe
           setTimeout(() => {
-            setGeoResult({
-              stationName: '서면역',
-              exitNumber: '7번 출구',
-              distance: 180, // simulated meters
-              details: language === 'KR' 
-                ? '현재 서면 주디스태화 근처 보도블록에 계십니다! 장애물과 지하차도 계단을 피해 평탄하게 엘리베이터를 탈 수 있는 가장 가까운 곳은 7번 출구(전방 180m)입니다.'
-                : 'You are near Seomyeon street. The nearest reliable elevator exit with absolute flat paths is Exit 7 (180m away).',
-              lat: 35.1577,
-              lng: 129.0583
-            });
-            setGeoLoading(false);
+            // Seomyeon street fallback (near Judith Taehwa)
+            const simulatedLat = 35.1584;
+            const simulatedLng = 129.0595;
+            processPosition(simulatedLat, simulatedLng, true);
           }, 800);
-        })
+        },
+        { timeout: 5000, enableHighAccuracy: true }
       );
     } else {
-      setGeoLoading(false);
+      setTimeout(() => {
+        const simulatedLat = 35.1584;
+        const simulatedLng = 129.0595;
+        processPosition(simulatedLat, simulatedLng, true);
+      }, 800);
     }
   };
 
@@ -228,6 +265,10 @@ export default function App() {
 
   // Get active station details based on selection or search
   const activeStation = STATIONS.find(s => s.id === selectedStationId) || STATIONS[0];
+
+  const focusedExitCoords = (geoResult && activeStation.name === geoResult.stationName)
+    ? { latitude: geoResult.lat, longitude: geoResult.lng }
+    : null;
 
   // Helper for rendering status markers
   const getExitStatusText = (status: StatusType) => {
@@ -316,26 +357,28 @@ export default function App() {
 
               {/* Dynamic Geolocation Finder Outcome Panel */}
               {geoResult && (
-                <div className="bg-sky-50 border border-sky-100 p-6 rounded-3xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left shadow-sm animate-fade-in" id="geo-result-container">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-sky-200/50 text-[#004481] rounded-2xl shrink-0">
+                <div className="bg-sky-50 border border-sky-100 p-6 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4 text-left shadow-sm animate-fade-in" id="geo-result-container">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 bg-sky-200/50 text-[#F06A00] rounded-2xl shrink-0 mt-1">
                       <MapPin className="w-6 h-6 fill-sky-200" />
                     </div>
                     <div>
                       <h4 className="text-xl font-extrabold font-heading text-slate-800">
                         {geoResult.stationName} {geoResult.exitNumber}
                       </h4>
-                      <p className="text-sm font-bold text-[#004481] mt-1">
-                        {language === 'KR' ? '현재 도보 전방 140m' : '140m Ahead on Foot'}
+                      <p className="text-sm font-bold text-[#F06A00] mt-1">
+                        {language === 'KR' 
+                          ? `현재 위치에서 도보 약 ${geoResult.distance}m` 
+                          : `Approx. ${geoResult.distance}m Away on Foot`}
                       </p>
                     </div>
                   </div>
-                  <div className="shrink-0">
+                  <div className="shrink-0 flex items-center md:self-center self-end mt-2 md:mt-0">
                     <button
-                      onClick={() => window.open(`https://map.kakao.com/link/search/${geoResult.stationName} ${geoResult.exitNumber}`)}
-                      className="text-xs font-bold text-[#004481] bg-sky-100 hover:bg-sky-200/60 border border-sky-200/50 px-5 py-3 rounded-xl transition-colors cursor-pointer"
+                      onClick={() => window.open(`https://map.naver.com/v5/search/${geoResult.stationName} ${geoResult.exitNumber}`)}
+                      className="text-xs font-bold text-[#F06A00] bg-orange-50 hover:bg-orange-100/80 border border-orange-200/40 px-5 py-3 rounded-xl transition-colors cursor-pointer whitespace-nowrap shadow-sm"
                     >
-                      {language === 'KR' ? '카카오맵 도보 길안내 시작' : 'Launch Kakao Walking Guide'}
+                      {language === 'KR' ? '네이버 지도 도보 길안내 시작' : 'Launch Naver Map Guide'}
                     </button>
                   </div>
                 </div>
@@ -383,7 +426,7 @@ export default function App() {
 
                 {/* 🗺️ Naver Map-linked Station Map Component (Directly Below Selection Space) */}
                 <div id="station-map-container" className="bg-white rounded-3xl border border-slate-100 shadow-[0_4px_22px_rgb(0,0,0,0.02)] overflow-hidden">
-                  <SubwayStationMap station={activeStation} language={language} />
+                  <SubwayStationMap station={activeStation} language={language} focusedExitCoords={focusedExitCoords} />
                 </div>
 
                 {/* Sub-Tabs selection representing companion types */}
@@ -571,12 +614,12 @@ export default function App() {
               {/* Search Header */}
               <div>
                 <h2 className="text-2xl font-extrabold font-heading text-slate-800">
-                  {language === 'KR' ? '부산 주요 전철역 무장애 정보 둘러보기' : 'Bento Grid Transit Index'}
+                  {language === 'KR' ? '부산 지하철역 출구 정보 둘러보기' : 'Subway Exit Information Index'}
                 </h2>
                 <p className="text-sm text-slate-500 mt-1">
                   {language === 'KR' 
-                    ? '부산 핵심 주요역의 총 엘리베이터 수, 에스컬레이터 대수 및 편의화장실 위치를 한눈에 비교하고 탐색해보세요.' 
-                    : 'Analyze general escalators, elevator configurations and accessible facilities across major transit sectors.'}
+                    ? '부산 핵심 주요역의 총 엘리베이터 수, 에스컬레이터 대수를 한눈에 비교하고 탐색해보세요.' 
+                    : 'Analyze general escalators, elevator configurations across major transit sectors.'}
                 </p>
 
                 {/* Search Bar Input */}
@@ -643,7 +686,7 @@ export default function App() {
                             <span 
                               key={line} 
                               className={`px-3 py-1 text-xs font-extrabold text-white rounded-full ${
-                                line === '1' ? 'bg-[#004481]' : line === '2' ? 'bg-[#1b6d24]' : 'bg-slate-400'
+                                line === '1' ? 'bg-[#F06A00]' : line === '2' ? 'bg-[#1b6d24]' : 'bg-slate-400'
                               }`}
                             >
                               {line === '동해' ? '동해선' : `${line}호선`}
@@ -653,13 +696,13 @@ export default function App() {
                       </div>
 
                       {/* Station General Highlights */}
-                      <div className="grid grid-cols-3 gap-3 mb-6">
+                      <div className="grid grid-cols-2 gap-3 mb-6">
                         <div className="bg-slate-50 p-3 rounded-xl border border-slate-100/50 text-center">
                           <span className="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">
                             {language === 'KR' ? '엘리베이터수' : 'Elevators'}
                           </span>
-                          <span className="text-lg font-extrabold text-[#004481]">
-                            {station.elevatorCount}대
+                          <span className="text-lg font-extrabold text-[#F06A00]">
+                            {station.exits.filter(e => e.hasElevator).length}대
                           </span>
                         </div>
                         <div className="bg-slate-50 p-3 rounded-xl border border-slate-100/50 text-center">
@@ -667,38 +710,8 @@ export default function App() {
                             {language === 'KR' ? '에스컬레이터' : 'Escalators'}
                           </span>
                           <span className="text-lg font-extrabold text-emerald-700">
-                            {station.escalatorCount}대
+                            {station.exits.filter(e => e.hasEscalator).length}대
                           </span>
-                        </div>
-                        <div className="bg-slate-50 p-3 rounded-xl border border-slate-100/50 text-center">
-                          <span className="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">
-                            {language === 'KR' ? '약장 복지 화장실' : 'Barrier toilet'}
-                          </span>
-                          <span className="text-xs font-bold text-slate-600 truncate block mt-1">
-                            {station.toiletLocation}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Exits index previews */}
-                      <div className="space-y-2">
-                        <span className="text-xs font-bold text-slate-400 tracking-wider uppercase block">
-                          {language === 'KR' ? '검증된 무장애 지상 출구' : 'Accessible Exits Preview'}
-                        </span>
-                        <div className="flex flex-wrap gap-1.5 mt-1">
-                          {station.exits.map(exit => (
-                            <span 
-                              key={exit.number} 
-                              className={`text-xs px-2.5 py-1 rounded-lg border font-bold flex items-center gap-1 ${
-                                exit.hasElevator 
-                                  ? 'bg-emerald-50 text-emerald-800 border-emerald-100' 
-                                  : 'bg-slate-50 text-slate-500 border-slate-100'
-                              }`}
-                            >
-                              <span>{exit.number}</span>
-                              {exit.hasElevator && <span className="text-[10px]">🛗</span>}
-                            </span>
-                          ))}
                         </div>
                       </div>
                     </div>

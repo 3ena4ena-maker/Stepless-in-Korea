@@ -4,6 +4,7 @@ import { Station } from '../types';
 interface SubwayStationMapProps {
   station: Station;
   language: 'KR' | 'EN';
+  focusedExitCoords?: { latitude: number; longitude: number } | null;
 }
 
 declare global {
@@ -13,7 +14,7 @@ declare global {
   }
 }
 
-export default function SubwayStationMap({ station, language }: SubwayStationMapProps) {
+export default function SubwayStationMap({ station, language, focusedExitCoords }: SubwayStationMapProps) {
   const mapElement = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
@@ -111,15 +112,26 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
     const exits = station.exits || [];
     if (exits.length === 0) return;
 
-    // Calculate map focus center dynamically using mathematical average coordinate of all exits
-    let totalLat = 0;
-    let totalLng = 0;
-    exits.forEach(exit => {
-      totalLat += exit.latitude;
-      totalLng += exit.longitude;
-    });
-    const centerLat = totalLat / exits.length;
-    const centerLng = totalLng / exits.length;
+    // Calculate map focus center dynamically using mathematical average coordinate of all exits or focused override
+    let centerLat = 0;
+    let centerLng = 0;
+    let currentZoom = 16;
+
+    if (focusedExitCoords) {
+      centerLat = focusedExitCoords.latitude;
+      centerLng = focusedExitCoords.longitude;
+      currentZoom = 18;
+    } else {
+      let totalLat = 0;
+      let totalLng = 0;
+      exits.forEach(exit => {
+        totalLat += exit.latitude;
+        totalLng += exit.longitude;
+      });
+      centerLat = totalLat / exits.length;
+      centerLng = totalLng / exits.length;
+      currentZoom = 16;
+    }
 
     const mapCenter = new window.naver.maps.LatLng(centerLat, centerLng);
 
@@ -127,7 +139,7 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
     if (!mapInstance.current) {
       mapInstance.current = new window.naver.maps.Map(mapElement.current, {
         center: mapCenter,
-        zoom: 16,
+        zoom: currentZoom,
         minZoom: 13,
         maxZoom: 19,
         mapTypeControl: false,
@@ -143,7 +155,7 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
     } else {
       // Update central zoom dynamically and move center with pan animation
       mapInstance.current.setCenter(mapCenter);
-      mapInstance.current.setZoom(16);
+      mapInstance.current.setZoom(currentZoom);
     }
 
     // Reset previous loaded markers to avoid rendering duplication
@@ -153,7 +165,7 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
     // Map exits and build markers
     exits.forEach(exit => {
       const line = station.lines[0];
-      let mapAccentColor = '#004481'; // default 블루
+      let mapAccentColor = '#F06A00'; // default 주황
       if (line === '2') mapAccentColor = '#1b6d24'; // 초록
       else if (line === '동해') mapAccentColor = '#004960'; // 동해 블루
 
@@ -234,7 +246,7 @@ export default function SubwayStationMap({ station, language }: SubwayStationMap
       markersRef.current.push(marker);
     });
 
-  }, [station, scriptLoaded]);
+  }, [station, scriptLoaded, focusedExitCoords]);
 
   // Clean-up logic on unmount to release resources safely
   useEffect(() => {

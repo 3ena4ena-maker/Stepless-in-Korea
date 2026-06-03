@@ -15,7 +15,7 @@ export const STATIONS: Station[] = [
     escalatorCount: 24,
     toiletLocation: '개찰구 내 및 대합실 중앙',
     isTransferStation: true,
-    accentColor: 'from-[#004481] to-[#1b6d24]',
+    accentColor: 'from-[#F06A00] to-[#1b6d24]',
     alertNotice: '1호선 노포방면 일부 에스컬레이터 노후 안전 점검 중 (대체 경로 안내 제공)',
     exits: [
       {
@@ -477,7 +477,7 @@ export const STATIONS: Station[] = [
     escalatorCount: 2,
     toiletLocation: '무장애 개찰구 내부 통로 지하 1층',
     isTransferStation: true,
-    accentColor: 'from-[#004481] to-[#004960]',
+    accentColor: 'from-[#F06A00] to-[#004960]',
     alertNotice: '부전역 내에는 에스컬레이터가 전혀 없으며, 3번과 6번 출구의 엘리베이터를 이용하여 전용 탑승하셔야 합니다.',
     exits: [
       {
@@ -841,8 +841,8 @@ export const STATIONS: Station[] = [
         tip: '지상 1층 인도로 올라가는 전용 상행 에스컬레이터가 작동하고 있는 구역입니다. 하행 이용 시에는 인접 백화점 연결로 우회 혹은 전용 기기를 이용하는 것이 더욱 안락합니다.',
         status: 'OPERATIONAL',
         directionDesc: '롯데백화점 광복점 정문, 남포동 극장가 사거리 방면',
-        latitude: 35.097539,
-        longitude: 129.033506,
+        latitude: 35.097526,
+        longitude: 129.033504,
         kakaoMapUrl: 'https://map.kakao.com/link/search/남포역 2번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/남포역 2번출구',
         pathwayTimeline: [
@@ -882,8 +882,8 @@ export const STATIONS: Station[] = [
         tip: '4번 출구 바로 옆 실외 인도변에 설치된 저상 경사로 연계형 전용 수직 엘리베이터입니다. 단 1칸의 계단도 거치지 않고 편안하게 지상 및 해안 인도변으로의 직교 진출입이 보장됩니다.',
         status: 'OPERATIONAL',
         directionDesc: '남포동 건어물시장, 영도대교 진입로, 자갈치 시장, 부산대교 방면',
-        latitude: 35.097451,
-        longitude: 129.033981,
+        latitude: 35.097727,
+        longitude: 129.034921,
         kakaoMapUrl: 'https://map.kakao.com/link/search/남포역 4번출구 엘리베이터',
         naverMapUrl: 'https://map.naver.com/v5/search/남포역 4번출구 엘리베이터',
         pathwayTimeline: [
@@ -923,8 +923,8 @@ export const STATIONS: Station[] = [
         tip: '6번 출구에 설계된 왕복(상/하행) 에스컬레이터 쌍으로 계단을 전혀 오르내리지 않고 무거운 수하물 가방이나 캐리어와 함께 지상으로 편히 나갈 수 있습니다.',
         status: 'OPERATIONAL',
         directionDesc: '남포치안센터, 부산데파트, 영도대교, 남포 삼거리 방면',
-        latitude: 35.097821,
-        longitude: 129.035121,
+        latitude: 35.097723,
+        longitude: 129.035497,
         kakaoMapUrl: 'https://map.kakao.com/link/search/남포역 6번출구 에스컬레이터',
         naverMapUrl: 'https://map.naver.com/v5/search/남포역 6번출구 에스컬레이터',
         pathwayTimeline: [
@@ -964,8 +964,8 @@ export const STATIONS: Station[] = [
         tip: '남포동 패션거리 및 비프광장, 용두산 에스컬레이터 탑승로와 도보 2분 거리에 있습니다. 양방향(상/하행) 에스컬레이터가 나란히 왕복 설계되어 있어 계단 보행 없이 지상으로의 원활한 진출을 보장합니다.',
         status: 'OPERATIONAL',
         directionDesc: '비프거리(BIFF), 용두산공원, 원조족발골목 방면',
-        latitude: 35.097651,
-        longitude: 129.034451,
+        latitude: 35.098641,
+        longitude: 129.035390,
         kakaoMapUrl: 'https://map.kakao.com/link/search/남포역 1호선 7번출구',
         naverMapUrl: 'https://map.naver.com/v5/search/남포역 1호선 7번출구',
         pathwayTimeline: [
@@ -1005,8 +1005,8 @@ export const STATIONS: Station[] = [
         tip: '실외의 날씨나 도로 요철, 단차를 일절 거치지 않고 지하철역 대합실에서 롯데백화점 광복점 지하 및 아쿠아몰 메인 분수 광장 중앙으로 턱 없이 직접 유입되는 최고의 무장애 우회로입니다. 백화점 내부 대용량 승강기 및 초광폭 상하 에스컬레이터를 통과하여 지상으로 매우 편하게 나오실 수 있습니다.',
         status: 'OPERATIONAL',
         directionDesc: '롯데백화점 광복점(아쿠아몰 연결), 롯데마트 광복점 방면',
-        latitude: 35.098021,
-        longitude: 129.035821,
+        latitude: 35.098123,
+        longitude: 129.035860,
         kakaoMapUrl: 'https://map.kakao.com/link/search/남포역 8번출구 10번출구 롯데백화점',
         naverMapUrl: 'https://map.naver.com/v5/search/남포역 8번출구 10번출구 롯데백화점',
         pathwayTimeline: [
