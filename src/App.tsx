@@ -94,6 +94,13 @@ const StairsIcon = ({ className = "w-5 h-5 text-slate-500 flex-shrink-0" }: { cl
   </svg>
 );
 
+const getExitDisplayName = (stationName: string, exitNumber: string): string => {
+  if (exitNumber.includes(stationName) || exitNumber.startsWith('부산KTX역')) {
+    return exitNumber;
+  }
+  return `${stationName} ${exitNumber}`;
+};
+
 export default function App() {
   const [currentTab, setCurrentTab] = useState<string>('home');
   const [language, setLanguage] = useState<'KR' | 'EN'>('KR');
@@ -502,7 +509,7 @@ export default function App() {
                           <div className="space-y-1.5">
                             <div className="flex items-center gap-2 flex-wrap">
                               <h3 className="text-lg sm:text-xl font-extrabold text-slate-800 font-heading">
-                                {activeStation.name} {exit.number}
+                                {getExitDisplayName(activeStation.name, exit.number)}
                               </h3>
                             </div>
                             
@@ -583,7 +590,7 @@ export default function App() {
                               directionDesc={exit.directionDesc}
                               exitNumber={exit.number}
                               stationName={activeStation.name}
-                              googleMapUrl={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${activeStation.name} ${exit.number}`)}`}
+                              googleMapUrl={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(getExitDisplayName(activeStation.name, exit.number))}`}
                               naverMapUrl={exit.naverMapUrl}
                               language={language}
                             />
@@ -686,7 +693,11 @@ export default function App() {
                             <span 
                               key={line} 
                               className={`px-3 py-1 text-xs font-extrabold text-white rounded-full ${
-                                line === '1' ? 'bg-[#F06A00]' : line === '2' ? 'bg-[#1b6d24]' : 'bg-slate-400'
+                                line === '1' ? 'bg-[#F06A00]' : 
+                                line === '2' ? 'bg-[#1b6d24]' : 
+                                line === '3' ? 'bg-[#906A3B]' : 
+                                line === '동해' ? 'bg-[#004960]' : 
+                                'bg-slate-400'
                               }`}
                             >
                               {line === '동해' ? '동해선' : `${line}호선`}

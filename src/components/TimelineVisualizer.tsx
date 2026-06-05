@@ -18,6 +18,13 @@ interface TimelineVisualizerProps {
   language: 'KR' | 'EN';
 }
 
+const getExitDisplayName = (stationName: string, exitNumber: string): string => {
+  if (exitNumber.includes(stationName) || exitNumber.startsWith('부산KTX역')) {
+    return exitNumber;
+  }
+  return `${stationName} ${exitNumber}`;
+};
+
 export default function TimelineVisualizer({
   directionDesc,
   exitNumber,
@@ -33,7 +40,7 @@ export default function TimelineVisualizer({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800/60 pb-3.5 mb-4 gap-3 text-left">
         <div>
           <h3 className="text-lg sm:text-xl font-bold font-heading text-white flex items-center gap-2">
-            <span>{stationName} {exitNumber}</span>
+            <span>{getExitDisplayName(stationName, exitNumber)}</span>
             <span className="text-[11px] font-medium text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
               {language === 'KR' ? '길찾기' : 'Search Map'}
             </span>

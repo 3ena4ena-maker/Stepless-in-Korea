@@ -5,7 +5,7 @@
 
 import { Station, FacilityReport } from './types';
 
-export const STATIONS: Station[] = [
+const UNSORTED_STATIONS: Station[] = [
   {
     id: 'seomyeon',
     name: '서면역',
@@ -1037,8 +1037,556 @@ export const STATIONS: Station[] = [
         ]
       }
     ]
+  },
+  {
+    id: 'busan',
+    name: '부산역',
+    englishName: 'Busan Station',
+    lines: ['1'],
+    elevatorCount: 2,
+    escalatorCount: 3,
+    toiletLocation: '지하 1층 대합실 중앙 개찰구 외부 공중화장실',
+    isTransferStation: false,
+    accentColor: 'from-[#F06A00] to-[#E35400]',
+    alertNotice: '철도 부산역 KTX/SRT 환승 통로 에스컬레이터는 상향 및 하향 모두 정상 가동 중입니다.',
+    exits: [
+      {
+        number: '4번 출구',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: false,
+        facilityDirection: 'BOTH',
+        tip: '수직형 무장애 엘리베이터가 보도와 직결되어 있어 계단 단차가 전혀 없습니다. 휠체어와 유모차 이동에 가장 탁월한 추천 경로입니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '부산역 광장동편, 텍사스거리, KTX 부산역 광장 방면',
+        latitude: 35.114251,
+        longitude: 129.039418,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/부산역 4번출구 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/부산역 4번출구 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'bs4-step1',
+            name: '승강장 플랫폼 (B2F)',
+            desc: '1호선 다대포해수욕장/노포 방면 승강장',
+            facilityType: 'ELEVATOR',
+            tip: '플랫폼 내부 엘리베이터를 탑승하여 지하 1층 대합실 통로로 진입하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bs4-step2',
+            name: '대합실 개찰 게이트 (B1F)',
+            desc: '대합실 개찰구 구역',
+            facilityType: 'GATE',
+            tip: '교통카드를 접촉하고 4번 출구 이정표를 향해 평탄한 보도를 이동하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bs4-step3',
+            name: '외부 수직 엘리베이터 (B1F ↔ 1F)',
+            desc: '4번 출구 지상 전용 엘리베이터',
+            facilityType: 'ELEVATOR',
+            tip: '4번 출구 바로 옆에 설치된 엘리베이터를 탑승하여 인도변으로 턱 없이 편리하게 올라가실 수 있습니다.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '5번 출구',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: false,
+        facilityDirection: 'BOTH',
+        tip: '부산역 5번 출구 방면에 연결된 전용 엘리베이터입니다. 승강장 대합실부터 지상 보도까지 계단 단차 없이 원스톱으로 운행되어 휠체어 및 유모차 진입에 완벽히 대응합니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '부산역 광장 전면, 무슬림거리, 초량동 방면',
+        latitude: 35.114785,
+        longitude: 129.039258,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/부산역 5번출구 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/부산역 5번출구 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'bs5-step1',
+            name: '승강장 플랫폼 (B2F)',
+            desc: '1호선 양방향 플랫폼 중앙 승강기',
+            facilityType: 'ELEVATOR',
+            tip: '플랫폼 중심부에 자리한 승강기 탑승 후 지하 1층 동편 대합실 통로 방향으로 개찰 오르십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bs5-step2',
+            name: '대합실 개찰구 (B1F)',
+            desc: '와이드 개찰구 및 승강 유도 블록',
+            facilityType: 'GATE',
+            tip: '카드를 접촉한 다음 5번 대기선 유도 블록을 따라 5번 출구 전용 지상 수직 엘리베이터로 이동하세요.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bs5-step3',
+            name: '지상 수직 엘리베이터 (B1F ↔ 1F)',
+            desc: '5번 출입 일체형 지상 전용 안전기',
+            facilityType: 'ELEVATOR',
+            tip: '지상 인도변과 완벽하게 수평 밀착되어 턱이 전혀 없는 안전 엘리베이터로 올라오십시오.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '6번 출구',
+        isAccessible: false,
+        isStrollerFriendly: true,
+        hasElevator: false,
+        hasEscalator: true,
+        facilityDirection: 'BOTH',
+        tip: '부산역 6번 출구 방면에 마련된 상행 및 하행 에스컬레이터입니다. 평탄하고 쾌적하게 지상 보도로 이동할 수 있어 무거운 짐을 지닌 승객분들께 매우 유용한 경로입니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '부산역 광장서편, 초량초등학교, 초량시장 방면',
+        latitude: 35.114973,
+        longitude: 129.040004,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/부산역 6번출구 에스컬레이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/부산역 6번출구 에스컬레이터',
+        pathwayTimeline: [
+          {
+            id: 'bs6-step1',
+            name: '지하 대합실 개찰구 (B1F)',
+            desc: '카드 게이트 수속 구역',
+            facilityType: 'GATE',
+            tip: '카드를 접촉하고 6번 출구를 알리는 안내 이정표 지시선을 따라 통로 보간하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bs6-step2',
+            name: '상향/하향 에스컬레이터 (B1F ↔ 1F)',
+            desc: '6번 출구 양방향 전동 에스컬레이터',
+            facilityType: 'ESCALATOR',
+            tip: '상하행 정상 가동 중인 6번 에스컬레이터에 탑승하여 지상 1층 인도 높이까지 계단 없이 안전 탑승하십시오.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '부산역지하쇼핑센터 2번 출구',
+        isAccessible: false,
+        isStrollerFriendly: true,
+        hasElevator: false,
+        hasEscalator: true,
+        facilityDirection: 'BOTH',
+        tip: '부산역지하쇼핑센터 2번 출구 방면 상행 및 하행 에스컬레이터입니다. 완만한 전동 기동 방식으로 캐리어나 휠 수하물 동伴 주행에 아주 유용합니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '부산역 지하상가 남측 통로, 중앙동 방면 인도',
+        latitude: 35.115739,
+        longitude: 129.040128,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/부산역지하쇼핑센터 2번출구',
+        naverMapUrl: 'https://map.naver.com/v5/search/부산역지하쇼핑센터 2번출구',
+        pathwayTimeline: [
+          {
+            id: 'bss2-step1',
+            name: '대합실 광장 (B1F)',
+            desc: '지하쇼핑상가 진입 연결로',
+            facilityType: 'GATE',
+            tip: '대합 광장에서 쇼핑센터 남측 보도를 따라 20m 평지 직진으로 상하행 에스컬레이터에 다가갑니다.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bss2-step2',
+            name: '상향/하향 에스컬레이터 (B1F ↔ 1F)',
+            desc: '쇼핑상가 2번 출구 양방향 에스컬레이터',
+            facilityType: 'ESCALATOR',
+            tip: '왕복 정상 기동되는 기계를 탑승하고 지상 보도 높이까지 턱 없이 쾌적하게 안착하세요.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '부산KTX역 7번 출구',
+        isAccessible: false,
+        isStrollerFriendly: true,
+        hasElevator: false,
+        hasEscalator: true,
+        facilityDirection: 'BOTH',
+        tip: 'KTX 부산역 광장 서편 환승 지대와 인접한 7번 출구 상향/하향 양방향 에스컬레이터입니다. 평탄하게 철도 연계망과 이동 흐름을 연동하는 고지 인프라입니다.',
+        status: 'OPERATIONAL',
+        directionDesc: 'KTX 부산역 대합실 정문 연계 광장, 광장 주차장 방면',
+        latitude: 35.115324,
+        longitude: 129.041213,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/부산역 7번출구 에스컬레이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/부산역 7번출구 에스컬레이터',
+        pathwayTimeline: [
+          {
+            id: 'bsktx7-step1',
+            name: '지하 대합실 개찰 코너 (B1F)',
+            desc: 'KTX 부산 가로 연결 라인',
+            facilityType: 'GATE',
+            tip: '개찰 게이트를 통과한 다음 동부 연계 표선을 정점 삼아 보도로 진형 진선하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bsktx7-step2',
+            name: '양방향 에스컬레이터 (B1F ↔ 1F)',
+            desc: 'KTX 연계 광장 7번 전용 에스컬레이터',
+            facilityType: 'ESCALATOR',
+            tip: '상행 및 하행 겸전 가동되는 7번 에스컬레이터를 타고 인도변 공지에 도착하시면 바로 KTX 정문 경사로가 개설됩니다.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'suyeong',
+    name: '수영역',
+    englishName: 'Suyeong Station',
+    lines: ['2', '3'],
+    elevatorCount: 3,
+    escalatorCount: 1,
+    toiletLocation: '지하 1층 대합실 중앙 광벽 개찰구 외측',
+    isTransferStation: true,
+    accentColor: 'from-[#1b6d24] to-[#8fc31f]',
+    alertNotice: '2호선과 3호선의 빠르고 완만한 수평 환승 램프가 완비되어 평탄하게 교행 환승 가능합니다.',
+    exits: [
+      {
+        number: '1번 출구',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: false,
+        facilityDirection: 'BOTH',
+        tip: '수영역 1번 출구 방면에 마련된 초광폭 전용 엘리베이터입니다. 휠체어와 유모차 등 교통약자가 지상 보도까지 단 한 계단도 없이 안전 통행할 수 있습니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '수영동 우체국, 광원아파트, 망미동 방향',
+        latitude: 35.167798,
+        longitude: 129.115217,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/수영역 1번출구 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/수영역 1번출구 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'sy1-step1',
+            name: '승강장 및 환승통로 (B2F/B3F)',
+            desc: '수영역 2/3호선 승강장 내부 엘리베이터',
+            facilityType: 'ELEVATOR',
+            tip: '수영역 2/3호선 승강장 내부 엘리베이터를 타고 B1F 대합실로 오릅니다.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'sy1-step2',
+            name: '대합실 광폭 개찰 게이트 (B1F)',
+            desc: '와이드 휠체어 개찰 게이트',
+            facilityType: 'GATE',
+            tip: '와이드 휠체어 개찰 게이트에 교통카드를 접촉하여 지나서 1번 안내 유도선을 따라 이동합니다.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'sy1-step3',
+            name: '지상 전용 엘리베이터 (B1F ↔ 1F)',
+            desc: '1번 출구 지상 전용 수직 엘리베이터',
+            facilityType: 'ELEVATOR',
+            tip: '수직 엘리베이터를 이용하여 지상인도로 계단 턱 없이 매끄럽게 승차 이동합니다.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '10번 출구',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: false,
+        facilityDirection: 'BOTH',
+        tip: '수영역 10번 출입 공간 근처 수직형 지상 전용 안심 엘리베이터입니다. 가파른 교통로 턱을 우회하여 휠체어 주행 및 유모차가 동반 하강하기 아주 편리합니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '수영교차로 동북측, 광안3동 치안센터 방면',
+        latitude: 35.165580,
+        longitude: 129.114655,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/수영역 10번출구 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/수영역 10번출구 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'sy10-step1',
+            name: '대합실 동편 개찰구 (B1F)',
+            desc: '교통약자 겸용 와이드 게이트',
+            facilityType: 'GATE',
+            tip: '교통약자 겸용 넓은 게이트를 통과한 다음, 10번 안내 표식을 거쳐 엘리베이터홀로 평평한 인도를 이동합니다.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'sy10-step2',
+            name: '지상 수직 엘리베이터 (B1F ↔ 1F)',
+            desc: '10번 출구 지상 전용 수직 엘리베이터',
+            facilityType: 'ELEVATOR',
+            tip: '엘리베이터를 타고 지상 1층 턱과 계단이 완전 제거된 안전 보도로 곧바로 진입합니다.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '11번 출구',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: false,
+        facilityDirection: 'BOTH',
+        tip: '수영역 11번 출구 전용 엘리베이터 시설로, 지하철 대합실에서 지상 가로수 보행로까지 한 번에 무장애 직결됩니다. 휠체어 승객의 도보 정위 수직이동이 확보된 지점입니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '수영 종합동물병원, 팔도시장 입구 남측 방면',
+        latitude: 35.166199,
+        longitude: 129.115057,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/수영역 11번출구 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/수영역 11번출구 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'sy11-step1',
+            name: '대합실 동북구역 (B1F)',
+            desc: '동북단 엘리베이터 연계 유도로',
+            facilityType: 'GATE',
+            tip: '개찰 통과 후 우측 통로의 11번 출입 이동을 가리키는 유도선을 따라 인접합니다.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'sy11-step2',
+            name: '지상 전용 엘리베이터 (B1F ↔ 1F)',
+            desc: '11번 출구 지상 전용 수직 엘리베이터',
+            facilityType: 'ELEVATOR',
+            tip: '전용 무장애 엘리베이터에 탑승하여 계단 없이 완만한 1층 노면 교통로로 바로 인출됩니다.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '15번 출구',
+        isAccessible: false,
+        isStrollerFriendly: true,
+        hasElevator: false,
+        hasEscalator: true,
+        facilityDirection: 'BOTH',
+        tip: '수영역 15번 출구 옆에 설치된 양방향 에스컬레이터입니다. 평탄하게 교통 체증이나 장애물 없이 상하행 정교하게 이동할 수 있습니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '광안리 해수욕장 초입, 수영교차로 남편 방면',
+        latitude: 35.164190,
+        longitude: 129.114638,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/수영역 15번출구 에스컬레이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/수영역 15번출구 에스컬레이터',
+        pathwayTimeline: [
+          {
+            id: 'sy15-step1',
+            name: '지하 대합실 개찰구 (B1F)',
+            desc: '대합실 동남측 복도',
+            facilityType: 'GATE',
+            tip: '교통카드를 태그하고 15번 이정 안내판을 따라 무단차 직진하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'sy15-step2',
+            name: '상하행 에스컬레이터 (B1F ↔ 1F)',
+            desc: '15번 출입용 양방향 에스컬레이터',
+            facilityType: 'ESCALATOR',
+            tip: '양방향 정상 운행 중인 에스컬레이터를 타고 단차 없이 안전하게 수직 이동하십시오.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'jagalchi',
+    name: '자갈치역',
+    englishName: 'Jagalchi Station',
+    lines: ['1'],
+    elevatorCount: 2,
+    escalatorCount: 3,
+    toiletLocation: '지하 1층 대합실 자갈치시장 방면 동코너 내부 개찰구 외',
+    isTransferStation: false,
+    accentColor: 'from-[#F06A00] to-[#E35400]',
+    alertNotice: '자갈치 시장 및 남포지하쇼핑센터 방면 무장애 보행 이동 통로 개선공사가 완료되었습니다.',
+    exits: [
+      {
+        number: '3번 출구',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: false,
+        facilityDirection: 'BOTH',
+        tip: '자갈치역 3번 출구 방면에 평탄하게 마련된 전용 엘리베이터입니다. 보도와 대합실 간 계단 턱이 없어 휠체어와 유모차 통행에 대단히 유리합니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '부평깡통시장, 충무동 사거리, 서구청 방면',
+        latitude: 35.097581,
+        longitude: 129.026774,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/자갈치역 3번출구 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/자갈치역 3번출구 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'jc3-step1',
+            name: '승강장 및 복도 (B2F)',
+            desc: '1호선 승강장 내부 엘리베이터',
+            facilityType: 'ELEVATOR',
+            tip: '플랫폼 중심 부근의 엘리베이터를 이용하여 지하 1층 대합실로 원활하게 무단차 상승하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'jc3-step2',
+            name: '대합실 동코너 개찰구 (B1F)',
+            desc: '자갈치 대합실 개찰 게이트',
+            facilityType: 'GATE',
+            tip: '교통카드를 와이드 개찰기에 대고 통과한 뒤, 3번 출구 전용 지상 엘리베이터 부스로 평지 이동하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'jc3-step3',
+            name: '지상 엘리베이터 (B1F ↔ 1F)',
+            desc: '3번 출구 전용 지상 엘리베이터',
+            facilityType: 'ELEVATOR',
+            tip: '엘리베이터를 이용하여 턱 없이 안전하게 인도 위 노면으로 나오실 수 있습니다.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '6번 출구',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: false,
+        facilityDirection: 'BOTH',
+        tip: '자갈치역 6번 출구와 직접 연결된 수직형 엘리베이터입니다. 지상에서 대합실까지 수월한 리프트리스 수평 연동 보도를 구현합니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '남포 파출소, 신한은행 부평동지점, 비프광장로 방면',
+        latitude: 35.097263,
+        longitude: 129.026878,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/자갈치역 6번출구 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/자갈치역 6번출구 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'jc6-step1',
+            name: '승강장 (B2F)',
+            desc: '1호선 다대포/노포 승강 통행로',
+            facilityType: 'ELEVATOR',
+            tip: '플랫폼 구역 내 교통약자용 엘리베이터에 승선하여 B1F 개찰 광장으로 올라갑니다.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'jc6-step2',
+            name: '중앙 대합실 개찰구 (B1F)',
+            desc: '6번 통로 앞 개찰대',
+            facilityType: 'GATE',
+            tip: '휠체어 겸용 안심 게이트 수속 후 복도를 따라 6번 출구 방면 지상 엘리베이터 부스로 평탄히 진입합니다.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'jc6-step3',
+            name: '지상 수직 엘리베이터 (B1F ↔ 1F)',
+            desc: '6번 출입구 연동 무장애 승강기',
+            facilityType: 'ELEVATOR',
+            tip: '지상 인도로 계단 단차 없이 매끄럽게 인출되어 유모차가 안착하기 좋습니다.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '10번 출구',
+        isAccessible: false,
+        isStrollerFriendly: true,
+        hasElevator: false,
+        hasEscalator: true,
+        facilityDirection: 'BOTH',
+        tip: '자갈치역 10번 출구 방향에 마련된 상행 및 하행 에스컬레이터입니다. 완만하며 계단 이동이 번거로우신 교통약자나 캐리어를 지닌 보행 승객분들께 매우 유용합니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '남포동 극장가, 중구로, 창선동 방면',
+        latitude: 35.097505,
+        longitude: 129.027813,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/자갈치역 10번출구 에스컬레이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/자갈치역 10번출구 에스컬레이터',
+        pathwayTimeline: [
+          {
+            id: 'jc10-step1',
+            name: '대합실 개찰 게이트 (B1F)',
+            desc: '자갈치역 대합실 동편 위치 개찰구',
+            facilityType: 'GATE',
+            tip: '교통카드를 개찰구에 접촉하시고 10번 통로 보행 전용 점자블록선을 따라 이동하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'jc10-step2',
+            name: '양방향 에스컬레이터 (B1F ↔ 1F)',
+            desc: '10번 출입 양방향 전동 기계',
+            facilityType: 'ESCALATOR',
+            tip: '상행 및 하행 겸용 가동 중인 편리한 에스컬레이터를 타고 계단 단차 없이 편안하게 지상 가로수로 진퇴하세요.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '남포지하쇼핑센터 6번 출구',
+        isAccessible: false,
+        isStrollerFriendly: true,
+        hasElevator: false,
+        hasEscalator: true,
+        facilityDirection: 'BOTH',
+        tip: '남포지하쇼핑센터 6번 복도 출입구 배속 상하행 겸용 에스컬레이터로, 캐리어 등 큰 소지물품을 가진 분들께 매우 안전하고 매끄러운 휠로를 안내합니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '남포지하쇼핑가 동편 통로, 광복로 패션거리 인접 방면',
+        latitude: 35.097966,
+        longitude: 129.029668,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/남포지하쇼핑센터 6번출구',
+        naverMapUrl: 'https://map.naver.com/v5/search/남포지하쇼핑센터 6번출구',
+        pathwayTimeline: [
+          {
+            id: 'nps6-step1',
+            name: '지하상가 연결부 (B1F)',
+            desc: '남포 지하 쇼핑 광장',
+            facilityType: 'GATE',
+            tip: '지하상가 보도를 통과한 편평 코너 안쪽의 6번 상하행 전용 에스컬레이터 구간으로 진진합니다.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'nps6-step2',
+            name: '상하 복렬 에스컬레이터 (B1F ↔ 1F)',
+            desc: '쇼핑센터 6번 지상 연결 에스컬레이터',
+            facilityType: 'ESCALATOR',
+            tip: '정상 가동되는 에스컬레이터를 탑승하여 충무 방향 및 광복동 방향 노면 인도변으로 여유롭게 도달하세요.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '남포지하쇼핑센터 7번 출구',
+        isAccessible: false,
+        isStrollerFriendly: true,
+        hasElevator: false,
+        hasEscalator: true,
+        facilityDirection: 'BOTH',
+        tip: '남포지하쇼핑센터 7번 상하행 복렬 에스컬레이터로, 지하에서 지상 패션 중심지 및 백화점 인근 도로까지 완전 평탄 이동을 연결합니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '영도대교 초입, 롯데백화점 광복점 방면, 남포동 가로 보도',
+        latitude: 35.098389,
+        longitude: 129.030270,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/남포지하쇼핑센터 7번출구',
+        naverMapUrl: 'https://map.naver.com/v5/search/남포지하쇼핑센터 7번출구',
+        pathwayTimeline: [
+          {
+            id: 'nps7-step1',
+            name: '지하상가 보행 통로 (B1F)',
+            desc: '남포 쇼핑 공간 영도 방면 라인',
+            facilityType: 'GATE',
+            tip: '타일 마감의 수평 바닥을 걸어 7번 출입 보행 기구 안내 표선을 따라 부드럽게 근접합니다.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'nps7-step2',
+            name: '상향/하향 에스컬레이터 (B1F ↔ 1F)',
+            desc: '지상 쇼핑센터 7번 연계 에스컬레이터',
+            facilityType: 'ESCALATOR',
+            tip: '상하행 동시 진행 에스컬레이터에 지지 상태로 단차 가림막 없이 안전하게 진입하여 오르내릴 수 있습니다.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      }
+    ]
   }
 ];
+
+export const STATIONS: Station[] = [...UNSORTED_STATIONS].sort((a, b) =>
+  a.name.localeCompare(b.name, 'ko')
+);
 
 // Initial mock reports to make the app incredibly lively
 export const INITIAL_REPORTS: FacilityReport[] = [

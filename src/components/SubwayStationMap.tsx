@@ -167,6 +167,7 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
       const line = station.lines[0];
       let mapAccentColor = '#F06A00'; // default 주황
       if (line === '2') mapAccentColor = '#1b6d24'; // 초록
+      else if (line === '3') mapAccentColor = '#906A3B'; // 브라운
       else if (line === '동해') mapAccentColor = '#004960'; // 동해 블루
 
       let iconHtml = '';
@@ -283,6 +284,16 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
         ) : (
           <div className="w-full h-full" ref={mapElement} id="subway-naver-map" />
         )}
+      </div>
+
+      {/* Information Tip Bar */}
+      <div className="bg-slate-50/80 px-4 py-3 flex items-center gap-2.5 border-t border-slate-100">
+        <span className="text-base sm:text-lg leading-none select-none">💡</span>
+        <p className="text-[11.5px] sm:text-xs font-bold text-slate-600 leading-normal">
+          {language === 'KR' 
+            ? '지도를 확대하시면 역 주변의 횡단보도 위치를 더욱 자세히 확인하실 수 있습니다.' 
+            : 'Zoom in on the map to find nearby crosswalk positions in greater detail.'}
+        </p>
       </div>
     </div>
   );
