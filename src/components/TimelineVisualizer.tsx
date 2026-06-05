@@ -8,6 +8,7 @@ import {
   ArrowUpRight, 
   Building
 } from 'lucide-react';
+import { getExitDisplayName, translateDirectionItem } from '../types';
 
 interface TimelineVisualizerProps {
   directionDesc: string;
@@ -17,13 +18,6 @@ interface TimelineVisualizerProps {
   naverMapUrl: string;
   language: 'KR' | 'EN';
 }
-
-const getExitDisplayName = (stationName: string, exitNumber: string): string => {
-  if (exitNumber.includes(stationName) || exitNumber.startsWith('부산KTX역')) {
-    return exitNumber;
-  }
-  return `${stationName} ${exitNumber}`;
-};
 
 export default function TimelineVisualizer({
   directionDesc,
@@ -40,7 +34,7 @@ export default function TimelineVisualizer({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800/60 pb-3.5 mb-4 gap-3 text-left">
         <div>
           <h3 className="text-lg sm:text-xl font-bold font-heading text-white flex items-center gap-2">
-            <span>{getExitDisplayName(stationName, exitNumber)}</span>
+            <span>{getExitDisplayName(stationName, exitNumber, language)}</span>
             <span className="text-[11px] font-medium text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
               {language === 'KR' ? '길찾기' : 'Search Map'}
             </span>
@@ -85,14 +79,15 @@ export default function TimelineVisualizer({
               const trimmed = item.trim();
               if (!trimmed) return null;
               
+              const translated = translateDirectionItem(trimmed, language);
               return (
                 <div 
                   key={idx} 
                   className="flex items-center gap-2 bg-slate-950/40 px-3 py-2 rounded-lg border border-slate-800/45 hover:border-slate-700 transition-colors"
                 >
                   <span className="text-emerald-500 text-xs shrink-0">📍</span>
-                  <p className="text-xs sm:text-sm text-slate-100 font-sans font-bold tracking-tight truncate" title={trimmed}>
-                    {trimmed}
+                  <p className="text-xs sm:text-sm text-slate-100 font-sans font-bold tracking-tight truncate" title={translated}>
+                    {translated}
                   </p>
                 </div>
               );

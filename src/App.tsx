@@ -33,7 +33,7 @@ import Header from './components/Header';
 import TimelineVisualizer from './components/TimelineVisualizer';
 import SubwayStationMap from './components/SubwayStationMap';
 import { STATIONS, INITIAL_REPORTS } from './data';
-import { Station, ExitInfo, FacilityReport, StatusType } from './types';
+import { Station, ExitInfo, FacilityReport, StatusType, getExitDisplayName, translateExitNumber, getTranslatedStationName } from './types';
 
 // Custom icons based on premium vector styles for seamless accessibility display
 const EscalatorIcon = ({ className = "w-5 h-5 text-slate-700 flex-shrink-0" }: { className?: string }) => (
@@ -94,11 +94,160 @@ const StairsIcon = ({ className = "w-5 h-5 text-slate-500 flex-shrink-0" }: { cl
   </svg>
 );
 
-const getExitDisplayName = (stationName: string, exitNumber: string): string => {
-  if (exitNumber.includes(stationName) || exitNumber.startsWith('부산KTX역')) {
-    return exitNumber;
+// Exit Display name helper is imported directly from Types.ts to ensure bilingual consistency across systems.
+
+interface LockerCount {
+  small: number;
+  med?: number;
+  large?: number;
+  xlarge?: number;
+}
+
+const STATION_LOCKER_DATA: Record<string, Record<string, LockerCount> | LockerCount> = {
+  seomyeon: {
+    '1': { small: 38, med: 64, large: 14, xlarge: 46 },
+    '2': { small: 58, large: 22, xlarge: 30 }
+  },
+  suyeong: {
+    '2': { small: 10, large: 4, xlarge: 2 },
+    '3': { small: 10, large: 6, xlarge: 4 }
+  },
+  bujeon: {
+    '1': { small: 10, med: 12, xlarge: 4 }
+  },
+  jeonpo: { small: 32, large: 26, xlarge: 14 },
+  haeundae: { small: 85, large: 40, xlarge: 29 },
+  gwangan: { small: 50, large: 20, xlarge: 10 },
+  nampo: { small: 33, med: 46, xlarge: 42 },
+  busan: { small: 18, med: 52, large: 6, xlarge: 36 },
+  jagalchi: { small: 34, med: 42, large: 4, xlarge: 27 }
+};
+
+const formatLockerCount = (data: LockerCount, lang: 'KR' | 'EN'): string => {
+  const parts: string[] = [];
+  if (lang === 'KR') {
+    if (data.small) parts.push(`소 ${data.small}`);
+    if (data.med) parts.push(`중 ${data.med}`);
+    if (data.large) parts.push(`대 ${data.large}`);
+    if (data.xlarge) parts.push(`특대 ${data.xlarge}`);
+  } else {
+    if (data.small) parts.push(`S ${data.small}`);
+    if (data.med) parts.push(`M ${data.med}`);
+    if (data.large) parts.push(`L ${data.large}`);
+    if (data.xlarge) parts.push(`XL ${data.xlarge}`);
   }
-  return `${stationName} ${exitNumber}`;
+  return parts.join(' ');
+};
+
+const getLockerInfoText = (stationId: string, language: 'KR' | 'EN'): string => {
+  const data = STATION_LOCKER_DATA[stationId];
+  if (!data) return language === 'KR' ? '있음' : 'Available';
+
+  const isMultiLine = '1' in data || '2' in data || '3' in data || '동해' in data;
+  if (isMultiLine) {
+    const multi = data as Record<string, LockerCount>;
+    return Object.entries(multi)
+      .map(([line, counts]) => {
+        const lineStr = language === 'KR'
+          ? (line === '동해' ? '동해선' : `${line}호선`)
+          : (line === '동해' ? 'Donghae' : `Line ${line}`);
+        return `${lineStr}: ${formatLockerCount(counts, language)}`;
+      })
+      .join(' / ');
+  } else {
+    return formatLockerCount(data as LockerCount, language);
+  }
+};
+
+const renderLockerBadges = (data: LockerCount, lang: 'KR' | 'EN'): React.ReactNode => {
+  const categories = [
+    { 
+      key: 'small', 
+      labelKR: '소형', 
+      labelEN: 'S', 
+      badgeClass: 'bg-[#10b981]/10 text-[#047857] border-[#10b981]/30', 
+      numClass: 'text-[#065f46]' 
+    },
+    { 
+      key: 'med', 
+      labelKR: '중형', 
+      labelEN: 'M', 
+      badgeClass: 'bg-[#6366f1]/10 text-[#4f46e5] border-[#6366f1]/30', 
+      numClass: 'text-[#3730a3]' 
+    },
+    { 
+      key: 'large', 
+      labelKR: '대형', 
+      labelEN: 'L', 
+      badgeClass: 'bg-[#f59e0b]/10 text-[#b45309] border-[#f59e0b]/30', 
+      numClass: 'text-[#854d0e]' 
+    },
+    { 
+      key: 'xlarge', 
+      labelKR: '특대', 
+      labelEN: 'XL', 
+      badgeClass: 'bg-[#f43f5e]/10 text-[#e11d48] border-[#f43f5e]/30', 
+      numClass: 'text-[#9f1239]' 
+    },
+  ] as const;
+
+  return (
+    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 justify-end">
+      {categories.map(({ key, labelKR, labelEN, badgeClass, numClass }) => {
+        const val = data[key];
+        if (!val) return null;
+        const label = lang === 'KR' ? labelKR : labelEN;
+        return (
+          <span 
+            key={key} 
+            className={`inline-flex items-center px-2 py-1 rounded-lg text-[11px] sm:text-[12px] font-sans font-bold border ${badgeClass} shadow-sm transition-all duration-150 hover:scale-105`}
+          >
+            <span className="opacity-80 font-medium mr-1 text-[10px] sm:text-[11px]">{label}</span>
+            <span className={`font-black text-xs sm:text-sm tracking-tight ${numClass}`}>{val}</span>
+          </span>
+        );
+      })}
+    </div>
+  );
+};
+
+const renderLockerInfo = (stationId: string, language: 'KR' | 'EN'): React.ReactNode => {
+  const data = STATION_LOCKER_DATA[stationId];
+  if (!data) {
+    return (
+      <div className="flex items-center justify-center py-2 text-slate-400 font-medium text-xs">
+        {language === 'KR' ? '정보 없음 / 미비' : 'No locker data available'}
+      </div>
+    );
+  }
+
+  const isMultiLine = '1' in data || '2' in data || '3' in data || '동해' in data;
+  if (isMultiLine) {
+    const multi = data as Record<string, LockerCount>;
+    return (
+      <div className="flex flex-col gap-2.5 w-full">
+        {Object.entries(multi).map(([line, counts]) => {
+          const lineStr = language === 'KR'
+            ? (line === '동해' ? '동해선' : `${line}호선`)
+            : (line === '동해' ? 'Donghae' : `Line ${line}`);
+          return (
+            <div key={line} className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 w-full pb-2 last:pb-0 border-b border-dashed border-slate-200/50 last:border-0">
+              <span className="text-[10px] sm:text-[11px] font-extrabold px-2 py-0.5 rounded-full bg-slate-200/60 border border-slate-300 text-slate-600 inline-self-start sm:self-center w-max">
+                {lineStr}
+              </span>
+              {renderLockerBadges(counts, language)}
+            </div>
+          );
+        })}
+      </div>
+    );
+  } else {
+    return (
+      <div className="flex justify-end w-full">
+        {renderLockerBadges(data as LockerCount, language)}
+      </div>
+    );
+  }
 };
 
 export default function App() {
@@ -371,7 +520,7 @@ export default function App() {
                     </div>
                     <div>
                       <h4 className="text-xl font-extrabold font-heading text-slate-800">
-                        {geoResult.stationName} {geoResult.exitNumber}
+                        {getExitDisplayName(geoResult.stationName, geoResult.exitNumber, language)}
                       </h4>
                       <p className="text-sm font-bold text-[#F06A00] mt-1">
                         {language === 'KR' 
@@ -421,9 +570,11 @@ export default function App() {
                               : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-150'
                           }`}
                         >
-                          <span className="leading-tight shrink-0 font-heading text-sm sm:text-lg">{s.name}</span>
+                          <span className="leading-tight shrink-0 font-heading text-sm sm:text-lg">
+                            {language === 'KR' ? s.name : s.englishName}
+                          </span>
                           <span className={`text-[9px] font-sans font-medium uppercase tracking-wider block ${isActive ? 'text-blue-100' : 'text-slate-400'}`}>
-                            {s.englishName.split(' ')[0]}
+                            {language === 'KR' ? s.englishName.split(' ')[0] : s.name}
                           </span>
                         </button>
                       );
@@ -509,7 +660,7 @@ export default function App() {
                           <div className="space-y-1.5">
                             <div className="flex items-center gap-2 flex-wrap">
                               <h3 className="text-lg sm:text-xl font-extrabold text-slate-800 font-heading">
-                                {getExitDisplayName(activeStation.name, exit.number)}
+                                {getExitDisplayName(activeStation.name, exit.number, language)}
                               </h3>
                             </div>
                             
@@ -590,7 +741,7 @@ export default function App() {
                               directionDesc={exit.directionDesc}
                               exitNumber={exit.number}
                               stationName={activeStation.name}
-                              googleMapUrl={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(getExitDisplayName(activeStation.name, exit.number))}`}
+                              googleMapUrl={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(getExitDisplayName(activeStation.name, exit.number, language))}`}
                               naverMapUrl={exit.naverMapUrl}
                               language={language}
                             />
@@ -679,10 +830,10 @@ export default function App() {
                           </div>
                           <div>
                             <h3 className="text-xl font-bold font-heading text-slate-800">
-                              {station.name}
+                              {language === 'KR' ? station.name : station.englishName}
                             </h3>
                             <span className="text-xs text-slate-400 block font-sans">
-                              {station.englishName}
+                              {language === 'KR' ? station.englishName : station.name}
                             </span>
                           </div>
                         </div>
@@ -700,14 +851,17 @@ export default function App() {
                                 'bg-slate-400'
                               }`}
                             >
-                              {line === '동해' ? '동해선' : `${line}호선`}
+                              {language === 'KR' 
+                                ? (line === '동해' ? '동해선' : `${line}호선`)
+                                : (line === '동해' ? 'Donghae Line' : `Line ${line}`)
+                              }
                             </span>
                           ))}
                         </div>
                       </div>
 
                       {/* Station General Highlights */}
-                      <div className="grid grid-cols-2 gap-3 mb-6">
+                      <div className="grid grid-cols-2 gap-3 mb-3">
                         <div className="bg-slate-50 p-3 rounded-xl border border-slate-100/50 text-center">
                           <span className="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">
                             {language === 'KR' ? '엘리베이터수' : 'Elevators'}
@@ -723,6 +877,22 @@ export default function App() {
                           <span className="text-lg font-extrabold text-emerald-700">
                             {station.exits.filter(e => e.hasEscalator).length}대
                           </span>
+                        </div>
+                      </div>
+
+                      {/* Locker Information Row */}
+                      <div className="bg-slate-50/80 p-3 rounded-xl border border-slate-100 flex flex-col gap-2.5 text-xs mb-1">
+                        <div className="flex items-center justify-between border-b border-slate-200/50 pb-2">
+                          <span className="font-bold text-slate-700 flex items-center gap-1.5">
+                            <span className="text-sm font-sans">🗄️</span>
+                            <span className="font-extrabold text-[12px]">{language === 'KR' ? '물품보관함' : 'Lockers'}</span>
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-semibold">
+                            {language === 'KR' ? '보관함 크기별 수량' : 'Cabinets by size'}
+                          </span>
+                        </div>
+                        <div className="w-full text-right" title={getLockerInfoText(station.id, language)}>
+                          {renderLockerInfo(station.id, language)}
                         </div>
                       </div>
                     </div>

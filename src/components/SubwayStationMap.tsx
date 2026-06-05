@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Station } from '../types';
+import { Station, translateExitNumber } from '../types';
 
 interface SubwayStationMapProps {
   station: Station;
@@ -211,7 +211,7 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
           <!-- Premium bubble label containing exit name and its mobility SVG icon -->
           <div style="background-color: white; border: 2.5px solid ${mapAccentColor}; border-radius: 9999px; padding: 5px 12px; font-weight: 850; font-size: 11px; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 4.5px; pointer-events: auto;">
             <div style="display: flex; align-items: center; justify-content: center; width: 16px; height: 16px;">${iconHtml}</div>
-            <span style="color: #0f172a; font-family: system-ui, sans-serif; letter-spacing: -0.02em; font-weight: 900;">${exit.number}</span>
+            <span style="color: #0f172a; font-family: system-ui, sans-serif; letter-spacing: -0.02em; font-weight: 900;">${translateExitNumber(exit.number, language)}</span>
           </div>
           <!-- Pin Arrow Indicator -->
           <div style="width: 0; height: 0; border-left: 6.5px solid transparent; border-right: 6.5px solid transparent; border-top: 7px solid ${mapAccentColor}; margin-top: -1px; pointer-events: none;"></div>
@@ -247,7 +247,7 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
       markersRef.current.push(marker);
     });
 
-  }, [station, scriptLoaded, focusedExitCoords]);
+  }, [station, scriptLoaded, focusedExitCoords, language]);
 
   // Clean-up logic on unmount to release resources safely
   useEffect(() => {
