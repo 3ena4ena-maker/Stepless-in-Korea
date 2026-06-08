@@ -250,6 +250,108 @@ const renderLockerInfo = (stationId: string, language: 'KR' | 'EN'): React.React
   }
 };
 
+interface NearbyPlace {
+  name: string;
+  desc: string;
+}
+
+const STATION_PLACES_DATA: Record<string, Record<'KR' | 'EN', NearbyPlace[]>> = {
+  seomyeon: {
+    KR: [
+      { name: '🛍️ 서면 지하쇼핑센터', desc: '역 직결 대형 지하 상가' },
+      { name: '🍜 서면 향토음식골목', desc: '돼지국밥 및 밀면 등 먹거리 가득' }
+    ],
+    EN: [
+      { name: '🛍️ Seomyeon Underground Mall', desc: 'Direct access to large shopping center' },
+      { name: '🍜 Seomyeon Food Alley', desc: 'Full of local pork soup & noodle spots' }
+    ]
+  },
+  jeonpo: {
+    KR: [
+      { name: '☕ 전포 카페거리', desc: '감성 인테리어의 개인 카페 성지' },
+      { name: '🎨 전포 사잇길', desc: '유니크한 소품숍과 디자인 공방' }
+    ],
+    EN: [
+      { name: '☕ Jeonpo Cafe Street', desc: 'Cozy, design-first artisanal coffee shops' },
+      { name: '🎨 Jeonpo Goods Alley', desc: 'Charming boutiques & stationery shops' }
+    ]
+  },
+  bujeon: {
+    KR: [
+      { name: '🥬 부전 전통시장', desc: '온갖 제철 농수산물이 가득한 전통 시장' },
+      { name: '🌳 부산시민공원', desc: '넓은 푸른 잔디와 걷기 좋은 도심 공원' }
+    ],
+    EN: [
+      { name: '🥬 Bujeon Traditional Market', desc: 'Bustling local traditional market' },
+      { name: '🌳 Busan Citizens Park', desc: 'Spacious green lawns & walking paths' }
+    ]
+  },
+  haeundae: {
+    KR: [
+      { name: '🏖️ 해운대 해수욕장', desc: '은빛 모래사장과 빌딩 숲이 어우러진 해변' },
+      { name: '🍢 해운대 전통시장', desc: '떡볶이, 꼼장어, 씨앗호떡 등 야식 가득' }
+    ],
+    EN: [
+      { name: '🏖️ Haeundae Beach', desc: 'Nationally famous sandy oceanfront' },
+      { name: '🍢 Haeundae Market', desc: 'Street snacks, seafood & vibrant local food' }
+    ]
+  },
+  gwangan: {
+    KR: [
+      { name: '🌉 광안리 해수욕장', desc: '광안대교 LED 조명과 파도 소리의 명소' },
+      { name: '☕ 오션뷰 카페거리', desc: '통창 너머 멋진 바다 전망을 즐기는 카페' }
+    ],
+    EN: [
+      { name: '🌉 Gwangalli Beach', desc: 'Beautiful waves with the iconic bridge view' },
+      { name: '☕ Ocean View Cafe Street', desc: 'High-front cafes facing Gwangalli waters' }
+    ]
+  },
+  nampo: {
+    KR: [
+      { name: '🗼 용두산공원', desc: '부산타워 전망대에서 만나는 도심과 항구' },
+      { name: '🛍️ 광복로 패션거리', desc: '화려한 쇼핑 매장과 조형물이 넘치는 거리' }
+    ],
+    EN: [
+      { name: '🗼 Yongdusan Park', desc: 'Scenic hilltop with Busan Diamond Tower' },
+      { name: '🛍️ Gwangbok Fashion Street', desc: 'Vibrant retail stores, cosmetics & cafes' }
+    ]
+  },
+  busan: {
+    KR: [
+      { name: '🥟 초량 밀면골목', desc: '부산역 하차 후 시원한 밀면 최고 추천' },
+      { name: '🏮 초량 이바구길', desc: '계단과 골목마다 옛 정취가 흐르는 역사 산책' }
+    ],
+    EN: [
+      { name: '🥟 Choryang Milmyeon Alley', desc: 'Ice-cold sweet & savory wheat noodles' },
+      { name: '🏮 Choryang Ibagu-gil', desc: 'Vintage hillside stairs & memorial walk' }
+    ]
+  },
+  suyeong: {
+    KR: [
+      { name: '🌾 수영사적공원', desc: '수령 수백 년의 고목이 반겨주는 문화 공원' },
+      { name: '🐟 민락수변공원', desc: '광안대교 다리를 마주 보며 산책하는 수변' }
+    ],
+    EN: [
+      { name: '🌾 Suyeong Sajeok Park', desc: 'Shaded historical site with giant ancient trees' },
+      { name: '🐟 Millak Waterfront Park', desc: 'Wide plaza designed for scenic breezes' }
+    ]
+  },
+  jagalchi: {
+    KR: [
+      { name: '🐟 자갈치 시장', desc: '다채로운 어류와 부산 사투리가 정겨운 시장' },
+      { name: '🎬 국제시장 & BIFF광장', desc: '먹거리 씨앗호떡과 생활 잡화 미로 정취' }
+    ],
+    EN: [
+      { name: '🐟 Jagalchi Fish Market', desc: 'Vibrant coastal market for ultra-fresh fish' },
+      { name: '🎬 Gukje Market & BIFF Sq.', desc: 'Sweet Hotteok stalls & classic alleys' }
+    ]
+  }
+};
+
+const getNearbyPlaces = (stationId: string, lang: 'KR' | 'EN'): NearbyPlace[] => {
+  return STATION_PLACES_DATA[stationId]?.[lang] || [];
+};
+
 export default function App() {
   const [currentTab, setCurrentTab] = useState<string>('home');
   const [language, setLanguage] = useState<'KR' | 'EN'>('KR');
@@ -881,7 +983,7 @@ export default function App() {
                       </div>
 
                       {/* Locker Information Row */}
-                      <div className="bg-slate-50/80 p-3 rounded-xl border border-slate-100 flex flex-col gap-2.5 text-xs mb-1">
+                      <div className="bg-slate-50/80 p-3 rounded-xl border border-slate-100 flex flex-col gap-2.5 text-xs mb-3">
                         <div className="flex items-center justify-between border-b border-slate-200/50 pb-2">
                           <span className="font-bold text-slate-700 flex items-center gap-1.5">
                             <span className="text-sm font-sans">🗄️</span>
@@ -893,6 +995,31 @@ export default function App() {
                         </div>
                         <div className="w-full text-right" title={getLockerInfoText(station.id, language)}>
                           {renderLockerInfo(station.id, language)}
+                        </div>
+                      </div>
+
+                      {/* Nearby Attractions Row */}
+                      <div className="bg-[#f0f9ff]/70 p-3 rounded-xl border border-sky-100/50 flex flex-col gap-2.5 text-xs">
+                        <div className="flex items-center justify-between border-b border-sky-100 pb-2">
+                          <span className="font-bold text-sky-900 flex items-center gap-1.5">
+                            <span className="text-sm">📍</span>
+                            <span className="font-extrabold text-[12px]">{language === 'KR' ? '주변 가볼 만한 곳' : 'Nearby Attractions'}</span>
+                          </span>
+                          <span className="text-[10px] text-sky-500 font-semibold">
+                            {language === 'KR' ? '추천 미니 가이드' : 'Recommended spots'}
+                          </span>
+                        </div>
+                        <div className="flex flex-col gap-1.5">
+                          {getNearbyPlaces(station.id, language).map((place, idx) => (
+                            <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between gap-0.5 sm:gap-2 bg-white/70 p-1.5 px-2.5 rounded-lg border border-sky-100/20">
+                              <span className="font-extrabold text-sky-950 text-[11px] sm:text-[12px] shrink-0">
+                                {place.name}
+                              </span>
+                              <span className="text-slate-500 text-[10px] sm:text-[11px] text-left sm:text-right font-semibold">
+                                {place.desc}
+                              </span>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
