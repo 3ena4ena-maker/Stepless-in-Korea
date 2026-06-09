@@ -535,7 +535,7 @@ export default function App() {
       try {
         const parsed = JSON.parse(saved) as TravelerRecommendation[];
         // Auto-update default items if they are present but have old values in localStorage
-        return parsed.map(rec => {
+        const updated = parsed.map(rec => {
           const defaultMatch = DEFAULT_RECOMMENDATIONS.find(d => d.id === rec.id);
           if (defaultMatch) {
             return {
@@ -547,6 +547,20 @@ export default function App() {
           }
           return rec;
         });
+
+        // Ensure missing default items (like newly added ones) are always populated
+        const missingDefaults = DEFAULT_RECOMMENDATIONS.filter(
+          d => !updated.some(rec => rec.id === d.id)
+        );
+
+        if (missingDefaults.length > 0) {
+          // Keep default recommendations sorted appropriately (e.g. at the bottom or top)
+          const merged = [...updated, ...missingDefaults];
+          localStorage.setItem('busan_traveler_recs', JSON.stringify(merged));
+          return merged;
+        }
+
+        return updated;
       } catch (e) {
         console.error(e);
       }
