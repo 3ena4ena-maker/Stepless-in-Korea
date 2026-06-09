@@ -565,6 +565,9 @@ export default function App() {
   // Delete confirmation state to avoid window.confirm (iframe safety)
   const [deleteConfId, setDeleteConfId] = useState<string | null>(null);
 
+  // Category filter state for traveler recommendations board
+  const [filterCategory, setFilterCategory] = useState<string>('ALL');
+
   useEffect(() => {
     localStorage.setItem('busan_traveler_recs', JSON.stringify(recommendations));
   }, [recommendations]);
@@ -1443,27 +1446,59 @@ export default function App() {
 
                 {/* Recommendations List (7 cols on lg) */}
                 <div className="lg:col-span-7 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-extrabold text-slate-800 flex items-center gap-1.5">
-                      <span>🙌</span>
-                      <span>{language === 'KR' ? '다른 여행객들의 추천 게시판' : 'Travelers Recommendation Feed'}</span>
-                      <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-bold ml-1 font-sans">
-                        {recommendations.length}
-                      </span>
-                    </h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-extrabold text-slate-800 flex items-center gap-1.5">
+                        <span>🙌</span>
+                        <span>{language === 'KR' ? '다른 여행객들의 추천 게시판' : 'Travelers Recommendation Feed'}</span>
+                        <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-bold ml-1 font-sans">
+                          {recommendations.length}
+                        </span>
+                      </h3>
+                    </div>
+
+                    {/* Category Filter Tabs */}
+                    <div className="flex flex-wrap gap-1.5 pb-0.5">
+                      {[
+                        { id: 'ALL', labelKr: '전체', labelEn: 'All', icon: '✨' },
+                        { id: 'FOOD', labelKr: '음식점', labelEn: 'Food', icon: '🍕' },
+                        { id: 'CAFE', labelKr: '카페', labelEn: 'Cafe', icon: '☕' },
+                        { id: 'ATTRACTION', labelKr: '명소', labelEn: 'Attraction', icon: '🎡' },
+                        { id: 'TRANSIT', labelKr: '교통 꿀팁', labelEn: 'Transit', icon: '🚇' },
+                        { id: 'OTHER', labelKr: '기타', labelEn: 'Other', icon: '💡' }
+                      ].map((cat) => {
+                        const isSelected = filterCategory === cat.id;
+                        return (
+                          <button
+                            key={cat.id}
+                            onClick={() => setFilterCategory(cat.id)}
+                            className={`px-3 py-1.5 rounded-full border text-xs font-bold transition-all duration-200 cursor-pointer flex items-center gap-1 ${
+                              isSelected
+                                ? 'bg-[#004481] text-white border-[#004481] shadow-sm'
+                                : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80 hover:border-slate-300'
+                            }`}
+                          >
+                            <span>{cat.icon}</span>
+                            <span>{language === 'KR' ? cat.labelKr : cat.labelEn}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
 
                   <div className="space-y-4 max-h-[560px] overflow-y-auto pr-1">
-                    {recommendations.length === 0 ? (
+                    {recommendations.filter(rec => filterCategory === 'ALL' || rec.category === filterCategory).length === 0 ? (
                       <div className="bg-white rounded-3xl p-8 border border-slate-100 text-center text-slate-400 font-semibold">
                         <HelpCircle className="w-12 h-12 text-slate-300 mx-auto mb-3" />
                         <p className="text-sm font-bold">
-                          {language === 'KR' ? '등록된 추천 팁이 없습니다. 첫 번째 팁을 남겨보세요!' : 'No recommendations yet. Be the first to add one!'}
+                          {language === 'KR' ? '해당 카테고리에 등록된 추천 팁이 없습니다.' : 'No recommendations in this category yet.'}
                         </p>
                       </div>
                     ) : (
-                      recommendations.map((rec) => {
-                        const isUpvoted = !!hasUpvoted[rec.id];
+                      recommendations
+                        .filter(rec => filterCategory === 'ALL' || rec.category === filterCategory)
+                        .map((rec) => {
+                          const isUpvoted = !!hasUpvoted[rec.id];
                         let categoryText = '';
                         let categoryColor = '';
                         switch (rec.category) {
@@ -1641,15 +1676,15 @@ export default function App() {
                             setAdminPasswordInput(e.target.value);
                             setAdminError('');
                           }}
-                          placeholder={language === 'KR' ? "운영자 비밀번호 (admin)" : "Password (admin)"}
+                          placeholder={language === 'KR' ? "운영자 비밀번호" : "Operator Password"}
                           className="flex-1 px-3 py-2 border border-slate-200 rounded-xl bg-white text-slate-800 font-sans font-medium focus:outline-none focus:ring-1 focus:ring-[#003466]/20 focus:border-[#003466] text-xs"
                           onKeyDown={(e) => {
                             if (e.key === 'Enter') {
-                              if (adminPasswordInput === 'admin' || adminPasswordInput === 'admin1234') {
+                              if (adminPasswordInput === '101801') {
                                 setIsAdminMode(true);
                                 setAdminError('');
                               } else {
-                                setAdminError(language === 'KR' ? '비밀번호가 오동작했습니다.' : 'Incorrect password.');
+                                setAdminError(language === 'KR' ? '비밀번호가 일치하지 않습니다.' : 'Incorrect password.');
                               }
                             }
                           }}
@@ -1657,7 +1692,7 @@ export default function App() {
                         <button
                           type="button"
                           onClick={() => {
-                            if (adminPasswordInput === 'admin' || adminPasswordInput === 'admin1234') {
+                            if (adminPasswordInput === '101801') {
                               setIsAdminMode(true);
                               setAdminError('');
                             } else {
