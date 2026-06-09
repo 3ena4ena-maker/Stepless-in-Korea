@@ -261,6 +261,50 @@ interface NearbyPlace {
   exits?: NearbyPlaceExit[];
 }
 
+export interface TravelerRecommendation {
+  id: string;
+  author: string;
+  topic: string;
+  category: 'FOOD' | 'CAFE' | 'ATTRACTION' | 'TRANSIT' | 'OTHER';
+  stationOrExit: string;
+  content: string;
+  upvotes: number;
+  createdAt: string;
+}
+
+const DEFAULT_RECOMMENDATIONS: TravelerRecommendation[] = [
+  {
+    id: 'rec-1',
+    author: 'BusanLover33',
+    topic: '이재모피자 서면점 & 부산역본점',
+    category: 'FOOD',
+    stationOrExit: '부산역 5번출구 / 전포역 7번출구 근처',
+    content: '이재모피자는 부산 로컬과 여행객 모두가 열광하는 최고의 치즈 피자 전문점입니다! 치즈 크러스트의 쫄깃함이 남달라요. 웨이팅이 기니 앱(테이블링 등)을 꼭 체크하세요.',
+    upvotes: 42,
+    createdAt: '2026-06-01T12:00:00Z'
+  },
+  {
+    id: 'rec-2',
+    author: 'NomadChris',
+    topic: '전포 사잇길 소품샵 & 빈티지 카페 골목',
+    category: 'CAFE',
+    stationOrExit: '전포역 4번 및 8번출구',
+    content: '전포 카페거리에서 조금만 위쪽으로 가면 나오는 사잇길에는 아기자기한 공방, 감성 넘치는 독립 서점, 개성 가득한 빈티지 편집숍들이 가득해요! 평탄하고 걸어 다니기 좋아 무장애 산책하기 최고입니다.',
+    upvotes: 28,
+    createdAt: '2026-06-03T15:30:00Z'
+  },
+  {
+    id: 'rec-3',
+    author: 'TransitPro',
+    topic: '알뜰 부산 지하철 1일 무제한 패스',
+    category: 'TRANSIT',
+    stationOrExit: '모든 부산 지하철역 발권기',
+    content: '하루 동안 지하철을 4회 이상 탈 계획이라면 개찰구 앞 자동발권기에서 판매하는 1일권(5,000원)이 가성비 최고입니다. 당일 하루 종일 횟수 제한 없이 편리하게 탑승하세요!',
+    upvotes: 35,
+    createdAt: '2026-06-05T09:15:00Z'
+  }
+];
+
 const STATION_PLACES_DATA: Record<string, Record<'KR' | 'EN', NearbyPlace[]>> = {
   seomyeon: {
     KR: [
@@ -481,6 +525,72 @@ export default function App() {
 
   // Active expanded exit details
   const [expandedExitNum, setExpandedExitNum] = useState<string | null>(null);
+
+  // Traveler Recommendations states
+  const [recommendations, setRecommendations] = useState<TravelerRecommendation[]>(() => {
+    const saved = localStorage.getItem('busan_traveler_recs');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return DEFAULT_RECOMMENDATIONS;
+  });
+
+  const [newRecAuthor, setNewRecAuthor] = useState('');
+  const [newRecTopic, setNewRecTopic] = useState('');
+  const [newRecCategory, setNewRecCategory] = useState<'FOOD' | 'CAFE' | 'ATTRACTION' | 'TRANSIT' | 'OTHER'>('FOOD');
+  const [newRecStation, setNewRecStation] = useState('');
+  const [newRecContent, setNewRecContent] = useState('');
+  const [hasUpvoted, setHasUpvoted] = useState<Record<string, boolean>>(() => {
+    const saved = localStorage.getItem('busan_traveler_upvotes');
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem('busan_traveler_recs', JSON.stringify(recommendations));
+  }, [recommendations]);
+
+  useEffect(() => {
+    localStorage.setItem('busan_traveler_upvotes', JSON.stringify(hasUpvoted));
+  }, [hasUpvoted]);
+
+  const handleAddRecommendation = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newRecAuthor.trim() || !newRecTopic.trim() || !newRecContent.trim()) return;
+
+    const newRec: TravelerRecommendation = {
+      id: `rec-${Date.now()}`,
+      author: newRecAuthor.trim(),
+      topic: newRecTopic.trim(),
+      category: newRecCategory,
+      stationOrExit: newRecStation.trim() || (language === 'KR' ? '모든 구역' : 'All Area'),
+      content: newRecContent.trim(),
+      upvotes: 0,
+      createdAt: new Date().toISOString()
+    };
+
+    setRecommendations(prev => [newRec, ...prev]);
+    setNewRecAuthor('');
+    setNewRecTopic('');
+    setNewRecCategory('FOOD');
+    setNewRecStation('');
+    setNewRecContent('');
+  };
+
+  const handleUpvote = (id: string) => {
+    if (hasUpvoted[id]) {
+      // Undo upvote
+      setRecommendations(prev => prev.map(rec => rec.id === id ? { ...rec, upvotes: rec.upvotes - 1 } : rec));
+      setHasUpvoted(prev => ({ ...prev, [id]: false }));
+    } else {
+      // Perform upvote
+      setRecommendations(prev => prev.map(rec => rec.id === id ? { ...rec, upvotes: rec.upvotes + 1 } : rec));
+      setHasUpvoted(prev => ({ ...prev, [id]: true }));
+    }
+  };
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'KR' ? 'EN' : 'KR');
@@ -1142,6 +1252,278 @@ export default function App() {
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Tab 3: TRAVEL TIPS VIEW */}
+          {currentTab === 'tips' && (
+            <div className="space-y-8 text-left animate-fade-in max-w-5xl mx-auto">
+              
+              {/* Header Info */}
+              <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] text-left">
+                <h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-slate-800 flex items-center gap-2">
+                  <span>💡</span>
+                  <span>{language === 'KR' ? '부산 여행 꿀팁 & 추천 정보' : 'Busan Travel Tips & Community Board'}</span>
+                </h2>
+                <p className="text-sm sm:text-base text-slate-500 mt-2 leading-relaxed">
+                  {language === 'KR' 
+                    ? '부산 여행 최고의 커뮤니티와 현지 여행객들이 직접 추천하는 유익한 교통/관광 꿀팁을 확인하고, 나만의 꿀팁을 다른 여행객들에게 추천해 보세요.' 
+                    : 'Discover premium traveling guides, local subway shortcuts, and custom recommendation spots curated by the global tourist community.'}
+                </p>
+              </div>
+
+              {/* Reddit Official Card (https://www.reddit.com/r/BusanTravelTips/) */}
+              <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#FF4500] to-[#E03A00] text-white p-6 sm:p-8 shadow-md">
+                <div className="absolute right-0 bottom-0 opacity-10 translate-x-8 translate-y-8">
+                  {/* Space for background decoration */}
+                  <span className="text-9xl font-bold font-sans">r/</span>
+                </div>
+                
+                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                  <div className="space-y-3 max-w-2xl text-left">
+                    <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold font-sans">
+                      <span>Reddit Community Portal</span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-black font-sans tracking-tight">
+                      r/BusanTravelTips
+                    </h3>
+                    <p className="text-sm text-amber-50/90 leading-relaxed font-semibold">
+                      {language === 'KR' 
+                        ? '전 세계 여행객들이 생생하게 소통하는 레딧의 대표 부산 여행 정보 서브레딧입니다. 교통수단, 휠체어/유모차 전철 관광 코스, 숨은 로컬 맛집 정보 등을 편리하게 확인해 볼 수 있습니다.' 
+                        : 'The premier Reddit hub where thousands of global travelers share authentic itineraries, barrier-free transit advice, and hidden gems in Busan.'}
+                    </p>
+                  </div>
+                  
+                  <a
+                    href="https://www.reddit.com/r/BusanTravelTips/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shrink-0 inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 active:scale-95 text-[#FF4500] font-extrabold tracking-tight transition-all shadow-md text-sm cursor-pointer whitespace-nowrap font-bold"
+                  >
+                    <span>{language === 'KR' ? '레딧 커뮤니티 방문하기' : 'Visit Subreddit'}</span>
+                    <ExternalLink className="w-4 h-4 text-[#FF4500] shrink-0" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Interactive Traveler Recommendations Board */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                {/* Submit Form (4 cols on lg) */}
+                <div className="lg:col-span-5 space-y-6">
+                  <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_4px_22px_rgba(0,0,0,0.02)] text-left">
+                    <h3 className="text-lg font-extrabold text-slate-800 border-b border-slate-100 pb-3 mb-4 flex items-center gap-1.5">
+                      <span className="text-base text-[#004481]">✍️</span>
+                      <span>{language === 'KR' ? '나만의 여행 팁 추천하기' : 'Add Your Travel Tip'}</span>
+                    </h3>
+
+                    <form onSubmit={handleAddRecommendation} className="space-y-4 text-xs font-semibold">
+                      {/* Author Card input */}
+                      <div>
+                        <label className="block text-slate-500 mb-1.5 font-bold">
+                          {language === 'KR' ? '👤 작성자 닉네임' : '👤 Your Nickname'}
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={newRecAuthor}
+                          onChange={(e) => setNewRecAuthor(e.target.value)}
+                          placeholder={language === 'KR' ? "예: 광안리갈매기" : "e.g., BusanTraveler"}
+                          className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-slate-800 font-sans font-medium focus:outline-none focus:ring-2 focus:ring-[#003466]/20 focus:border-[#003466] text-xs sm:text-sm"
+                        />
+                      </div>
+
+                      {/* Topic title */}
+                      <div>
+                        <label className="block text-slate-500 mb-1.5 font-bold">
+                          {language === 'KR' ? '✨ 추천 주제 / 장소명' : '✨ Topic or Spot Name'}
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={newRecTopic}
+                          onChange={(e) => setNewRecTopic(e.target.value)}
+                          placeholder={language === 'KR' ? "예: 광안대교 최고 뷰스팟" : "e.g., Gwangan Bridge Secret View"}
+                          className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-slate-800 font-sans font-medium focus:outline-none focus:ring-2 focus:ring-[#003466]/20 focus:border-[#003466] text-xs sm:text-sm"
+                        />
+                      </div>
+
+                      {/* Flex row for Category & Exit details */}
+                      <div className="grid grid-cols-2 gap-3">
+                        {/* Category */}
+                        <div>
+                          <label className="block text-slate-500 mb-1.5 font-bold">
+                            {language === 'KR' ? '📂 카테고리' : '📂 Category'}
+                          </label>
+                          <select
+                            value={newRecCategory}
+                            onChange={(e) => setNewRecCategory(e.target.value as any)}
+                            className="w-full px-3 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#003466]/20 text-xs sm:text-sm cursor-pointer"
+                          >
+                            <option value="FOOD">{language === 'KR' ? '음식점 🍕' : 'Food 🍕'}</option>
+                            <option value="CAFE">{language === 'KR' ? '카페 ☕' : 'Cafe ☕'}</option>
+                            <option value="ATTRACTION">{language === 'KR' ? '명소 🎡' : 'Attraction 🎡'}</option>
+                            <option value="TRANSIT">{language === 'KR' ? '교통 팁 🚇' : 'Transit Tip 🚇'}</option>
+                            <option value="OTHER">{language === 'KR' ? '기타 💡' : 'Other 💡'}</option>
+                          </select>
+                        </div>
+
+                        {/* Station/Exit Info */}
+                        <div>
+                          <label className="block text-slate-500 mb-1.5 font-bold">
+                            {language === 'KR' ? '🚇 관련 전철역 / 출구' : '🚇 Relevant Station / Exit'}
+                          </label>
+                          <input
+                            type="text"
+                            value={newRecStation}
+                            onChange={(e) => setNewRecStation(e.target.value)}
+                            placeholder={language === 'KR' ? "예: 전포역 7번출구" : "e.g., Jeonpo Exit 7"}
+                            className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-slate-800 font-sans font-medium focus:outline-none focus:ring-2 focus:ring-[#003466]/20 focus:border-[#003466] text-xs sm:text-sm"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Content text */}
+                      <div>
+                        <label className="block text-slate-500 mb-1.5 font-bold">
+                          {language === 'KR' ? '📝 추천 이유 & 상세 설명' : '📝 Recommendation & Details'}
+                        </label>
+                        <textarea
+                          required
+                          rows={4}
+                          value={newRecContent}
+                          onChange={(e) => setNewRecContent(e.target.value)}
+                          placeholder={language === 'KR' ? "여행자들을 위해 휠체어/유모차 이동 가능 여부, 소소한 방문 비법 등을 적어주세요!" : "Share useful access info, elevator status or helpful tips for other travelers!"}
+                          className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-slate-800 font-sans font-medium focus:outline-none focus:ring-2 focus:ring-[#003466]/20 focus:border-[#003466] text-xs sm:text-sm resize-none"
+                        />
+                      </div>
+
+                      <button
+                        type="submit"
+                        className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#004481] hover:bg-[#003466] active:scale-95 text-white font-extrabold tracking-tight transition-all text-xs sm:text-sm cursor-pointer shadow-sm mt-2 font-bold"
+                      >
+                        <Send className="w-4 h-4 shrink-0" />
+                        <span>{language === 'KR' ? '추천 등록하기' : 'Publish Recommendation'}</span>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+
+                {/* Recommendations List (7 cols on lg) */}
+                <div className="lg:col-span-7 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-extrabold text-slate-800 flex items-center gap-1.5">
+                      <span>🙌</span>
+                      <span>{language === 'KR' ? '다른 여행객들의 추천 게시판' : 'Travelers Recommendation Feed'}</span>
+                      <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-bold ml-1 font-sans">
+                        {recommendations.length}
+                      </span>
+                    </h3>
+                  </div>
+
+                  <div className="space-y-4 max-h-[560px] overflow-y-auto pr-1">
+                    {recommendations.length === 0 ? (
+                      <div className="bg-white rounded-3xl p-8 border border-slate-100 text-center text-slate-400">
+                        <HelpCircle className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+                        <p className="text-sm font-bold">
+                          {language === 'KR' ? '등록된 추천 팁이 없습니다. 첫 번째 팁을 남겨보세요!' : 'No recommendations yet. Be the first to add one!'}
+                        </p>
+                      </div>
+                    ) : (
+                      recommendations.map((rec) => {
+                        const isUpvoted = !!hasUpvoted[rec.id];
+                        let categoryText = '';
+                        let categoryColor = '';
+                        switch (rec.category) {
+                          case 'FOOD':
+                            categoryText = language === 'KR' ? '음식점 🍕' : 'Food 🍕';
+                            categoryColor = 'bg-rose-50 text-rose-700 border-rose-100';
+                            break;
+                          case 'CAFE':
+                            categoryText = language === 'KR' ? '카페 ☕' : 'Cafe ☕';
+                            categoryColor = 'bg-amber-50 text-amber-800 border-amber-100';
+                            break;
+                          case 'ATTRACTION':
+                            categoryText = language === 'KR' ? '명소 🎡' : 'Attraction 🎡';
+                            categoryColor = 'bg-indigo-50 text-indigo-700 border-indigo-100';
+                            break;
+                          case 'TRANSIT':
+                            categoryText = language === 'KR' ? '교통 꿀팁 🚇' : 'Transit 🚇';
+                            categoryColor = 'bg-emerald-50 text-emerald-700 border-emerald-100';
+                            break;
+                          default:
+                            categoryText = language === 'KR' ? '기타 💡' : 'Other 💡';
+                            categoryColor = 'bg-slate-50 text-slate-600 border-slate-100';
+                        }
+
+                        return (
+                          <div 
+                            key={rec.id}
+                            className="bg-white p-5 rounded-3xl border border-slate-100/80 shadow-[0_3px_15px_rgba(0,0,0,0.015)] space-y-3.5 text-left transition-all hover:border-slate-200/50"
+                          >
+                            {/* Author & Header meta */}
+                            <div className="flex flex-wrap items-center justify-between gap-2.5">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs font-bold text-slate-700">
+                                  {rec.author}
+                                </span>
+                                <span className="text-[10px] text-slate-400 font-semibold font-sans">
+                                  {new Date(rec.createdAt).toLocaleDateString(language === 'KR' ? 'ko-KR' : 'en-US', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                  })}
+                                </span>
+                              </div>
+                              <div className="flex gap-1.5 items-center">
+                                <span className={`text-[10px] font-extrabold border px-2.5 py-0.5 rounded-full ${categoryColor}`}>
+                                  {categoryText}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Topic & Content */}
+                            <div className="space-y-1">
+                              <h4 className="text-sm sm:text-base font-extrabold text-slate-800 flex items-center gap-1.5">
+                                <span className="w-1.5 h-1.5 bg-[#004481] rounded-full shrink-0" />
+                                <span>{rec.topic}</span>
+                              </h4>
+                              
+                              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed bg-slate-50/50 p-3 rounded-2xl border border-slate-100/50 whitespace-pre-wrap font-sans">
+                                {rec.content}
+                              </p>
+                            </div>
+
+                            {/* Foot bar with Exit detail & Upvote Action */}
+                            <div className="flex items-center justify-between gap-4 pt-1 border-t border-slate-100/50">
+                              <span className="text-[10px] sm:text-xs text-slate-400 font-bold flex items-center gap-1 font-sans">
+                                <span className="text-slate-500">🚇</span>
+                                <span className="text-slate-500">{language === 'KR' ? '추천 역/출구:' : 'Station/Exit:'}</span> 
+                                <span className="text-[#004481] font-extrabold">{rec.stationOrExit}</span>
+                              </span>
+
+                              <button
+                                onClick={() => handleUpvote(rec.id)}
+                                className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border text-xs font-extrabold transition-all cursor-pointer font-bold ${
+                                  isUpvoted 
+                                    ? 'bg-[#004481] text-white border-[#004481] shadow-sm scale-95' 
+                                    : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300'
+                                }`}
+                              >
+                                <ThumbsUp className={`w-3.5 h-3.5 ${isUpvoted ? 'fill-white' : ''}`} />
+                                <span>{rec.upvotes}</span>
+                              </button>
+                            </div>
+
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
+
+              </div>
+
             </div>
           )}
 
