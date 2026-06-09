@@ -301,7 +301,7 @@ const DEFAULT_RECOMMENDATIONS: TravelerRecommendation[] = [
     topic: '알뜰 부산 지하철 1일 무제한 패스',
     category: 'TRANSIT',
     stationOrExit: '모든 부산 지하철역 발권기',
-    content: '하루 동안 지하철을 4회 이상 탈 계획이라면 개찰구 앞 자동발권기에서 판매하는 1일권(5,000원)이 가성비 최고입니다. 당일 하루 종일 횟수 제한 없이 편리하게 탑승하세요!',
+    content: '하루 동안 지하철을 4회 이상 탈 계획이라면 1일권(정기승차권)을 사서 이용하는게 저렴해요! 어른 6,000원, 청소년 4,000원이고 1일권은 최초 사용 당일 부산 지하철 1 ~ 4호선에서 횟수 제한 없이 이용할 수 있어요!',
     upvotes: 35,
     createdAt: '2026-06-05T09:15:00Z'
   }
@@ -533,7 +533,20 @@ export default function App() {
     const saved = localStorage.getItem('busan_traveler_recs');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved) as TravelerRecommendation[];
+        // Auto-update default items if they are present but have old values in localStorage
+        return parsed.map(rec => {
+          const defaultMatch = DEFAULT_RECOMMENDATIONS.find(d => d.id === rec.id);
+          if (defaultMatch) {
+            return {
+              ...rec,
+              content: defaultMatch.content,
+              topic: defaultMatch.topic,
+              stationOrExit: defaultMatch.stationOrExit
+            };
+          }
+          return rec;
+        });
       } catch (e) {
         console.error(e);
       }
