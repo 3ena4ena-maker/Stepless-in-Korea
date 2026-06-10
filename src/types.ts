@@ -32,6 +32,7 @@ export interface ExitInfo {
   naverMapUrl: string; // Navigation link
   pathwayTimeline: PathStep[]; // Steps from Platform to Ground or vice versa
   facilityDirection?: 'UP' | 'DOWN' | 'BOTH'; // 상행(UP), 하행(DOWN), 둘다 가능(BOTH)
+  hasCrosswalk?: boolean; // Has a pedestrian crossing / crosswalk immediately nearby
 }
 
 export interface Station {

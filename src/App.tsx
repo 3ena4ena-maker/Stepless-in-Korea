@@ -1029,8 +1029,8 @@ export default function App() {
                         <div className="flex items-start justify-between gap-3 flex-wrap">
                           <div className="space-y-1.5">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <h3 className="text-lg sm:text-xl font-extrabold text-slate-800 font-heading">
-                                {getExitDisplayName(activeStation.name, exit.number, language)}
+                              <h3 className="text-lg sm:text-xl font-extrabold text-slate-800 font-heading flex items-center gap-2">
+                                <span>{getExitDisplayName(activeStation.name, exit.number, language)}</span>
                               </h3>
                             </div>
                             

@@ -1,6 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Station, translateExitNumber } from '../types';
 
+export function CrosswalkIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" xmlns="http://www.w3.org/2000/svg" className="inline-block shrink-0 align-middle">
+      <g fill="#2563eb">
+        <polygon points="4.5,5 5.5,5 2.5,19 0.5,19" />
+        <polygon points="6.5,5 7.5,5 5.5,19 3.7,19" />
+        <polygon points="8.5,5 9.5,5 8.5,19 6.8,19" />
+        <polygon points="10.5,5 11.5,5 11.3,19 9.8,19" />
+        <polygon points="12.5,5 13.5,5 14.2,19 12.7,19" />
+        <polygon points="14.5,5 15.5,5 17.2,19 15.5,19" />
+        <polygon points="16.5,5 17.5,5 20.3,19 18.5,19" />
+        <polygon points="18.5,5 19.5,5 23.5,19 21.5,19" />
+      </g>
+    </svg>
+  );
+}
+
 interface SubwayStationMapProps {
   station: Station;
   language: 'KR' | 'EN';
@@ -209,7 +226,7 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
       const markerContent = `
         <div style="width: ${markerWidth}px; height: ${markerHeight}px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative; pointer-events: none;">
           <!-- Premium bubble label containing exit name and its mobility SVG icon -->
-          <div style="background-color: white; border: 2.5px solid ${mapAccentColor}; border-radius: 9999px; padding: 5px 12px; font-weight: 850; font-size: 11px; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 4.5px; pointer-events: auto;">
+          <div style="background-color: white; border: 2.5px solid ${mapAccentColor}; border-radius: 9999px; padding: 5px 12px; font-weight: 850; font-size: 11px; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 4.5px; pointer-events: auto; position: relative; margin-bottom: 2px;">
             <div style="display: flex; align-items: center; justify-content: center; width: 16px; height: 16px;">${iconHtml}</div>
             <span style="color: #0f172a; font-family: system-ui, sans-serif; letter-spacing: -0.02em; font-weight: 900;">${translateExitNumber(exit.number, language)}</span>
           </div>
@@ -246,6 +263,49 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
 
       markersRef.current.push(marker);
     });
+
+    // Add custom crosswalk indicators for Seomyeon Station
+    if (station.id === 'seomyeon') {
+      const crosswalkPoints = [
+        { lat: 35.156981, lng: 129.057776, nameKr: '서면역 부근 횡단보도 1', nameEn: 'Seomyeon Station Crosswalk 1' },
+        { lat: 35.157765, lng: 129.060084, nameKr: '서면역 부근 횡단보도 2', nameEn: 'Seomyeon Station Crosswalk 2' }
+      ];
+      
+      const crosswalkMarkerWidth = 32;
+      const crosswalkMarkerHeight = 32;
+      
+      crosswalkPoints.forEach(pt => {
+        const titleText = language === 'KR' ? pt.nameKr : pt.nameEn;
+        const crosswalkHtml = `
+          <div style="width: ${crosswalkMarkerWidth}px; height: ${crosswalkMarkerHeight}px; display: flex; align-items: center; justify-content: center; background-color: #ffffff; border: 2.5px solid #2563eb; border-radius: 9999px; box-shadow: 0 3px 10px rgba(0,0,0,0.18); cursor: pointer;" title="${titleText}">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block;">
+              <g fill="#2563eb">
+                <polygon points="4.5,5 5.5,5 2.5,19 0.5,19" />
+                <polygon points="6.5,5 7.5,5 5.5,19 3.7,19" />
+                <polygon points="8.5,5 9.5,5 8.5,19 6.8,19" />
+                <polygon points="10.5,5 11.5,5 11.3,19 9.8,19" />
+                <polygon points="12.5,5 13.5,5 14.2,19 12.7,19" />
+                <polygon points="14.5,5 15.5,5 17.2,19 15.5,19" />
+                <polygon points="16.5,5 17.5,5 20.3,19 18.5,19" />
+                <polygon points="18.5,5 19.5,5 23.5,19 21.5,19" />
+              </g>
+            </svg>
+          </div>
+        `;
+        
+        const crosswalkMarker = new window.naver.maps.Marker({
+          position: new window.naver.maps.LatLng(pt.lat, pt.lng),
+          map: mapInstance.current,
+          icon: {
+            content: crosswalkHtml,
+            size: new window.naver.maps.Size(crosswalkMarkerWidth, crosswalkMarkerHeight),
+            anchor: new window.naver.maps.Point(crosswalkMarkerWidth * 0.5, crosswalkMarkerHeight * 0.5)
+          }
+        });
+        
+        markersRef.current.push(crosswalkMarker);
+      });
+    }
 
   }, [station, scriptLoaded, focusedExitCoords, language]);
 
@@ -289,11 +349,17 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
       {/* Information Tip Bar */}
       <div className="bg-slate-50/80 px-4 py-3 flex items-center gap-2.5 border-t border-slate-100">
         <span className="text-base sm:text-lg leading-none select-none">💡</span>
-        <p className="text-[11.5px] sm:text-xs font-bold text-slate-600 leading-normal">
-          {language === 'KR' 
-            ? '지도를 확대하시면 역 주변의 횡단보도 위치를 더욱 자세히 확인하실 수 있습니다.' 
-            : 'Zoom in on the map to find nearby crosswalk positions in greater detail.'}
-        </p>
+        <div className="text-[11.5px] sm:text-xs font-bold text-slate-600 leading-normal flex items-center gap-1.5 flex-wrap">
+          {language === 'KR' ? (
+            <>
+              지도의 <CrosswalkIcon size={16} /> 아이콘은 해당 위치에 횡단보도가 설치되어 있음을 나타냅니다.
+            </>
+          ) : (
+            <>
+              The <CrosswalkIcon size={16} /> icon on the map indicates that there is a pedestrian crosswalk located at that position.
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
