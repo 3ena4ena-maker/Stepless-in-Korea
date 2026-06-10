@@ -55,6 +55,9 @@ const TRAVEL_WORDS_MAP: Record<string, string> = {
   '광안역': 'Gwangan Station',
   '남포역': 'Nampo Station',
   '자갈치역': 'Jagalchi Station',
+  '영도대교': 'Yeongdo Bridge',
+  '영도': 'Yeongdo',
+  '대교': 'Bridge',
   '피자': 'Pizza',
   '치즈': 'Cheese',
   '크러스트': 'Crust',
@@ -98,6 +101,35 @@ const TRAVEL_WORDS_MAP: Record<string, string> = {
   '여행객': 'travelers',
   '모두': 'all',
   '열광하는': 'enthusiastic / crazy-about',
+  
+  // Newly added verbs and adjectives to optimize natural language fallback
+  '걸어가기': 'Walking across',
+  '걸어가도': 'Even if walking',
+  '걸어갈 수': 'can walk',
+  '완전 강추': 'Highly recommended',
+  '강추': 'Highly recommended',
+  '몰랐어요': "didn't know",
+  '좋았어요': 'it was excellent / loved it',
+  '구경할 수 있어서': 'could sightsee',
+  '배도 구경할': 'can also watch the boats',
+  '배': 'boat/ship',
+  '그리고': 'and',
+  '있어서': 'because there is',
+  '식당': 'restaurant',
+  '맛집': 'famous hot place',
+  '맛있음': 'delicious',
+  '맛있어요': 'delicious',
+  '정말': 'really',
+  '진짜': 'really',
+  '매우': 'very',
+  '사람': 'people',
+  '시간': 'time',
+  '의': 'of',
+  '으로': 'to',
+  '에서': 'at/from',
+  '까지': 'until',
+  '과': 'and',
+  '와': 'and',
 };
 
 // Fixed translation dictionary for the default recommendations to guarantee perfect output
@@ -151,11 +183,44 @@ export function translateTextFallback(text: string): string {
   translated = translated.replace(/(\d+)번\s*출구/g, "Exit $1");
   translated = translated.replace(/(\d+)번\s*출입/g, "Exit $1");
 
-  // If there are still Hangeul Jamo or characters, clean up or romanize them gently
+  // If there are still Hangeul Jamo or characters, clean up or romanize them gently (only for names/short stations)
   const hasHangeul = /[가-힣]/.test(translated);
   if (hasHangeul) {
     translated = romanizeKoreanWord(translated);
   }
+
+  return translated;
+}
+
+// Fallback specifically for topics/titles and description content. 
+// It replaces known travel words, but leaves other Korean characters as Hangeul.
+// This prevents phonetic romanization (e.g., "Geoleogal Su") which native English speakers find completely unreadable and annoying.
+export function translateTopicOrContentFallback(text: string): string {
+  if (!text) return "";
+
+  let translated = text;
+
+  // Replace terms from TRAVEL_WORDS_MAP
+  Object.entries(TRAVEL_WORDS_MAP).forEach(([kr, en]) => {
+    const regex = new RegExp(kr, 'g');
+    translated = translated.replace(regex, en);
+  });
+
+  // Replace explicit station patterns (e.g. "서면역" -> "Seomyeon Station")
+  translated = translated.replace(/([가-힣a-zA-Z0-9]+역?)\s*(\d+)번\s*출구/g, (match, station, num) => {
+    let englishStation = station;
+    if (station.includes("서면")) englishStation = "Seomyeon Station";
+    else if (station.includes("전포")) englishStation = "Jeonpo Station";
+    else if (station.includes("부전")) englishStation = "Bujeon Station";
+    else if (station.includes("해운대")) englishStation = "Haeundae Station";
+    else if (station.includes("광안")) englishStation = "Gwangan Station";
+    else if (station.includes("남포")) englishStation = "Nampo Station";
+    else if (station.includes("자갈치")) englishStation = "Jagalchi Station";
+    else if (station.includes("부산")) englishStation = "Busan Station";
+    else englishStation = romanizeKoreanWord(station) + " Station";
+
+    return `${englishStation} Exit ${num}`;
+  });
 
   return translated;
 }
@@ -185,8 +250,8 @@ export function translateRecommendation(
 
   // 3. Otherwise, use our smart auto-translator fallback for user elements
   return {
-    topic: translateTextFallback(rec.topic),
-    content: translateTextFallback(rec.content),
+    topic: translateTopicOrContentFallback(rec.topic),
+    content: translateTopicOrContentFallback(rec.content),
     stationOrExit: translateTextFallback(rec.stationOrExit)
   };
 }

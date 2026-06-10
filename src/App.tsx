@@ -632,8 +632,9 @@ export default function App() {
     recommendations.forEach((rec) => {
       if (translatedRecsRef.current[rec.id] || currentFetching[rec.id]) return;
 
-      // Mark as fetching immediately in local tracker
+      // Mark as fetching immediately in local tracker and ref synchronously
       currentFetching[rec.id] = true;
+      translatingIdsRef.current[rec.id] = true;
       setTranslatingIds(prev => ({ ...prev, [rec.id]: true }));
 
       fetch("/api/translate", {
@@ -652,30 +653,78 @@ export default function App() {
         throw new Error("Translation API failed");
       })
       .then(data => {
-        setTranslatedRecs(prev => ({
-          ...prev,
-          [rec.id]: {
-            topic: data.topic,
-            content: data.content,
-            stationOrExit: data.stationOrExit
-          }
-        }));
+        setTranslatedRecs(prev => {
+          const updated = {
+            ...prev,
+            [rec.id]: {
+              topic: data.topic,
+              content: data.content,
+              stationOrExit: data.stationOrExit
+            }
+          };
+          localStorage.setItem('busan_traveler_recs_en', JSON.stringify(updated));
+          return updated;
+        });
       })
       .catch(err => {
         console.error("Translation failed for ID:", rec.id, err);
       })
       .finally(() => {
         setTranslatingIds(prev => ({ ...prev, [rec.id]: false }));
+        translatingIdsRef.current[rec.id] = false;
       });
     });
   }, [language, recommendations]);
+
+  const handleManualTranslate = (rec: TravelerRecommendation) => {
+    if (translatingIds[rec.id]) return;
+
+    setTranslatingIds(prev => ({ ...prev, [rec.id]: true }));
+    translatingIdsRef.current[rec.id] = true;
+
+    fetch("/api/translate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        topic: rec.topic,
+        content: rec.content,
+        stationOrExit: rec.stationOrExit
+      })
+    })
+    .then(res => {
+      if (res.ok) return res.json();
+      throw new Error("Translation failed");
+    })
+    .then(data => {
+      setTranslatedRecs(prev => {
+        const updated = {
+          ...prev,
+          [rec.id]: {
+            topic: data.topic,
+            content: data.content,
+            stationOrExit: data.stationOrExit
+          }
+        };
+        localStorage.setItem('busan_traveler_recs_en', JSON.stringify(updated));
+        return updated;
+      });
+    })
+    .catch(err => {
+      console.error("Manual translation failed:", err);
+    })
+    .finally(() => {
+      setTranslatingIds(prev => ({ ...prev, [rec.id]: false }));
+      translatingIdsRef.current[rec.id] = false;
+    });
+  };
 
   const handleAddRecommendation = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newRecAuthor.trim() || !newRecTopic.trim() || !newRecContent.trim()) return;
 
+    const newId = `rec-${Date.now()}`;
     const newRec: TravelerRecommendation = {
-      id: `rec-${Date.now()}`,
+      id: newId,
       author: newRecAuthor.trim(),
       topic: newRecTopic.trim(),
       category: newRecCategory,
@@ -690,6 +739,38 @@ export default function App() {
       const updated = [...prev, newRec.id];
       localStorage.setItem('busan_my_rec_ids', JSON.stringify(updated));
       return updated;
+    });
+
+    // Translate immediately upon submission to guarantee it's cached and ready instantly when switching language!
+    setTranslatingIds(prev => ({ ...prev, [newId]: true }));
+    fetch("/api/translate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        topic: newRec.topic,
+        content: newRec.content,
+        stationOrExit: newRec.stationOrExit
+      })
+    })
+    .then(res => {
+      if (res.ok) return res.json();
+      throw new Error("Translation failed");
+    })
+    .then(data => {
+      setTranslatedRecs(prev => ({
+        ...prev,
+        [newId]: {
+          topic: data.topic,
+          content: data.content,
+          stationOrExit: data.stationOrExit
+        }
+      }));
+    })
+    .catch(err => {
+      console.error("Instant translation failed:", err);
+    })
+    .finally(() => {
+      setTranslatingIds(prev => ({ ...prev, [newId]: false }));
     });
 
     setNewRecAuthor('');
@@ -1685,9 +1766,19 @@ export default function App() {
                                           </span>
                                         )}
                                         {isLocalTranslated && (
-                                          <span className="inline-flex items-center gap-0.5 text-[9px] bg-slate-50 text-slate-600 font-bold px-1.5 py-0.5 rounded border border-slate-200 cursor-default select-none animate-fade-in font-sans">
-                                            🌐 AUTO TRANSLATED
-                                          </span>
+                                          <div className="flex gap-1 ml-1 flex-wrap items-center">
+                                            <span className="inline-flex items-center gap-0.5 text-[9px] bg-slate-50 text-slate-600 font-bold px-1.5 py-0.5 rounded border border-slate-200 cursor-default select-none animate-fade-in font-sans">
+                                              🌐 AUTO TRANSLATED
+                                            </span>
+                                            <button
+                                              type="button"
+                                              onClick={() => handleManualTranslate(rec)}
+                                              className="inline-flex items-center gap-0.5 text-[9px] bg-sky-50 text-sky-700 font-extrabold px-1.5 py-0.5 rounded border border-sky-200 cursor-pointer animate-fade-in font-sans hover:bg-sky-100 hover:text-sky-800 transition-all active:scale-95"
+                                              title="Translate properly using Gemini AI"
+                                            >
+                                              ✨ Translate with Gemini AI
+                                            </button>
+                                          </div>
                                         )}
                                       </h4>
                                       
