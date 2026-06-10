@@ -626,10 +626,14 @@ export default function App() {
   useEffect(() => {
     if (language !== 'EN') return;
 
-    recommendations.forEach((rec) => {
-      if (translatedRecsRef.current[rec.id] || translatingIdsRef.current[rec.id]) return;
+    // Use a local copy to prevent duplicate network calls in the exact same loop tick
+    const currentFetching = { ...translatingIdsRef.current };
 
-      // Mark as translating
+    recommendations.forEach((rec) => {
+      if (translatedRecsRef.current[rec.id] || currentFetching[rec.id]) return;
+
+      // Mark as fetching immediately in local tracker
+      currentFetching[rec.id] = true;
       setTranslatingIds(prev => ({ ...prev, [rec.id]: true }));
 
       fetch("/api/translate", {

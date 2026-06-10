@@ -41,7 +41,7 @@ app.post("/api/translate", async (req, res) => {
     }
 
     const gemini = getGemini();
-    const prompt = `Translate the following travel recommendation details into natural English:
+    const prompt = `Translate and polish the following travel recommendation details into natural, tourist-friendly English:
 Topic: ${topic}
 Station/Exit: ${stationOrExit || ''}
 Content: ${content}`;
@@ -50,22 +50,39 @@ Content: ${content}`;
       model: "gemini-3.5-flash",
       contents: prompt,
       config: {
-        systemInstruction: "You are an expert translator translating travel tips and recommendations and transit guidance for tourists in Busan. Translate the input Korean texts to clear, friendly, and natural English keeping original vibe. Keep station names and exits in standard format (e.g. '서면역' -> 'Seomyeon Station', '전포역' -> 'Jeonpo Station', '5번 출구' -> 'Exit 5'). Respond STRICTLY under the requested JSON schema.",
+        systemInstruction: `You are an expert friendly editor and translator for Busan transit and travel guides. 
+Your task is to translate any Korean or mixed-language input text into natural, native, engaging, and professional tourist-friendly English.
+
+Follow these strict rules:
+1. If the input is in Korean or a mixture of Korean and English, translate it to native English while preserving a warm and inviting tone.
+2. If the input is already in English, refine and polish any grammar or broken phrases to make it sound perfect and native.
+3. Keep transit proper nouns in standard localized format:
+   - Station Name format: '[Name] Station' (e.g. '서면역' -> 'Seomyeon Station', '전포역' -> 'Jeonpo Station', '남포역' -> 'Nampo Station', '해운대역' -> 'Haeundae Station').
+   - Exit format: 'Exit [Number]' or 'Exits [Number 1] & [Number 2]' (e.g. '5번 출구' -> 'Exit 5', '7번출구' -> 'Exit 7').
+4. Local dishes/destinations should be explained warmly where fits, or romanized cleanly with readable names:
+   - '이재모피자' -> 'Lee Jae Mo Pizza'
+   - '돼지국밥' -> 'Pork Soup (Dwaeji-gukbap)'
+   - '밀면' -> 'Wheat Noodles (Milmyeon)'
+   - '광안대교' -> 'Gwangan Bridge (Gwangandaegyo)'
+   - '영도대교' -> 'Yeongdo Bridge'
+5. Make sure the output is polite, easy for tourists to read, and formatted nicely.
+
+Respond STRICTLY with a valid JSON object matching the requested schema. No conversational preamble.`,
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
           properties: {
             topic: {
               type: Type.STRING,
-              description: "The translated English title or topic"
+              description: "The translated English title/topic, polished beautifully"
             },
             stationOrExit: {
               type: Type.STRING,
-              description: "The translated English station or exit info"
+              description: "The translated English station name or exit details"
             },
             content: {
               type: Type.STRING,
-              description: "The translated English body content"
+              description: "The fully translated, warm, natural English body content"
             }
           },
           required: ["topic", "stationOrExit", "content"]
@@ -73,9 +90,15 @@ Content: ${content}`;
       }
     });
 
-    const text = response.text;
+    let text = response.text;
     if (!text) {
       throw new Error("Empty translation response from Gemini");
+    }
+
+    // Safely strip markdown backticks if returned in worst case
+    text = text.trim();
+    if (text.startsWith("```")) {
+      text = text.replace(/^```json\s*/i, "").replace(/```$/, "").trim();
     }
 
     const parsed = JSON.parse(text);

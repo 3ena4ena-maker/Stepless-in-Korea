@@ -1,5 +1,48 @@
 import { romanizeWord } from "./types";
 
+const INITIALS = [
+  'g', 'kk', 'n', 'd', 'tt', 'r', 'm', 'b', 'pp', 's', 'ss', '', 'j', 'jj', 'ch', 'k', 't', 'p', 'h'
+];
+const VOWELS = [
+  'a', 'ae', 'ya', 'yae', 'eo', 'e', 'yeo', 'ye', 'o', 'wa', 'wae', 'oe', 'yo', 'u', 'wo', 'we', 'wi', 'yu', 'eu', 'ui', 'i'
+];
+const FINALS = [
+  '', 'k', 'kk', 'ks', 'n', 'nj', 'nh', 'd', 'l', 'lg', 'lm', 'lb', 'ls', 'lt', 'lp', 'lh', 'm', 'b', 'bs', 's', 'ss', 'ng', 'j', 'ch', 'k', 't', 'p', 'h'
+];
+
+export function romanizeKoreanWord(word: string): string {
+  let result = '';
+  for (let i = 0; i < word.length; i++) {
+    const char = word[i];
+    const codePoint = char.charCodeAt(0);
+    if (codePoint >= 0xAC00 && codePoint <= 0xD7A3) {
+      const sIndex = codePoint - 0xAC00;
+      const lIndex = Math.floor(sIndex / 588);
+      const vIndex = Math.floor((sIndex % 588) / 28);
+      const tIndex = sIndex % 28;
+
+      let initPart = INITIALS[lIndex] || '';
+      const vowelPart = VOWELS[vIndex] || '';
+      const finalPart = FINALS[tIndex] || '';
+
+      // Capitalize first letter of words or after spacing
+      if (result === '' || /\s$/.test(result)) {
+        if (initPart) {
+          initPart = initPart.charAt(0).toUpperCase() + initPart.slice(1);
+        } else if (vowelPart) {
+          result += vowelPart.charAt(0).toUpperCase() + vowelPart.slice(1) + finalPart;
+          continue;
+        }
+      }
+
+      result += initPart + vowelPart + finalPart;
+    } else {
+      result += char;
+    }
+  }
+  return result;
+}
+
 // Full dictionary of common travel/eating words to translate traveler tips
 const TRAVEL_WORDS_MAP: Record<string, string> = {
   '이재모피자': 'Lee Jae Mo Pizza',
@@ -99,7 +142,7 @@ export function translateTextFallback(text: string): string {
     else if (station.includes("남포")) englishStation = "Nampo Station";
     else if (station.includes("자갈치")) englishStation = "Jagalchi Station";
     else if (station.includes("부산")) englishStation = "Busan Station";
-    else englishStation = romanizeWord(station) + " Station";
+    else englishStation = romanizeKoreanWord(station) + " Station";
 
     return `${englishStation} Exit ${num}`;
   });
@@ -111,9 +154,7 @@ export function translateTextFallback(text: string): string {
   // If there are still Hangeul Jamo or characters, clean up or romanize them gently
   const hasHangeul = /[가-힣]/.test(translated);
   if (hasHangeul) {
-    translated = translated.replace(/([가-힣]+)/g, (match) => {
-      return romanizeWord(match);
-    });
+    translated = romanizeKoreanWord(translated);
   }
 
   return translated;
