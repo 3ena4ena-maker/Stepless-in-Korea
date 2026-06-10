@@ -291,10 +291,9 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
       ];
     } else if (station.id === 'haeundae') {
       crosswalkPoints = [
-        { lat: 35.163438, lng: 129.158494, nameKr: '해운대역 부근 횡단보도 1', nameEn: 'Haeundae Station Crosswalk 1' },
-        { lat: 35.163556, lng: 129.158968, nameKr: '해운대역 부근 횡단보도 2', nameEn: 'Haeundae Station Crosswalk 2' },
-        { lat: 35.163198, lng: 129.159264, nameKr: '해운대역 부근 횡단보도 3', nameEn: 'Haeundae Station Crosswalk 3' },
-        { lat: 35.163297, lng: 129.158105, nameKr: '해운대역 부근 횡단보도 4', nameEn: 'Haeundae Station Crosswalk 4' }
+        { lat: 35.163103, lng: 129.159348, nameKr: '해운대역 부근 횡단보도 1', nameEn: 'Haeundae Station Crosswalk 1' },
+        { lat: 35.163592, lng: 129.159008, nameKr: '해운대역 부근 횡단보도 2', nameEn: 'Haeundae Station Crosswalk 2' },
+        { lat: 35.163422, lng: 129.158462, nameKr: '해운대역 부근 횡단보도 3', nameEn: 'Haeundae Station Crosswalk 3' }
       ];
     } else if (station.id === 'jagalchi') {
       crosswalkPoints = [
