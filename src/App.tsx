@@ -36,6 +36,7 @@ import TimelineVisualizer from './components/TimelineVisualizer';
 import SubwayStationMap from './components/SubwayStationMap';
 import { STATIONS, INITIAL_REPORTS } from './data';
 import { Station, ExitInfo, FacilityReport, StatusType, getExitDisplayName, translateExitNumber, getTranslatedStationName } from './types';
+import { translateRecommendation } from './utils';
 
 // Custom icons based on premium vector styles for seamless accessibility display
 const EscalatorIcon = ({ className = "w-5 h-5 text-slate-700 flex-shrink-0" }: { className?: string }) => (
@@ -602,6 +603,68 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('busan_traveler_upvotes', JSON.stringify(hasUpvoted));
   }, [hasUpvoted]);
+
+  // Automatic Translation States using server-side Gemini 3.5 Flash
+  const [translatedRecs, setTranslatedRecs] = useState<Record<string, { topic: string; content: string; stationOrExit: string }>>(() => {
+    const saved = localStorage.getItem('busan_traveler_recs_en');
+    return saved ? JSON.parse(saved) : {};
+  });
+  const [translatingIds, setTranslatingIds] = useState<Record<string, boolean>>({});
+
+  const translatedRecsRef = React.useRef(translatedRecs);
+  const translatingIdsRef = React.useRef(translatingIds);
+
+  useEffect(() => {
+    translatedRecsRef.current = translatedRecs;
+    localStorage.setItem('busan_traveler_recs_en', JSON.stringify(translatedRecs));
+  }, [translatedRecs]);
+
+  useEffect(() => {
+    translatingIdsRef.current = translatingIds;
+  }, [translatingIds]);
+
+  useEffect(() => {
+    if (language !== 'EN') return;
+
+    recommendations.forEach((rec) => {
+      if (translatedRecsRef.current[rec.id] || translatingIdsRef.current[rec.id]) return;
+
+      // Mark as translating
+      setTranslatingIds(prev => ({ ...prev, [rec.id]: true }));
+
+      fetch("/api/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          topic: rec.topic,
+          content: rec.content,
+          stationOrExit: rec.stationOrExit
+        })
+      })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error("Translation API failed");
+      })
+      .then(data => {
+        setTranslatedRecs(prev => ({
+          ...prev,
+          [rec.id]: {
+            topic: data.topic,
+            content: data.content,
+            stationOrExit: data.stationOrExit
+          }
+        }));
+      })
+      .catch(err => {
+        console.error("Translation failed for ID:", rec.id, err);
+      })
+      .finally(() => {
+        setTranslatingIds(prev => ({ ...prev, [rec.id]: false }));
+      });
+    });
+  }, [language, recommendations]);
 
   const handleAddRecommendation = (e: React.FormEvent) => {
     e.preventDefault();
@@ -1588,23 +1651,59 @@ export default function App() {
                             </div>
 
                             {/* Topic & Content */}
-                            <div className="space-y-1">
-                              <h4 className="text-sm sm:text-base font-extrabold text-slate-800 flex items-center gap-1.5">
-                                <span className="w-1.5 h-1.5 bg-[#004481] rounded-full shrink-0" />
-                                <span>{rec.topic}</span>
-                              </h4>
-                              
-                              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed bg-slate-50/50 p-3 rounded-2xl border border-slate-100/50 whitespace-pre-wrap font-sans text-left">
-                                {rec.content}
-                              </p>
-                            </div>
+                            {(() => {
+                              const tRec = translateRecommendation(rec, language, translatedRecs[rec.id]);
+                              const isApiTranslated = language === 'EN' && !!translatedRecs[rec.id];
+                              const isLocalTranslated = language === 'EN' && !translatedRecs[rec.id] && (rec.id.startsWith('rec-') || /[가-힣]/.test(rec.topic));
+                              return (
+                                <div className="space-y-1">
+                                  {translatingIds[rec.id] && !translatedRecs[rec.id] ? (
+                                    <div className="space-y-2.5 animate-pulse py-2">
+                                      <div className="flex items-center gap-1.5">
+                                        <span className="w-1.5 h-1.5 bg-blue-300 rounded-full shrink-0 animate-ping" />
+                                        <div className="h-4 bg-slate-200/85 rounded-md w-1/3"></div>
+                                        <span className="text-[10px] text-slate-400 font-medium">Translating via Gemini AI...</span>
+                                      </div>
+                                      <div className="bg-slate-50/50 p-4 rounded-2xl border border-slate-100/50 space-y-2">
+                                        <div className="h-3 bg-slate-200/60 rounded w-5/6"></div>
+                                        <div className="h-3 bg-slate-200/60 rounded w-4/5"></div>
+                                        <div className="h-3 bg-slate-200/60 rounded w-2/3"></div>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <>
+                                      <h4 className="text-sm sm:text-base font-extrabold text-slate-800 flex items-center gap-1.5 flex-wrap">
+                                        <span className="w-1.5 h-1.5 bg-[#004481] rounded-full shrink-0" />
+                                        <span>{tRec.topic}</span>
+                                        {isApiTranslated && (
+                                          <span className="inline-flex items-center gap-0.5 text-[9px] bg-sky-50 text-sky-700 font-extrabold px-1.5 py-0.5 rounded border border-sky-100 cursor-default select-none animate-fade-in font-sans">
+                                            ✨ AI TRANSLATED
+                                          </span>
+                                        )}
+                                        {isLocalTranslated && (
+                                          <span className="inline-flex items-center gap-0.5 text-[9px] bg-slate-50 text-slate-600 font-bold px-1.5 py-0.5 rounded border border-slate-200 cursor-default select-none animate-fade-in font-sans">
+                                            🌐 AUTO TRANSLATED
+                                          </span>
+                                        )}
+                                      </h4>
+                                      
+                                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed bg-slate-50/50 p-3 rounded-2xl border border-slate-100/50 whitespace-pre-wrap font-sans text-left">
+                                        {tRec.content}
+                                      </p>
+                                    </>
+                                  )}
+                                </div>
+                              );
+                            })()}
 
                             {/* Foot bar with Exit detail & Upvote/Delete Actions */}
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1 border-t border-slate-100/50">
                               <span className="text-[10px] sm:text-xs text-slate-400 font-bold flex items-center gap-1 font-sans text-left">
                                 <span className="text-slate-500">🚇</span>
                                 <span className="text-slate-500">{language === 'KR' ? '추천 역/출구:' : 'Station/Exit:'}</span> 
-                                <span className="text-[#004481] font-extrabold">{rec.stationOrExit}</span>
+                                <span className="text-[#004481] font-extrabold">
+                                  {translateRecommendation(rec, language, translatedRecs[rec.id]).stationOrExit}
+                                </span>
                               </span>
 
                               <div className="flex items-center gap-2 justify-end font-semibold">
