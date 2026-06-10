@@ -264,13 +264,63 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
       markersRef.current.push(marker);
     });
 
-    // Add custom crosswalk indicators for Seomyeon Station
+    // Add custom crosswalk indicators
+    let crosswalkPoints: { lat: number; lng: number; nameKr: string; nameEn: string }[] = [];
     if (station.id === 'seomyeon') {
-      const crosswalkPoints = [
+      crosswalkPoints = [
         { lat: 35.156981, lng: 129.057776, nameKr: '서면역 부근 횡단보도 1', nameEn: 'Seomyeon Station Crosswalk 1' },
         { lat: 35.157765, lng: 129.060084, nameKr: '서면역 부근 횡단보도 2', nameEn: 'Seomyeon Station Crosswalk 2' }
       ];
-      
+    } else if (station.id === 'bujeon') {
+      crosswalkPoints = [
+        { lat: 35.160072, lng: 129.060950, nameKr: '부전역 부근 횡단보도 1', nameEn: 'Bujeon Station Crosswalk 1' },
+        { lat: 35.162038, lng: 129.062340, nameKr: '부전역 부근 횡단보도 2', nameEn: 'Bujeon Station Crosswalk 2' },
+        { lat: 35.162808, lng: 129.063141, nameKr: '부전역 부근 횡단보도 3', nameEn: 'Bujeon Station Crosswalk 3' },
+        { lat: 35.163751, lng: 129.064201, nameKr: '부전역 부근 횡단보도 4', nameEn: 'Bujeon Station Crosswalk 4' }
+      ];
+    } else if (station.id === 'gwangan') {
+      crosswalkPoints = [
+        { lat: 35.157177, lng: 129.112880, nameKr: '광안역 부근 횡단보도 1', nameEn: 'Gwangan Station Crosswalk 1' },
+        { lat: 35.157072, lng: 129.113787, nameKr: '광안역 부근 횡단보도 2', nameEn: 'Gwangan Station Crosswalk 2' }
+      ];
+    } else if (station.id === 'suyeong') {
+      crosswalkPoints = [
+        { lat: 35.164779, lng: 129.114637, nameKr: '수영역 부근 횡단보도 1', nameEn: 'Suyeong Station Crosswalk 1' },
+        { lat: 35.168071, lng: 129.114190, nameKr: '수영역 부근 횡단보도 2', nameEn: 'Suyeong Station Crosswalk 2' },
+        { lat: 35.167906, lng: 129.116710, nameKr: '수영역 부근 횡단보도 3', nameEn: 'Suyeong Station Crosswalk 3' }
+      ];
+    } else if (station.id === 'haeundae') {
+      crosswalkPoints = [
+        { lat: 35.163438, lng: 129.158494, nameKr: '해운대역 부근 횡단보도 1', nameEn: 'Haeundae Station Crosswalk 1' },
+        { lat: 35.163556, lng: 129.158968, nameKr: '해운대역 부근 횡단보도 2', nameEn: 'Haeundae Station Crosswalk 2' },
+        { lat: 35.163198, lng: 129.159264, nameKr: '해운대역 부근 횡단보도 3', nameEn: 'Haeundae Station Crosswalk 3' },
+        { lat: 35.163297, lng: 129.158105, nameKr: '해운대역 부근 횡단보도 4', nameEn: 'Haeundae Station Crosswalk 4' }
+      ];
+    } else if (station.id === 'jagalchi') {
+      crosswalkPoints = [
+        { lat: 35.097792, lng: 129.028350, nameKr: '자갈치역 부근 횡단보도 1', nameEn: 'Jagalchi Station Crosswalk 1' },
+        { lat: 35.097107, lng: 129.025660, nameKr: '자갈치역 부근 횡단보도 2', nameEn: 'Jagalchi Station Crosswalk 2' },
+        { lat: 35.098024, lng: 129.029357, nameKr: '자갈치역 부근 횡단보도 3', nameEn: 'Jagalchi Station Crosswalk 3' }
+      ];
+    } else if (station.id === 'nampo') {
+      crosswalkPoints = [
+        { lat: 35.097890, lng: 129.032372, nameKr: '남포역 부근 횡단보도 1', nameEn: 'Nampo Station Crosswalk 1' },
+        { lat: 35.098062, lng: 129.035629, nameKr: '남포역 부근 횡단보도 2', nameEn: 'Nampo Station Crosswalk 2' },
+        { lat: 35.098347, lng: 129.035651, nameKr: '남포역 부근 횡단보도 3', nameEn: 'Nampo Station Crosswalk 3' },
+        { lat: 35.098099, lng: 129.035297, nameKr: '남포역 부근 횡단보도 4', nameEn: 'Nampo Station Crosswalk 4' }
+      ];
+    } else if (station.id === 'jeonpo') {
+      crosswalkPoints = [
+        { lat: 35.154631, lng: 129.065389, nameKr: '전포역 부근 횡단보도 1', nameEn: 'Jeonpo Station Crosswalk 1' }
+      ];
+    } else if (station.id === 'busan') {
+      crosswalkPoints = [
+        { lat: 35.114853, lng: 129.039498, nameKr: '부산역 부근 횡단보도 1', nameEn: 'Busan Station Crosswalk 1' },
+        { lat: 35.115799, lng: 129.039960, nameKr: '부산역 부근 횡단보도 2', nameEn: 'Busan Station Crosswalk 2' }
+      ];
+    }
+    
+    if (crosswalkPoints.length > 0) {
       const crosswalkMarkerWidth = 32;
       const crosswalkMarkerHeight = 32;
       
