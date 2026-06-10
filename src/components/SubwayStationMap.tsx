@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Station, translateExitNumber } from '../types';
 
-export function CrosswalkIcon({ size = 18 }: { size?: number }) {
+export function CrosswalkIcon({ size = 18, className = '' }: { size?: number; className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" xmlns="http://www.w3.org/2000/svg" className="inline-block shrink-0 align-middle">
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" xmlns="http://www.w3.org/2000/svg" className={`inline-block shrink-0 align-middle ${className}`}>
       <g fill="#2563eb">
         <polygon points="4.5,5 5.5,5 2.5,19 0.5,19" />
         <polygon points="6.5,5 7.5,5 5.5,19 3.7,19" />
@@ -347,17 +347,17 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
       </div>
 
       {/* Information Tip Bar */}
-      <div className="bg-slate-50/80 px-4 py-3 flex items-center gap-2.5 border-t border-slate-100">
-        <span className="text-base sm:text-lg leading-none select-none">💡</span>
-        <div className="text-[11.5px] sm:text-xs font-bold text-slate-600 leading-normal flex items-center gap-1.5 flex-wrap">
+      <div className="bg-slate-50/80 px-4 py-2.5 flex items-start gap-2.5 border-t border-slate-100">
+        <span className="text-base sm:text-lg leading-none select-none mt-0.5">💡</span>
+        <div className="text-[11.5px] sm:text-xs font-bold text-slate-600 leading-relaxed pt-0.5">
           {language === 'KR' ? (
-            <>
-              지도의 <CrosswalkIcon size={16} /> 아이콘은 해당 위치에 횡단보도가 설치되어 있음을 나타냅니다.
-            </>
+            <span>
+              지도의 <CrosswalkIcon size={16} className="mx-0.5 -mt-0.5" /> 아이콘은 해당 위치에 횡단보도가 설치되어 있음을 나타냅니다.
+            </span>
           ) : (
-            <>
-              The <CrosswalkIcon size={16} /> icon on the map indicates that there is a pedestrian crosswalk located at that position.
-            </>
+            <span>
+              The <CrosswalkIcon size={16} className="mx-0.5 -mt-0.5" /> icon on the map indicates that there is a pedestrian crosswalk located at that position.
+            </span>
           )}
         </div>
       </div>
