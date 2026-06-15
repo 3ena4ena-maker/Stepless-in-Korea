@@ -188,7 +188,26 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
       else if (line === '동해') mapAccentColor = '#004960'; // 동해 블루
 
       let iconHtml = '';
-      if (exit.hasElevator) {
+      if (exit.hasElevator && exit.hasEscalator) {
+        iconHtml = `
+          <div style="display: flex; align-items: center; gap: 3px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="${mapAccentColor}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px; flex-shrink: 0; display: inline-block; vertical-align: middle;">
+              <rect x="3" y="3" width="18" height="18" rx="2.5" />
+              <path d="M 7.5 10 L 9.5 7 L 11.5 10 Z" fill="${mapAccentColor}" stroke="none" />
+              <path d="M 7.5 14 L 9.5 17 L 11.5 14 Z" fill="${mapAccentColor}" stroke="none" />
+              <line x1="14.5" y1="3" x2="14.5" y2="21" stroke-dasharray="2 2" stroke-width="1.5" />
+              <path d="M 14.5 12 L 17.5 12" />
+              <path d="M 17.5 12 L 16 10.5" />
+              <path d="M 17.5 12 L 16 13.5" />
+            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="${mapAccentColor}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px; flex-shrink: 0; display: inline-block; vertical-align: middle;">
+              <circle cx="10" cy="7.5" r="1.8" fill="${mapAccentColor}" stroke="none" />
+              <path d="M 10 10.2 L 10 14" stroke="${mapAccentColor}" stroke-width="2.5" stroke-linecap="round" />
+              <path d="M 3.5 19.5 L 7.5 19.5 C 9.5 19.5, 10.5 18, 12 15.5 L 15.5 10 C 17 8, 18 7, 20.5 7 L 22.5 7" />
+            </svg>
+          </div>
+        `;
+      } else if (exit.hasElevator) {
         iconHtml = `
           <svg viewBox="0 0 24 24" fill="none" stroke="${mapAccentColor}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; flex-shrink: 0; display: inline-block; vertical-align: middle;">
             <rect x="3" y="3" width="18" height="18" rx="2.5" />
@@ -227,7 +246,7 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
         <div style="width: ${markerWidth}px; height: ${markerHeight}px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative; pointer-events: none;">
           <!-- Premium bubble label containing exit name and its mobility SVG icon -->
           <div style="background-color: white; border: 2.5px solid ${mapAccentColor}; border-radius: 9999px; padding: 5px 12px; font-weight: 850; font-size: 11px; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 4.5px; pointer-events: auto; position: relative; margin-bottom: 2px;">
-            <div style="display: flex; align-items: center; justify-content: center; width: 16px; height: 16px;">${iconHtml}</div>
+            <div style="display: flex; align-items: center; justify-content: center; min-width: 16px; height: 16px;">${iconHtml}</div>
             <span style="color: #0f172a; font-family: system-ui, sans-serif; letter-spacing: -0.02em; font-weight: 900;">${translateExitNumber(exit.number, language)}</span>
           </div>
           <!-- Pin Arrow Indicator -->
@@ -316,6 +335,23 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
       crosswalkPoints = [
         { lat: 35.114853, lng: 129.039498, nameKr: '부산역 부근 횡단보도 1', nameEn: 'Busan Station Crosswalk 1' },
         { lat: 35.115799, lng: 129.039960, nameKr: '부산역 부근 횡단보도 2', nameEn: 'Busan Station Crosswalk 2' }
+      ];
+    } else if (station.id === 'geumnyeonsan') {
+      crosswalkPoints = [
+        { lat: 35.150313, lng: 129.111266, nameKr: '금련산역 부근 횡단보도 1', nameEn: 'Geumnyeonsan Station Crosswalk 1' },
+        { lat: 35.150413, lng: 129.110984, nameKr: '금련산역 부근 횡단보도 2', nameEn: 'Geumnyeonsan Station Crosswalk 2' }
+      ];
+    } else if (station.id === 'dongbaek') {
+      crosswalkPoints = [
+        { lat: 35.161513, lng: 129.147828, nameKr: '동백역 부근 횡단보도', nameEn: 'Dongbaek Station Crosswalk' }
+      ];
+    } else if (station.id === 'bexco') {
+      crosswalkPoints = [
+        { lat: 35.168088, lng: 129.137516, nameKr: '벡스코역 서측 횡단보도', nameEn: 'Bexco Station West Crosswalk' },
+        { lat: 35.168937, lng: 129.138359, nameKr: '벡스코역 7번 출구 방면 횡단보도', nameEn: 'Bexco Station Exit 7 Crosswalk' },
+        { lat: 35.168538, lng: 129.138828, nameKr: '벡스코역 남측 올림픽교차로 횡단보도', nameEn: 'Bexco Station South Intersection Crosswalk' },
+        { lat: 35.168988, lng: 129.139266, nameKr: '벡스코역 2·4번 출구 삼거리 횡단보도', nameEn: 'Bexco Station Exit 2/4 Intersection Crosswalk' },
+        { lat: 35.169338, lng: 129.138922, nameKr: '올림픽교차로 북측 횡단보도', nameEn: 'Olympic Intersection North Crosswalk' }
       ];
     }
     

@@ -1585,6 +1585,333 @@ const UNSORTED_STATIONS: Station[] = [
         ]
       }
     ]
+  },
+  {
+    id: 'geumnyeonsan',
+    name: '금련산역',
+    englishName: 'Geumnyeonsan Station',
+    lines: ['2'],
+    elevatorCount: 4,
+    escalatorCount: 6,
+    toiletLocation: '지하 1층 대합실 개찰구 외측 (5, 6번 출구 방향)',
+    isTransferStation: false,
+    accentColor: 'from-[#00a862] to-[#128a51]',
+    exits: [
+      {
+        number: '3번 출구',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: false,
+        facilityDirection: 'BOTH',
+        tip: '수영구청 및 광안리 방면으로 이동할 수 있는 최적의 엘리베이터 출구입니다. 유모차나 휠체어 이용 관광객이 인도 평탄면으로 편리하게 진퇴할 수 있도록 구성되어 있습니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '광안리 해수욕장, 남천동, 수영구청, 금련산 방면',
+        latitude: 35.150238,
+        longitude: 129.111297,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/금련산역 3번출구 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/금련산역 3번출구 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'gns3-step1',
+            name: '승강장 (B2F)',
+            desc: '2호선 승강장 하차 하선',
+            facilityType: 'ELEVATOR',
+            tip: '플랫폼 중앙에 설치된 무장애 전용 엘리베이터를 이용하여 지하 1층 대합실로 상향하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'gns3-step2',
+            name: '대합실 개찰구 (B1F)',
+            desc: '3번 출구 방면 안심 게이트',
+            facilityType: 'GATE',
+            tip: '교통약자 센서 개찰구를 안전하게 통과한 뒤, 통로 안쪽에 위치한 3번 지상 엘리베이터 타워로 진입하세요.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'gns3-step3',
+            name: '지상 수직 엘리베이터 (B1F ↔ 1F)',
+            desc: '3번 출구 앞 전용 보도 엘리베이터',
+            facilityType: 'ELEVATOR',
+            tip: '엘리베이터를 타고 지상 1층 인도로 진출한 뒤, 바다 방면 평탄 보도를 이용하여 광안리로 편리하게 진퇴하세요.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '4번 출구',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: false,
+        facilityDirection: 'BOTH',
+        tip: '광안리 해수욕장 및 대남교차로 평탄 방면으로 연계 가능한 또 다른 최적의 지상 엘리베이터 출구입니다. 유모차 장치나 휠체어 이용객이 인도 보행 시 방해요소 없이 안전하게 진출입할 수 있습니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '',
+        latitude: 35.150063,
+        longitude: 129.110859,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/금련산역 4번출구 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/금련산역 4번출구 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'gns4-step1',
+            name: '승강장 (B2F)',
+            desc: '2호선 승강장 하차 하선',
+            facilityType: 'ELEVATOR',
+            tip: '플랫폼 내부에 배치된 승강기 전용 엘리베이터를 이용해 지하 1층 대합실 영역으로 진입하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'gns4-step2',
+            name: '대합실 개찰구 (B1F)',
+            desc: '4번 출구 방면 넓은 전용 게이트',
+            facilityType: 'GATE',
+            tip: '교통약자 센서 개찰구를 통과한 뒤, 통로 안쪽의 4번 지상 출입로 엘리베이터 지중 스테이션을 이용해주십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'gns4-step3',
+            name: '지상 수직 엘리베이터 (B1F ↔ 1F)',
+            desc: '4번 출구 앞 주거상업 연계 엘리베이터',
+            facilityType: 'ELEVATOR',
+            tip: '지상 엘리베이터 하선 후 턱이 없고 장애물 노선이 정돈된 인도 보행로를 따라 광안리 바다 방향으로 안전하게 주파하십시오.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'dongbaek',
+    name: '동백역',
+    englishName: 'Dongbaek Station',
+    lines: ['2'],
+    elevatorCount: 3,
+    escalatorCount: 4,
+    toiletLocation: '지하 1층 대합실 내부 개찰구 밖 (1, 2번 출구 방향 사이)',
+    isTransferStation: false,
+    accentColor: 'from-[#00a862] to-[#04633a]',
+    exits: [
+      {
+        number: '4번 출구',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: false,
+        facilityDirection: 'BOTH',
+        tip: '동백역의 유일무이한 지상 연결 엘리베이터 출구입니다. 휠체어 및 유모차 이용 교통약자가 안전하게 지상 인도 평면으로 안착 가능한 단 하나의 배리어프리 무장애 코스입니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '수영 요트경기장, 마린시티, 동백섬, 더베이101',
+        latitude: 35.161738,
+        longitude: 129.147703,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/동백역 4번출구 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/동백역 4번출구 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'db4-step1',
+            name: '동백역 승강장 (B2F)',
+            desc: '2호선 승강 플랫폼 내 엘리베이터',
+            facilityType: 'ELEVATOR',
+            tip: '열차 하차 즉시 중앙의 교통약자 승하차 엘리베이터를 이용해 B1F 대합실로 진퇴하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'db4-step2',
+            name: '대합실 개찰 게이트 (B1F)',
+            desc: 'B1F 교통약자 넓은 안심 벨 게이트',
+            facilityType: 'GATE',
+            tip: '휠체어 겸용 게이트에 카드를 터치하고 전방의 4번 지상 수직형 엘리베이터 로비로 전진해주십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'db4-step3',
+            name: '지상 수직 엘리베이터 (B1F ↔ 1F)',
+            desc: '4번 출구 앞 배리어프리 엘리베이터',
+            facilityType: 'ELEVATOR',
+            tip: '지상 수직 직통 엘리베이터를 하선하여 단차와 장벽이 제거된 평탄 보도를 따라 우동 및 광안 방면으로 안전 승차하십시오.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'bexco',
+    name: '벡스코역',
+    englishName: 'BEXCO Station',
+    lines: ['2', '동해'],
+    elevatorCount: 6,
+    escalatorCount: 12,
+    toiletLocation: '2호선 지하 1층 대합실 내부 화장실 및 동해선 벡스코 환승센터 통로 앞',
+    isTransferStation: true,
+    accentColor: 'from-[#00a862] to-[#005BAC]',
+    alertNotice: '전시장 박람회 일정 시 교통약자 중심 구간이 크게 혼잡할 수 있으니 엘리베이터 승하차 시 서행 및 안전 주의바랍니다.',
+    exits: [
+      {
+        number: '2·4번 출구 사이',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: false,
+        facilityDirection: 'BOTH',
+        tip: '2호선 대합실과 지상을 경계 없이 연결하는 완벽한 무장애 수직 엘리베이터입니다. 승객 동선 턱이 없고 주변 보도가 쾌적하게 정돈되어 있습니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '',
+        latitude: 35.168663,
+        longitude: 129.139422,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/벡스코역 2번 4번 출구 사이 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/벡스코역 2번 4번 출구 사이 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'bx24-step1',
+            name: '벡스코역 승강장 (B2F)',
+            desc: '2호선 승강장 중앙 교통약자 승강기',
+            facilityType: 'ELEVATOR',
+            tip: '열차 하차 후 타는 곳 중앙에 설치된 엘리베이터를 타고 B1F 대합실로 올라가십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bx24-step2',
+            name: '대합실 개찰구 (B1F)',
+            desc: '넓은 시각장애인 유도선 연계 안심 게이트',
+            facilityType: 'GATE',
+            tip: '교통약자 와이드 전용 개찰구에 교통카드를 터치하고 나와 전방의 엘리베이터 방향으로 주파하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bx24-step3',
+            name: '지상 엘리베이터 (B1F ↔ 1F)',
+            desc: '2번·4번 출구 사이 지상 직통 승강기',
+            facilityType: 'ELEVATOR',
+            tip: '지상 수직 전용 엘리베이터를 타고 인도로 나오시면 턱이 없는 미술관 평탄로로 바로 연계됩니다.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '7번 출구',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: true,
+        facilityDirection: 'BOTH',
+        tip: '7번 출구 인근에 엘리베이터와 상·하행 에스컬레이터가 모두 완비되어 있어 휠체어와 유모차 이동객에게 최적의 무장애 연계를 제공합니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '환승정류장, 부산시립미술관, 벡스코, 올림픽기념 국민생활관',
+        latitude: 35.168638,
+        longitude: 129.138453,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/벡스코역 7번출구 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/벡스코역 7번출구 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'bx7-step1',
+            name: '벡스코역 승강장 (B2F)',
+            desc: '2호선 하차 후 승강장 내 수직 승강기',
+            facilityType: 'ELEVATOR',
+            tip: '승하차 구역의 대합실 행 엘리베이터를 탑승하여 지하 1층 게이트 구역으로 올라옵니다.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bx7-step2',
+            name: '대합실 개찰구 (B1F)',
+            desc: '7번 출구 방향 안심 전용 게이트',
+            facilityType: 'GATE',
+            tip: '개찰 게이트 통과 후 지상으로 이어지는 7번 통로의 에스컬레이터 혹은 엘리베이터로 탑승하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bx7-step3',
+            name: '지상 엘리베이터 및 에스컬레이터 (B1F ↔ 1F)',
+            desc: '7번 출구 전용 엘리베이터 및 상하행 기계기',
+            facilityType: 'ELEVATOR',
+            tip: '엘리베이터 혹은 편안한 에스컬레이터에 올라타 렉을 따라 턱 없는 지상 하이웨이 버스정류장 연계로로 바로 진출하십시오.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '9·11번 출구 사이',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: false,
+        facilityDirection: 'BOTH',
+        tip: '9번과 11번 출구 사이에 옥외 수직형 엘리베이터가 보행 동선 턱 없이 설계되어 실버 세대와 유모차 동반자가 대단히 수월하게 보도에 오르내릴 수 있습니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '벡스코, 부산시립미술관',
+        latitude: 35.168963,
+        longitude: 129.138109,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/벡스코역 9번 11번 출구 사이 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/벡스코역 9번 11번 출구 사이 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'bx911-step1',
+            name: '벡스코역 승강장 (B2F)',
+            desc: '2호선 승강장 중앙 교통약자 수직형 승강기',
+            facilityType: 'ELEVATOR',
+            tip: '내리신 후 중앙부의 승강장 장소 엘리베이터를 탑승해 지하 1층 대합실 통로로 올라오십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bx911-step2',
+            name: '대합실 개찰 게이트 (B1F)',
+            desc: '9번, 11번 출구 연계 와이드 케어 개찰구',
+            facilityType: 'GATE',
+            tip: '넓은 휠체어 전용 터치 게이트를 빠져나와 9번·11번 출구 사이 엘리베이터 홀 방향으로 전진합니다.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bx911-step3',
+            name: '지상 수직 엘리베이터 (B1F ↔ 1F)',
+            desc: '9·11번 출구 사이 배리어프리 직용 승강기',
+            facilityType: 'ELEVATOR',
+            tip: '지상 직통 승강기를 하선하여 미술관 및 벡스코 방면 평면 무장애 보도로 진퇴하십시오.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      },
+      {
+        number: '6번 출구',
+        isAccessible: true,
+        isStrollerFriendly: true,
+        hasElevator: true,
+        hasEscalator: false,
+        facilityDirection: 'BOTH',
+        tip: '6번 출구 방향에서 바깥 지상으로 직통 연결되는 수직 엘리베이터로서, 통로나 바닥 단차가 억제된 무장애 루트입니다.',
+        status: 'OPERATIONAL',
+        directionDesc: '우2동 종합시장',
+        latitude: 35.169463,
+        longitude: 129.138766,
+        kakaoMapUrl: 'https://map.kakao.com/link/search/벡스코역 6번출구 엘리베이터',
+        naverMapUrl: 'https://map.naver.com/v5/search/벡스코역 6번출구 엘리베이터',
+        pathwayTimeline: [
+          {
+            id: 'bx6-step1',
+            name: '벡스코역 승강장 (B2F)',
+            desc: '2호선 플랫폼 엘리베이터',
+            facilityType: 'ELEVATOR',
+            tip: '승하차 구역의 승강장에 마련된 수직 엘리베이터에 안착하여 B1F 대합실로 상극 진행합니다.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bx6-step2',
+            name: '대합실 개찰구 (B1F)',
+            desc: '6번 출구 전용 교통약자 케어 게이트',
+            facilityType: 'GATE',
+            tip: '터치형 와이드 전용 개찰구를 통과하여 6번 지상 전용 수직 엘리베이터 입구로 향하십시오.',
+            status: 'OPERATIONAL'
+          },
+          {
+            id: 'bx6-step3',
+            name: '지상 수직 엘리베이터 (B1F ↔ 1F)',
+            desc: '6번 출구 직용 수직 엘리베이터',
+            facilityType: 'ELEVATOR',
+            tip: '지상에 무사 도달하여 엘리베이터에서 내리시면 바로 우2동 종합시장 평탄 인도 보행 매장 구역입니다.',
+            status: 'OPERATIONAL'
+          }
+        ]
+      }
+    ]
   }
 ];
 

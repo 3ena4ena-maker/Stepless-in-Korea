@@ -74,6 +74,9 @@ const TRANSLATION_MAP: Record<string, string> = {
   '부산역': 'Busan Station',
   '수영역': 'Suyeong Station',
   '자갈치역': 'Jagalchi Station',
+  '금련산역': 'Geumnyeonsan Station',
+  '동백역': 'Dongbaek Station',
+  '벡스코역': 'BEXCO Station',
 
   // Common landmarks
   '롯데백화점': 'Lotte Department Store',
@@ -109,6 +112,13 @@ const TRANSLATION_MAP: Record<string, string> = {
   '전포테마거리': 'Jeonpo Theme Street',
   '광복로 패션거리': 'Gwangbok-ro Fashion Street',
   '놀이마루': 'Nolimaru',
+  '금련산': 'Geumnyeonsan',
+  '동백섬': 'Dongbaekseom Island',
+  '벡스코': 'BEXCO',
+  '마린시티': 'Marine City',
+  '시립미술관': 'Museum of Art',
+  '부산시립미술관': 'Busan Museum of Art',
+  '웨스틴조선': 'Westin Josun',
 
   // Schools / Public
   '초등학교': 'Elementary School',
@@ -180,6 +190,7 @@ export function romanizeWord(word: string): string {
     '행': 'haeng', '정': 'jeong', '복': 'bok', '동': 'dong', '주': 'ju', '산': 'san', '돌': 'dol', '파': 'pa',
     '출': 'chul', '사': 'sa', '잇': 'it', '길': 'gil', '테': 'te', '마': 'ma', '카': 'ka', '페': 'fe',
     '웹': 'web', '자': 'Ja', '갈': 'gal', '치': 'chi', '수': 'Su', '금': 'geum', '융': 'yung',
+    '련': 'ryeon', '백': 'baek', '벡': 'bek', '스': 'seu', '코': 'ko',
     '골': 'gol', '목': 'mok', '로': 'ro', '약': 'yak', '국': 'guk', '락': 'rak', '변': 'byeon',
     '한': 'Han', '바': 'ba', '다': 'da', '교': 'gyo', '차': 'cha', '종': 'jong', '합': 'hap', '팔': 'Pal',
     '필': 'Pil', '우': 'u', '체': 'che', '평': 'Pyeong', '깡': 'Kkang', '통': 'tong', '창': 'chang',

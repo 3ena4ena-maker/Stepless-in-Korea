@@ -22,6 +22,8 @@ import {
   ExternalLink,
   SlidersHorizontal,
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
   Plus,
   RefreshCw,
   Clock,
@@ -123,7 +125,13 @@ const STATION_LOCKER_DATA: Record<string, Record<string, LockerCount> | LockerCo
   gwangan: { small: 50, large: 20, xlarge: 10 },
   nampo: { small: 33, med: 46, xlarge: 42 },
   busan: { small: 18, med: 52, large: 6, xlarge: 36 },
-  jagalchi: { small: 34, med: 42, large: 4, xlarge: 27 }
+  jagalchi: { small: 34, med: 42, large: 4, xlarge: 27 },
+  geumnyeonsan: { small: 18, large: 8, xlarge: 4 },
+  dongbaek: { small: 12, large: 6, xlarge: 2 },
+  bexco: {
+    '2': { small: 32, large: 16, xlarge: 12 },
+    '동해': { small: 10, large: 4, xlarge: 4 }
+  }
 };
 
 const formatLockerCount = (data: LockerCount, lang: 'KR' | 'EN'): string => {
@@ -528,6 +536,9 @@ export default function App() {
 
   // Active expanded exit details
   const [expandedExitNum, setExpandedExitNum] = useState<string | null>(null);
+
+  // Track which stations have their attractions expanded in search/bento grid view (default collapsed)
+  const [expandedAttractions, setExpandedAttractions] = useState<Record<string, boolean>>({});
 
   // Traveler Recommendations states
   const [recommendations, setRecommendations] = useState<TravelerRecommendation[]>(() => {
@@ -1070,7 +1081,7 @@ export default function App() {
                     </span>
                   </div>
                   
-                  <div className="grid grid-cols-3 gap-2 sm:gap-4">
+                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-1.5 sm:gap-2.5">
                     {STATIONS.map(s => {
                       const isActive = selectedStationId === s.id;
                       return (
@@ -1082,18 +1093,62 @@ export default function App() {
                             // Keep all detailed pathways collapsed initially as requested
                             setExpandedExitNum(null);
                           }}
-                          className={`py-3 px-2 sm:py-4 rounded-2xl text-xs sm:text-base font-extrabold transition-all border flex flex-col items-center justify-center gap-1 cursor-pointer ${
+                          className={`min-h-[56px] sm:min-h-[64px] p-1 rounded-xl transition-all border flex flex-col items-center justify-center gap-0.5 cursor-pointer w-full overflow-hidden ${
                             isActive
                               ? 'bg-[#004481] text-white border-[#004481] shadow-md ring-4 ring-blue-50'
                               : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-150'
                           }`}
                         >
-                          <span className="leading-tight shrink-0 font-heading text-sm sm:text-lg">
-                            {language === 'KR' ? s.name : s.englishName}
-                          </span>
-                          <span className={`text-[9px] font-sans font-medium uppercase tracking-wider block ${isActive ? 'text-blue-100' : 'text-slate-400'}`}>
-                            {language === 'KR' ? s.englishName.split(' ')[0] : s.name}
-                          </span>
+                          {(() => {
+                            const cleanEng = s.englishName.replace(/\s*Station$/i, '').trim();
+                            const isChorKorean = language === 'KR';
+                            const isLongStation = ['geumnyeonsan', 'haeundae', 'seomyeon', 'dongbaek', 'gwangan', 'jagalchi'].includes(s.id);
+                            
+                            // Top text sizes (Korean or English)
+                            let topTextClass = "";
+                            if (isChorKorean) {
+                              topTextClass = "text-[12px] xs:text-[13px] sm:text-sm md:text-base";
+                            } else {
+                              if (s.id === 'geumnyeonsan') {
+                                topTextClass = "text-[7px] xs:text-[8px] sm:text-[10px] md:text-xs lg:text-sm tracking-[-0.05em] font-extrabold";
+                              } else if (isLongStation) {
+                                topTextClass = "text-[10px] xs:text-[11px] sm:text-xs md:text-sm lg:text-base tracking-tight font-extrabold";
+                              } else {
+                                topTextClass = "text-[12px] xs:text-[13px] sm:text-[15px] md:text-base lg:text-lg tracking-normal font-bold";
+                              }
+                            }
+
+                            // Bottom text sizes (Korean or English)
+                            let bottomTextClass = "";
+                            if (isChorKorean) {
+                              if (s.id === 'geumnyeonsan') {
+                                bottomTextClass = "text-[6.8px] xs:text-[7.5px] sm:text-[9px] md:text-[9.5px] tracking-[-0.05em] uppercase font-semibold";
+                              } else if (isLongStation) {
+                                bottomTextClass = "text-[8px] xs:text-[9px] sm:text-[10px] tracking-tight uppercase font-semibold";
+                              } else {
+                                bottomTextClass = "text-[9.5px] xs:text-[10.5px] sm:text-[11.5px] tracking-normal uppercase font-semibold";
+                              }
+                            } else {
+                              bottomTextClass = "text-[9.5px] xs:text-[10.5px] sm:text-[11.5px] tracking-normal font-semibold";
+                            }
+
+                            return (
+                              <>
+                                <span 
+                                  className={`leading-tight font-heading text-center block w-full whitespace-nowrap overflow-hidden text-ellipsis px-0.5 ${topTextClass}`}
+                                >
+                                  {isChorKorean ? s.name : cleanEng}
+                                </span>
+                                <span 
+                                  className={`font-sans block text-center w-full whitespace-nowrap overflow-hidden text-ellipsis px-0.5 ${bottomTextClass} ${
+                                    isActive ? 'text-blue-200' : 'text-slate-400'
+                                  }`}
+                                >
+                                  {isChorKorean ? cleanEng : s.name}
+                                </span>
+                              </>
+                            );
+                          })()}
                         </button>
                       );
                     })}
@@ -1415,43 +1470,62 @@ export default function App() {
                       </div>
 
                       {/* Nearby Attractions Row */}
-                      <div className="bg-[#f0f9ff]/70 p-3 rounded-xl border border-sky-100/50 flex flex-col gap-2.5 text-xs">
-                        <div className="flex items-center justify-between border-b border-sky-100 pb-2">
+                      <div className="bg-[#f0f9ff]/70 p-3 rounded-xl border border-sky-100/50 flex flex-col gap-2 text-xs">
+                        <div 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExpandedAttractions(prev => ({
+                              ...prev,
+                              [station.id]: !prev[station.id]
+                            }));
+                          }}
+                          className="flex items-center justify-between cursor-pointer select-none group/btn"
+                        >
                           <span className="font-bold text-sky-900 flex items-center gap-1.5">
                             <span className="text-sm">📍</span>
                             <span className="font-extrabold text-[12px]">{language === 'KR' ? '주변 가볼 만한 곳' : 'Nearby Attractions'}</span>
+                            {expandedAttractions[station.id] ? (
+                              <ChevronUp className="w-3.5 h-3.5 text-sky-600 transition-transform duration-200" />
+                            ) : (
+                              <ChevronDown className="w-3.5 h-3.5 text-sky-600 transition-transform duration-200" />
+                            )}
                           </span>
-                          <span className="text-[10px] text-sky-500 font-semibold">
-                            {language === 'KR' ? '추천 미니 가이드' : 'Recommended spots'}
+                          <span className="text-[10px] text-sky-600 font-extrabold flex items-center gap-1 bg-sky-100/50 hover:bg-sky-100 px-2 py-0.5 rounded-lg transition-colors">
+                            {expandedAttractions[station.id] 
+                              ? (language === 'KR' ? '접기' : 'Hide') 
+                              : (language === 'KR' ? '보기' : 'View')}
                           </span>
                         </div>
-                        <div className="flex flex-col gap-1.5">
-                          {getNearbyPlaces(station.id, language).map((place, idx) => (
-                            <div key={idx} className="flex flex-col md:flex-row md:items-center justify-between gap-2 bg-white/70 p-2 px-3 rounded-lg border border-sky-100/20 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                              <div className="flex flex-col gap-0.5">
-                                <span className="font-extrabold text-sky-950 text-[11.5px] sm:text-[12px]">
-                                  {place.name}
-                                </span>
-                                <span className="text-slate-500 text-[10px] sm:text-[10.5px] font-semibold">
-                                  {place.desc}
-                                </span>
-                              </div>
-                              {place.exits && place.exits.length > 0 && (
-                                <div className="flex flex-wrap gap-1 md:justify-end items-center mt-1.5 md:mt-0">
-                                  {place.exits.map((ex, exIdx) => (
-                                    <NearbyExitBadge
-                                      key={exIdx}
-                                      num={ex.num}
-                                      type={ex.type}
-                                      line={station.lines[0]}
-                                      language={language}
-                                    />
-                                  ))}
+                        
+                        {expandedAttractions[station.id] && (
+                          <div className="flex flex-col gap-1.5 border-t border-sky-100/50 pt-2 animate-fade-in text-left">
+                            {getNearbyPlaces(station.id, language).map((place, idx) => (
+                              <div key={idx} className="flex flex-col md:flex-row md:items-center justify-between gap-2 bg-white/70 p-2 px-3 rounded-lg border border-sky-100/20 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                                <div className="flex flex-col gap-0.5">
+                                  <span className="font-extrabold text-sky-950 text-[11.5px] sm:text-[12px]">
+                                    {place.name}
+                                  </span>
+                                  <span className="text-slate-500 text-[10px] sm:text-[10.5px] font-semibold">
+                                    {place.desc}
+                                  </span>
                                 </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
+                                {place.exits && place.exits.length > 0 && (
+                                  <div className="flex flex-wrap gap-1 md:justify-end items-center mt-1.5 md:mt-0">
+                                    {place.exits.map((ex, exIdx) => (
+                                      <NearbyExitBadge
+                                        key={exIdx}
+                                        num={ex.num}
+                                        type={ex.type}
+                                        line={station.lines[0]}
+                                        language={language}
+                                      />
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
 

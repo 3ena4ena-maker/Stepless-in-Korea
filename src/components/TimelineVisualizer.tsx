@@ -65,36 +65,38 @@ export default function TimelineVisualizer({
       </div>
 
       {/* CORE DESTINATIONS SECTION */}
-      <div className="bg-slate-950 p-3.5 sm:p-4 rounded-xl border border-slate-800/60 text-left space-y-3">
-        <div className="flex items-center gap-1.5 text-slate-200">
-          <Building className="w-4 h-4 text-[#ffde43]" />
-          <h4 className="text-xs sm:text-sm font-bold tracking-wide">
-            {language === 'KR' ? '출구 일대 주요 목적지 및 공공장소' : 'Key Destinations & Public Areas'}
-          </h4>
-        </div>
+      {directionDesc && directionDesc.trim() && (
+        <div className="bg-slate-950 p-3.5 sm:p-4 rounded-xl border border-slate-800/60 text-left space-y-3 mt-4">
+          <div className="flex items-center gap-1.5 text-slate-200">
+            <Building className="w-4 h-4 text-[#ffde43]" />
+            <h4 className="text-xs sm:text-sm font-bold tracking-wide">
+              {language === 'KR' ? '출구 일대 주요 목적지 및 공공장소' : 'Key Destinations & Public Areas'}
+            </h4>
+          </div>
 
-        <div className="bg-slate-900 rounded-lg border border-slate-800/80 p-3">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {directionDesc.split(',').map((item, idx) => {
-              const trimmed = item.trim();
-              if (!trimmed) return null;
-              
-              const translated = translateDirectionItem(trimmed, language);
-              return (
-                <div 
-                  key={idx} 
-                  className="flex items-center gap-2 bg-slate-950/40 px-3 py-2 rounded-lg border border-slate-800/45 hover:border-slate-700 transition-colors"
-                >
-                  <span className="text-emerald-500 text-xs shrink-0">📍</span>
-                  <p className="text-xs sm:text-sm text-slate-100 font-sans font-bold tracking-tight truncate" title={translated}>
-                    {translated}
-                  </p>
-                </div>
-              );
-            })}
+          <div className="bg-slate-900 rounded-lg border border-slate-800/80 p-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {directionDesc.split(',').map((item, idx) => {
+                const trimmed = item.trim();
+                if (!trimmed) return null;
+                
+                const translated = translateDirectionItem(trimmed, language);
+                return (
+                  <div 
+                    key={idx} 
+                    className="flex items-center gap-2 bg-slate-950/40 px-3 py-2 rounded-lg border border-slate-800/45 hover:border-slate-700 transition-colors"
+                  >
+                    <span className="text-emerald-500 text-xs shrink-0">📍</span>
+                    <p className="text-xs sm:text-sm text-slate-100 font-sans font-bold tracking-tight truncate" title={translated}>
+                      {translated}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
     </div>
   );
