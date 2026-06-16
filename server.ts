@@ -123,6 +123,12 @@ Respond STRICTLY with a valid JSON object matching the requested schema. No conv
   }
 });
 
+// Serve AdSense ads.txt directly
+app.get("/ads.txt", (req, res) => {
+  res.type("text/plain");
+  res.send("google.com, pub-1023768343506419, DIRECT, f08c47fec0942fa0");
+});
+
 // Vite middleware setup
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
