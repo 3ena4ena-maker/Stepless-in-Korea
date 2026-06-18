@@ -132,7 +132,7 @@ app.get("/ads.txt", (req, res) => {
 // Serve Naver & Google crawls search engine rules (robots.txt & sitemap.xml)
 app.get("/robots.txt", (req, res) => {
   res.type("text/plain");
-  res.send("User-agent: *\nAllow: /\nSitemap: https://steplessinkorea.pages.dev/sitemap.xml");
+  res.send("User-agent: *\nAllow: /\n\nUser-agent: Yeti\nAllow: /\n\nSitemap: https://steplessinkorea.pages.dev/sitemap.xml\n");
 });
 
 app.get("/sitemap.xml", (req, res) => {
