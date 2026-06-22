@@ -544,7 +544,20 @@ export default function App() {
   const [expandedAttractions, setExpandedAttractions] = useState<Record<string, boolean>>({});
 
   // Traveler Recommendations states
-  const [recommendations, setRecommendations] = useState<TravelerRecommendation[]>(DEFAULT_RECOMMENDATIONS);
+  const [recommendations, setRecommendations] = useState<TravelerRecommendation[]>(() => {
+    const saved = localStorage.getItem('busan_traveler_recs');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      } catch (e) {
+        console.error("Failed to parse saved recommendations:", e);
+      }
+    }
+    return DEFAULT_RECOMMENDATIONS;
+  });
 
   // Synchronize traveler recommendations from backend on system start to ensure everyone shares the custom tips
   useEffect(() => {
@@ -556,6 +569,7 @@ export default function App() {
       .then(data => {
         if (Array.isArray(data)) {
           setRecommendations(data);
+          localStorage.setItem('busan_traveler_recs', JSON.stringify(data));
         }
       })
       .catch(err => {
@@ -700,6 +714,10 @@ export default function App() {
     localStorage.setItem('busan_traveler_upvotes', JSON.stringify(hasUpvoted));
   }, [hasUpvoted]);
 
+  useEffect(() => {
+    localStorage.setItem('busan_traveler_recs', JSON.stringify(recommendations));
+  }, [recommendations]);
+
   // Automatic Translation States using server-side Gemini 3.5 Flash
   const [translatedRecs, setTranslatedRecs] = useState<Record<string, { topic: string; content: string; stationOrExit: string }>>(() => {
     const saved = localStorage.getItem('busan_traveler_recs_en');
@@ -818,73 +836,89 @@ export default function App() {
     e.preventDefault();
     if (!newRecAuthor.trim() || !newRecTopic.trim() || !newRecContent.trim()) return;
 
-    const payload = {
+    const newId = `rec-${Date.now()}`;
+    const newRec: TravelerRecommendation = {
+      id: newId,
       author: newRecAuthor.trim(),
       topic: newRecTopic.trim(),
       category: newRecCategory,
       stationOrExit: newRecStation.trim() || (language === 'KR' ? '모든 구역' : 'All Area'),
-      content: newRecContent.trim()
+      content: newRecContent.trim(),
+      upvotes: 0,
+      createdAt: new Date().toISOString()
     };
 
-    // Save to the server-side JSON database so it is persistent and visible to everyone
-    fetch("/api/recommendations", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    })
-    .then(res => {
-      if (res.ok) return res.json();
-      throw new Error("Failed to save recommendation on server");
-    })
-    .then((newRec: TravelerRecommendation) => {
-      setRecommendations(prev => [newRec, ...prev]);
-      setMyRecIds(prev => {
-        const updated = [...prev, newRec.id];
-        localStorage.setItem('busan_my_rec_ids', JSON.stringify(updated));
-        return updated;
-      });
-
-      // Translate immediately upon submission to guarantee it's cached and ready instantly when switching language!
-      setTranslatingIds(prev => ({ ...prev, [newRec.id]: true }));
-      fetch("/api/translate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          topic: newRec.topic,
-          content: newRec.content,
-          stationOrExit: newRec.stationOrExit
-        })
-      })
-      .then(res => {
-        if (res.ok) return res.json();
-        throw new Error("Translation failed");
-      })
-      .then(data => {
-        setTranslatedRecs(prev => ({
-          ...prev,
-          [newRec.id]: {
-            topic: data.topic,
-            content: data.content,
-            stationOrExit: data.stationOrExit
-          }
-        }));
-      })
-      .catch(err => {
-        console.error("Instant translation failed:", err);
-      })
-      .finally(() => {
-        setTranslatingIds(prev => ({ ...prev, [newRec.id]: false }));
-      });
-    })
-    .catch(err => {
-      console.error("Failed to add recommendation:", err);
+    // 1. Optimistic UI Updates - renders on screen instantly
+    setRecommendations(prev => {
+      const updated = [newRec, ...prev];
+      localStorage.setItem('busan_traveler_recs', JSON.stringify(updated));
+      return updated;
+    });
+    setMyRecIds(prev => {
+      const updated = [...prev, newId];
+      localStorage.setItem('busan_my_rec_ids', JSON.stringify(updated));
+      return updated;
     });
 
+    // Reset inputs immediately
     setNewRecAuthor('');
     setNewRecTopic('');
     setNewRecCategory('FOOD');
     setNewRecStation('');
     setNewRecContent('');
+
+    // 2. Synchronize with server-side JSON database in the background
+    fetch("/api/recommendations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newRec)
+    })
+    .then(res => {
+      if (res.ok) return res.json();
+      throw new Error("Failed to save recommendation on server");
+    })
+    .then((syncedRec: TravelerRecommendation) => {
+      console.log("Successfully synchronized with server database:", syncedRec);
+    })
+    .catch(err => {
+      console.error("Server sync failed, recommendation remains in local storage:", err);
+    });
+
+    // 3. Translate immediately in background so it's cached and ready instantly when switching language!
+    setTranslatingIds(prev => ({ ...prev, [newId]: true }));
+    fetch("/api/translate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        topic: newRec.topic,
+        content: newRec.content,
+        stationOrExit: newRec.stationOrExit
+      })
+    })
+    .then(res => {
+      if (res.ok) return res.json();
+      throw new Error("Translation failed");
+    })
+    .then(data => {
+      setTranslatedRecs(prev => {
+        const updated = {
+          ...prev,
+          [newId]: {
+            topic: data.topic,
+            content: data.content,
+            stationOrExit: data.stationOrExit
+          }
+        };
+        localStorage.setItem('busan_traveler_recs_en', JSON.stringify(updated));
+        return updated;
+      });
+    })
+    .catch(err => {
+      console.error("Instant translation failed:", err);
+    })
+    .finally(() => {
+      setTranslatingIds(prev => ({ ...prev, [newId]: false }));
+    });
   };
 
   const handleDeleteRecommendation = (id: string) => {

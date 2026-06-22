@@ -89,21 +89,30 @@ app.get("/api/recommendations", (req, res) => {
 
 // 2. Submit a new recommendation
 app.post("/api/recommendations", (req, res) => {
-  const { author, topic, category, stationOrExit, content } = req.body;
+  const { id, author, topic, category, stationOrExit, content, createdAt, upvotes } = req.body;
   if (!author || !topic || !content) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
   const recs = getRecommendations();
+
+  // If a recommendation with this ID already exists, do not duplicate it
+  if (id) {
+    const existingIndex = recs.findIndex(r => r.id === id);
+    if (existingIndex !== -1) {
+      return res.json(recs[existingIndex]);
+    }
+  }
+
   const newRec: TravelerRecommendation = {
-    id: `rec-${Date.now()}`,
+    id: id || `rec-${Date.now()}`,
     author: String(author).trim(),
     topic: String(topic).trim(),
     category: category || "OTHER",
     stationOrExit: String(stationOrExit || "").trim(),
     content: String(content).trim(),
-    upvotes: 0,
-    createdAt: new Date().toISOString()
+    upvotes: Number(upvotes) || 0,
+    createdAt: createdAt || new Date().toISOString()
   };
 
   recs.unshift(newRec); // Prepend to show newest first
