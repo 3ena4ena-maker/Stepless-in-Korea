@@ -507,6 +507,7 @@ export default function App() {
   const [currentTab, setCurrentTab] = useState<string>('home');
   const [language, setLanguage] = useState<'KR' | 'EN'>('KR');
   const [selectedStationId, setSelectedStationId] = useState<string>('seomyeon');
+  const [isHomeLanding, setIsHomeLanding] = useState<boolean>(true);
   const [showPrivacyModal, setShowPrivacyModal] = useState<boolean>(false);
   const [showTermsModal, setShowTermsModal] = useState<boolean>(false);
   const [activePathFilter, setActivePathFilter] = useState<'ALL' | 'ACCESSIBLE' | 'CARRY'>('ALL');
@@ -608,6 +609,112 @@ export default function App() {
 
   // Category filter state for traveler recommendations board
   const [filterCategory, setFilterCategory] = useState<string>('ALL');
+
+  // Handling Path-based Client-side routing on mount and popstate
+  useEffect(() => {
+    const handleUrlRouting = () => {
+      const pathname = window.location.pathname;
+      const parts = pathname.split('/');
+      
+      // Look for /station/[stationId] or fallback to /[stationId] direct check
+      if (parts[1] === 'station' && parts[2]) {
+        const stationId = parts[2].toLowerCase();
+        const exists = STATIONS.some(s => s.id === stationId);
+        if (exists) {
+          setSelectedStationId(stationId);
+          setIsHomeLanding(false);
+          setCurrentTab('home');
+        }
+      } else if (parts[1] && parts[1] !== 'home' && parts[1] !== 'map' && parts[1] !== 'reports' && parts[1] !== 'travel' && parts[1] !== 'admin') {
+        const stationId = parts[1].toLowerCase();
+        const exists = STATIONS.some(s => s.id === stationId);
+        if (exists) {
+          setSelectedStationId(stationId);
+          setIsHomeLanding(false);
+          setCurrentTab('home');
+        }
+      } else if (['home', 'map', 'reports', 'travel', 'admin'].includes(parts[1])) {
+        setCurrentTab(parts[1]);
+        if (parts[1] === 'home') {
+          setIsHomeLanding(true);
+          setSelectedStationId('seomyeon');
+        }
+      } else {
+        // Root path /
+        setIsHomeLanding(true);
+        setSelectedStationId('seomyeon');
+        setCurrentTab('home');
+      }
+    };
+
+    handleUrlRouting();
+    window.addEventListener('popstate', handleUrlRouting);
+    return () => {
+      window.removeEventListener('popstate', handleUrlRouting);
+    };
+  }, []);
+
+  // Synchronize dynamic URL path and document headers metadata (SEO-friendly) whenever active station or tab changes
+  useEffect(() => {
+    // 1. Change URL path
+    if (currentTab === 'home') {
+      if (isHomeLanding) {
+        const expectedPath = '/';
+        if (window.location.pathname !== expectedPath && window.location.pathname !== '/home') {
+          window.history.pushState({ tab: 'home', isHomeLanding: true }, '', expectedPath);
+        }
+      } else if (selectedStationId) {
+        const expectedPath = `/station/${selectedStationId}`;
+        if (window.location.pathname !== expectedPath) {
+          window.history.pushState({ stationId: selectedStationId, tab: 'home', isHomeLanding: false }, '', expectedPath);
+        }
+      }
+    } else if (currentTab !== 'home') {
+      const expectedPath = `/${currentTab}`;
+      if (window.location.pathname !== expectedPath) {
+        window.history.pushState({ tab: currentTab }, '', expectedPath);
+      }
+    }
+
+    // 2. Change metadata (Dynamic Title, Description, and OpenGraph tags)
+    if (currentTab === 'home' && !isHomeLanding && selectedStationId) {
+      const activeST = STATIONS.find(s => s.id === selectedStationId);
+      if (activeST) {
+        const titleText = `${activeST.name} 엘리베이터 위치 & 유모차 동선 안내 | 스테프리스`;
+        document.title = titleText;
+
+        const cleanEngName = activeST.englishName.replace(/\s*Station$/i, '').trim();
+        const descText = `${activeST.name} (${cleanEngName}) 지하철역의 엘리베이터 최단 위치와 유모차, 캐리어 소지자를 위한 계단 회피 추천 동선 정보를 정밀히 안내해 드립니다.`;
+        
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', descText);
+
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) ogTitle.setAttribute('content', titleText);
+
+        const ogDesc = document.querySelector('meta[property="og:description"]');
+        if (ogDesc) ogDesc.setAttribute('content', descText);
+
+        const canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.setAttribute('href', `https://steplessinkorea.pages.dev/station/${selectedStationId}`);
+      }
+    } else {
+      document.title = "부산 지하철역 엘리베이터 위치 & 유모차 동선 안내 | 스테프리스";
+      const defaultDesc = "부산 지하철역 엘리베이터 위치, 유모차와 캐리어 소지자를 위한 계단 없는 지하철 최적 동선 안내.";
+      
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', defaultDesc);
+
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', "부산 지하철역 엘리베이터 위치 & 유모차 동선 안내 | 스테프리스");
+
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute('content', defaultDesc);
+
+      const canonical = document.querySelector('link[rel="canonical"]');
+      if (canonical) canonical.setAttribute('href', "https://steplessinkorea.pages.dev/");
+    }
+  }, [selectedStationId, currentTab, isHomeLanding]);
 
   useEffect(() => {
     localStorage.setItem('busan_traveler_recs', JSON.stringify(recommendations));
@@ -990,7 +1097,14 @@ export default function App() {
         {/* Navigation Header */}
         <Header 
           currentTab={currentTab} 
-          setCurrentTab={setCurrentTab} 
+          setCurrentTab={(tab) => {
+            setCurrentTab(tab);
+            if (tab === 'home') {
+              setIsHomeLanding(true);
+              setSelectedStationId('seomyeon');
+              setExpandedExitNum(null);
+            }
+          }} 
           language={language} 
           toggleLanguage={toggleLanguage} 
         />
@@ -1001,74 +1115,78 @@ export default function App() {
           {/* Tab 1: HOME LANDING VIEW */}
           {currentTab === 'home' && (
             <div className="space-y-8">
-              {/* Feature Hero banner with beautiful illustrations */}
-              <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#003466] to-[#001d3a] text-white p-8 sm:p-12 shadow-md">
-                <div className="absolute right-0 bottom-0 opacity-10 translate-x-12 translate-y-12">
-                  <Train className="w-96 h-96" />
-                </div>
-
-                <div className="relative z-10 max-w-2xl text-left">
-                  <h1 className="text-xl sm:text-2xl font-extrabold font-heading tracking-tight leading-snug whitespace-pre-line">
-                    {language === 'KR' ? (
-                      <>
-                        엘리베이터와 에스컬레이터<br />
-                        출구로 바로 이동 가능한<br />
-                        계단 없는 최적의 동선!
-                      </>
-                    ) : (
-                      <>
-                        Optimal flat paths directly <br />
-                        connecting you to elevators <br />
-                        & escalators without stairs!
-                      </>
-                    )}
-                  </h1>
-
-                  {/* Master Quick finder tools */}
-                  <div className="mt-6">
-                    <button
-                      onClick={requestNearbyGuide}
-                      id="nearby-finder-btn"
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-[#ffde43] hover:bg-[#ebd04e] active:scale-95 text-slate-900 font-extrabold tracking-tight transition-all shadow-[0_8px_30px_rgb(255,222,67,0.15)] text-sm sm:text-base border border-amber-300 cursor-pointer min-w-0"
-                    >
-                      <MapPin className="w-5 h-5 text-slate-900 fill-slate-900/10 shrink-0" />
-                      <span>
-                        {geoLoading 
-                          ? (language === 'KR' ? '주변 검색 중...' : 'Searching...') 
-                          : (language === 'KR' ? '내 주변 스탭프리 출구' : 'Nearby Step-Free Exits')}
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Dynamic Geolocation Finder Outcome Panel */}
-              {geoResult && (
-                <div className="bg-sky-50 border border-sky-100 p-6 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4 text-left shadow-sm animate-fade-in" id="geo-result-container">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-sky-200/50 text-[#F06A00] rounded-2xl shrink-0 mt-1">
-                      <MapPin className="w-6 h-6 fill-sky-200" />
+              {/* Feature Hero banner with beautiful illustrations - visible only on home landing page */}
+              {isHomeLanding && (
+                <>
+                  <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#003466] to-[#001d3a] text-white p-8 sm:p-12 shadow-md">
+                    <div className="absolute right-0 bottom-0 opacity-10 translate-x-12 translate-y-12">
+                      <Train className="w-96 h-96" />
                     </div>
-                    <div>
-                      <h4 className="text-xl font-extrabold font-heading text-slate-800">
-                        {getExitDisplayName(geoResult.stationName, geoResult.exitNumber, language)}
-                      </h4>
-                      <p className="text-sm font-bold text-[#F06A00] mt-1">
-                        {language === 'KR' 
-                          ? `현재 위치에서 도보 약 ${geoResult.distance}m` 
-                          : `Approx. ${geoResult.distance}m Away on Foot`}
-                      </p>
+
+                    <div className="relative z-10 max-w-2xl text-left">
+                      <h1 className="text-xl sm:text-2xl font-extrabold font-heading tracking-tight leading-snug whitespace-pre-line">
+                        {language === 'KR' ? (
+                          <>
+                            엘리베이터와 에스컬레이터<br />
+                            출구로 바로 이동 가능한<br />
+                            계단 없는 최적의 동선!
+                          </>
+                        ) : (
+                          <>
+                            Optimal flat paths directly <br />
+                            connecting you to elevators <br />
+                            & escalators without stairs!
+                          </>
+                        )}
+                      </h1>
+
+                      {/* Master Quick finder tools */}
+                      <div className="mt-6">
+                        <button
+                          onClick={requestNearbyGuide}
+                          id="nearby-finder-btn"
+                          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-[#ffde43] hover:bg-[#ebd04e] active:scale-95 text-slate-900 font-extrabold tracking-tight transition-all shadow-[0_8px_30px_rgb(255,222,67,0.15)] text-sm sm:text-base border border-amber-300 cursor-pointer min-w-0"
+                        >
+                          <MapPin className="w-5 h-5 text-slate-900 fill-slate-900/10 shrink-0" />
+                          <span>
+                            {geoLoading 
+                              ? (language === 'KR' ? '주변 검색 중...' : 'Searching...') 
+                              : (language === 'KR' ? '내 주변 스탭프리 출구' : 'Nearby Step-Free Exits')}
+                          </span>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <div className="shrink-0 flex items-center md:self-center self-end mt-2 md:mt-0">
-                    <button
-                      onClick={() => window.open(`https://map.naver.com/v5/search/${geoResult.stationName} ${geoResult.exitNumber}`)}
-                      className="text-xs font-bold text-[#F06A00] bg-orange-50 hover:bg-orange-100/80 border border-orange-200/40 px-5 py-3 rounded-xl transition-colors cursor-pointer whitespace-nowrap shadow-sm"
-                    >
-                      {language === 'KR' ? '네이버 지도 도보 길안내 시작' : 'Launch Naver Map Guide'}
-                    </button>
-                  </div>
-                </div>
+
+                  {/* Dynamic Geolocation Finder Outcome Panel */}
+                  {geoResult && (
+                    <div className="bg-sky-50 border border-sky-100 p-6 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4 text-left shadow-sm animate-fade-in" id="geo-result-container">
+                      <div className="flex items-start gap-4">
+                        <div className="p-3 bg-sky-200/50 text-[#F06A00] rounded-2xl shrink-0 mt-1">
+                          <MapPin className="w-6 h-6 fill-sky-200" />
+                        </div>
+                        <div>
+                          <h4 className="text-xl font-extrabold font-heading text-slate-800">
+                            {getExitDisplayName(geoResult.stationName, geoResult.exitNumber, language)}
+                          </h4>
+                          <p className="text-sm font-bold text-[#F06A00] mt-1">
+                            {language === 'KR' 
+                              ? `현재 위치에서 도보 약 ${geoResult.distance}m` 
+                              : `Approx. ${geoResult.distance}m Away on Foot`}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="shrink-0 flex items-center md:self-center self-end mt-2 md:mt-0">
+                        <button
+                          onClick={() => window.open(`https://map.naver.com/v5/search/${geoResult.stationName} ${geoResult.exitNumber}`)}
+                          className="text-xs font-bold text-[#F06A00] bg-orange-50 hover:bg-orange-100/80 border border-orange-200/40 px-5 py-3 rounded-xl transition-colors cursor-pointer whitespace-nowrap shadow-sm"
+                        >
+                          {language === 'KR' ? '네이버 지도 도보 길안내 시작' : 'Launch Naver Map Guide'}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
 
               {/* EXITS EXPLORER SECTION */}
@@ -1092,6 +1210,7 @@ export default function App() {
                           id={`quick-station-tab-${s.id}`}
                           onClick={() => {
                             setSelectedStationId(s.id);
+                            setIsHomeLanding(false);
                             // Keep all detailed pathways collapsed initially as requested
                             setExpandedExitNum(null);
                           }}
@@ -1231,73 +1350,16 @@ export default function App() {
                         }`}
                       >
                         {/* Header Details row */}
-                        <div className="flex items-start justify-between gap-3 flex-wrap">
-                          <div className="space-y-1.5">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <h3 className="text-lg sm:text-xl font-extrabold text-slate-800 font-heading flex items-center gap-2">
-                                <span>{getExitDisplayName(activeStation.name, exit.number, language)}</span>
-                              </h3>
-                            </div>
-                            
-                            {/* Simple facilities details directly matching user request */}
-                            <div className="space-y-2 mt-2">
-                              {exit.hasEscalator && (
-                                <div className="text-sm font-bold text-slate-700 flex items-center gap-2 bg-slate-50/80 px-2.5 py-1.5 rounded-xl border border-slate-100/50">
-                                  <EscalatorIcon />
-                                  <span>
-                                    {language === 'KR' 
-                                      ? `에스컬레이터 (${
-                                          exit.facilityDirection === 'BOTH' ? '상행 ⬆️ · 하행 ⬇️' :
-                                          exit.facilityDirection === 'UP' ? '상행 ⬆️' : '하행 ⬇️'
-                                        })` 
-                                      : `Escalator (${
-                                          exit.facilityDirection === 'BOTH' ? 'Up ⬆️ · Down ⬇️' :
-                                          exit.facilityDirection === 'UP' ? 'Upward ⬆️' : 'Downward ⬇️'
-                                        })`
-                                    }
-                                  </span>
-                                </div>
-                              )}
-                              {exit.hasElevator && (
-                                <div className="text-sm font-bold text-slate-700 flex items-center gap-2 bg-slate-50/80 px-2.5 py-1.5 rounded-xl border border-slate-100/50">
-                                  <ElevatorIcon />
-                                  <span>
-                                    {language === 'KR' ? '엘리베이터 🛗' : 'Elevator 🛗'}
-                                  </span>
-                                </div>
-                              )}
-                              {!exit.hasElevator && !exit.hasEscalator && (
-                                <div className="text-sm font-bold text-slate-500 flex items-center gap-2 bg-slate-50/80 px-2.5 py-1.5 rounded-xl border border-slate-100/50">
-                                  <StairsIcon />
-                                  <span>
-                                    {language === 'KR' ? '계단 전용 👟' : 'Stairs Only 👟'}
-                                  </span>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="mt-4 flex items-center justify-between gap-2 border-t border-slate-100 pt-4">
-                          {/* Operational indicator lights */}
-                          <div className="flex items-center gap-1.5">
-                            <span className={`w-2.5 h-2.5 rounded-full ${
-                              exit.status === 'OPERATIONAL' 
-                                ? 'bg-emerald-500 animate-pulse' 
-                                : exit.status === 'MAINTENANCE'
-                                ? 'bg-amber-500'
-                                : 'bg-rose-500'
-                            }`} />
-                            <span className="text-xs font-bold text-slate-500">
-                              {getExitStatusText(exit.status)}
-                            </span>
-                          </div>
+                        <div className="flex items-center justify-between gap-3 pb-3 border-b border-slate-100 flex-wrap sm:flex-nowrap">
+                          <h3 className="text-lg sm:text-lg font-extrabold text-slate-800 font-heading flex items-center gap-2">
+                            <span>{getExitDisplayName(activeStation.name, exit.number, language)}</span>
+                          </h3>
 
                           {/* Action to expand Timeline Details Inline */}
                           <button
                             id={`expand-exit-btn-${exit.number}`}
                             onClick={() => setExpandedExitNum(isExpanded ? null : exit.number)}
-                            className={`text-xs font-bold px-4 py-2 rounded-xl transition-all cursor-pointer ${
+                            className={`text-xs font-bold px-4 py-2.5 rounded-xl transition-all cursor-pointer whitespace-nowrap ${
                               isExpanded
                                 ? 'bg-[#004481] text-white shadow-sm'
                                 : 'bg-slate-100 hover:bg-slate-200 text-[#004481]'
@@ -1308,6 +1370,59 @@ export default function App() {
                               : (language === 'KR' ? '상세 동선 지도 보기' : 'Show Details & Map')}
                           </button>
                         </div>
+
+                        {/* Simple facilities details directly matching user request */}
+                        <div className="space-y-2 mt-3">
+                          {exit.hasEscalator && (
+                            <div className="text-sm font-bold text-slate-700 flex items-center gap-2 bg-slate-50/80 px-2.5 py-1.5 rounded-xl border border-slate-100/50">
+                              <EscalatorIcon />
+                              <span>
+                                {language === 'KR' 
+                                  ? `에스컬레이터 (${
+                                      exit.facilityDirection === 'BOTH' ? '상행 ⬆️ · 하행 ⬇️' :
+                                      exit.facilityDirection === 'UP' ? '상행 ⬆️' : '하행 ⬇️'
+                                    })` 
+                                  : `Escalator (${
+                                      exit.facilityDirection === 'BOTH' ? 'Up ⬆️ · Down ⬇️' :
+                                      exit.facilityDirection === 'UP' ? 'Upward ⬆️' : 'Downward ⬇️'
+                                    })`
+                                }
+                              </span>
+                            </div>
+                          )}
+                          {exit.hasElevator && (
+                            <div className="text-sm font-bold text-slate-700 flex items-center gap-2 bg-slate-50/80 px-2.5 py-1.5 rounded-xl border border-slate-100/50">
+                              <ElevatorIcon />
+                              <span>
+                                {language === 'KR' ? '엘리베이터 🛗' : 'Elevator 🛗'}
+                              </span>
+                            </div>
+                          )}
+                          {!exit.hasElevator && !exit.hasEscalator && (
+                            <div className="text-sm font-bold text-slate-500 flex items-center gap-2 bg-slate-50/80 px-2.5 py-1.5 rounded-xl border border-slate-100/50">
+                              <StairsIcon />
+                              <span>
+                                {language === 'KR' ? '계단 전용 👟' : 'Stairs Only 👟'}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Status banner - only if not OPERATIONAL */}
+                        {exit.status !== 'OPERATIONAL' && (
+                          <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-1.5">
+                              <span className={`w-2.5 h-2.5 rounded-full ${
+                                exit.status === 'MAINTENANCE'
+                                  ? 'bg-amber-500'
+                                  : 'bg-rose-500'
+                              }`} />
+                              <span className="text-xs font-bold text-slate-500">
+                                {getExitStatusText(exit.status)}
+                              </span>
+                            </div>
+                          </div>
+                        )}
 
                         {/* Inline Timeline Map Visualization - Perfectly mobile-first */}
                         {isExpanded && (
@@ -1338,86 +1453,88 @@ export default function App() {
                 </div>
               </div>
 
-              {/* BRAND NEW: Google AdSense optimization content area — Highly informative, helpful articles & guides */}
-              <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-[0_4px_22px_rgba(0,0,0,0.01)] text-left mt-10 space-y-6">
-                <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-                  <span className="p-2.5 rounded-xl bg-blue-50 text-[#004481]">
-                    <Shield className="w-5 h-5 animate-pulse" />
-                  </span>
-                  <div>
-                    <h3 className="text-lg sm:text-xl font-extrabold text-[#004481]">
-                      {language === 'KR' ? '📖 부산 지하철 교통약자 이동 백과사전 & 편의 가이드' : '📖 Busan Subway Accessibility Encyclopedia & Safety Guide'}
-                    </h3>
-                    <p className="text-xs text-slate-400 mt-0.5">
-                      {language === 'KR' ? '안전하고 완전한 무장애 무턱 대중교통 이용을 위한 맞춤형 백과사전 가이드입니다.' : 'Expert transit assistance and safety rules for barriers-free navigation in Busan.'}
-                    </p>
+              {/* BRAND NEW: Google AdSense optimization content area — Highly informative, helpful articles & guides — visible only on home landing page */}
+              {isHomeLanding && (
+                <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-[0_4px_22px_rgba(0,0,0,0.01)] text-left mt-10 space-y-6 animate-fade-in">
+                  <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
+                    <span className="p-2.5 rounded-xl bg-blue-50 text-[#004481]">
+                      <Shield className="w-5 h-5 animate-pulse" />
+                    </span>
+                    <div>
+                      <h3 className="text-lg sm:text-xl font-extrabold text-[#004481]">
+                        {language === 'KR' ? '📖 부산 지하철 교통약자 이동 백과사전 & 편의 가이드' : '📖 Busan Subway Accessibility Encyclopedia & Safety Guide'}
+                      </h3>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        {language === 'KR' ? '안전하고 완전한 무장애 무턱 대중교통 이용을 위한 맞춤형 백과사전 가이드입니다.' : 'Expert transit assistance and safety rules for barriers-free navigation in Busan.'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    {/* Card 1 */}
+                    <div className="space-y-2.5 p-4 rounded-xl bg-slate-50 border border-slate-100">
+                      <h4 className="font-bold text-slate-800 flex items-center gap-1.5">
+                        <span>👶</span>
+                        <span>{language === 'KR' ? '유모차·휠체어 동반 전철 안전 탑승 수칙' : 'Wheelchair & Stroller Safe Boarding'}</span>
+                      </h4>
+                      <p className="text-slate-500 font-medium">
+                        {language === 'KR' 
+                          ? '1. 열차 탑승 시 열차와 승강장 사이의 간격을 유의해야 합니다. 부산 지하철 1호선과 2호선 일부 역은 곡선 승강장 구조로 인해 발빠짐 방지용 고무발판이 설치되어 있으나, 이동 시 바퀴가 끼이지 않도록 상향 각도를 유지하며 진입하십시오.'
+                          : '1. Maintain awareness of the gaps between train doorways and the platforms. In curvilinear stations on Line 1/2, align your wheels perpendicular when crossing.'}
+                      </p>
+                      <p className="text-slate-500 font-medium">
+                        {language === 'KR'
+                          ? '2. 전동휠체어의 경우 급출발 및 급제동에 대비해 차량 내부의 전용 장애인 휠체어 구역에 안착한 후 반드시 브레이크 잠금 장치를 채워 고정 장치를 결속해 주시기 바랍니다.'
+                          : '2. Position power-wheelchairs in the designated Barrier-Free bays inside cars and always engage manual parking brakes.'}
+                      </p>
+                    </div>
+
+                    {/* Card 2 */}
+                    <div className="space-y-2.5 p-4 rounded-xl bg-slate-50 border border-slate-100">
+                      <h4 className="font-bold text-slate-800 flex items-center gap-1.5">
+                        <span>🚇</span>
+                        <span>{language === 'KR' ? '엘리베이터 및 수직 수동 리프트 고장 대처 기법' : 'Dealing with Elevator Maintenance'}</span>
+                      </h4>
+                      <p className="text-slate-500 font-medium">
+                        {language === 'KR'
+                          ? '역내 엘리베이터가 돌발적인 보수 점검으로 인해 중단되었을 경우, 당황하지 마시고 각층 개찰구 주변에 부착된 빨간 비상호출 장치 또는 역무실 번호를 이용해 직원과 직접 무선 소통하십시오. 필요 시 경사로 간이 휠체어 리프트를 통한 수동 구동 지원이 가능합니다.'
+                          : 'If an elevator breaks down or goes under weekly inspection, use the emergency call-button located near ticket barriers to communicate with transit operators for manual ramp assistance.'}
+                      </p>
+                      <p className="text-slate-500 font-medium">
+                        {language === 'KR'
+                          ? '본 스테프리스 서비스는 데이터 불일치를 제보를 통해 지속적으로 모니터링하여 공공데이터와 실제 현장 가동 여부를 대조해 현행화하고 있습니다.'
+                          : 'Stepless active trackers continuously verify open agency datasets with custom visitor reports to ensure high precision.'}
+                      </p>
+                    </div>
+
+                    {/* Card 3 */}
+                    <div className="space-y-2.5 p-4 rounded-xl bg-slate-50 border border-slate-100">
+                      <h4 className="font-bold text-slate-800 flex items-center gap-1.5">
+                        <span>🔍</span>
+                        <span>{language === 'KR' ? '스테프리스(Stepless)의 수동 정합성 검증 원칙' : 'Stepless Manual Geometry Audits'}</span>
+                      </h4>
+                      <p className="text-slate-500 font-medium">
+                        {language === 'KR'
+                          ? '저희 팀은 단순 지도 API에 등록된 출구 번호만을 나열하지 않습니다. 부산 내 노선 연계 출구 중 벡스코역 7번 출구 에스컬레이터, 수영역 부근 횡단보도의 단차 고저, 서면역 9번과 11번 출구 사이의 엘리베이터 등 엘리베이터 입구와 보도 블록 단차의 각도를 면밀히 분석하고 계측하여 최적의 오르내림 루트를 직접 기재하였습니다.'
+                          : 'We analyze micro-geometries rather than simple points. Elements like Bexco Exit 7 escalator, Suyeong cross walks, and Seomyeon 9/11 lifts are manually checked for height barriers.'}
+                      </p>
+                    </div>
+
+                    {/* Card 4 */}
+                    <div className="space-y-2.5 p-4 rounded-xl bg-slate-50 border border-slate-100">
+                      <h4 className="font-bold text-slate-800 flex items-center gap-1.5">
+                        <span>📢</span>
+                        <span>{language === 'KR' ? '구글 애드센스 광고와 개인데이터 보장 안내' : 'Google AdSense Ads & Transparency Policy'}</span>
+                      </h4>
+                      <p className="text-slate-500 font-medium">
+                        {language === 'KR'
+                          ? '본 배리어프리 플랫폼은 지속가능한 공익적 정보 제공을 위해 구글 애드센스 맞춤형 광고를 활용하고 있습니다. 구글은 사용자의 탐색 세션을 추적하기 위해 브라우저 쿠키를 활용할 수 있습니다. 자세한 쿠키 설정 조정 및 거부는 하단 개인정보처리방침의 광고 제어 설정 안내를 적극 확인해 주십시오.'
+                          : 'Stepless leverages Google AdSense context ads. Google utilizes secure cookies to supply personalized advertisements. For details on browser settings, check our Privacy Link at the footer.'}
+                      </p>
+                    </div>
                   </div>
                 </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {/* Card 1 */}
-                  <div className="space-y-2.5 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                    <h4 className="font-bold text-slate-800 flex items-center gap-1.5">
-                      <span>👶</span>
-                      <span>{language === 'KR' ? '유모차·휠체어 동반 전철 안전 탑승 수칙' : 'Wheelchair & Stroller Safe Boarding'}</span>
-                    </h4>
-                    <p className="text-slate-500 font-medium">
-                      {language === 'KR' 
-                        ? '1. 열차 탑승 시 열차와 승강장 사이의 간격을 유의해야 합니다. 부산 지하철 1호선과 2호선 일부 역은 곡선 승강장 구조로 인해 발빠짐 방지용 고무발판이 설치되어 있으나, 이동 시 바퀴가 끼이지 않도록 상향 각도를 유지하며 진입하십시오.'
-                        : '1. Maintain awareness of the gaps between train doorways and the platforms. In curvilinear stations on Line 1/2, align your wheels perpendicular when crossing.'}
-                    </p>
-                    <p className="text-slate-500 font-medium">
-                      {language === 'KR'
-                        ? '2. 전동휠체어의 경우 급출발 및 급제동에 대비해 차량 내부의 전용 장애인 휠체어 구역에 안착한 후 반드시 브레이크 잠금 장치를 채워 고정 장치를 결속해 주시기 바랍니다.'
-                        : '2. Position power-wheelchairs in the designated Barrier-Free bays inside cars and always engage manual parking brakes.'}
-                    </p>
-                  </div>
-
-                  {/* Card 2 */}
-                  <div className="space-y-2.5 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                    <h4 className="font-bold text-slate-800 flex items-center gap-1.5">
-                      <span>🚇</span>
-                      <span>{language === 'KR' ? '엘리베이터 및 수직 수동 리프트 고장 대처 기법' : 'Dealing with Elevator Maintenance'}</span>
-                    </h4>
-                    <p className="text-slate-500 font-medium">
-                      {language === 'KR'
-                        ? '역내 엘리베이터가 돌발적인 보수 점검으로 인해 중단되었을 경우, 당황하지 마시고 각층 개찰구 주변에 부착된 빨간 비상호출 장치 또는 역무실 번호를 이용해 직원과 직접 무선 소통하십시오. 필요 시 경사로 간이 휠체어 리프트를 통한 수동 구동 지원이 가능합니다.'
-                        : 'If an elevator breaks down or goes under weekly inspection, use the emergency call-button located near ticket barriers to communicate with transit operators for manual ramp assistance.'}
-                    </p>
-                    <p className="text-slate-500 font-medium">
-                      {language === 'KR'
-                        ? '본 스테프리스 서비스는 데이터 불일치를 제보를 통해 지속적으로 모니터링하여 공공데이터와 실제 현장 가동 여부를 대조해 현행화하고 있습니다.'
-                        : 'Stepless active trackers continuously verify open agency datasets with custom visitor reports to ensure high precision.'}
-                    </p>
-                  </div>
-
-                  {/* Card 3 */}
-                  <div className="space-y-2.5 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                    <h4 className="font-bold text-slate-800 flex items-center gap-1.5">
-                      <span>🔍</span>
-                      <span>{language === 'KR' ? '스테프리스(Stepless)의 수동 정합성 검증 원칙' : 'Stepless Manual Geometry Audits'}</span>
-                    </h4>
-                    <p className="text-slate-500 font-medium">
-                      {language === 'KR'
-                        ? '저희 팀은 단순 지도 API에 등록된 출구 번호만을 나열하지 않습니다. 부산 내 노선 연계 출구 중 벡스코역 7번 출구 에스컬레이터, 수영역 부근 횡단보도의 단차 고저, 서면역 9번과 11번 출구 사이의 엘리베이터 등 엘리베이터 입구와 보도 블록 단차의 각도를 면밀히 분석하고 계측하여 최적의 오르내림 루트를 직접 기재하였습니다.'
-                        : 'We analyze micro-geometries rather than simple points. Elements like Bexco Exit 7 escalator, Suyeong cross walks, and Seomyeon 9/11 lifts are manually checked for height barriers.'}
-                    </p>
-                  </div>
-
-                  {/* Card 4 */}
-                  <div className="space-y-2.5 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                    <h4 className="font-bold text-slate-800 flex items-center gap-1.5">
-                      <span>📢</span>
-                      <span>{language === 'KR' ? '구글 애드센스 광고와 개인데이터 보장 안내' : 'Google AdSense Ads & Transparency Policy'}</span>
-                    </h4>
-                    <p className="text-slate-500 font-medium">
-                      {language === 'KR'
-                        ? '본 배리어프리 플랫폼은 지속가능한 공익적 정보 제공을 위해 구글 애드센스 맞춤형 광고를 활용하고 있습니다. 구글은 사용자의 탐색 세션을 추적하기 위해 브라우저 쿠키를 활용할 수 있습니다. 자세한 쿠키 설정 조정 및 거부는 하단 개인정보처리방침의 광고 제어 설정 안내를 적극 확인해 주십시오.'
-                        : 'Stepless leverages Google AdSense context ads. Google utilizes secure cookies to supply personalized advertisements. For details on browser settings, check our Privacy Link at the footer.'}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              )}
 
             </div>
           )}
@@ -1474,6 +1591,7 @@ export default function App() {
                       setSelectedStationId(station.id);
                       setExpandedExitNum(null);
                       setCurrentTab('home');
+                      setIsHomeLanding(false);
                     }}
                     className="lg:col-span-6 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-lg transition-all cursor-pointer group text-left flex flex-col justify-between"
                   >
