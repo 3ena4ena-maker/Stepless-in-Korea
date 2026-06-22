@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Train, Globe, Menu, X, Landmark, Compass, HelpCircle } from 'lucide-react';
+import { Train, Globe, Menu, X, Landmark, Compass, HelpCircle, Calendar } from 'lucide-react';
 
 interface HeaderProps {
   currentTab: string;
@@ -19,6 +19,7 @@ export default function Header({ currentTab, setCurrentTab, language, toggleLang
   const menuItems = [
     { id: 'home', label: language === 'KR' ? '홈' : 'Home', icon: Compass },
     { id: 'search', label: language === 'KR' ? '검색 및 출구 정보' : 'Station Info', icon: Train },
+    { id: 'schedule', label: language === 'KR' ? '부산 주요일정표' : 'Busan Schedule', icon: Calendar },
     { id: 'tips', label: language === 'KR' ? '여행 팁' : 'Travel Tips', icon: HelpCircle },
   ];
 
@@ -49,7 +50,7 @@ export default function Header({ currentTab, setCurrentTab, language, toggleLang
           <nav className="hidden md:flex space-x-1" aria-label="Global Navigation">
             {menuItems.map((item) => {
               const Icon = item.icon;
-              const isActive = currentTab === item.id;
+              const isActive = currentTab === item.id || (item.id === 'tips' && currentTab.startsWith('itinerary-'));
               return (
                 <button
                   key={item.id}
@@ -113,7 +114,7 @@ export default function Header({ currentTab, setCurrentTab, language, toggleLang
           <div className="px-2 pt-2 pb-4 space-y-1 sm:px-3">
             {menuItems.map((item) => {
               const Icon = item.icon;
-              const isActive = currentTab === item.id;
+              const isActive = currentTab === item.id || (item.id === 'tips' && currentTab.startsWith('itinerary-'));
               return (
                 <button
                   key={item.id}

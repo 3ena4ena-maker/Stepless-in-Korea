@@ -37,6 +37,7 @@ import Header from './components/Header';
 import TimelineVisualizer from './components/TimelineVisualizer';
 import SubwayStationMap from './components/SubwayStationMap';
 import BusanItinerariesView from './components/BusanItinerariesView';
+import BusanEventsCalendarView from './components/BusanEventsCalendarView';
 import { STATIONS, INITIAL_REPORTS } from './data';
 import { Station, ExitInfo, FacilityReport, StatusType, getExitDisplayName, translateExitNumber, getTranslatedStationName } from './types';
 import { translateRecommendation } from './utils';
@@ -514,6 +515,7 @@ export default function App() {
   const [showTermsModal, setShowTermsModal] = useState<boolean>(false);
   const [activePathFilter, setActivePathFilter] = useState<'ALL' | 'ACCESSIBLE' | 'CARRY'>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedItineraryCategory, setSelectedItineraryCategory] = useState<string | null>(null);
   
   // Geolocation states
   const [geoLoading, setGeoLoading] = useState<boolean>(false);
@@ -1166,6 +1168,9 @@ export default function App() {
               setSelectedStationId('seomyeon');
               setExpandedExitNum(null);
             }
+            if (tab === 'tips') {
+              setSelectedItineraryCategory(null);
+            }
           }} 
           language={language} 
           toggleLanguage={toggleLanguage} 
@@ -1804,7 +1809,21 @@ export default function App() {
 
           {/* Tab 3: TRAVEL TIPS VIEW */}
           {currentTab === 'tips' && (
-            <BusanItinerariesView language={language} />
+            <BusanItinerariesView 
+              language={language}
+              initialCategory={selectedItineraryCategory}
+              onBack={() => {
+                setSelectedItineraryCategory(null);
+              }}
+              onSelectCategory={(category) => {
+                setSelectedItineraryCategory(category);
+              }}
+            />
+          )}
+
+          {/* New Tab 4: BUSAN MAJOR EVENTS CALENDAR VIEW */}
+          {currentTab === 'schedule' && (
+            <BusanEventsCalendarView language={language} />
           )}
 
 
