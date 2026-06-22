@@ -4,6 +4,19 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 import fs from "fs";
+import { initializeApp } from "firebase/app";
+import { 
+  getFirestore, 
+  collection, 
+  getDocs, 
+  getDoc,
+  doc, 
+  setDoc, 
+  updateDoc, 
+  deleteDoc, 
+  query, 
+  orderBy 
+} from "firebase/firestore";
 
 dotenv.config();
 
@@ -12,7 +25,20 @@ const PORT = 3000;
 
 app.use(express.json());
 
-// In-memory + file persistent database for traveler recommendations
+// Initialize Firebase using the provisioned credentials
+const firebaseConfig = {
+  apiKey: "AIzaSyCYe3NH0sQMEVH1W70FdYEJtDUsjSe8gnY",
+  authDomain: "reflected-reflection-hpzz0.firebaseapp.com",
+  projectId: "reflected-reflection-hpzz0",
+  storageBucket: "reflected-reflection-hpzz0.firebasestorage.app",
+  messagingSenderId: "676543728687",
+  appId: "1:676543728687:web:ab3e4c8ce5e1e4e87d4ada"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp, "ai-studio-daece5ca-bfbc-4065-8b23-6d285905bafc");
+
+// Keep local file path ONLY as a migration source
 const RECS_FILE_PATH = path.join(process.cwd(), "recommendations-db.json");
 
 interface TravelerRecommendation {
@@ -59,102 +85,131 @@ const DEFAULT_RECOMMENDATIONS: TravelerRecommendation[] = [
   }
 ];
 
-function getRecommendations(): TravelerRecommendation[] {
+// Helper to seed Firestore from local JSON database upon first run so that we don't lose any existing test tips
+async function seedRecommendationsIfEmpty() {
   try {
-    if (fs.existsSync(RECS_FILE_PATH)) {
-      const raw = fs.readFileSync(RECS_FILE_PATH, "utf-8");
-      return JSON.parse(raw);
+    const q = query(collection(db, "recommendations"));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      console.log("Firestore collection 'recommendations' is empty! Migrating/Seeding data...");
+      let initialData = DEFAULT_RECOMMENDATIONS;
+      if (fs.existsSync(RECS_FILE_PATH)) {
+        try {
+          const raw = fs.readFileSync(RECS_FILE_PATH, "utf-8");
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            initialData = parsed;
+          }
+        } catch (e) {
+          console.error("Failed to parse local recs JSON for seeding:", e);
+        }
+      }
+      
+      for (const rec of initialData) {
+        const docRef = doc(db, "recommendations", rec.id);
+        await setDoc(docRef, rec);
+      }
+      console.log(`Firestore seeded successfully with ${initialData.length} entries.`);
     }
-  } catch (error) {
-    console.error("Failed to read recommendations DB file:", error);
-  }
-  // Fallback to default recommendations and create file
-  saveRecommendations(DEFAULT_RECOMMENDATIONS);
-  return DEFAULT_RECOMMENDATIONS;
-}
-
-function saveRecommendations(recs: TravelerRecommendation[]) {
-  try {
-    fs.writeFileSync(RECS_FILE_PATH, JSON.stringify(recs, null, 2), "utf-8");
-  } catch (error) {
-    console.error("Failed to write to recommendations DB file:", error);
+  } catch (err) {
+    console.error("Error during Firestore seeding:", err);
   }
 }
 
 // 1. Get all recommendations
-app.get("/api/recommendations", (req, res) => {
-  const recs = getRecommendations();
-  res.json(recs);
+app.get("/api/recommendations", async (req, res) => {
+  try {
+    await seedRecommendationsIfEmpty();
+    const q = query(collection(db, "recommendations"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(q);
+    const recs: TravelerRecommendation[] = [];
+    querySnapshot.forEach((docSnap) => {
+      recs.push(docSnap.data() as TravelerRecommendation);
+    });
+    res.json(recs);
+  } catch (error: any) {
+    console.error("Firebase get recommendations error:", error);
+    res.status(500).json({ error: error.message || "Failed to load recommendations from Firestore" });
+  }
 });
 
 // 2. Submit a new recommendation
-app.post("/api/recommendations", (req, res) => {
+app.post("/api/recommendations", async (req, res) => {
   const { id, author, topic, category, stationOrExit, content, createdAt, upvotes } = req.body;
   if (!author || !topic || !content) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
-  const recs = getRecommendations();
-
-  // If a recommendation with this ID already exists, do not duplicate it
-  if (id) {
-    const existingIndex = recs.findIndex(r => r.id === id);
-    if (existingIndex !== -1) {
-      return res.json(recs[existingIndex]);
+  try {
+    const recId = id || `rec-${Date.now()}`;
+    const docRef = doc(db, "recommendations", recId);
+    
+    // De-duplication check
+    const existingSnap = await getDoc(docRef);
+    if (existingSnap.exists()) {
+      return res.json(existingSnap.data());
     }
+
+    const newRec: TravelerRecommendation = {
+      id: recId,
+      author: String(author).trim(),
+      topic: String(topic).trim(),
+      category: category || "OTHER",
+      stationOrExit: String(stationOrExit || "").trim(),
+      content: String(content).trim(),
+      upvotes: Number(upvotes) || 0,
+      createdAt: createdAt || new Date().toISOString()
+    };
+
+    await setDoc(docRef, newRec);
+    res.status(201).json(newRec);
+  } catch (error: any) {
+    console.error("Firebase submit recommendation error:", error);
+    res.status(500).json({ error: error.message || "Failed to save recommendation to Firestore" });
   }
-
-  const newRec: TravelerRecommendation = {
-    id: id || `rec-${Date.now()}`,
-    author: String(author).trim(),
-    topic: String(topic).trim(),
-    category: category || "OTHER",
-    stationOrExit: String(stationOrExit || "").trim(),
-    content: String(content).trim(),
-    upvotes: Number(upvotes) || 0,
-    createdAt: createdAt || new Date().toISOString()
-  };
-
-  recs.unshift(newRec); // Prepend to show newest first
-  saveRecommendations(recs);
-  res.status(201).json(newRec);
 });
 
 // 3. Upvote/Downvote recommendation
-app.post("/api/recommendations/:id/upvote", (req, res) => {
+app.post("/api/recommendations/:id/upvote", async (req, res) => {
   const id = req.params.id;
   const { upvote } = req.body;
 
-  const recs = getRecommendations();
-  const index = recs.findIndex(r => r.id === id);
+  try {
+    const docRef = doc(db, "recommendations", id);
+    const docSnap = await getDoc(docRef);
 
-  if (index === -1) {
-    return res.status(404).json({ error: "Recommendation not found" });
+    if (!docSnap.exists()) {
+      return res.status(404).json({ error: "Recommendation not found" });
+    }
+
+    const currentData = docSnap.data() as TravelerRecommendation;
+    let newUpvotes = currentData.upvotes || 0;
+    if (upvote === true) {
+      newUpvotes += 1;
+    } else if (upvote === false) {
+      newUpvotes = Math.max(0, newUpvotes - 1);
+    }
+
+    const updatedRec = { ...currentData, upvotes: newUpvotes };
+    await updateDoc(docRef, { upvotes: newUpvotes });
+    res.json(updatedRec);
+  } catch (error: any) {
+    console.error("Firebase upvote error:", error);
+    res.status(500).json({ error: error.message || "Failed to upvote recommendation in Firestore" });
   }
-
-  if (upvote === true) {
-    recs[index].upvotes += 1;
-  } else if (upvote === false) {
-    recs[index].upvotes = Math.max(0, recs[index].upvotes - 1);
-  }
-
-  saveRecommendations(recs);
-  res.json(recs[index]);
 });
 
 // 4. Delete recommendation
-app.delete("/api/recommendations/:id", (req, res) => {
+app.delete("/api/recommendations/:id", async (req, res) => {
   const id = req.params.id;
-  const recs = getRecommendations();
-  const index = recs.findIndex(r => r.id === id);
-
-  if (index === -1) {
-    return res.status(404).json({ error: "Recommendation not found" });
+  try {
+    const docRef = doc(db, "recommendations", id);
+    await deleteDoc(docRef);
+    res.json({ success: true });
+  } catch (error: any) {
+    console.error("Firebase delete error:", error);
+    res.status(500).json({ error: error.message || "Failed to delete recommendation in Firestore" });
   }
-
-  recs.splice(index, 1);
-  saveRecommendations(recs);
-  res.json({ success: true });
 });
 
 // Initialize Gemini safely
