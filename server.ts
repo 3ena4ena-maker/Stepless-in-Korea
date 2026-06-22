@@ -25,18 +25,40 @@ const PORT = 3000;
 
 app.use(express.json());
 
-// Initialize Firebase using the provisioned credentials
-const firebaseConfig = {
-  apiKey: "AIzaSyCYe3NH0sQMEVH1W70FdYEJtDUsjSe8gnY",
-  authDomain: "reflected-reflection-hpzz0.firebaseapp.com",
-  projectId: "reflected-reflection-hpzz0",
-  storageBucket: "reflected-reflection-hpzz0.firebasestorage.app",
-  messagingSenderId: "676543728687",
-  appId: "1:676543728687:web:ab3e4c8ce5e1e4e87d4ada"
+// Load Firebase config dynamically from environment variables or local config json
+let firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
 };
 
+let databaseId = process.env.FIREBASE_DATABASE_ID || "ai-studio-daece5ca-bfbc-4065-8b23-6d285905bafc";
+
+try {
+  const configPath = path.join(process.cwd(), "firebase-applet-config.json");
+  if (fs.existsSync(configPath)) {
+    const localConfig = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+    firebaseConfig = {
+      apiKey: localConfig.apiKey || firebaseConfig.apiKey,
+      authDomain: localConfig.authDomain || firebaseConfig.authDomain,
+      projectId: localConfig.projectId || firebaseConfig.projectId,
+      storageBucket: localConfig.storageBucket || firebaseConfig.storageBucket,
+      messagingSenderId: localConfig.messagingSenderId || firebaseConfig.messagingSenderId,
+      appId: localConfig.appId || firebaseConfig.appId,
+    };
+    if (localConfig.firestoreDatabaseId) {
+      databaseId = localConfig.firestoreDatabaseId;
+    }
+  }
+} catch (err) {
+  console.warn("Could not load local firebase-applet-config.json:", err);
+}
+
 const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp, "ai-studio-daece5ca-bfbc-4065-8b23-6d285905bafc");
+const db = getFirestore(firebaseApp, databaseId);
 
 // Keep local file path ONLY as a migration source
 const RECS_FILE_PATH = path.join(process.cwd(), "recommendations-db.json");
