@@ -3,6 +3,7 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
+import fs from "fs";
 
 dotenv.config();
 
@@ -10,6 +11,142 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+
+// In-memory + file persistent database for traveler recommendations
+const RECS_FILE_PATH = path.join(process.cwd(), "recommendations-db.json");
+
+interface TravelerRecommendation {
+  id: string;
+  author: string;
+  topic: string;
+  category: "FOOD" | "CAFE" | "ATTRACTION" | "TRANSIT" | "OTHER";
+  stationOrExit: string;
+  content: string;
+  upvotes: number;
+  createdAt: string;
+}
+
+const DEFAULT_RECOMMENDATIONS: TravelerRecommendation[] = [
+  {
+    id: 'rec-1',
+    author: 'BusanLover33',
+    topic: '이재모피자 서면점 & 부산역본점',
+    category: 'FOOD',
+    stationOrExit: '부산역 5번출구 / 전포역 7번출구 근처',
+    content: '이재모피자는 부산 로컬과 여행객 모두가 열광하는 최고의 치즈 피자 전문점입니다! 치즈 크러스트의 쫄깃함이 남달라요. 웨이팅이 기니 앱(테이블링 등)을 꼭 체크하세요.',
+    upvotes: 42,
+    createdAt: '2026-06-01T12:00:00Z'
+  },
+  {
+    id: 'rec-2',
+    author: 'NomadChris',
+    topic: '전포 사잇길 소품샵 & 빈티지 카페 골목',
+    category: 'CAFE',
+    stationOrExit: '전포역 4번 및 8번출구',
+    content: '전포 카페거리에서 조금만 위쪽으로 가면 나오는 사잇길에는 아기자기한 공방, 감성 넘치는 독립 서점, 개성 가득한 빈티지 편집숍들이 가득해요! 평탄하고 걸어 다니기 좋아 무장애 산책하기 최고입니다.',
+    upvotes: 28,
+    createdAt: '2026-06-03T15:30:00Z'
+  },
+  {
+    id: 'rec-3',
+    author: 'TransitPro',
+    topic: '알뜰 부산 지하철 1일 무제한 패스',
+    category: 'TRANSIT',
+    stationOrExit: '모든 부산 지하철역 발권기',
+    content: '하루 동안 지하철을 5회 이상 탈 계획이라면 1일권(정기승차권)을 사서 이용하는게 저렴해요! 어른 6,000원, 청소년 4,000원이고 1일권은 최초 사용 당일 부산 지하철 1 ~ 4호선에서 횟수 제한 없이 이용할 수 있어요!',
+    upvotes: 35,
+    createdAt: '2026-06-05T09:15:00Z'
+  }
+];
+
+function getRecommendations(): TravelerRecommendation[] {
+  try {
+    if (fs.existsSync(RECS_FILE_PATH)) {
+      const raw = fs.readFileSync(RECS_FILE_PATH, "utf-8");
+      return JSON.parse(raw);
+    }
+  } catch (error) {
+    console.error("Failed to read recommendations DB file:", error);
+  }
+  // Fallback to default recommendations and create file
+  saveRecommendations(DEFAULT_RECOMMENDATIONS);
+  return DEFAULT_RECOMMENDATIONS;
+}
+
+function saveRecommendations(recs: TravelerRecommendation[]) {
+  try {
+    fs.writeFileSync(RECS_FILE_PATH, JSON.stringify(recs, null, 2), "utf-8");
+  } catch (error) {
+    console.error("Failed to write to recommendations DB file:", error);
+  }
+}
+
+// 1. Get all recommendations
+app.get("/api/recommendations", (req, res) => {
+  const recs = getRecommendations();
+  res.json(recs);
+});
+
+// 2. Submit a new recommendation
+app.post("/api/recommendations", (req, res) => {
+  const { author, topic, category, stationOrExit, content } = req.body;
+  if (!author || !topic || !content) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const recs = getRecommendations();
+  const newRec: TravelerRecommendation = {
+    id: `rec-${Date.now()}`,
+    author: String(author).trim(),
+    topic: String(topic).trim(),
+    category: category || "OTHER",
+    stationOrExit: String(stationOrExit || "").trim(),
+    content: String(content).trim(),
+    upvotes: 0,
+    createdAt: new Date().toISOString()
+  };
+
+  recs.unshift(newRec); // Prepend to show newest first
+  saveRecommendations(recs);
+  res.status(201).json(newRec);
+});
+
+// 3. Upvote/Downvote recommendation
+app.post("/api/recommendations/:id/upvote", (req, res) => {
+  const id = req.params.id;
+  const { upvote } = req.body;
+
+  const recs = getRecommendations();
+  const index = recs.findIndex(r => r.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ error: "Recommendation not found" });
+  }
+
+  if (upvote === true) {
+    recs[index].upvotes += 1;
+  } else if (upvote === false) {
+    recs[index].upvotes = Math.max(0, recs[index].upvotes - 1);
+  }
+
+  saveRecommendations(recs);
+  res.json(recs[index]);
+});
+
+// 4. Delete recommendation
+app.delete("/api/recommendations/:id", (req, res) => {
+  const id = req.params.id;
+  const recs = getRecommendations();
+  const index = recs.findIndex(r => r.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ error: "Recommendation not found" });
+  }
+
+  recs.splice(index, 1);
+  saveRecommendations(recs);
+  res.json({ success: true });
+});
 
 // Initialize Gemini safely
 let ai: GoogleGenAI | null = null;

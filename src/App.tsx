@@ -544,44 +544,24 @@ export default function App() {
   const [expandedAttractions, setExpandedAttractions] = useState<Record<string, boolean>>({});
 
   // Traveler Recommendations states
-  const [recommendations, setRecommendations] = useState<TravelerRecommendation[]>(() => {
-    const saved = localStorage.getItem('busan_traveler_recs');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved) as TravelerRecommendation[];
-        // Auto-update default items if they are present but have old values in localStorage
-        const updated = parsed.map(rec => {
-          const defaultMatch = DEFAULT_RECOMMENDATIONS.find(d => d.id === rec.id);
-          if (defaultMatch) {
-            return {
-              ...rec,
-              content: defaultMatch.content,
-              topic: defaultMatch.topic,
-              stationOrExit: defaultMatch.stationOrExit
-            };
-          }
-          return rec;
-        });
+  const [recommendations, setRecommendations] = useState<TravelerRecommendation[]>(DEFAULT_RECOMMENDATIONS);
 
-        // Ensure missing default items (like newly added ones) are always populated
-        const missingDefaults = DEFAULT_RECOMMENDATIONS.filter(
-          d => !updated.some(rec => rec.id === d.id)
-        );
-
-        if (missingDefaults.length > 0) {
-          // Keep default recommendations sorted appropriately (e.g. at the bottom or top)
-          const merged = [...updated, ...missingDefaults];
-          localStorage.setItem('busan_traveler_recs', JSON.stringify(merged));
-          return merged;
+  // Synchronize traveler recommendations from backend on system start to ensure everyone shares the custom tips
+  useEffect(() => {
+    fetch("/api/recommendations")
+      .then(res => {
+        if (res.ok) return res.json();
+        throw new Error("Failed to load recommendations from server");
+      })
+      .then(data => {
+        if (Array.isArray(data)) {
+          setRecommendations(data);
         }
-
-        return updated;
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return DEFAULT_RECOMMENDATIONS;
-  });
+      })
+      .catch(err => {
+        console.error("Backend recommendations fetch failed:", err);
+      });
+  }, []);
 
   const [newRecAuthor, setNewRecAuthor] = useState('');
   const [newRecTopic, setNewRecTopic] = useState('');
@@ -717,10 +697,6 @@ export default function App() {
   }, [selectedStationId, currentTab, isHomeLanding]);
 
   useEffect(() => {
-    localStorage.setItem('busan_traveler_recs', JSON.stringify(recommendations));
-  }, [recommendations]);
-
-  useEffect(() => {
     localStorage.setItem('busan_traveler_upvotes', JSON.stringify(hasUpvoted));
   }, [hasUpvoted]);
 
@@ -842,55 +818,66 @@ export default function App() {
     e.preventDefault();
     if (!newRecAuthor.trim() || !newRecTopic.trim() || !newRecContent.trim()) return;
 
-    const newId = `rec-${Date.now()}`;
-    const newRec: TravelerRecommendation = {
-      id: newId,
+    const payload = {
       author: newRecAuthor.trim(),
       topic: newRecTopic.trim(),
       category: newRecCategory,
       stationOrExit: newRecStation.trim() || (language === 'KR' ? '모든 구역' : 'All Area'),
-      content: newRecContent.trim(),
-      upvotes: 0,
-      createdAt: new Date().toISOString()
+      content: newRecContent.trim()
     };
 
-    setRecommendations(prev => [newRec, ...prev]);
-    setMyRecIds(prev => {
-      const updated = [...prev, newRec.id];
-      localStorage.setItem('busan_my_rec_ids', JSON.stringify(updated));
-      return updated;
-    });
-
-    // Translate immediately upon submission to guarantee it's cached and ready instantly when switching language!
-    setTranslatingIds(prev => ({ ...prev, [newId]: true }));
-    fetch("/api/translate", {
+    // Save to the server-side JSON database so it is persistent and visible to everyone
+    fetch("/api/recommendations", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        topic: newRec.topic,
-        content: newRec.content,
-        stationOrExit: newRec.stationOrExit
-      })
+      body: JSON.stringify(payload)
     })
     .then(res => {
       if (res.ok) return res.json();
-      throw new Error("Translation failed");
+      throw new Error("Failed to save recommendation on server");
     })
-    .then(data => {
-      setTranslatedRecs(prev => ({
-        ...prev,
-        [newId]: {
-          topic: data.topic,
-          content: data.content,
-          stationOrExit: data.stationOrExit
-        }
-      }));
+    .then((newRec: TravelerRecommendation) => {
+      setRecommendations(prev => [newRec, ...prev]);
+      setMyRecIds(prev => {
+        const updated = [...prev, newRec.id];
+        localStorage.setItem('busan_my_rec_ids', JSON.stringify(updated));
+        return updated;
+      });
+
+      // Translate immediately upon submission to guarantee it's cached and ready instantly when switching language!
+      setTranslatingIds(prev => ({ ...prev, [newRec.id]: true }));
+      fetch("/api/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          topic: newRec.topic,
+          content: newRec.content,
+          stationOrExit: newRec.stationOrExit
+        })
+      })
+      .then(res => {
+        if (res.ok) return res.json();
+        throw new Error("Translation failed");
+      })
+      .then(data => {
+        setTranslatedRecs(prev => ({
+          ...prev,
+          [newRec.id]: {
+            topic: data.topic,
+            content: data.content,
+            stationOrExit: data.stationOrExit
+          }
+        }));
+      })
+      .catch(err => {
+        console.error("Instant translation failed:", err);
+      })
+      .finally(() => {
+        setTranslatingIds(prev => ({ ...prev, [newRec.id]: false }));
+      });
     })
     .catch(err => {
-      console.error("Instant translation failed:", err);
-    })
-    .finally(() => {
-      setTranslatingIds(prev => ({ ...prev, [newId]: false }));
+      console.error("Failed to add recommendation:", err);
     });
 
     setNewRecAuthor('');
@@ -901,6 +888,7 @@ export default function App() {
   };
 
   const handleDeleteRecommendation = (id: string) => {
+    // Delete from state immediately (Optimistic UI)
     setRecommendations(prev => prev.filter(rec => rec.id !== id));
     setMyRecIds(prev => {
       const updated = prev.filter(item => item !== id);
@@ -908,18 +896,43 @@ export default function App() {
       return updated;
     });
     setDeleteConfId(null);
+
+    // Call server to persist deletion
+    fetch(`/api/recommendations/${id}`, {
+      method: "DELETE"
+    })
+    .catch(err => {
+      console.error("Failed to delete recommendation on server:", err);
+    });
   };
 
   const handleUpvote = (id: string) => {
-    if (hasUpvoted[id]) {
-      // Undo upvote
-      setRecommendations(prev => prev.map(rec => rec.id === id ? { ...rec, upvotes: rec.upvotes - 1 } : rec));
-      setHasUpvoted(prev => ({ ...prev, [id]: false }));
-    } else {
-      // Perform upvote
-      setRecommendations(prev => prev.map(rec => rec.id === id ? { ...rec, upvotes: rec.upvotes + 1 } : rec));
-      setHasUpvoted(prev => ({ ...prev, [id]: true }));
-    }
+    const isUpvoting = !hasUpvoted[id];
+
+    // Optimistic UI updates
+    setHasUpvoted(prev => ({ ...prev, [id]: isUpvoting }));
+    setRecommendations(prev => prev.map(rec => rec.id === id ? { ...rec, upvotes: Math.max(0, rec.upvotes + (isUpvoting ? 1 : -1)) } : rec));
+
+    // Persist upvote count on server
+    fetch(`/api/recommendations/${id}/upvote`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ upvote: isUpvoting })
+    })
+    .then(res => {
+      if (res.ok) return res.json();
+      throw new Error("Upvote failed");
+    })
+    .then((updatedRec: TravelerRecommendation) => {
+      // Re-synchronize with exact server count
+      setRecommendations(prev => prev.map(rec => rec.id === id ? updatedRec : rec));
+    })
+    .catch(err => {
+      console.error("Failed to update upvote on server:", err);
+      // Rollback optimistic state transition
+      setHasUpvoted(prev => ({ ...prev, [id]: !isUpvoting }));
+      setRecommendations(prev => prev.map(rec => rec.id === id ? { ...rec, upvotes: Math.max(0, rec.upvotes + (isUpvoting ? -1 : 1)) } : rec));
+    });
   };
 
   const toggleLanguage = () => {
