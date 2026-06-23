@@ -579,11 +579,11 @@ export default function BusanItinerariesView({
           {/* Extremely Clean & Professional compact Header */}
           <div className="text-center py-4 max-w-2xl mx-auto space-y-2">
             <h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-slate-800 tracking-tight">
-              {language === 'KR' ? '부산 여행 편의 안내 가이드' : 'Busan Travel Convenience Guide'}
+              {language === 'KR' ? '부산 여행에 대한 모든 것' : 'Busan Travel Convenience Guide'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed">
               {language === 'KR'
-                ? '평탄하고 쾌적한 보행 이동을 돕는 부산 여행 코스 추천과 지하철 등 대중교통 이용 팁을 제공합니다.'
+                ? '부산 현지인이 알려주는 부산 여행 코스 추천과 지하철 등 대중교통 이용 팁'
                 : 'Handy recommendations for flat-path walking routes and public transit guide in Busan.'}
             </p>
           </div>
