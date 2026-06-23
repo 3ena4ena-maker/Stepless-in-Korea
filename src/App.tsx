@@ -303,7 +303,7 @@ const DEFAULT_RECOMMENDATIONS: TravelerRecommendation[] = [
     topic: '전포 사잇길 소품샵 & 빈티지 카페 골목',
     category: 'CAFE',
     stationOrExit: '전포역 4번 및 8번출구',
-    content: '전포 카페거리에서 조금만 위쪽으로 가면 나오는 사잇길에는 아기자기한 공방, 감성 넘치는 독립 서점, 개성 가득한 빈티지 편집숍들이 가득해요! 평탄하고 걸어 다니기 좋아 무장애 산책하기 최고입니다.',
+    content: '전포 카페거리에서 조금만 위쪽으로 가면 나오는 사잇길에는 아기자기한 공방, 감성 넘치는 독립 서점, 개성 가득한 빈티지 편집숍들이 가득해요! 평탄하고 걸어 다니기 좋아 기분 좋게 느긋이 산책하기 최고입니다.',
     upvotes: 28,
     createdAt: '2026-06-03T15:30:00Z'
   },
@@ -1532,7 +1532,7 @@ export default function App() {
                         {language === 'KR' ? '📖 부산 지하철 교통약자 이동 백과사전 & 편의 가이드' : '📖 Busan Subway Accessibility Encyclopedia & Safety Guide'}
                       </h3>
                       <p className="text-xs text-slate-400 mt-0.5">
-                        {language === 'KR' ? '안전하고 완전한 무장애 무턱 대중교통 이용을 위한 맞춤형 백과사전 가이드입니다.' : 'Expert transit assistance and safety rules for barriers-free navigation in Busan.'}
+                        {language === 'KR' ? '안전하고 편리한 대중교통 이용을 위한 맞춤형 백과사전 가이드입니다.' : 'Expert transit assistance and safety rules for easy navigation in Busan.'}
                       </p>
                     </div>
                   </div>
@@ -1551,7 +1551,7 @@ export default function App() {
                       </p>
                       <p className="text-slate-500 font-medium">
                         {language === 'KR'
-                          ? '2. 전동휠체어의 경우 급출발 및 급제동에 대비해 차량 내부의 전용 장애인 휠체어 구역에 안착한 후 반드시 브레이크 잠금 장치를 채워 고정 장치를 결속해 주시기 바랍니다.'
+                          ? '2. 전동휠체어의 경우 급출발 및 급제동에 대비해 차량 내부의 전용 휠체어 구역에 안착한 후 반드시 브레이크 잠금 장치를 채워 고정 장치를 결속해 주시기 바랍니다.'
                           : '2. Position power-wheelchairs in the designated Barrier-Free bays inside cars and always engage manual parking brakes.'}
                       </p>
                     </div>
@@ -1851,12 +1851,18 @@ export default function App() {
 
           <div className="md:col-span-3 space-y-3">
             <h4 className="text-sm font-bold text-white uppercase tracking-wider">
-              {language === 'KR' ? '관련 공공 서비스' : 'Public Agencies'}
+              {language === 'KR' ? '관련 서비스 & 커뮤니티' : 'Agencies & Community'}
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
                 <a href="https://www.humetro.busan.kr" target="_blank" rel="noopener noreferrer" className="hover:text-white hover:underline flex items-center gap-1">
                   <span>부산교통공사 (Humetro)</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </li>
+              <li>
+                <a href="https://www.reddit.com/r/BusanTravelTips/" target="_blank" rel="noopener noreferrer" className="hover:text-[#ff4500] hover:underline flex items-center gap-1 font-semibold text-orange-500">
+                  <span>{language === 'KR' ? '레딧 커뮤니티 (Reddit)' : 'Reddit Community'}</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </li>
@@ -1906,6 +1912,15 @@ export default function App() {
               {language === 'KR' ? '개인정보처리방침' : 'Privacy'}
             </button>
             <a 
+              href="https://www.reddit.com/r/BusanTravelTips/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-slate-300 hover:underline cursor-pointer text-slate-500 text-2xs sm:text-xs flex items-center gap-0.5"
+            >
+              <span>{language === 'KR' ? '레딧 바로가기' : 'Reddit'}</span>
+              <ExternalLink className="w-2.5 h-2.5 text-slate-500" />
+            </a>
+            <a 
               href="mailto:floreur88@gmail.com" 
               className="hover:text-slate-300 hover:underline cursor-pointer text-slate-500 text-2xs sm:text-xs"
             >
@@ -1936,8 +1951,8 @@ export default function App() {
             <div className="p-6 overflow-y-auto text-left text-xs sm:text-sm text-slate-600 space-y-4">
               <p className="font-semibold text-slate-700">
                 {language === 'KR' 
-                  ? '본 약관은 Stepless(이하 "서비스")가 제공하는 부산 지하철 무장애 무단차 교통 경로 안내 서비스의 이용에 관한 조건 및 규정을 양 당사자 계약의 일환으로 정의합니다.' 
-                  : 'This agreement governs your use of the Stepless barrier-free transit pathways search engine and traveler guidelines.'}
+                  ? '본 약관은 Stepless(이하 "서비스")가 제공하는 부산 지하철 편리한 교통 경로 안내 서비스의 이용에 관한 조건 및 규정을 양 당사자 계약의 일환으로 정의합니다.' 
+                  : 'This agreement governs your use of the Stepless easy-access transit pathways search engine and traveler guidelines.'}
               </p>
 
               <div>
@@ -2024,7 +2039,7 @@ export default function App() {
                 <h4 className="font-bold text-slate-850 text-sm mb-1 text-emerald-800">{language === 'KR' ? '2. 구글 제3자 타겟 광고 쿠키(Cookie) 명세 고지' : '2. Google Third-Party Cookie Policy'}</h4>
                 <p className="font-medium">
                   {language === 'KR'
-                    ? '1) 당사는 지속 가능한 무장애 편의시설 정보 갱신 및 서비스 운영을 위하여 구글 애드센스(Google AdSense) 광고 시스템 기법을 웹사이트 내에 수용합니다.'
+                    ? '1) 당사는 지속 가능한 이동 편의시설 정보 갱신 및 서비스 운영을 위하여 구글 애드센스(Google AdSense) 광고 시스템 기법을 웹사이트 내에 수용합니다.'
                     : '1) We allow Google AdSense on our web site to finance persistent field-testing and continuous updates to our map catalog.'}
                 </p>
                 <p className="font-medium mt-1">

@@ -18,7 +18,13 @@ import {
   Sunset,
   Coffee,
   ArrowLeft,
-  Sparkles
+  Sparkles,
+  Sun,
+  Moon,
+  Home,
+  Utensils,
+  BookOpen,
+  MessageSquare
 } from 'lucide-react';
 import { BUSAN_ITINERARIES, ItineraryCourse, ItineraryStep } from '../data/itineraries';
 
@@ -191,13 +197,22 @@ export default function BusanItinerariesView({
   onBack, 
   onSelectCategory 
 }: BusanItinerariesViewProps) {
+  // Navigation Section: 'SELECTION' (cute entry) | 'RECOMMENDATIONS' (itineraries list) | 'TRANSIT_TIPS' (transit guide)
+  const [activeSection, setActiveSection] = useState<'SELECTION' | 'RECOMMENDATIONS' | 'TRANSIT_TIPS'>(
+    initialCategory ? 'RECOMMENDATIONS' : 'SELECTION'
+  );
+
   // Initially show the categories overview dashboard (null), which is "카테고리만 보여지게 만들어줘"
   const [activeCategory, setActiveCategory] = useState<CategoryType | null>(initialCategory || null);
 
-  // Synchronize internal activeCategory state with changes in initialCategory prop
+  // Synchronize internal activeCategory and section state with changes in initialCategory prop
   React.useEffect(() => {
     setActiveCategory(initialCategory || null);
+    if (initialCategory) {
+      setActiveSection('RECOMMENDATIONS');
+    }
   }, [initialCategory]);
+
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({
     'itinerary-day': true, // Keep day itinerary open by default for immediate preview when selected
   });
@@ -205,12 +220,13 @@ export default function BusanItinerariesView({
   const [activeTab4Nights, setActiveTab4Nights] = useState<number>(0);
   const [activeDayCourseIndex, setActiveDayCourseIndex] = useState<number>(0);
 
+  // Transit page states
+  const [activeTransitCategory, setActiveTransitCategory] = useState<'LINES' | 'BOARDING' | 'EMERGENCY' | 'TRANSITS'>('LINES');
+  const [checkedRules, setCheckedRules] = useState<Record<number, boolean>>({});
+
   // Scroll to simulated top of the view/page when the category changes to make it feel like navigating to a new page.
   React.useEffect(() => {
-    // Scroll window/page to the top smoothly to simulate brand new page loading
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    // Also scroll the local container into view as a backup anchor
     const container = document.getElementById('busan-itineraries-container');
     if (container) {
       const timer = setTimeout(() => {
@@ -218,7 +234,7 @@ export default function BusanItinerariesView({
       }, 50);
       return () => clearTimeout(timer);
     }
-  }, [activeCategory]);
+  }, [activeCategory, activeSection]);
 
   // Quiz States
   const [quizActive, setQuizActive] = useState(false);
@@ -272,7 +288,7 @@ export default function BusanItinerariesView({
           tipKo: '요트 투어는 해가 지기 직전인 \'일몰 30분 전(골든타임)\'으로 예약해 보세요! 바다 너머로 지는 노을과 화려하게 불이 켜지는 광안대교를 동시에 감상할 수 있습니다.',
           tipEn: 'Reserve the Yacht Tour for exactly 30 minutes before sunset (Golden hour)! You can enjoy both the glowing red sun and the beautifully lit Gwangan Bridge.',
           bgClass: 'from-orange-50/60 to-orange-100/30 border-orange-200 text-orange-950',
-          badgeColor: 'bg-orange-100 text-orange-800'
+          badgeColor: 'bg-orange-100 text-orange-850'
         };
       case 'type2':
         return {
@@ -355,6 +371,27 @@ export default function BusanItinerariesView({
     }
   };
 
+  const getCategoryLucideIcon = (id: CategoryType, className: string = "w-5 h-5") => {
+    switch (id) {
+      case 'DAY':
+        return <Sun className={className} />;
+      case '1NIGHT':
+        return <Moon className={className} />;
+      case '2NIGHTS':
+        return <Compass className={className} />;
+      case '3NIGHTS':
+        return <Sunset className={className} />;
+      case '4NIGHTS':
+        return <Home className={className} />;
+      case 'GOURMET':
+        return <Utensils className={className} />;
+      case 'HISTORY':
+        return <BookOpen className={className} />;
+      default:
+        return <MapPin className={className} />;
+    }
+  };
+
   const categoriesConfig: CategoryConfig[] = [
     {
       id: 'DAY',
@@ -389,7 +426,7 @@ export default function BusanItinerariesView({
       tagEn: 'Art & Marine',
       titleKo: '2박',
       titleEn: '2 Nights',
-      descKo: '전포·서면 감성 골목과 동해 바위 절벽의 해동용궁사, 그리고 고즈넉한 수영의 명소들을 완만하게 엮어 이동 편의를 만끽하는 매력적인 2박 코스예요.',
+      descKo: '전포·서면 감성 골목과 바위 절벽의 해동용궁사, 그리고 고즈넉한 수영의 명소들을 완만하게 엮어 이동 편의를 만끽하는 매력적인 2박 코스예요.',
       descEn: 'Enjoy trendy Jeonpo lanes, stunning seaside Haedong Yonggungsa Shrine, and historical Suyeong alleys.',
       bgClass: 'bg-amber-50/70 hover:bg-amber-50',
       borderClass: 'border-amber-100 hover:border-amber-200',
@@ -457,29 +494,226 @@ export default function BusanItinerariesView({
 
   return (
     <div className="space-y-8 text-left animate-fade-in max-w-5xl mx-auto" id="busan-itineraries-container">
-      {/* Header Info Banner - Only visible on main travel tips page */}
-      {activeCategory === null && (
-        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] text-left flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="text-left max-w-3xl">
-            <h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-slate-800 flex items-center gap-2.5">
-              <span>🗺️</span>
-              <span>{language === 'KR' ? '부산 현지인이 추천하는 부산 여행' : 'Stepless Busan Handcrafted Itineraries'}</span>
-            </h2>
-            <p className="text-sm sm:text-base text-slate-500 mt-2 leading-relaxed font-medium">
-              {language === 'KR' 
-                ? '현지인이 알려주는 부산의 매력을 카테고리별로 추천해주는 일정 가이드입니다.' 
-                : 'Pristinely curated, 100% step-free travel itineraries designed for families with strollers, heavy luggage carriers, wheelchair users, and senior companions.'}
-            </p>
-            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-blue-50/60 border border-blue-100/70 py-1 px-3 text-xs font-extrabold text-[#004481]/90 select-none">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#004481]"></span>
-              </span>
-              <span>{language === 'KR' ? '⚙️ 현재 더 정확하고 많은 정보를 추천하기 위해 업데이트 중입니다.' : '⚙️ Currently updating to recommend more accurate and richer information.'}</span>
-            </div>
+      {/* Dynamic Seagull & Sea Styles Injector */}
+      <style>{`
+        @keyframes subtle-boat {
+          0% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-4px) rotate(1deg); }
+          100% { transform: translateY(0px) rotate(0deg); }
+        }
+        @keyframes float-wing {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-6px); }
+          100% { transform: translateY(0px); }
+        }
+        @keyframes custom-ripple {
+          0% { transform: scale(1); opacity: 0.15; }
+          50% { transform: scale(1.08); opacity: 0.3; }
+          100% { transform: scale(1); opacity: 0.15; }
+        }
+        .animate-boat {
+          animation: subtle-boat 4.5s ease-in-out infinite;
+        }
+        .animate-seagull {
+          animation: float-wing 3.2s ease-in-out infinite;
+        }
+        .animate-pulse-ring {
+          animation: custom-ripple 3s ease-in-out infinite;
+        }
+      `}</style>
+
+      {/* SUB-TABS PILLED TOGGLE CONTROLLER (Only visible when NOT in SELECTION view) */}
+      {activeSection !== 'SELECTION' && (
+        <div className="bg-white p-3.5 sm:p-4 rounded-3xl border border-slate-100 shadow-[0_4px_15px_rgba(0,0,0,0.02)] flex flex-col md:flex-row items-center justify-between gap-4 animate-fade-in">
+          {/* Back btn */}
+          <button
+            onClick={() => {
+              setActiveSection('SELECTION');
+              setActiveCategory(null);
+            }}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black text-slate-500 hover:text-[#004481] hover:bg-slate-50 active:scale-95 transition-all shrink-0 cursor-pointer border border-slate-100"
+          >
+            <span>◀</span>
+            <span>{language === 'KR' ? '추천/이용팁 메인으로' : 'Back to Selection Dashboard'}</span>
+          </button>
+
+          {/* Double Pill */}
+          <div className="bg-slate-50/80 p-1 rounded-2xl border border-slate-100 flex gap-1 w-full md:w-auto max-w-md">
+            <button
+              onClick={() => {
+                setActiveSection('RECOMMENDATIONS');
+                setActiveCategory(null);
+              }}
+              className={`flex-1 md:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-305 flex items-center justify-center gap-2 cursor-pointer ${
+                activeSection === 'RECOMMENDATIONS'
+                  ? 'bg-[#004481] text-white shadow-md'
+                  : 'text-slate-500 hover:text-slate-850 hover:bg-slate-100/50'
+              }`}
+            >
+              <span>🏖️</span>
+              <span>{language === 'KR' ? '부산 여행 추천' : 'Trip Recommendations'}</span>
+            </button>
+            <button
+              onClick={() => {
+                setActiveSection('TRANSIT_TIPS');
+                setActiveCategory(null);
+              }}
+              className={`flex-1 md:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-305 flex items-center justify-center gap-2 cursor-pointer ${
+                activeSection === 'TRANSIT_TIPS'
+                  ? 'bg-[#004481] text-white shadow-md'
+                  : 'text-slate-500 hover:text-slate-850 hover:bg-slate-100/50'
+              }`}
+            >
+              <span>🚇</span>
+              <span>{language === 'KR' ? '대중교통 이용 팁' : 'Public Transit Guide'}</span>
+            </button>
           </div>
         </div>
       )}
+
+      {/* ========================================================================= */}
+      {/* VIEW 1: SELECTION DASHBOARD (Highly customized, adorable, dynamic entry)  */}
+      {/* ========================================================================= */}
+      {activeSection === 'SELECTION' && (
+        <div className="space-y-6 animate-fade-in text-center py-2">
+          {/* Extremely Clean & Professional compact Header */}
+          <div className="text-center py-4 max-w-2xl mx-auto space-y-2">
+            <h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-slate-800 tracking-tight">
+              {language === 'KR' ? '부산 여행 편의 안내 가이드' : 'Busan Travel Convenience Guide'}
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed">
+              {language === 'KR'
+                ? '평탄하고 쾌적한 보행 이동을 돕는 부산 여행 코스 추천과 지하철 등 대중교통 이용 팁을 제공합니다.'
+                : 'Handy recommendations for flat-path walking routes and public transit guide in Busan.'}
+            </p>
+          </div>
+
+          {/* TWO MAIN MENU BUTTON CARDS */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2" id="tips-main-menu-selection">
+            {/* Card 1: BUSAN TRAVEL RECOMMENDATIONS */}
+            <div
+              onClick={() => setActiveSection('RECOMMENDATIONS')}
+              className="group bg-gradient-to-br from-amber-500/[0.04] via-orange-50/20 to-white p-7 sm:p-9 rounded-4xl border-2 border-amber-200/80 hover:border-amber-400 cursor-pointer shadow-[0_4px_22px_rgba(245,158,11,0.01)] hover:shadow-[0_12px_32px_rgba(245,158,11,0.08)] transform hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
+            >
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100/50 text-amber-850 text-[10.5px] font-black rounded-lg uppercase tracking-wider">
+                  <span>{language === 'KR' ? '추천 일정 7코스' : '7 Standard Courses'}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-300/30 flex items-center justify-center text-amber-700 shadow-sm shrink-0">
+                    <Compass className="w-5.5 h-5.5 stroke-[2.2]" />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-800 tracking-tight leading-tight">
+                    {language === 'KR' ? '여행 코스 추천' : 'Travel Course Recommendations'}
+                  </h3>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed">
+                  {language === 'KR' 
+                    ? '평탄하고 차분한 길로 구성된 일일 숲길 산책 코스부터 바다 낭만 투어, 돼지국밥 식도락, 모노레일 탐방까지 현지인이 직접 엄선한 맞춤형 코스를 만나보세요.'
+                    : 'Discover fine handcrafted day trips, scenic coastal walks, delicious gastronomy guides and historic viewpoints.'}
+                </p>
+              </div>
+
+              <div className="mt-8 flex items-center justify-between text-xs sm:text-sm font-black text-amber-700 pt-3 border-t border-amber-100/60">
+                <span>{language === 'KR' ? '추천 일정 둘러보기' : 'Explore itineraries'}</span>
+                <span className="p-2 bg-amber-100 text-amber-850 rounded-xl group-hover:translate-x-1.5 transition-transform">➔</span>
+              </div>
+            </div>
+
+            {/* Card 2: SUBWAY PUBLIC TRANSIT TIPS */}
+            <div
+              onClick={() => setActiveSection('TRANSIT_TIPS')}
+              className="group bg-gradient-to-br from-sky-500/[0.04] via-blue-50/20 to-white p-7 sm:p-9 rounded-4xl border-2 border-sky-200/80 hover:border-sky-400 cursor-pointer shadow-[0_4px_22px_rgba(14,165,233,0.01)] hover:shadow-[0_12px_32px_rgba(14,165,233,0.08)] transform hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
+            >
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-100/60 text-sky-850 text-[10.5px] font-black rounded-lg uppercase tracking-wider">
+                  <span>{language === 'KR' ? '교통수단 핵심 정보' : 'Public Transit Guide'}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-2xl bg-sky-500/10 border border-sky-300/30 flex items-center justify-center text-sky-700 shadow-sm shrink-0">
+                    <Train className="w-5.5 h-5.5 stroke-[2.2]" />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-800 tracking-tight leading-tight">
+                    {language === 'KR' ? '대중교통 이용 팁' : 'Public Transport Tips'}
+                  </h3>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed">
+                  {language === 'KR'
+                    ? '부산 지하철 1~4호선과 동해선, 경전철의 편리하고 안전한 교통약자 인프라 특징부터 휠체어/유모차 탑승 안전 팁, 엘리베이터 점검 등 돌발 시 대처 팁까지 유용한 노하우를 제공합니다.'
+                    : 'Interactive charts, maps, and professional strategies for senior companions, strollers or wheelchair navigations.'}
+                </p>
+              </div>
+
+              <div className="mt-8 flex items-center justify-between text-xs sm:text-sm font-black text-sky-700 pt-3 border-t border-sky-100/60">
+                <span>{language === 'KR' ? '지하철 교통 가이드 보기' : 'Show transit guides'}</span>
+                <span className="p-2 bg-sky-100 text-sky-850 rounded-xl group-hover:translate-x-1.5 transition-transform">➔</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Adorable Reddit Community Shortcut Banner - Beautiful, clearly visible & highly optimized */}
+          <div className="max-w-2xl mx-auto pt-3">
+            <a
+              href="https://www.reddit.com/r/BusanTravelTips/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col sm:flex-row items-center justify-between gap-4 p-5 sm:px-6.5 sm:py-5 bg-gradient-to-br from-orange-500/[0.08] via-orange-50/50 to-white border-2 border-orange-200 rounded-3xl hover:border-orange-400 hover:shadow-md transition-all duration-300 cursor-pointer text-left"
+            >
+              <div className="flex items-center gap-3.5">
+                <div className="w-11 h-11 rounded-2xl bg-[#ff4500] flex items-center justify-center text-white shadow-sm shadow-[#ff4500]/30 shrink-0 transform group-hover:scale-105 transition-transform duration-300 select-none">
+                  <MessageSquare className="w-5.5 h-5.5 stroke-[2.2]" />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-sm sm:text-base font-extrabold text-slate-800 flex items-center gap-2 leading-none">
+                    <span>{language === 'KR' ? '실시간 부산 여행 팁 커뮤니티' : 'Live Busan Travel Tips & Q&A'}</span>
+                    <span className="text-[10px] bg-red-100 text-[#ff4500] font-black px-1.8 py-0.5 rounded-md uppercase tracking-wider select-none shrink-0 border border-red-200">Reddit</span>
+                  </h4>
+                  <p className="text-xs text-slate-500 font-semibold leading-relaxed">
+                    {language === 'KR'
+                      ? 'r/BusanTravelTips 레딧 커뮤니티에서 유용한 현지 여행 이야기를 나누어보세요!'
+                      : 'Join our friendly r/BusanTravelTips community on Reddit to ask questions and read local tips.'}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5 bg-[#ff4500] hover:bg-[#e03d00] text-white text-xs font-black px-4.5 py-2.5 rounded-xl transition-all self-stretch sm:self-center justify-center shadow-sm shadow-[#ff4500]/10 whitespace-nowrap">
+                <span>{language === 'KR' ? '레딧 바로가기' : 'Explore Reddit'}</span>
+                <span className="text-xs leading-none">➔</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* VIEW 2: ORIGINAL ITINERARY RECOMMENDATIONS VIEW                            */}
+      {/* ========================================================================= */}
+      {activeSection === 'RECOMMENDATIONS' && (
+        <div className="space-y-8">
+          {/* Header Info Banner - Only visible on main travel tips page */}
+          {activeCategory === null && (
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] text-left flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div className="text-left max-w-3xl">
+                <h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-slate-800 flex items-center gap-2.5">
+                  <span>🗺️</span>
+                  <span>{language === 'KR' ? '부산 현지인이 추천하는 부산 여행' : 'Busan Travel Guide: Recommended by Locals'}</span>
+                </h2>
+                <p className="text-sm sm:text-base text-slate-500 mt-2 leading-relaxed font-semibold">
+                  {language === 'KR' 
+                    ? '현지인이 알려주는 부산의 매력을 카테고리별로 추천해주는 일정 가이드입니다.' 
+                    : 'A travel itinerary guide that reveals the true charms of Busan, categorized by local insiders.'}
+                </p>
+                <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-blue-50/60 border border-blue-100/70 py-1 px-3 text-xs font-extrabold text-[#004481]/90 select-none">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#004481]"></span>
+                  </span>
+                  <span>{language === 'KR' ? '⚙️ 현재 더 정확하고 많은 정보를 추천하기 위해 업데이트 중입니다.' : '⚙️ Currently updating to recommend more accurate and richer information.'}</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Main Container Switching: Categories Grid VS Category Detailed Itinerary */}
 
       {/* Main Container Switching: Categories Grid VS Category Detailed Itinerary */}
       {activeCategory === null ? (
@@ -511,7 +745,9 @@ export default function BusanItinerariesView({
                 }}
                 className={`p-4 rounded-2xl border transition-all duration-300 cursor-pointer flex items-center gap-3.5 group transform hover:-translate-y-0.5 hover:shadow-md ${cat.bgClass} ${cat.borderClass}`}
               >
-                <span className="text-2.5xl sm:text-3xl select-none shrink-0 transition-transform group-hover:scale-110 duration-200">{cat.icon}</span>
+                <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center shrink-0 shadow-sm transition-transform group-hover:scale-110 duration-300">
+                  {getCategoryLucideIcon(cat.id, "w-5 h-5 stroke-[2.2] text-slate-700")}
+                </div>
                 <div className="flex-1 min-w-0 text-left">
                   <h4 className={`text-xs sm:text-sm md:text-base font-extrabold font-heading tracking-tight text-slate-800`}>
                     {language === 'KR' ? cat.titleKo : cat.titleEn}
@@ -708,12 +944,12 @@ export default function BusanItinerariesView({
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 active:scale-95 text-slate-700 font-bold border border-slate-200 text-xs sm:text-sm cursor-pointer transition-all hover:border-slate-300"
             >
               <ArrowLeft className="w-4 h-4 text-slate-600" />
-              <span>{language === 'KR' ? '🗺️ 전체 카테고리로 돌아가기' : '🗺️ Back to All Categories'}</span>
+              <span>{language === 'KR' ? '전체 카테고리로 돌아가기' : 'Back to All Categories'}</span>
             </button>
 
             {/* Current Active Category indicator */}
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">{activeCategoryConfig?.icon}</span>
+            <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-slate-100 shadow-sm">
+              {getCategoryLucideIcon(activeCategoryConfig?.id as CategoryType, 'w-4 h-4 text-slate-700')}
               <span className="text-sm font-black text-slate-800">
                 {language === 'KR' ? activeCategoryConfig?.titleKo : activeCategoryConfig?.titleEn}  
               </span>
@@ -728,13 +964,13 @@ export default function BusanItinerariesView({
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-3 py-1.5 rounded-xl border text-[11px] sm:text-xs font-extrabold transition-all duration-200 cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-xl border text-[11px] sm:text-xs font-extrabold transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
                     isSelected
-                      ? 'bg-[#004481] text-white border-[#004481] shadow-md transform scale-105'
+                      ? 'bg-[#004481] text-white border-[#004481] shadow-md'
                       : 'bg-white hover:bg-slate-50 text-slate-500 border-slate-200/75'
                   }`}
                 >
-                  <span>{cat.icon} </span>
+                  {getCategoryLucideIcon(cat.id, `w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-white' : 'text-slate-500'}`)}
                   <span>{language === 'KR' ? cat.titleKo : cat.titleEn}</span>
                 </button>
               );
@@ -785,7 +1021,7 @@ export default function BusanItinerariesView({
                       lineColor: "border-amber-400",
                       passTitleKo: "🎫 중구 원도심 역사·미식 모바일 패스",
                       passTitleEn: "🎫 Jung-gu History & Gourmet 1-Day Pass",
-                      passDescKo: "BIFF광장의 따스한 길거리 씨앗호떡 미식부터 용두산공원 하늘전망대까지, 원도심의 매력과 피란 기억을 유모차·휠체어 맞춤형 무장벽 슬로프로 완전 정복합니다.",
+                      passDescKo: "BIFF광장의 따스한 길거리 씨앗호떡 미식부터 용두산공원 하늘전망대까지, 원도심의 매력과 피란 기억을 유모차·휠체어 맞춤형 편안한 경사로로 편리하게 이동하며 완전 정복합니다.",
                       passDescEn: "A master guide wandering through Gukje Market, Bosudong book alleys, and panoramic clifftop hills seamlessly without step limits.",
                       ticketNum: "BS-JUNGGU-HISTORIC-2026",
                       tipLabelKo: "💡 중구 골목길 이동 완벽 돌파 꿀팁!",
@@ -858,7 +1094,7 @@ export default function BusanItinerariesView({
                           {language === 'KR' ? t.durationKo : t.durationEn}
                         </span>
                         <span className="bg-stone-100 text-stone-700 text-[10px] font-bold px-2.5 py-1 rounded-full">
-                          {language === 'KR' ? '보행 무장벽 지수: 매우 편함 (단차 없음)' : 'Step-free level: Very Convenient (No Steps)'}
+                          {language === 'KR' ? '보행 편의성: 매우 편함 (낮은 단차)' : 'Step-free level: Very Convenient (No Steps)'}
                         </span>
                       </div>
 
@@ -1055,7 +1291,7 @@ export default function BusanItinerariesView({
                           <div className="bg-gradient-to-br from-[#004481]/5 to-sky-50/15 p-4 rounded-2xl border border-indigo-100 text-left">
                             <h6 className="text-xs font-black text-indigo-900 flex items-center gap-1.5">
                               <span>☕</span>
-                              <span>{language === 'KR' ? '아침 일출 명당 & 무장벽 카페' : 'Morning Vista Cafe Recommendations'}</span>
+                              <span>{language === 'KR' ? '아침 일출 명당 & 보행 편한 카페' : 'Morning Vista Cafe Recommendations'}</span>
                             </h6>
                             <p className="text-[11px] sm:text-xs text-stone-500 font-semibold leading-normal mt-1.5">
                               {language === 'KR' 
@@ -1108,7 +1344,7 @@ export default function BusanItinerariesView({
                       </h3>
                       <p className="text-xs sm:text-sm text-amber-50/80 mt-1 max-w-2xl font-semibold">
                         {language === 'KR' 
-                          ? '전포카페거리, 해동용궁사부터 망미 골목까지 감성 넘치는 핫플레이스들을 경사 걱정 없이 평탄 무장벽으로 만나는 일주 코스예요.' 
+                          ? '전포카페거리, 해동용궁사부터 망미 골목까지 감성 넘치는 핫플레이스들을 경사 걱정 없이 평탄하고 편리한 길로 만나는 일주 코스예요.' 
                           : 'Explore the high view ridges and beautiful coastlines of Busan without steps.'}
                       </p>
                     </div>
@@ -1157,7 +1393,7 @@ export default function BusanItinerariesView({
 
                         {/* Accessibility Box Day 1 */}
                         <div className="bg-amber-500/[0.02] p-4.5 rounded-2xl border border-dashed border-amber-200/60 mt-4 ml-0 sm:ml-8">
-                          <span className="text-[10px] font-black text-amber-850 uppercase tracking-wider block mb-1">Accessibility Insight / 무장벽 관찰 지도</span>
+                          <span className="text-[10px] font-black text-amber-850 uppercase tracking-wider block mb-1">Accessibility Insight / 편안한 관람 가이드</span>
                           <p className="text-xs text-amber-900/80 leading-normal font-semibold">
                             {language === 'KR' 
                               ? '전포·서면 상가 구역은 평지 보도 정비가 잘 되어 있으며, 해변열차 탑승 시 리프트 보드나 휠체어 경사 슬라이드가 안정적으로 지원되므로 걱정 없이 누릴 수 있습니다.' 
@@ -1172,7 +1408,7 @@ export default function BusanItinerariesView({
                           <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-amber-50 text-amber-700 font-sans font-black text-xs">
                             D2
                           </span>
-                          <span>{language === 'KR' ? 'Day 2 (벚꽃 물결 & 기암절벽 동해 바다)' : 'Day 2 (Blossom Walks & Ocean Shrines)'}</span>
+                          <span>{language === 'KR' ? 'Day 2 (벚꽃 물결 & 기암절벽 푸른 바다)' : 'Day 2 (Blossom Walks & Ocean Shrines)'}</span>
                         </h4>
 
                         <div className="relative pl-6 sm:pl-8 space-y-6 text-left">
@@ -1208,7 +1444,7 @@ export default function BusanItinerariesView({
 
                         {/* Accessibility Box Day 2 */}
                         <div className="bg-amber-500/[0.02] p-4.5 rounded-2xl border border-dashed border-amber-200/60 mt-4 ml-0 sm:ml-8">
-                          <span className="text-[10px] font-black text-amber-850 uppercase tracking-wider block mb-1">Accessibility Insight / 무장벽 관찰 지도</span>
+                          <span className="text-[10px] font-black text-amber-850 uppercase tracking-wider block mb-1">Accessibility Insight / 편안한 관람 가이드</span>
                           <p className="text-xs text-amber-900/80 leading-normal font-semibold">
                             {language === 'KR' 
                               ? '온천천 유역의 경사 슬로프는 곳곳에 넓게 배치되어 있고, 해동용궁사는 주차장 및 매표소 방면의 턱 없는 완만한 연결 슬로프를 타고 진입하면 계단이 완전히 우회됩니다.' 
@@ -1259,7 +1495,7 @@ export default function BusanItinerariesView({
 
                         {/* Accessibility Box Day 3 */}
                         <div className="bg-amber-500/[0.02] p-4.5 rounded-2xl border border-dashed border-amber-200/60 mt-4 ml-0 sm:ml-8">
-                          <span className="text-[10px] font-black text-amber-850 uppercase tracking-wider block mb-1">Accessibility Insight / 무장벽 관찰 지도</span>
+                          <span className="text-[10px] font-black text-amber-850 uppercase tracking-wider block mb-1">Accessibility Insight / 편안한 관람 가이드</span>
                           <p className="text-xs text-amber-900/80 leading-normal font-semibold">
                             {language === 'KR' 
                               ? '수영사적공원은 울창한 영험 숲길이 단차 없는 지면과 친환경 목재 가이드데크로 포장되어 휠체어 주행이 매우 수월하며, 팔도시장 역시 턱이 정리된 현대식 구역 중심입니다.' 
@@ -1400,7 +1636,7 @@ export default function BusanItinerariesView({
                       </div>
 
                       <h3 className="text-xl sm:text-2xl font-black font-heading text-white tracking-tight leading-tight">
-                        {language === 'KR' ? '🏠 부산 무장벽 종합 선물세트: 4박 5일 실내외 쾌적 일주 코스' : '🏠 Comprehensive Barrier-Free Busan Layout: 4N5D Master Plan'}
+                        {language === 'KR' ? '🏠 부산 편안한 보행 종합 선물세트: 4박 5일 실내외 쾌적 일주 코스' : '🏠 Comprehensive Barrier-Free Busan Layout: 4N5D Master Plan'}
                       </h3>
                       <p className="text-xs sm:text-sm text-sky-100/80 mt-1 max-w-2xl font-semibold">
                         {language === 'KR' 
@@ -1513,7 +1749,7 @@ export default function BusanItinerariesView({
                       </div>
 
                       <h3 className="text-xl sm:text-2xl font-black font-heading text-white tracking-tight leading-tight">
-                        {language === 'KR' ? '❤️ 대가족 인생 꿀맛! 영양 만점 부산 로컬 미식 무장벽 맵' : '❤️ Delicious Local Cuisines in Busan: Zero-Step Gastronomy Guide'}
+                        {language === 'KR' ? '❤️ 대가족 인생 꿀맛! 영양 만점 부산 로컬 미식 편한 길 지도' : '❤️ Delicious Local Cuisines in Busan: Zero-Step Gastronomy Guide'}
                       </h3>
                       <p className="text-xs sm:text-sm text-rose-50/80 mt-1 max-w-2xl font-semibold">
                         {language === 'KR' 
@@ -1575,7 +1811,7 @@ export default function BusanItinerariesView({
                       </div>
                       <div className="space-y-1 select-none text-left">
                         <span className="text-[10.5px] font-black text-rose-850 uppercase tracking-wide">
-                          {language === 'KR' ? '💡 로컬 식도락전용 무장벽 비결!' : '💡 LOCAL CULINARY ACCESSIBILITY TIP'}
+                          {language === 'KR' ? '💡 로컬 식도락 전용 편의 팁!' : '💡 LOCAL CULINARY ACCESSIBILITY TIP'}
                         </span>
                         <p className="text-xs sm:text-sm text-rose-900/80 leading-relaxed font-semibold">
                           {language === 'KR' ? course.overallTipKo : course.overallTipEn}
@@ -1609,7 +1845,7 @@ export default function BusanItinerariesView({
                       </h3>
                       <p className="text-xs sm:text-sm text-stone-600 mt-1 max-w-2xl font-semibold leading-relaxed">
                         {language === 'KR' 
-                          ? '한국 6·25 아픈 피란 역사를 가득 안고 살아온 소박하지만 정겨운 골목입니다. 무자비한 168 계단지대를 한순간 하늘 구름처럼 수월하게 고속 수직 이동시켜 주는 공영 무장벽 모노레일을 타고 역사 속 정취를 만끽해보세요.' 
+                          ? '한국 6·25 아픈 피란 역사를 가득 안고 살아온 소박하지만 정겨운 골목입니다. 높은 168 계단구간을 하늘 구름처럼 수월하게 오르내리도록 도와주는 공영 주민용 무료 모노레일을 타고 역사 속 정취를 만끽해보세요.' 
                           : 'Discover Choryangs traditional steep slopes smoothly ascending using the free high-speed glass observation lift.'}
                       </p>
                     </div>
@@ -1657,7 +1893,7 @@ export default function BusanItinerariesView({
                       </div>
                       <div className="space-y-1 select-none text-left">
                         <span className="text-[10.5px] font-black text-[#5c4933] uppercase tracking-wide">
-                          {language === 'KR' ? '📜 역사 문화 답사 전용 무장벽 비결!' : '📜 HISTORICAL PATHWAY SENSING GUIDE'}
+                          {language === 'KR' ? '📜 역사 문화 답사 전용 편의 비결!' : '📜 HISTORICAL PATHWAY SENSING GUIDE'}
                         </span>
                         <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-semibold">
                           {language === 'KR' ? course.overallTipKo : course.overallTipEn}
@@ -1671,6 +1907,8 @@ export default function BusanItinerariesView({
                 return null;
             }
           })()}
+        </div>
+      )}
         </div>
       )}
     </div>

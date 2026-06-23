@@ -68,7 +68,7 @@ const BUSAN_EVENTS_DATA: BusanEvent[] = [
     stationKo: '해운대역 (2호선)',
     stationEn: 'Haeundae Station',
     metroLine: 'Line 2',
-    accessibilityKo: '해운대 해수욕장 백사장 초입에 무장벽 목재 데크로드가 설치되어 휠체어/유모차를 탄 채로 웅장한 모래 작품 바로 코앞까지 이동해 관람할 수 있습니다.',
+    accessibilityKo: '해운대 해수욕장 백사장 초입에 평탄한 목재 데크로드가 설치되어 휠체어/유모차를 탄 채로 웅장한 모래 작품 바로 코앞까지 이동해 관람할 수 있습니다.',
     accessibilityEn: 'Specially engineered wooden boardwalks run all the way through the sandy beach, allowing barrier-free access directly to the front of giant sand sculptures.',
     descriptionKo: '세계적인 모래 조각가들이 모여 모래를 예술작품으로 형성화하며, 남녀노소 누구나 즐기는 모래 미끄럼틀과 다양한 서핑 행사 등이 공존합니다.',
     descriptionEn: 'World-renowned sandbox artists carve delicate masterpieces out of high-density sand along the seaside. Standard access paths are extremely flat.',
@@ -110,7 +110,7 @@ const BUSAN_EVENTS_DATA: BusanEvent[] = [
     stationKo: '사직역 / 종합운동장역 (3호선)',
     stationEn: 'Sajik / Sports Complex Station',
     metroLine: 'Line 3',
-    accessibilityKo: '대형 스포츠 주경기장에서 무장벽 휠체어 단독 관람 제어구역과 평탄 엘리베이터 동선이 촘촘히 보장됩니다. 역사에서 체육공원까지 점자블록 및 리프트 완비.',
+    accessibilityKo: '대형 스포츠 주경기장에서 전용 휠체어 관람 구역과 평탄한 엘리베이터 동선이 촘촘히 보장됩니다. 역사에서 체육공원까지 점자블록 및 리프트 완비.',
     accessibilityEn: 'We provide dedicated wheelchair seating rows with optimal sight lines, complete lift mechanics from Sajik station, and large handicap restrooms.',
     descriptionKo: '한류 메가코리아의 대표 콘텐츠인 K-POP 대형 패밀리 콘서트가 부산 가을 및 초여름을 뜨겁게 장식합니다. 세계적인 한류 스타들의 연속 옥외 퍼포먼스.',
     descriptionEn: 'Busan\'s premier global K-POP megashow featuring superstars in concert with wheelchair accessibility and stepless stadium approach layouts.',
@@ -131,7 +131,7 @@ const BUSAN_EVENTS_DATA: BusanEvent[] = [
     stationKo: '광안역 (2호선)',
     stationEn: 'Gwangan Station',
     metroLine: 'Line 2',
-    accessibilityKo: '광안해변 테마거리는 완전한 보행 전용 보도블록 평면도로 구성되어 있으며, 횡단보도 턱이 낮아 해변 전체 어디서나 휠체어로 밤하늘을 볼 수 있습니다.',
+    accessibilityKo: '광안해변 테마거리는 완전한 보행 전용 보도블록 평면도로 구성되어 있으며, 횡단보도 단차가 낮아 해변 전체 어디서나 휠체어로 밤하늘을 볼 수 있습니다.',
     accessibilityEn: 'Gwangalli boardwalk is completely flat, offering zero-obstruction viewing of the sky. Nearby public facilities feature wheelchair accessible ramps.',
     descriptionKo: '매주 토요일 밤 해운대 대안 광안리 해변에서 500대 이상의 초정밀 멀티드론이 자아내는 빛의 예술을 해변가 평평한 자리에서 앉아 관람할 수 있습니다.',
     descriptionEn: 'Every Saturday evening, over 500 state-of-the-art drones fill the night sky above the ocean, easily viewed from step-free beach pavilions.',
@@ -152,7 +152,7 @@ const BUSAN_EVENTS_DATA: BusanEvent[] = [
     stationKo: '해운대역 / 광안역 (2호선)',
     stationEn: 'Haeundae / Gwangan Station',
     metroLine: 'Line 2',
-    accessibilityKo: '해운대를 비롯한 주요 행사장 평탄 구역에 시각 가이드 및 무장벽 부스가 배치됩니다. 바닷가 임시 매트 통로 구축으로 수변 무장벽 보행을 돕습니다.',
+    accessibilityKo: '해운대를 비롯한 주요 행사장 평탄 구역에 시각 가이드 및 안내 부스가 배치됩니다. 바닷가 임시 매트 통로 구축으로 수변 평탄 도보 보행을 돕습니다.',
     accessibilityEn: 'Special flat synthetic pathways and temporary plastic beach mats are laid out toward the water to provide sturdy support for wheels.',
     descriptionKo: '뜨거운 한여름 밤 부산의 7대 해수욕장 전체에서 동시다발식으로 열리는 거대한 댄스카니발, 대규모 버스킹 축제, 워터파티가 시원하게 열립니다.',
     descriptionEn: 'An epic mid-summer celebration spanning Busan\'s beaches, featuring live bands, street food stalls, and ocean parties engineered for universal entry.',
@@ -194,7 +194,7 @@ const BUSAN_EVENTS_DATA: BusanEvent[] = [
     stationKo: '센텀시티역 (2호선)',
     stationEn: 'Centum City Station',
     metroLine: 'Line 2',
-    accessibilityKo: '세계적으로 인증받은 "영화의전당"은 완벽한 무장벽 공간입니다. 전체 상영 전당에 점자 안내판, 단차 없는 엘리베이터, 자동문 및 휠체어 단독 상영 좌석이 내재되어 수준 높습니다.',
+    accessibilityKo: '세계적으로 인증받은 "영화의전당"은 보행 친화적 공간입니다. 전체 상영 전당에 점자 안내판, 단차 없는 엘리베이터, 자동문 및 휠체어 전용 상영 좌석이 내재되어 수준 높습니다.',
     accessibilityEn: 'The magnificent Cinema Center is fully certified step-free, featuring pristine elevators, wheelchair-only indoor theater rows, and digital helper pads.',
     descriptionKo: '아시아 최고 권위의 국제 영화제로, 세계 각국의 엄선된 예술영화, 감독 전작 무비 상영 및 관객과의 대화(GV), 스타 야간 레드카펫 행사가 풍성하게 이어집니다.',
     descriptionEn: 'Asia\'s most prestigious films and red carpet spectacles. The Cinema Center is seamlessly connected to Centum City Subway Station via flat underpass paths.',
@@ -236,7 +236,7 @@ const BUSAN_EVENTS_DATA: BusanEvent[] = [
     stationKo: '광안역 / 금련산역 (2호선)',
     stationEn: 'Gwangan / Geumnyeonsan Station',
     metroLine: 'Line 2',
-    accessibilityKo: '매우 붐비기 때문에 교통 정리가 이루어집니다. 휠체어 탑승자와 무장벽 대상자를 위한 배려 지정석 구역 및 특수 통행 게이트가 별도로 지정 통제 운영되므로 안심하십시오.',
+    accessibilityKo: '매우 붐비기 때문에 교통 정리가 이루어집니다. 휠체어 탑승자와 배려자분을 위한 지정석 구역 및 특수 통행 게이트가 별도로 지정 통제 운영되므로 안심하십시오.',
     accessibilityEn: 'Due to large crowds, specialized barrier-free outdoor viewing zones with dynamic ramp entrances are dedicated for senior and disabled visitors.',
     descriptionKo: '매년 가을 밤 광안대교를 배경으로 수만 발의 화려한 초대형 불꽃과 초대형 드론 군무, 감미로운 음악을 접목한 세계 최고 수준의 영상 불꽃 멀티미디어 쇼입니다.',
     descriptionEn: 'A breathtaking autumn night firework performance framed by Gwangandaegyo Bridge, using multi-dimensional visual laser shows and symphonies.',
@@ -278,7 +278,7 @@ const BUSAN_EVENTS_DATA: BusanEvent[] = [
     stationKo: '광안역 (2호선)',
     stationEn: 'Gwangan Station',
     metroLine: 'Line 2',
-    accessibilityKo: '해변 산책길 전체가 무장벽 단차가 없으며, 비치발리볼 경기장 주변 장애인 화장실 및 접근성이 양호합니다.',
+    accessibilityKo: '해변 산책길 전체가 평평하여 단차가 없으며, 비치발리볼 경기장 주변 장애인 화장실 및 접근성이 양호합니다.',
     accessibilityEn: 'Easy boardwalk paths connect Gwangan subway station exits safely to the beach with solid, non-slip flat pavement.',
     descriptionKo: '2025 부산 광안리 국제여자 비치발리볼 대회를 기념하여, 바닷가에서 시원하게 펼쳐지는 여름 스포츠의 역동성을 1,000대의 드론으로 표현합니다.',
     descriptionEn: "Commemorates the 2025 Gwangalli International Women's Beach Volleyball tournament with 1,000 precise drones in action.",
@@ -320,7 +320,7 @@ const BUSAN_EVENTS_DATA: BusanEvent[] = [
     stationKo: '광안역 (2호선)',
     stationEn: 'Gwangan Station',
     metroLine: 'Line 2',
-    accessibilityKo: '평일 저녁 시간대 대중교통 인근 보행로가 차 없는 거리처럼 넓고 평탄하여 무장벽 도보 통행이 가능합니다.',
+    accessibilityKo: '평일 저녁 시간대 대중교통 인근 보행로가 차 없는 거리처럼 넓고 평탄하여 편리한 도보 통행이 가능합니다.',
     accessibilityEn: 'Highly accessible, broad ocean esplanade with flat wheelchair-adapted pedestrian walks to Gwangalli beach.',
     descriptionKo: 'Energy Super Week In Busan 개최를 축하하는 주중 특별 공연으로, 당일 21시에 단 1회 1,000대의 드론 무대로 열립니다.',
     descriptionEn: 'A special weekday presentation welcoming Energy Super Week In Busan, holding a single custom flight starting at 21:00.',
@@ -722,7 +722,7 @@ export default function BusanEventsCalendarView({ language }: BusanEventsCalenda
                   <div className="bg-emerald-500/[0.02] p-4 rounded-2xl border border-dashed border-emerald-200">
                     <div className="flex gap-2 items-center text-xs font-black text-emerald-800">
                       <span>🚇</span>
-                      <span>{language === 'KR' ? '가장 인접한 무장벽 지하철역' : 'Nearest Accessible Transit Station'}</span>
+                      <span>{language === 'KR' ? '가장 인접한 엘리베이터 지하철역' : 'Nearest Accessible Transit Station'}</span>
                     </div>
                     <p className="text-xs sm:text-sm text-stone-800 font-extrabold mt-1.5 pl-5">
                       {language === 'KR' ? activeEventDetail.stationKo : activeEventDetail.stationEn} 

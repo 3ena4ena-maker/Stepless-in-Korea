@@ -319,7 +319,7 @@ const UNSORTED_STATIONS: Station[] = [
     toiletLocation: '지하 10m 대합실 개찰구 외부',
     isTransferStation: false,
     accentColor: 'from-[#1b6d24] to-[#004960]',
-    alertNotice: '전포 카페거리 관광 특화 구역 무장애 지상 경사 보도블록 정비 완료',
+    alertNotice: '전포 카페거리 관광 특화 구역 편리한 평탄 지상 경사 보도블록 정비 완료',
     exits: [
       {
         number: '3번 출구',
@@ -355,7 +355,7 @@ const UNSORTED_STATIONS: Station[] = [
           {
             id: 'jp3-step3',
             name: '중앙 엘리베이터 (B1F → 1F)',
-            desc: '3번·4번 출구 중간 무장애 엘리베이터',
+            desc: '3번·4번 출구 중간 전용 승강기',
             facilityType: 'ELEVATOR',
             tip: '3번과 4번 출구 사이에 배치된 우수 엘리베이터로 휠체어 승하차가 매우 안락합니다.',
             status: 'OPERATIONAL'
@@ -388,7 +388,7 @@ const UNSORTED_STATIONS: Station[] = [
           {
             id: 'jp4-step2',
             name: '대합실 중앙 (B1F)',
-            desc: '4번 출구 무장애 진입 복도',
+            desc: '4번 출구 계단 없는 보행진입로',
             facilityType: 'GATE',
             tip: '시각 안내 점자판 및 안전 리드가 정비된 게이트를 평탄하게 지나쳐 이동하십시오.',
             status: 'OPERATIONAL'
@@ -478,7 +478,7 @@ const UNSORTED_STATIONS: Station[] = [
     lines: ['1', '동해'],
     elevatorCount: 2,
     escalatorCount: 2,
-    toiletLocation: '무장애 개찰구 내부 통로 지하 1층',
+    toiletLocation: '다목적 개찰구 내부 통로 지하 1층',
     isTransferStation: true,
     accentColor: 'from-[#F06A00] to-[#004960]',
     alertNotice: '부전역 내에는 에스컬레이터가 전혀 없으며, 3번과 6번 출구의 엘리베이터를 이용하여 전용 탑승하셔야 합니다.',
@@ -577,7 +577,7 @@ const UNSORTED_STATIONS: Station[] = [
             name: '대합실 분기 (B1F)',
             desc: '부전역 지하 개찰구 구역',
             facilityType: 'GATE',
-            tip: '와이드 무장애 개찰구를 통과 후 3번 출구 엘리베이터 전용 통로 방향으로 무단차 이동.',
+            tip: '와이드 교통약자 배려 개찰구를 통과 후 3번 출구 엘리베이터 전용 통로 방향으로 편리하게 이동.',
             status: 'OPERATIONAL'
           },
           {
@@ -651,7 +651,7 @@ const UNSORTED_STATIONS: Station[] = [
         hasElevator: true,
         hasEscalator: false,
         facilityDirection: 'BOTH',
-        tip: '2번출구와 4번출구 사이 야외 인도변에 위치한 외부 무장애 전용 엘리베이터입니다. 계단 통행이 불가능하거나 캐리어/유모차가 동반된 승객이 우동 및 해운대 주거지 방면으로 완벽히 턱 없이 지상 이동할 수 있는 최적 경로입니다.',
+        tip: '2번출구와 4번출구 사이 야외 인도변에 위치한 외부 전용 엘리베이터입니다. 계단 통행이 불가능하거나 캐리어/유모차가 동반된 승객이 우동 및 해운대 주거지 방면으로 완비된 경사로를 통해 이동할 수 있는 최적 경로입니다.',
         status: 'OPERATIONAL',
         directionDesc: '해운대 우동, 기계공고, 서포1길 및 해운대 세무서 방면',
         latitude: 35.163764,
@@ -670,7 +670,7 @@ const UNSORTED_STATIONS: Station[] = [
           {
             id: 'hu-elv2-step2',
             name: '지하 대합실 및 우동방면 게이트 (B1F)',
-            desc: 'B1F 대합실 중심 대형 보안 무장애 게이트',
+            desc: 'B1F 대합실 중심 대형 보안 와이드 게이트',
             facilityType: 'GATE',
             tip: '비상 게이트 센서를 접촉하고 나선 뒤, 2번과 4번 출입구 이정표를 따라서 통로 우측 안쪽으로 직진 주행하십시오.',
             status: 'OPERATIONAL'
@@ -692,7 +692,7 @@ const UNSORTED_STATIONS: Station[] = [
         hasElevator: true,
         hasEscalator: false,
         facilityDirection: 'BOTH',
-        tip: '5번출구와 7번출구 사이 야외 인도 중앙에 수직으로 작동하는 무장애 전용 실외 엘리베이터입니다. 승강장 엘리베이터부터 지상까지 단 하나의 계단도 밟지 않고 지상 휠체어 전용 경사로까지 연결되는 완전한 배리어 프리 동선입니다.',
+        tip: '5번출구와 7번출구 사이 야외 인도 중앙에 수직으로 작동하는 전용 실외 엘리베이터입니다. 승강장 엘리베이터부터 지상까지 단 하나의 계단도 밟지 않고 지상 전용 경사로까지 연결되는 완전한 연결 동선입니다.',
         status: 'OPERATIONAL',
         directionDesc: '해운대 구남로 광장, 해운대해수욕장 휠체어/유모차 전용 통로',
         latitude: 35.163423,
@@ -766,7 +766,7 @@ const UNSORTED_STATIONS: Station[] = [
           {
             id: 'ga5-step2',
             name: '지하 대합실 및 전용 게이트 (B1F)',
-            desc: '비접촉식 무장애 휠체어/유모차 전용 와이드 개찰구',
+            desc: '비접촉식 교통약자 우대 휠체어/유모차 전용 와이드 개찰구',
             facilityType: 'GATE',
             tip: '넓은 규격의 전용 비상 게이트로 통과하여, 보행 유도 유색 블록을 거쳐 5번 출구 엘리베이터 앞으로 진입하십시오.',
             status: 'OPERATIONAL'
@@ -801,7 +801,7 @@ const UNSORTED_STATIONS: Station[] = [
             name: '승강장 플랫폼 (B2F)',
             desc: '2호선 승강장 대칭 엘리베이터 구획',
             facilityType: 'ELEVATOR',
-            tip: '열차 플랫폼 정가운데의 무장애 교통약자 엘리베이터를 이용해 안전하게 대합실 지하 1층으로 상향 승합합니다.',
+            tip: '열차 플랫폼 정가운데의 교통약자 전용 엘리베이터를 이용해 안전하게 대합실 지하 1층으로 상향 이동합니다.',
             status: 'OPERATIONAL'
           },
           {
@@ -831,7 +831,7 @@ const UNSORTED_STATIONS: Station[] = [
     lines: ['1'],
     elevatorCount: 4,
     escalatorCount: 8,
-    toiletLocation: '지하 1층 대합실 내부 중앙 (광복지하상가 연결부 인접 무장애 화장실)',
+    toiletLocation: '지하 1층 대합실 내부 중앙 (광복지하상가 연결부 인접 다목적 화장실)',
     isTransferStation: false,
     accentColor: 'from-[#f37021] to-[#bf4a00]',
     exits: [
@@ -904,7 +904,7 @@ const UNSORTED_STATIONS: Station[] = [
             name: '지하 대합실 개찰구 및 통로 (B1F)',
             desc: '무턱 센서 감지 휠체어/유모차용 대형 게이트',
             facilityType: 'GATE',
-            tip: '넓은 휠체어 무장애 게이트로 카드를 태그하여 퇴장하신 뒤 4번출구 유도 점자 블록을 보며 진입하세요.',
+            tip: '넓은 휠체어/유모차용 와이드 게이트로 카드를 태그하여 퇴장하신 뒤 4번출구 유도 점자 블록을 보며 진입하세요.',
             status: 'OPERATIONAL'
           },
           {
@@ -1006,7 +1006,7 @@ const UNSORTED_STATIONS: Station[] = [
         hasElevator: true,
         hasEscalator: true,
         facilityDirection: 'BOTH',
-        tip: '실외의 날씨나 도로 요철, 단차를 일절 거치지 않고 지하철역 대합실에서 롯데백화점 광복점 지하 및 아쿠아몰 메인 분수 광장 중앙으로 턱 없이 직접 유입되는 최고의 무장애 우회로입니다. 백화점 내부 대용량 승강기 및 초광폭 상하 에스컬레이터를 통과하여 지상으로 매우 편하게 나오실 수 있습니다.',
+        tip: '실외의 날씨나 도로 요철, 단차를 일절 거치지 않고 지하철역 대합실에서 롯데백화점 광복점 지하 및 아쿠아몰 메인 분수 광장 중앙으로 편리하게 직접 유입되는 최고의 무단계 우회로입니다. 백화점 내부 대용량 승강기 및 초광폭 상하 에스컬레이터를 통과하여 지상으로 매우 편하게 나오실 수 있습니다.',
         status: 'OPERATIONAL',
         directionDesc: '롯데백화점 광복점(아쿠아몰 연결), 롯데마트 광복점 방면',
         latitude: 35.098123,
@@ -1061,7 +1061,7 @@ const UNSORTED_STATIONS: Station[] = [
         hasElevator: true,
         hasEscalator: false,
         facilityDirection: 'BOTH',
-        tip: '수직형 무장애 엘리베이터가 보도와 직결되어 있어 계단 단차가 전혀 없습니다. 휠체어와 유모차 이동에 가장 탁월한 추천 경로입니다.',
+        tip: '수직형 전용 엘리베이터가 보도와 직결되어 있어 계단 단차가 전혀 없습니다. 휠체어와 유모차 이동에 가장 탁월한 추천 경로입니다.',
         status: 'OPERATIONAL',
         directionDesc: '부산역 광장동편, 텍사스거리, KTX 부산역 광장 방면',
         latitude: 35.114251,
@@ -1330,7 +1330,7 @@ const UNSORTED_STATIONS: Station[] = [
         hasElevator: true,
         hasEscalator: false,
         facilityDirection: 'BOTH',
-        tip: '수영역 11번 출구 전용 엘리베이터 시설로, 지하철 대합실에서 지상 가로수 보행로까지 한 번에 무장애 직결됩니다. 휠체어 승객의 도보 정위 수직이동이 확보된 지점입니다.',
+        tip: '수영역 11번 출구 전용 엘리베이터 시설로, 지하철 대합실에서 지상 가로수 보행로까지 한 번에 직접 연결됩니다. 휠체어 승객의 도보 정위 수직이동이 확보된 지점입니다.',
         status: 'OPERATIONAL',
         directionDesc: '수영 종합동물병원, 팔도시장 입구 남측 방면',
         latitude: 35.166199,
@@ -1351,7 +1351,7 @@ const UNSORTED_STATIONS: Station[] = [
             name: '지상 전용 엘리베이터 (B1F ↔ 1F)',
             desc: '11번 출구 지상 전용 수직 엘리베이터',
             facilityType: 'ELEVATOR',
-            tip: '전용 무장애 엘리베이터에 탑승하여 계단 없이 완만한 1층 노면 교통로로 바로 인출됩니다.',
+            tip: '전용 엘리베이터에 탑승하여 계단 없이 완만한 1층 노면 교통로로 바로 연결됩니다.',
             status: 'OPERATIONAL'
           }
         ]
@@ -1401,7 +1401,7 @@ const UNSORTED_STATIONS: Station[] = [
     toiletLocation: '지하 1층 대합실 자갈치시장 방면 동코너 내부 개찰구 외',
     isTransferStation: false,
     accentColor: 'from-[#F06A00] to-[#E35400]',
-    alertNotice: '자갈치 시장 및 남포지하쇼핑센터 방면 무장애 보행 이동 통로 개선공사가 완료되었습니다.',
+    alertNotice: '자갈치 시장 및 남포지하쇼핑센터 방면 평탄한 보행 이동 통로 개선공사가 완료되었습니다.',
     exits: [
       {
         number: '3번 출구',
@@ -1478,7 +1478,7 @@ const UNSORTED_STATIONS: Station[] = [
           {
             id: 'jc6-step3',
             name: '지상 수직 엘리베이터 (B1F ↔ 1F)',
-            desc: '6번 출입구 연동 무장애 승강기',
+            desc: '6번 출입구 연동 교통약자 배려형 승강기',
             facilityType: 'ELEVATOR',
             tip: '지상 인도로 계단 단차 없이 매끄럽게 인출되어 유모차가 안착하기 좋습니다.',
             status: 'OPERATIONAL'
@@ -1617,7 +1617,7 @@ const UNSORTED_STATIONS: Station[] = [
             name: '승강장 (B2F)',
             desc: '2호선 승강장 하차 하선',
             facilityType: 'ELEVATOR',
-            tip: '플랫폼 중앙에 설치된 무장애 전용 엘리베이터를 이용하여 지하 1층 대합실로 상향하십시오.',
+            tip: '플랫폼 중앙에 설치된 전용 엘리베이터를 이용하여 지하 1층 대합실로 상향하십시오.',
             status: 'OPERATIONAL'
           },
           {
@@ -1699,7 +1699,7 @@ const UNSORTED_STATIONS: Station[] = [
         hasElevator: true,
         hasEscalator: false,
         facilityDirection: 'BOTH',
-        tip: '동백역의 유일무이한 지상 연결 엘리베이터 출구입니다. 휠체어 및 유모차 이용 교통약자가 안전하게 지상 인도 평면으로 안착 가능한 단 하나의 배리어프리 무장애 코스입니다.',
+        tip: '동백역의 유일무이한 지상 연결 엘리베이터 출구입니다. 휠체어 및 유모차 이용 교통약자가 안전하게 지상 인도 평면으로 안착 가능한 단 하나의 계단 없는 코스입니다.',
         status: 'OPERATIONAL',
         directionDesc: '수영 요트경기장, 마린시티, 동백섬, 더베이101',
         latitude: 35.161738,
@@ -1754,7 +1754,7 @@ const UNSORTED_STATIONS: Station[] = [
         hasElevator: true,
         hasEscalator: false,
         facilityDirection: 'BOTH',
-        tip: '2호선 대합실과 지상을 경계 없이 연결하는 완벽한 무장애 수직 엘리베이터입니다. 승객 동선 턱이 없고 주변 보도가 쾌적하게 정돈되어 있습니다.',
+        tip: '2호선 대합실과 지상을 경계 없이 연결하는 완벽한 수직 엘리베이터입니다. 승객 동선에 계단이 없고 주변 보도가 쾌적하게 정돈되어 있습니다.',
         status: 'OPERATIONAL',
         directionDesc: '',
         latitude: 35.168663,
@@ -1795,7 +1795,7 @@ const UNSORTED_STATIONS: Station[] = [
         hasElevator: true,
         hasEscalator: true,
         facilityDirection: 'BOTH',
-        tip: '7번 출구 인근에 엘리베이터와 상·하행 에스컬레이터가 모두 완비되어 있어 휠체어와 유모차 이동객에게 최적의 무장애 연계를 제공합니다.',
+        tip: '7번 출구 인근에 엘리베이터와 상·하행 에스컬레이터가 모두 완비되어 있어 휠체어와 유모차 이동객에게 최적의 직접 연계를 제공합니다.',
         status: 'OPERATIONAL',
         directionDesc: '환승정류장, 부산시립미술관, 벡스코, 올림픽기념 국민생활관',
         latitude: 35.168638,
@@ -1865,7 +1865,7 @@ const UNSORTED_STATIONS: Station[] = [
             name: '지상 수직 엘리베이터 (B1F ↔ 1F)',
             desc: '9·11번 출구 사이 배리어프리 직용 승강기',
             facilityType: 'ELEVATOR',
-            tip: '지상 직통 승강기를 하선하여 미술관 및 벡스코 방면 평면 무장애 보도로 진퇴하십시오.',
+            tip: '지상 직통 승강기를 하선하여 미술관 및 벡스코 방면 평면 연결 보도로 활보하십시오.',
             status: 'OPERATIONAL'
           }
         ]
@@ -1877,7 +1877,7 @@ const UNSORTED_STATIONS: Station[] = [
         hasElevator: true,
         hasEscalator: false,
         facilityDirection: 'BOTH',
-        tip: '6번 출구 방향에서 바깥 지상으로 직통 연결되는 수직 엘리베이터로서, 통로나 바닥 단차가 억제된 무장애 루트입니다.',
+        tip: '6번 출구 방향에서 바깥 지상으로 직통 연결되는 수직 엘리베이터로서, 통로나 바닥 단차가 없이 다듬어진 이동 동선입니다.',
         status: 'OPERATIONAL',
         directionDesc: '우2동 종합시장',
         latitude: 35.169463,
@@ -1939,7 +1939,7 @@ export const INITIAL_REPORTS: FacilityReport[] = [
     exitNumber: '3번 출구',
     facilityType: 'ELEVATOR',
     reportType: 'MAINTENANCE',
-    details: '3번 출구 무장애 지상 엘리베이터 내부 통풍 팬 점검으로 오전 운행이 서행될 수 있으니 참고해주시기 바랍니다.',
+    details: '3번 출구 지상 엘리베이터 내부 통풍 팬 점검으로 오전 운행이 서행될 수 있으니 참고해주시기 바랍니다.',
     createdAt: '2026-05-31T04:10:00Z',
     status: 'VERIFIED'
   },

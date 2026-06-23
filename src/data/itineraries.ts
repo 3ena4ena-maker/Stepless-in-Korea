@@ -51,14 +51,14 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
         descKo: '활기찬 자갈치역 앞 광장에서 영화인들의 핸드프린팅이 가득한 BIFF광장으로 이동하여 전국적인 명물 씨앗호떡으로 입안 가득 감칠맛을 즐깁니다. 이어 아치형 비바람 가림막(아케이드)이 높다랗게 정비된 국제시장과 깡통시장의 평탄한 사거리 골목을 거닐며 3대 소문난 떡볶이와 보들보들한 비빔당면을 맛보며 활력을 안사하세요.',
         descEn: 'Kick off your morning at BIFF Square with delicious warm seed pancakes. Seamlessly glide into the spacious indoor shopping rows of Gukje Market and Bupyeong Kkangtong Market, paved perfectly level for effortless rolling.',
         icon: 'Food',
-        stationInfoKo: '자갈치역(1호선) 7번 출구 평탄한 무장벽 골목 인도 도보 3분',
+        stationInfoKo: '자갈치역(1호선) 7번 출구 평탄한 골목 인도 도보 3분',
         stationInfoEn: 'Jagalchi Station (Line 1) Exit 7, 3 mins flat barrier-free walk'
       },
       {
         time: '11:30 - 13:30',
         titleKo: '보수동책방골목 - 부산근대역사관 개방형 아카이브 전시 센터',
         titleEn: 'Bosudong Book Street & Busan Modern History Museum',
-        descKo: '오랜 고서들이 오붓이 쌓인 보수동책방골목입니다. 보행에 어려움을 줄 수 있는 안쪽 좁고 험한 계단 대신, 바깥쪽 넓은 보행로 눈높이를 따라 종이 내음을 가만히 사색하며 걷기 좋습니다. 곧이어 옆에 있는 부산근대역사관(부산근현대역사관) 실내로 들어갑니다. 단차가 완전히 철폐된 입구와 내부 초고속 와이드 엘리베이터, 무장벽 화장실을 활용하여 근현대사를 배울 수 있습니다.',
+        descKo: '오랜 고서들이 오붓이 쌓인 보수동책방골목입니다. 보행에 어려움을 줄 수 있는 안쪽 좁고 험한 계단 대신, 바깥쪽 넓은 보행로 눈높이를 따라 종이 내음을 가만히 사색하며 걷기 좋습니다. 곧이어 옆에 있는 부산근대역사관(부산근현대역사관) 실내로 들어갑니다. 입구의 편리한 무단차 경사로와 내부 초고속 와이드 엘리베이터, 다목적 화장실을 활용하여 근현대사를 쾌적하게 배울 수 있습니다.',
         descEn: 'Inhale the soothing woodsy scent of rare books along Bosudong Book Alley. Continue to the reconstructed Busan Modern History Museum, featuring beautiful glass auto-entryways, pristine elevator networks, and barrier-free exhibit layouts.',
         icon: 'Map'
       },
@@ -97,7 +97,7 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
     tagEn: 'Green Detox 🌿',
     difficultyKo: '쉬움',
     difficultyEn: 'Easy',
-    overallTipKo: '낙동강 하구에 넓게 펼쳐진 3대 생태공원은 경사나 계단이 전혀 없는 넓고 평탄한 보행로와 아늑한 나무 데크길로 이루어져 있습니다. 교통약자는 물론 바쁜 일상 속 가만히 불어오는 풀바람을 느끼며 숨을 고르고 싶은 분들에게 최고의 선물 같은 무장벽 힐링 코스예요.',
+    overallTipKo: '낙동강 하구에 넓게 펼쳐진 3대 생태공원은 경사나 계단이 전혀 없는 넓고 평탄한 보행로와 아늑한 나무 데크길로 이루어져 있습니다. 보행이 불편하신 분들은 물론 바쁜 일상 속 가만히 불어오는 풀바람을 느끼며 숨을 고르고 싶은 분들에게 최고의 선물 같은 편안한 힐링 코스예요.',
     overallTipEn: 'The three major eco-parks along the Nakdong River feature paved esplanades and perfectly flat wooden decks with zero stairs or steep slopes. It offers an ideal barrier-free healing destination for everyone seeking a peaceful natural retreat.',
     steps: [
       {
@@ -127,14 +127,14 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
         descKo: '마지막 힐링 명소인 대저생태공원은 드넓은 초록 대지(봄에는 샛노란 유채꽃, 가을에는 흔들리는 핑크뮬리)가 시야를 가득 채워 마음에 평안을 줍니다. 공원 한쪽 깊숙이 자리한 아늑한 대나무 숲길은 평탄하게 정비되어 있어 휠체어와 유모차가 드나들기 편하고, 대나무 잎이 바람에 스치며 들려주는 시냇물 같은 소리에 젖어 편평히 하루 일정을 마무리해보세요.',
         descEn: 'Daejeo Eco Park welcomes you with vast organic colors. The dense bamboo grove trail is covered in soft coconut-fiber mats, providing clean traction for flat rolls. Wrap up your day surrounded by rustling leaves and therapeutic breezes under the vast southern sky.',
         icon: 'Sunset',
-        stationInfoKo: '강서구청역(3호선) 1번 또는 3번 출구 평탄한 무장벽 해변 진입로 도보 5분',
+        stationInfoKo: '강서구청역(3호선) 1번 또는 3번 출구 평탄한 해변 진입로 도보 5분',
         stationInfoEn: 'Gangseo-gu Office Station (Line 3) Exits 1 or 3, 5 mins flat barrier-free walk'
       }
     ]
   },
   {
     id: 'itinerary-1night',
-    titleKo: '부산 명소 대집성 1박 2일 무장벽 드림 코스',
+    titleKo: '부산 명소 대집성 1박 2일 편리한 드림 코스',
     titleEn: 'Busan Highlights Complete 1N2D Dream Course',
     subtitleKo: '영도대교부터 태종대, 해운대 해변과 오륙도 스카이워크까지 부산의 로망 명소를 경사 걱정 없이 즐기는 종합 코스예요.',
     subtitleEn: 'From historic Yeongdo Bridge to Haeundae and Oryukdo Skywalk seamlessly',
@@ -206,7 +206,7 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
     id: 'itinerary-2nights',
     titleKo: '트렌디 감성과 바다 비경을 담은 2박 3일 낭만 힐링',
     titleEn: 'Trendy Cafe & Coastal Wonders 2N3D Complete Route',
-    subtitleKo: '전포까페거리, 해동용궁사부터 망미 골목까지 감성 넘치는 핫플레이스를 평탄 무장벽으로 만나는 일주 코스예요.',
+    subtitleKo: '전포까페거리, 해동용궁사부터 망미 골목까지 감성 넘치는 핫플레이스를 단차가 억제된 평탄한 길로 만나는 일주 코스예요.',
     subtitleEn: 'From trendy Jeonpo alley cafe rows to cliffside seaside shrines and historic market walks',
     category: '2NIGHTS',
     durationKo: '2박 3일',
@@ -215,7 +215,7 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
     tagEn: '2 Nights 3 Days 🌅',
     difficultyKo: '보통',
     difficultyEn: 'Moderate',
-    overallTipKo: '전포카페거리와 해운대 그린레일웨이, 온천천은 완벽하게 평지화되어 있어 쾌적한 롤링이 보장됩니다. 해동용궁사는 우회 진입 램프를 이용해 시원한 동해안의 사찰 비경과 바다 내음을 안전하게 즐기실 수 있습니다.',
+    overallTipKo: '전포카페거리와 해운대 그린레일웨이, 온천천은 완벽하게 평지화되어 있어 쾌적한 롤링이 보장됩니다. 해동용궁사는 우회 진입 램프를 이용해 시원한 바닷가의 사찰 비경과 바다 내음을 안전하게 즐기실 수 있습니다.',
     overallTipEn: 'Jeonpo Cafe Street, Haeundae Green Railway, and Oncheoncheon are amazingly flat and smooth. Easily tackle Haedong Yonggungsa Temple through specialized side entry slopes to avoid the dynamic central staircase.',
     steps: [
       // Day 1
@@ -280,7 +280,7 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
         time: 'Day 2',
         titleKo: '해동용궁사',
         titleEn: 'Haedong Yonggungsa Temple',
-        descKo: '동해의 성난 파도와 바위 절벽 위에 세워진 아름다운 사찰입니다. 악명 높은 108 가파른 돌계단 대신, 대웅전 방향으로 향하는 완주 휠체어/유모차 전용 우회 램프 보도를 공략하면 웅장한 바다 사찰의 비경을 힘 안 들이고 정면 관망하는 꿀팁이 준비되어 있습니다.',
+        descKo: '바다의 성난 파도와 바위 절벽 위에 세워진 아름다운 사찰입니다. 악명 높은 108 가파른 돌계단 대신, 대웅전 방향으로 향하는 완주 휠체어/유모차 전용 우회 램프 보도를 공략하면 웅장한 바다 사찰의 비경을 힘 안 들이고 정면 관망하는 꿀팁이 준비되어 있습니다.',
         descEn: 'The famous cliffside temple. Access via the smooth detour ramp instead of the steep 108 stone steps to comfortably capture the magnificent ocean views.',
         icon: 'Map'
       },
@@ -406,7 +406,7 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
         time: 'Day 1',
         titleKo: '해동용궁사',
         titleEn: 'Haedong Yonggungsa Temple',
-        descKo: '기암괴석과 동해안 바다가 맞닿은 관음 성지 사찰입니다. 험난한 108 돌계단을 전면 우회해, 매표소 뒷길의 평평하고 넓은 지상의 우회 단층 통로를 공략하면 파도 절벽을 쾌적하고 편하게 바라봅니다.',
+        descKo: '기암괴석과 푸른 바다가 맞닿은 관음 성지 사찰입니다. 험난한 108 돌계단을 전면 우회해, 매표소 뒷길의 평평하고 넓은 지상의 우회 단층 통로를 공략하면 파도 절벽을 쾌적하고 편하게 바라봅니다.',
         descEn: 'The scenic cliffside Buddhist temple. Bypassing the extreme 108 vertical steps completely by heading into the smooth side entry slope.',
         icon: 'Map'
       },
@@ -566,7 +566,7 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
         time: 'Day 5',
         titleKo: '센텀시티 신세계백화점 / 마린시티 영화의거리',
         titleEn: 'Centum City / Marine City Cinema Street',
-        descKo: '실내 전체가 완벽한 무장벽 평면으로 닦여있는 세계 최대 백화점과 수영 강변 가로수길의 힐링입니다. 이어서 높은 고층 빌딩 숲과 바다를 매끈한 광안대교 수평 실루엣 뒤로 마주하는 마린시티 영화의 거리 목재 전망대를 가뿐하게 산책해보세요.',
+        descKo: '실내 전체가 편리한 평면 보도로 구성된 세계 최대 백화점과 수영 강변 가로수길의 힐링입니다. 이어서 높은 고층 빌딩 숲과 바다를 매끈한 광안대교 수평 실루엣 뒤로 마주하는 마린시티 영화의 거리 목재 전망대를 가뿐하게 산책해보세요.',
         descEn: 'Explore the world\'s largest department store, and stroll through flat Cinema Street in Marine City facing high-rise wonders.',
         icon: 'Food',
         stationInfoKo: '센텀시티 지하 연결로를 통해 개찰구 무단계 진입 지원',
