@@ -4,19 +4,6 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 import fs from "fs";
-import { initializeApp } from "firebase/app";
-import { 
-  getFirestore, 
-  collection, 
-  getDocs, 
-  getDoc,
-  doc, 
-  setDoc, 
-  updateDoc, 
-  deleteDoc, 
-  query, 
-  orderBy 
-} from "firebase/firestore";
 
 dotenv.config();
 
@@ -25,42 +12,7 @@ const PORT = 3000;
 
 app.use(express.json());
 
-// Load Firebase config dynamically from environment variables or local config json
-let firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
-};
-
-let databaseId = process.env.FIREBASE_DATABASE_ID || "ai-studio-daece5ca-bfbc-4065-8b23-6d285905bafc";
-
-try {
-  const configPath = path.join(process.cwd(), "firebase-applet-config.json");
-  if (fs.existsSync(configPath)) {
-    const localConfig = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-    firebaseConfig = {
-      apiKey: localConfig.apiKey || firebaseConfig.apiKey,
-      authDomain: localConfig.authDomain || firebaseConfig.authDomain,
-      projectId: localConfig.projectId || firebaseConfig.projectId,
-      storageBucket: localConfig.storageBucket || firebaseConfig.storageBucket,
-      messagingSenderId: localConfig.messagingSenderId || firebaseConfig.messagingSenderId,
-      appId: localConfig.appId || firebaseConfig.appId,
-    };
-    if (localConfig.firestoreDatabaseId) {
-      databaseId = localConfig.firestoreDatabaseId;
-    }
-  }
-} catch (err) {
-  console.warn("Could not load local firebase-applet-config.json:", err);
-}
-
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp, databaseId);
-
-// Keep local file path ONLY as a migration source
+// Keep local file path as the server-side database
 const RECS_FILE_PATH = path.join(process.cwd(), "recommendations-db.json");
 
 interface TravelerRecommendation {
@@ -107,51 +59,47 @@ const DEFAULT_RECOMMENDATIONS: TravelerRecommendation[] = [
   }
 ];
 
-// Helper to seed Firestore from local JSON database upon first run so that we don't lose any existing test tips
-async function seedRecommendationsIfEmpty() {
+// Helper to read/write local recommendations JSON file
+function loadRecommendations(): TravelerRecommendation[] {
   try {
-    const q = query(collection(db, "recommendations"));
-    const querySnapshot = await getDocs(q);
-    if (querySnapshot.empty) {
-      console.log("Firestore collection 'recommendations' is empty! Migrating/Seeding data...");
-      let initialData = DEFAULT_RECOMMENDATIONS;
-      if (fs.existsSync(RECS_FILE_PATH)) {
-        try {
-          const raw = fs.readFileSync(RECS_FILE_PATH, "utf-8");
-          const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            initialData = parsed;
-          }
-        } catch (e) {
-          console.error("Failed to parse local recs JSON for seeding:", e);
-        }
+    if (fs.existsSync(RECS_FILE_PATH)) {
+      const raw = fs.readFileSync(RECS_FILE_PATH, "utf-8");
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        return parsed;
       }
-      
-      for (const rec of initialData) {
-        const docRef = doc(db, "recommendations", rec.id);
-        await setDoc(docRef, rec);
-      }
-      console.log(`Firestore seeded successfully with ${initialData.length} entries.`);
     }
   } catch (err) {
-    console.error("Error during Firestore seeding:", err);
+    console.error("Error reading recommendations file:", err);
+  }
+  
+  // Write default recommendations if the file doesn't exist
+  try {
+    fs.writeFileSync(RECS_FILE_PATH, JSON.stringify(DEFAULT_RECOMMENDATIONS, null, 2), "utf-8");
+  } catch (err) {
+    console.error("Error writing default recommendations file:", err);
+  }
+  return DEFAULT_RECOMMENDATIONS;
+}
+
+function saveRecommendations(recs: TravelerRecommendation[]) {
+  try {
+    fs.writeFileSync(RECS_FILE_PATH, JSON.stringify(recs, null, 2), "utf-8");
+  } catch (err) {
+    console.error("Error writing recommendations file:", err);
   }
 }
 
 // 1. Get all recommendations
 app.get("/api/recommendations", async (req, res) => {
   try {
-    await seedRecommendationsIfEmpty();
-    const q = query(collection(db, "recommendations"), orderBy("createdAt", "desc"));
-    const querySnapshot = await getDocs(q);
-    const recs: TravelerRecommendation[] = [];
-    querySnapshot.forEach((docSnap) => {
-      recs.push(docSnap.data() as TravelerRecommendation);
-    });
-    res.json(recs);
+    const recs = loadRecommendations();
+    // Sort descending by creation date
+    const sorted = [...recs].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    res.json(sorted);
   } catch (error: any) {
-    console.error("Firebase get recommendations error:", error);
-    res.status(500).json({ error: error.message || "Failed to load recommendations from Firestore" });
+    console.error("Get recommendations error:", error);
+    res.status(500).json({ error: "Failed to load recommendations" });
   }
 });
 
@@ -164,12 +112,12 @@ app.post("/api/recommendations", async (req, res) => {
 
   try {
     const recId = id || `rec-${Date.now()}`;
-    const docRef = doc(db, "recommendations", recId);
-    
+    const recs = loadRecommendations();
+
     // De-duplication check
-    const existingSnap = await getDoc(docRef);
-    if (existingSnap.exists()) {
-      return res.json(existingSnap.data());
+    const existing = recs.find(r => r.id === recId);
+    if (existing) {
+      return res.json(existing);
     }
 
     const newRec: TravelerRecommendation = {
@@ -183,11 +131,12 @@ app.post("/api/recommendations", async (req, res) => {
       createdAt: createdAt || new Date().toISOString()
     };
 
-    await setDoc(docRef, newRec);
+    recs.push(newRec);
+    saveRecommendations(recs);
     res.status(201).json(newRec);
   } catch (error: any) {
-    console.error("Firebase submit recommendation error:", error);
-    res.status(500).json({ error: error.message || "Failed to save recommendation to Firestore" });
+    console.error("Submit recommendation error:", error);
+    res.status(500).json({ error: "Failed to save recommendation" });
   }
 });
 
@@ -197,27 +146,26 @@ app.post("/api/recommendations/:id/upvote", async (req, res) => {
   const { upvote } = req.body;
 
   try {
-    const docRef = doc(db, "recommendations", id);
-    const docSnap = await getDoc(docRef);
+    const recs = loadRecommendations();
+    const idx = recs.findIndex(r => r.id === id);
 
-    if (!docSnap.exists()) {
+    if (idx === -1) {
       return res.status(404).json({ error: "Recommendation not found" });
     }
 
-    const currentData = docSnap.data() as TravelerRecommendation;
-    let newUpvotes = currentData.upvotes || 0;
+    let newUpvotes = recs[idx].upvotes || 0;
     if (upvote === true) {
       newUpvotes += 1;
     } else if (upvote === false) {
       newUpvotes = Math.max(0, newUpvotes - 1);
     }
 
-    const updatedRec = { ...currentData, upvotes: newUpvotes };
-    await updateDoc(docRef, { upvotes: newUpvotes });
-    res.json(updatedRec);
+    recs[idx].upvotes = newUpvotes;
+    saveRecommendations(recs);
+    res.json(recs[idx]);
   } catch (error: any) {
-    console.error("Firebase upvote error:", error);
-    res.status(500).json({ error: error.message || "Failed to upvote recommendation in Firestore" });
+    console.error("Upvote error:", error);
+    res.status(500).json({ error: "Failed to update upvote" });
   }
 });
 
@@ -225,12 +173,13 @@ app.post("/api/recommendations/:id/upvote", async (req, res) => {
 app.delete("/api/recommendations/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const docRef = doc(db, "recommendations", id);
-    await deleteDoc(docRef);
+    const recs = loadRecommendations();
+    const filtered = recs.filter(r => r.id !== id);
+    saveRecommendations(filtered);
     res.json({ success: true });
   } catch (error: any) {
-    console.error("Firebase delete error:", error);
-    res.status(500).json({ error: error.message || "Failed to delete recommendation in Firestore" });
+    console.error("Delete error:", error);
+    res.status(500).json({ error: "Failed to delete recommendation" });
   }
 });
 

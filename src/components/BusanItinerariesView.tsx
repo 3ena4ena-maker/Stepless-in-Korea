@@ -191,6 +191,243 @@ const quizQuestions: QuizQuestion[] = [
   }
 ];
 
+interface RegionDetail {
+  id: 'EAST' | 'WEST' | 'SOUTH' | 'NORTH';
+  nameKo: string;
+  nameEn: string;
+  color: string;
+  badgeColor: string;
+  descKo: string;
+  descEn: string;
+  landmarks: {
+    nameKo: string;
+    nameEn: string;
+    descKo: string;
+    descEn: string;
+    category: 'LANDMARK' | 'FOOD';
+    tagKo: string;
+    tagEn: string;
+  }[];
+}
+
+const REGION_RECOMMENDATIONS: RegionDetail[] = [
+  {
+    id: 'EAST',
+    nameKo: '동부 부산 (해운대·기장·광안리)',
+    nameEn: 'East Busan (Haeundae / Gijang / Gwangalli)',
+    color: 'bg-blue-500',
+    badgeColor: 'bg-blue-100 text-blue-800 border-blue-200',
+    descKo: '화려한 마천루, 광안대교 오션뷰, 그리고 트렌디한 문화가 어우러진 부산의 핵심 힐링 구역입니다.',
+    descEn: 'A major healing zone of Busan where modern skyscrapers, scenic beaches, and trendy culture blend seamlessly.',
+    landmarks: [
+      {
+        nameKo: '광안리 해수욕장 & 광안대교',
+        nameEn: 'Gwangalli Beach & Gwangan Bridge',
+        descKo: '밤바다에 펼쳐지는 환상적인 드론쇼와 광안대교의 다채로운 조명 연출을 감상하기 가장 좋은 곳입니다.',
+        descEn: 'The perfect spot to enjoy majestic drone shows and beautiful night lights over Gwangan Bridge.',
+        category: 'LANDMARK',
+        tagKo: '야경 명소',
+        tagEn: 'Night View'
+      },
+      {
+        nameKo: '해운대 그린레일웨이 & 블루라인파크',
+        nameEn: 'Haeundae Green Railway & Blue Line Park',
+        descKo: '폐철길을 도보 산책로로 재생한 구간으로, 바다 바로 옆에서 해변열차와 함께 평탄하게 걷기 좋습니다.',
+        descEn: 'A scenic boardwalk transformed from an old railway, ideal for a flat-surface walk along the beach.',
+        category: 'LANDMARK',
+        tagKo: '바다 도보',
+        tagEn: 'Seaside Walk'
+      },
+      {
+        nameKo: '해동용궁사',
+        nameEn: 'Haedong Yonggungsa Temple',
+        descKo: '바다 바위 절벽 위에 지어진 사찰로, 교통약자용 완만 우회로를 통해 시원한 파도와 기암괴석 비경을 즐길 수 있습니다.',
+        descEn: 'A spectacular cliffside Buddhist temple. Use flat side-ramps to skip the steep stone stairs.',
+        category: 'LANDMARK',
+        tagKo: '해안 사찰',
+        tagEn: 'Ocean Temple'
+      },
+      {
+        nameKo: '수변최고돼지국밥 (민락)',
+        nameEn: 'Subyeon Choego Pork Soup (Millak)',
+        descKo: '현지인과 관광객 모두에게 사랑받는 최고 수준의 진하고 부드러운 국물의 돼지국밥 전문점입니다.',
+        descEn: 'A legendary pork soup restaurant with deeply rich, savory broth and perfectly tender pork.',
+        category: 'FOOD',
+        tagKo: '돼지국밥 맛집',
+        tagEn: 'Pork Soup'
+      },
+      {
+        nameKo: '기장 대게 (기장시장)',
+        nameEn: 'Gijang Snow Crab (Gijang Market)',
+        descKo: '수율이 꽉 찬 싱싱하고 달콤한 대게를 합리적인 가격에 가득 맛볼 수 있는 유명 먹거리 타운입니다.',
+        descEn: 'Famous local crab market where you can enjoy fresh, sweet, and perfectly steamed snow crabs.',
+        category: 'FOOD',
+        tagKo: '대게 별미',
+        tagEn: 'Seafood'
+      }
+    ]
+  },
+  {
+    id: 'WEST',
+    nameKo: '서부 부산 (사상·강서·다대포)',
+    nameEn: 'West Busan (Sasang / Gangseo / Dadaepo)',
+    color: 'bg-emerald-500',
+    badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+    descKo: '광활하게 펼쳐진 낙동강 하구의 생태경관과 아름다운 석양 노을을 만끽하는 자연 치유 구역입니다.',
+    descEn: 'An eco-tourism haven filled with golden sunset viewpoints and the majestic Nakdong River estuary.',
+    landmarks: [
+      {
+        nameKo: '다대포 해수욕장 & 고우니 생태길',
+        nameEn: 'Dadaepo Beach & Gouny Eco Trail',
+        descKo: '끝없는 모래사장과 완벽한 평지 데크 보도가 어우러진 해질녘 최고의 노을 명소입니다.',
+        descEn: 'One of Koreas absolute best sunset spots featuring barrier-free wooden wetland boardwalks.',
+        category: 'LANDMARK',
+        tagKo: '일몰·낙조',
+        tagEn: 'Sunset'
+      },
+      {
+        nameKo: '을숙도 생태공원',
+        nameEn: 'Eulsukdo Ecological Park',
+        descKo: '자전거를 타고 돌기 좋은 한적하고 넓은 평지 공원으로, 겨울철 철새들의 평화로운 모습을 관찰할 수 있습니다.',
+        descEn: 'A spacious and flat delta island park, ideal for a tranquil stroll and migratory bird watching.',
+        category: 'LANDMARK',
+        tagKo: '생태 공원',
+        tagEn: 'Eco Park'
+      },
+      {
+        nameKo: '감천문화마을',
+        nameEn: 'Gamcheon Culture Village',
+        descKo: '부산의 산토리니로 불리는 알록달록한 계단식 마을로, 입구 전망대 평지 구역에서 경관을 한눈에 담을 수 있습니다.',
+        descEn: 'The Santorini of Busan, showcasing whimsical pastel-colored houses with magnificent viewpoint terraces.',
+        category: 'LANDMARK',
+        tagKo: '예술 마을',
+        tagEn: 'Art Village'
+      },
+      {
+        nameKo: '합천일류돼지국밥 (사상)',
+        nameEn: 'Hapcheon Pork Soup (Sasang)',
+        descKo: '알싸한 마늘 다대기가 아낌없이 들어가 감칠맛이 폭발하는 사상구 최고의 로컬 대기 맛집입니다.',
+        descEn: 'Local favorite pork soup characterized by a generous spoonful of rich garlic paste and robust broth.',
+        category: 'FOOD',
+        tagKo: '돼지국밥 맛집',
+        tagEn: 'Garlic Pork Soup'
+      },
+      {
+        nameKo: '명지 갈삼구이',
+        nameEn: 'Myeongji Galsamgui',
+        descKo: '낙동강 하구 특산물 갈미조개와 삼겹살을 불판에 구워 쌈 무에 싸 먹는 서부산 독점 별미입니다.',
+        descEn: 'A unique local specialty pairing sweet river clams with savory thin pork belly on a hot grill.',
+        category: 'FOOD',
+        tagKo: '갈미조개 별미',
+        tagEn: 'Clam & Pork'
+      }
+    ]
+  },
+  {
+    id: 'SOUTH',
+    nameKo: '남부 부산 (영도·남포·원도심)',
+    nameEn: 'South Busan (Yeongdo / Nampo / Jung-gu)',
+    color: 'bg-amber-500',
+    badgeColor: 'bg-amber-100 text-amber-800 border-amber-200',
+    descKo: '자갈치시장, 태종대 등 옛 부산의 깊은 바다 향취와 한국 역사의 흔적을 품은 정겨운 구역입니다.',
+    descEn: 'The historical heart of Busan capturing traditional seaside markets, retro alleyways, and grand port views.',
+    landmarks: [
+      {
+        nameKo: '흰여울문화마을 (영도)',
+        nameEn: 'Huinnyeoul Culture Village (Yeongdo)',
+        descKo: '영도 해안 절벽길을 따라 늘어선 예쁜 마을로, 흰여울전망대 평탄 구간에서 바다 절경을 감상하기 좋습니다.',
+        descEn: 'A charming cliffside village on Yeongdo Island overlooking beautiful blue shipping lanes.',
+        category: 'LANDMARK',
+        tagKo: '해안 마을',
+        tagEn: 'Coastal Village'
+      },
+      {
+        nameKo: '태종대 전망대',
+        nameEn: 'Taejongdae Resort Park',
+        descKo: '푸른 해안 기암괴석 절벽과 수평선을 조망하는 명소로, 다누비열차를 타고 계단 없이 승하차하며 투어할 수 있습니다.',
+        descEn: 'Stunning rocky cliffs facing the open ocean. Take the Danubi train for convenient access.',
+        category: 'LANDMARK',
+        tagKo: '기암 절벽',
+        tagEn: 'Ocean Cliffs'
+      },
+      {
+        nameKo: '자갈치시장 & 국제시장',
+        nameEn: 'Jagalchi & Gukje Traditional Markets',
+        descKo: '부산 상인들의 생동감이 넘쳐나는 전통시장으로, 엘리베이터가 완비된 현대식 건물에서 생선구이를 맛보세요.',
+        descEn: 'As authentic as Busan gets. Explore buzzing street stalls and flat modern fish market buildings.',
+        category: 'LANDMARK',
+        tagKo: '전통 시장',
+        tagEn: 'Heritage Market'
+      },
+      {
+        nameKo: '이재모피자 (남포본점)',
+        nameEn: 'Lee Jae-mo Pizza (Nampo)',
+        descKo: '대한민국 최고로 꼽히는 피자 맛집으로, 국산 고소한 임실치즈가 폭포처럼 늘어나는 환상적인 식당입니다.',
+        descEn: 'Arguably the best local pizza in Korea, stacked with premium domestic cheese that melts beautifully.',
+        category: 'FOOD',
+        tagKo: '치즈 폭탄 피자',
+        tagEn: 'Legendary Pizza'
+      },
+      {
+        nameKo: '남포동 씨앗호떡',
+        nameEn: 'Nampodong Seed Hotteok',
+        descKo: '달콤한 설탕 시럽과 버터향 호떡 안에 고소하고 바삭한 해바라기씨, 견과류를 가득 채워주는 대표 먹거리입니다.',
+        descEn: 'Sweet, chewy fried pancakes stuffed generously with roasted sunflower seeds and crunchy nuts.',
+        category: 'FOOD',
+        tagKo: '호떡 길거리',
+        tagEn: 'Seed Pancakes'
+      }
+    ]
+  },
+  {
+    id: 'NORTH',
+    nameKo: '북부 부산 (금정·동래·온천장)',
+    nameEn: 'North Busan (Geumjeong / Dongnae / Oncheonjang)',
+    color: 'bg-purple-500',
+    badgeColor: 'bg-purple-100 text-purple-800 border-purple-200',
+    descKo: '웅장한 금정산과 유서 깊은 온천장, 유교 유적 등 전통문화와 산뜻한 휴식이 깃든 한적한 구역입니다.',
+    descEn: 'A tranquil northern zone featuring pristine temple forests, warm hot springs, and delicious culinary heritage.',
+    landmarks: [
+      {
+        nameKo: '금정산 범어사',
+        nameEn: 'Beomeosa Temple',
+        descKo: '천년의 역사를 간직한 사찰로, 매표소 뒷길 대웅전 우회 지상 연결로를 따라 계단 없이 숲 산책이 가능합니다.',
+        descEn: 'A thousand-year-old Buddhist sanctuary cradled in a forest. Access temple grounds via flat bypass loops.',
+        category: 'LANDMARK',
+        tagKo: '천년 고찰',
+        tagEn: 'Ancient Temple'
+      },
+      {
+        nameKo: '온천천 시민공원',
+        nameEn: 'Oncheoncheon Stream Park',
+        descKo: '봄에는 흐드러지는 벚꽃 터널과 유채꽃이 장관을 이루는 완전 평지의 아기자기한 수변 도심 공원입니다.',
+        descEn: 'A lively, flat riverside walking trail blooming with beautiful cherry blossoms and yellow canola in spring.',
+        category: 'LANDMARK',
+        tagKo: '벚꽃 산책로',
+        tagEn: 'Cherry Blossom Stream'
+      },
+      {
+        nameKo: '동래할매파전',
+        nameEn: 'Dongnae Halmae Pajeon',
+        descKo: '조선시대 임금님께 진상되던 부산 대표 민속 음식으로, 달콤한 쪽파와 신선한 굴, 조개류가 부드럽게 섞여있습니다.',
+        descEn: 'A legendary culinary heritage. Soft, moist green onion pancake topped with fresh oysters and clams.',
+        category: 'FOOD',
+        tagKo: '전통 파전 맛집',
+        tagEn: 'Dongnae Pajeon'
+      },
+      {
+        nameKo: '금정산성 흑염소 불고기 & 막걸리',
+        nameEn: 'Geumjeongsanseong Goat BBQ & Makgeolli',
+        descKo: '금정산 산성마을에서 직화해 불향 가득한 흑염소 석쇠 구이와 걸쭉하고 신맛이 도는 전통 막걸리 세트입니다.',
+        descEn: 'Smoky, char-grilled goat bulgogi paired with regional rich yeast artisan makgeolli.',
+        category: 'FOOD',
+        tagKo: '산성 특산물',
+        tagEn: 'Mountain BBQ'
+      }
+    ]
+  }
+];
+
 export default function BusanItinerariesView({ 
   language, 
   initialCategory = null, 
@@ -240,6 +477,8 @@ export default function BusanItinerariesView({
   const [quizActive, setQuizActive] = useState(false);
   const [quizStep, setQuizStep] = useState(0); // 0: Landing inside card, 1~7: Questions 1~7, 8: Result
   const [answers, setAnswers] = useState<('A' | 'B')[]>([]);
+  const [mapModalOpen, setMapModalOpen] = useState(false);
+  const [selectedRegion, setSelectedRegion] = useState<'EAST' | 'WEST' | 'SOUTH' | 'NORTH'>('EAST');
 
   const handleAnswerSelect = (optionType: 'A' | 'B') => {
     const nextAnswers = [...answers, optionType];
@@ -758,6 +997,196 @@ export default function BusanItinerariesView({
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* BUSAN TOURIST ILLUSTRATION MAP SECTION */}
+          <div className="bg-white p-5 sm:p-7 rounded-3xl border border-slate-100 shadow-[0_4px_22px_rgba(0,0,0,0.015)] text-left space-y-6 animate-fade-in">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3.5">
+              <div className="space-y-1">
+                <h3 className="text-base sm:text-lg font-extrabold text-slate-800 flex items-center gap-2">
+                  <span className="text-xl">🗺️</span>
+                  <span>{language === 'KR' ? '부산 권역별 가이드 지도 (동·서·남·북)' : 'Busan Regional Guide Map (East·West·South·North)'}</span>
+                </h3>
+                <p className="text-xs text-slate-400 font-semibold leading-normal">
+                  {language === 'KR'
+                    ? '지도 주위의 동부/서부/남부/북부 버튼을 누르면, 해당 권역의 대표 명소와 맛집을 바로 확인하실 수 있습니다.'
+                    : 'Click on East/West/South/North buttons to explore top local spots and restaurants curated by locals.'}
+                </p>
+              </div>
+              <button
+                onClick={() => setMapModalOpen(true)}
+                className="self-start sm:self-center flex items-center gap-1.5 text-xs font-black text-[#004481] bg-blue-50/80 hover:bg-blue-100 active:scale-95 px-4 py-2.5 rounded-2xl transition-all cursor-pointer border border-blue-100/50"
+              >
+                🔍 {language === 'KR' ? '지도 크게 보기' : 'Enlarge Map'}
+              </button>
+            </div>
+
+            {/* Large Centered Interactive Map */}
+            <div className="space-y-6">
+              {/* Map Container */}
+              <div 
+                className="relative aspect-[3/2] w-full max-w-3xl mx-auto rounded-3xl overflow-hidden border border-slate-150/70 shadow-[0_4px_20px_rgba(0,0,0,0.02)] bg-slate-50 group"
+              >
+                <img 
+                  src="/src/assets/images/busan_wide_map_1782270122755.jpg"
+                  alt="Busan Travel Map Illustration"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover transition-transform duration-1000 ease-out"
+                />
+
+                {/* Interactive badges overlaying the map representing East, West, South, North */}
+                <div className="absolute inset-0 p-4 flex flex-col justify-between z-10 pointer-events-none">
+                  {/* Top: North */}
+                  <div className="flex justify-center pt-2">
+                    <button 
+                      onClick={() => setSelectedRegion('NORTH')}
+                      className={`shadow-lg text-xs sm:text-sm font-black px-4 py-2.5 rounded-2xl border transition-all active:scale-95 cursor-pointer pointer-events-auto flex items-center gap-1.5 ${
+                        selectedRegion === 'NORTH' 
+                          ? 'bg-purple-600 text-white border-purple-500 scale-108 ring-4 ring-purple-100 shadow-purple-200' 
+                          : 'bg-white/95 text-slate-800 border-slate-200/80 hover:bg-white hover:scale-105'
+                      }`}
+                    >
+                      <span>⛰️</span>
+                      <span>{language === 'KR' ? '북부 (금정/범어사)' : 'North (Geumjeong)'}</span>
+                    </button>
+                  </div>
+
+                  {/* Middle Row: West & East */}
+                  <div className="flex justify-between items-center px-2 sm:px-6 my-auto">
+                    {/* West Badge */}
+                    <button 
+                      onClick={() => setSelectedRegion('WEST')}
+                      className={`shadow-lg text-xs sm:text-sm font-black px-4 py-2.5 rounded-2xl border transition-all active:scale-95 cursor-pointer pointer-events-auto flex items-center gap-1.5 ${
+                        selectedRegion === 'WEST' 
+                          ? 'bg-emerald-600 text-white border-emerald-500 scale-108 ring-4 ring-emerald-100 shadow-emerald-200' 
+                          : 'bg-white/95 text-slate-800 border-slate-200/80 hover:bg-white hover:scale-105'
+                      }`}
+                    >
+                      <span>🌲</span>
+                      <span>{language === 'KR' ? '서부 (다대포/감천)' : 'West (Dadaepo)'}</span>
+                    </button>
+
+                    {/* East Badge */}
+                    <button 
+                      onClick={() => setSelectedRegion('EAST')}
+                      className={`shadow-lg text-xs sm:text-sm font-black px-4 py-2.5 rounded-2xl border transition-all active:scale-95 cursor-pointer pointer-events-auto flex items-center gap-1.5 ${
+                        selectedRegion === 'EAST' 
+                          ? 'bg-blue-600 text-white border-blue-500 scale-108 ring-4 ring-blue-100 shadow-blue-200' 
+                          : 'bg-white/95 text-slate-800 border-slate-200/80 hover:bg-white hover:scale-105'
+                      }`}
+                    >
+                      <span>🌊</span>
+                      <span>{language === 'KR' ? '동부 (해운대/광안리)' : 'East (Haeundae)'}</span>
+                    </button>
+                  </div>
+
+                  {/* Bottom Row: South */}
+                  <div className="flex justify-center pb-2">
+                    <button 
+                      onClick={() => setSelectedRegion('SOUTH')}
+                      className={`shadow-lg text-xs sm:text-sm font-black px-4 py-2.5 rounded-2xl border transition-all active:scale-95 cursor-pointer pointer-events-auto flex items-center gap-1.5 ${
+                        selectedRegion === 'SOUTH' 
+                          ? 'bg-amber-600 text-white border-amber-500 scale-108 ring-4 ring-amber-100 shadow-amber-200' 
+                          : 'bg-white/95 text-slate-800 border-slate-200/80 hover:bg-white hover:scale-105'
+                      }`}
+                    >
+                      <span>⚓</span>
+                      <span>{language === 'KR' ? '남부 (영도/남포동)' : 'South (Yeongdo)'}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Region Switcher Tabs (Buttons below the map) */}
+              <div className="grid grid-cols-4 gap-1.5 sm:gap-3 max-w-2xl mx-auto bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200/40">
+                {(['EAST', 'WEST', 'SOUTH', 'NORTH'] as const).map((rId) => {
+                  const isActive = selectedRegion === rId;
+                  const label = rId === 'EAST' ? (language === 'KR' ? '동부 🌊' : 'East 🌊') :
+                                rId === 'WEST' ? (language === 'KR' ? '서부 🌲' : 'West 🌲') :
+                                rId === 'SOUTH' ? (language === 'KR' ? '남부 ⚓' : 'South ⚓') :
+                                (language === 'KR' ? '북부 ⛰️' : 'North ⛰️');
+                  const activeBg = rId === 'EAST' ? 'bg-blue-600 text-white shadow-md' :
+                                   rId === 'WEST' ? 'bg-emerald-600 text-white shadow-md' :
+                                   rId === 'SOUTH' ? 'bg-amber-600 text-white shadow-md' :
+                                   'bg-purple-600 text-white shadow-md';
+                  return (
+                    <button
+                      key={rId}
+                      onClick={() => setSelectedRegion(rId)}
+                      className={`py-2.5 sm:py-3 text-xs sm:text-sm font-black rounded-xl transition-all cursor-pointer text-center active:scale-95 ${
+                        isActive ? activeBg : 'text-slate-600 hover:text-slate-950 bg-transparent hover:bg-white/60'
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Dynamic Region Recommendations section placed elegantly below the map */}
+              <div className="w-full bg-slate-50/70 p-5 sm:p-7 rounded-3xl border border-slate-150/50 mt-4">
+                {REGION_RECOMMENDATIONS.filter(r => r.id === selectedRegion).map((r) => (
+                  <div key={r.id} className="space-y-5 animate-fade-in">
+                    
+                    {/* Region Header */}
+                    <div className="border-b border-slate-200/50 pb-3">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className={`text-xs sm:text-sm font-extrabold px-3 py-1 rounded-full uppercase tracking-tight border ${r.badgeColor}`}>
+                          {language === 'KR' ? r.nameKo : r.nameEn}
+                        </span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed">
+                        {language === 'KR' ? r.descKo : r.descEn}
+                      </p>
+                    </div>
+
+                    {/* Recommendations Cards Grid (Full display, no scrollbar needed) */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {r.landmarks.map((item, idx) => {
+                        const isFood = item.category === 'FOOD';
+                        return (
+                          <div 
+                            key={idx}
+                            className="p-4 rounded-2xl border border-slate-200/40 hover:border-slate-300 bg-white hover:shadow-[0_4px_16px_rgba(0,0,0,0.02)] transition-all flex flex-col justify-between gap-3"
+                          >
+                            <div className="flex items-start gap-3">
+                              <div className={`p-2 rounded-xl shrink-0 ${
+                                isFood ? 'bg-rose-50 text-rose-600' : 'bg-sky-50 text-sky-600'
+                              }`}>
+                                {isFood ? (
+                                  <Utensils className="w-4 h-4" />
+                                ) : (
+                                  <MapPin className="w-4 h-4" />
+                                )}
+                              </div>
+                              <div className="space-y-1">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <span className="font-extrabold text-slate-800 text-sm sm:text-base">
+                                    {language === 'KR' ? item.nameKo : item.nameEn}
+                                  </span>
+                                </div>
+                                <span className={`inline-block text-[10px] font-black px-2 py-0.5 rounded-lg border ${
+                                  isFood 
+                                    ? 'bg-rose-50 text-rose-700 border-rose-100' 
+                                    : 'bg-sky-50 text-sky-700 border-sky-100'
+                                }`}>
+                                  {language === 'KR' ? item.tagKo : item.tagEn}
+                                </span>
+                              </div>
+                            </div>
+                            
+                            <p className="text-xs text-slate-400 font-semibold leading-relaxed border-t border-slate-100 pt-2">
+                              {language === 'KR' ? item.descKo : item.descEn}
+                            </p>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* QUIZ SECTION (TEST) */}
@@ -1909,6 +2338,54 @@ export default function BusanItinerariesView({
           })()}
         </div>
       )}
+        </div>
+      )}
+
+      {/* MAP FULLSCREEN ZOOM MODAL */}
+      {mapModalOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md animate-fade-in"
+          onClick={() => setMapModalOpen(false)}
+        >
+          <div 
+            className="relative max-w-5xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-100 flex flex-col max-h-[90vh] animate-scale-up"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 sm:px-6 border-b border-slate-100 bg-white shrink-0">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">🗺️</span>
+                <h4 className="font-extrabold text-slate-850 text-sm sm:text-base">
+                  {language === 'KR' ? '부산 관광 가이드 일러스트 지도' : 'Busan Travel Guide Illustrative Map'}
+                </h4>
+              </div>
+              <button 
+                onClick={() => setMapModalOpen(false)}
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition-all cursor-pointer text-sm font-bold border border-slate-200/50"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Modal Body (Scrollable Image container) */}
+            <div className="flex-1 overflow-auto bg-slate-50 p-4 flex items-center justify-center min-h-0">
+              <img 
+                src="/src/assets/images/busan_wide_map_1782270122755.jpg"
+                alt="Busan Travel Map Illustration Enlarged"
+                referrerPolicy="no-referrer"
+                className="max-w-full max-h-[70vh] object-contain rounded-xl shadow-md border border-slate-200/60"
+              />
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 bg-slate-50 border-t border-slate-100 text-center shrink-0">
+              <p className="text-xs text-slate-500 font-bold">
+                {language === 'KR'
+                  ? '※ r/BusanTravelTips 커뮤니티와 현지 가이드를 통해 엄선된 추천 장소의 개략적인 일러스트 위치 지도입니다.'
+                  : '* This is a schematic illustrative location map of recommended spots curated by locals.'}
+              </p>
+            </div>
+          </div>
         </div>
       )}
     </div>

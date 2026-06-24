@@ -636,7 +636,7 @@ export default function App() {
           setIsHomeLanding(false);
           setCurrentTab('home');
         }
-      } else if (parts[1] && parts[1] !== 'home' && parts[1] !== 'map' && parts[1] !== 'reports' && parts[1] !== 'travel' && parts[1] !== 'admin') {
+      } else if (parts[1] && parts[1] !== 'home' && parts[1] !== 'search' && parts[1] !== 'schedule' && parts[1] !== 'tips') {
         const stationId = parts[1].toLowerCase();
         const exists = STATIONS.some(s => s.id === stationId);
         if (exists) {
@@ -644,7 +644,7 @@ export default function App() {
           setIsHomeLanding(false);
           setCurrentTab('home');
         }
-      } else if (['home', 'map', 'reports', 'travel', 'admin'].includes(parts[1])) {
+      } else if (['home', 'search', 'schedule', 'tips'].includes(parts[1])) {
         setCurrentTab(parts[1]);
         if (parts[1] === 'home') {
           setIsHomeLanding(true);
