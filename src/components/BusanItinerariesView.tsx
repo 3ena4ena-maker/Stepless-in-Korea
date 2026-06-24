@@ -775,48 +775,49 @@ export default function BusanItinerariesView({
 
       {/* SUB-TABS PILLED TOGGLE CONTROLLER (Only visible when NOT in SELECTION view) */}
       {activeSection !== 'SELECTION' && (
-        <div className="bg-white p-3.5 sm:p-4 rounded-3xl border border-slate-100 shadow-[0_4px_15px_rgba(0,0,0,0.02)] flex flex-col md:flex-row items-center justify-between gap-4 animate-fade-in">
+        <div className="bg-white p-2 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-100 shadow-[0_4px_15px_rgba(0,0,0,0.02)] flex flex-row items-center justify-between gap-2 sm:gap-4 animate-fade-in">
           {/* Back btn */}
           <button
             onClick={() => {
               setActiveSection('SELECTION');
               setActiveCategory(null);
             }}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black text-slate-500 hover:text-[#004481] hover:bg-slate-50 active:scale-95 transition-all shrink-0 cursor-pointer border border-slate-100"
+            className="flex items-center gap-1 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-[10px] sm:text-xs font-black text-slate-500 hover:text-[#004481] hover:bg-slate-50 active:scale-95 transition-all shrink-0 cursor-pointer border border-slate-100"
           >
             <span>◀</span>
-            <span>{language === 'KR' ? '추천/이용팁 메인으로' : 'Back to Selection Dashboard'}</span>
+            <span className="hidden xs:inline sm:inline">{language === 'KR' ? '추천/이용팁 메인' : 'Back to Main'}</span>
+            <span className="inline xs:hidden">{language === 'KR' ? '메인' : 'Main'}</span>
           </button>
 
           {/* Double Pill */}
-          <div className="bg-slate-50/80 p-1 rounded-2xl border border-slate-100 flex gap-1 w-full md:w-auto max-w-md">
+          <div className="bg-slate-50/80 p-0.5 sm:p-1 rounded-xl sm:rounded-2xl border border-slate-100 flex gap-0.5 sm:gap-1 flex-1 max-w-[280px] sm:max-w-md">
             <button
               onClick={() => {
                 setActiveSection('RECOMMENDATIONS');
                 setActiveCategory(null);
               }}
-              className={`flex-1 md:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-305 flex items-center justify-center gap-2 cursor-pointer ${
+              className={`flex-1 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black transition-all duration-305 flex items-center justify-center gap-1 sm:gap-2 cursor-pointer ${
                 activeSection === 'RECOMMENDATIONS'
-                  ? 'bg-[#004481] text-white shadow-md'
+                  ? 'bg-[#004481] text-white shadow-sm'
                   : 'text-slate-500 hover:text-slate-850 hover:bg-slate-100/50'
               }`}
             >
               <span>🏖️</span>
-              <span>{language === 'KR' ? '부산 여행 추천' : 'Trip Recommendations'}</span>
+              <span className="text-[10px] sm:text-xs font-black">{language === 'KR' ? '여행 추천' : 'Trip'}</span>
             </button>
             <button
               onClick={() => {
                 setActiveSection('TRANSIT_TIPS');
                 setActiveCategory(null);
               }}
-              className={`flex-1 md:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-305 flex items-center justify-center gap-2 cursor-pointer ${
+              className={`flex-1 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black transition-all duration-305 flex items-center justify-center gap-1 sm:gap-2 cursor-pointer ${
                 activeSection === 'TRANSIT_TIPS'
-                  ? 'bg-[#004481] text-white shadow-md'
+                  ? 'bg-[#004481] text-white shadow-sm'
                   : 'text-slate-500 hover:text-slate-850 hover:bg-slate-100/50'
               }`}
             >
               <span>🚇</span>
-              <span>{language === 'KR' ? '대중교통 이용 팁' : 'Public Transit Guide'}</span>
+              <span className="text-[10px] sm:text-xs font-black">{language === 'KR' ? '교통 팁' : 'Transit'}</span>
             </button>
           </div>
         </div>
@@ -828,15 +829,22 @@ export default function BusanItinerariesView({
       {activeSection === 'SELECTION' && (
         <div className="space-y-6 animate-fade-in text-center py-2">
           {/* Extremely Clean & Professional compact Header */}
-          <div className="text-center py-4 max-w-2xl mx-auto space-y-2">
+          <div className="text-center py-4 max-w-2xl mx-auto space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-slate-800 tracking-tight">
-              {language === 'KR' ? '부산 여행에 대한 모든 것' : 'Busan Travel Convenience Guide'}
+              {language === 'KR' ? '부산 여행에 대한 모든 것' : 'All About Busan Travel'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed">
               {language === 'KR'
-                ? '부산 현지인이 알려주는 부산 여행 코스 추천과 지하철 등 대중교통 이용 팁'
+                ? '부산 현지인이 알려주는 부산 여행 코스 추천과 대중교통 이용 팁'
                 : 'Handy recommendations for flat-path walking routes and public transit guide in Busan.'}
             </p>
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-50/60 border border-blue-100/70 py-1 px-3 text-[11px] sm:text-xs font-extrabold text-[#004481]/90 select-none mx-auto">
+              <span className="relative flex h-1.5 w-1.5 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#004481]"></span>
+              </span>
+              <span>{language === 'KR' ? '⚙️ 현재 더 정확하고 많은 정보를 추천하기 위해 업데이트 중입니다.' : '⚙️ Currently updating to recommend more accurate and richer information.'}</span>
+            </div>
           </div>
 
           {/* TWO MAIN MENU BUTTON CARDS - restricted to max-w-3xl to be about 2/3 size and highly compact */}
@@ -929,37 +937,12 @@ export default function BusanItinerariesView({
       {/* VIEW 2: ORIGINAL ITINERARY RECOMMENDATIONS VIEW                            */}
       {/* ========================================================================= */}
       {activeSection === 'RECOMMENDATIONS' && (
-        <div className="space-y-8">
-          {/* Header Info Banner - Only visible on main travel tips page */}
-          {activeCategory === null && (
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] text-left flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div className="text-left max-w-3xl">
-                <h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-slate-800 flex items-center gap-2.5">
-                  <span>🗺️</span>
-                  <span>{language === 'KR' ? '부산 현지인이 추천하는 부산 여행' : 'Busan Travel Guide: Recommended by Locals'}</span>
-                </h2>
-                <p className="text-sm sm:text-base text-slate-500 mt-2 leading-relaxed font-semibold">
-                  {language === 'KR' 
-                    ? '현지인이 알려주는 부산의 매력을 카테고리별로 추천해주는 일정 가이드입니다.' 
-                    : 'A travel itinerary guide that reveals the true charms of Busan, categorized by local insiders.'}
-                </p>
-                <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-blue-50/60 border border-blue-100/70 py-1 px-3 text-xs font-extrabold text-[#004481]/90 select-none">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#004481]"></span>
-                  </span>
-                  <span>{language === 'KR' ? '⚙️ 현재 더 정확하고 많은 정보를 추천하기 위해 업데이트 중입니다.' : '⚙️ Currently updating to recommend more accurate and richer information.'}</span>
-                </div>
-              </div>
-            </div>
-          )}
+        <div className="space-y-4 sm:space-y-8">
 
           {/* Main Container Switching: Categories Grid VS Category Detailed Itinerary */}
-
-      {/* Main Container Switching: Categories Grid VS Category Detailed Itinerary */}
       {activeCategory === null ? (
         // Mode 2: SHOW CATEGORY ONLY (GRID VIEW) - "카테고리만 보여지게 만들어줘"
-        <div className="space-y-8">
+        <div className="space-y-4 sm:space-y-8">
           
           <div className="border-b border-slate-100 pb-3 animate-fade-in">
             <h3 className="text-base font-extrabold text-slate-800 flex items-center gap-2">
@@ -1024,14 +1007,14 @@ export default function BusanItinerariesView({
           </div>
 
           {/* BUSAN TOURIST ILLUSTRATION MAP SECTION */}
-          <div className="bg-white p-5 sm:p-7 rounded-3xl border border-slate-100 shadow-[0_4px_22px_rgba(0,0,0,0.015)] text-left space-y-6 animate-fade-in">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3.5">
-              <div className="space-y-1">
-                <h3 className="text-base sm:text-lg font-extrabold text-slate-800 flex items-center gap-2">
-                  <span className="text-xl">🗺️</span>
+          <div className="bg-white p-3.5 sm:p-7 rounded-2xl sm:rounded-3xl border border-slate-100 shadow-[0_4px_22px_rgba(0,0,0,0.015)] text-left space-y-4 sm:space-y-6 animate-fade-in">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+              <div className="space-y-0.5">
+                <h3 className="text-sm sm:text-lg font-extrabold text-slate-800 flex items-center gap-1.5">
+                  <span className="text-lg sm:text-xl">🗺️</span>
                   <span>{language === 'KR' ? '부산 권역별 가이드 지도 (동·서·남·북)' : 'Busan Regional Guide Map (East·West·South·North)'}</span>
                 </h3>
-                <p className="text-xs text-slate-400 font-semibold leading-normal">
+                <p className="text-[11px] sm:text-xs text-slate-400 font-semibold leading-normal">
                   {language === 'KR'
                     ? '지도 주위의 동부/서부/남부/북부 버튼을 누르면, 해당 권역의 대표 명소와 맛집을 바로 확인하실 수 있습니다.'
                     : 'Click on East/West/South/North buttons to explore top local spots and restaurants curated by locals.'}
@@ -1039,7 +1022,7 @@ export default function BusanItinerariesView({
               </div>
               <button
                 onClick={() => setMapModalOpen(true)}
-                className="self-start sm:self-center flex items-center gap-1.5 text-xs font-black text-[#004481] bg-blue-50/80 hover:bg-blue-100 active:scale-95 px-4 py-2.5 rounded-2xl transition-all cursor-pointer border border-blue-100/50"
+                className="self-start sm:self-center flex items-center gap-1 text-[10px] sm:text-xs font-black text-[#004481] bg-blue-50/80 hover:bg-blue-100 active:scale-95 px-3 py-2 rounded-xl transition-all cursor-pointer border border-blue-100/50 shrink-0"
               >
                 🔍 {language === 'KR' ? '지도 크게 보기' : 'Enlarge Map'}
               </button>
