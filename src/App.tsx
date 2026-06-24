@@ -814,7 +814,16 @@ export default function App() {
         });
       })
       .catch(err => {
-        console.error("Translation failed for ID:", rec.id, err);
+        console.warn("Translation API failed, using local offline fallback for ID:", rec.id, err);
+        const fallback = translateRecommendation(rec, 'EN');
+        setTranslatedRecs(prev => {
+          const updated = {
+            ...prev,
+            [rec.id]: fallback
+          };
+          localStorage.setItem('busan_traveler_recs_en', JSON.stringify(updated));
+          return updated;
+        });
       })
       .finally(() => {
         setTranslatingIds(prev => ({ ...prev, [rec.id]: false }));
@@ -857,7 +866,16 @@ export default function App() {
       });
     })
     .catch(err => {
-      console.error("Manual translation failed:", err);
+      console.warn("Manual translation API failed, using local offline fallback for ID:", rec.id, err);
+      const fallback = translateRecommendation(rec, 'EN');
+      setTranslatedRecs(prev => {
+        const updated = {
+          ...prev,
+          [rec.id]: fallback
+        };
+        localStorage.setItem('busan_traveler_recs_en', JSON.stringify(updated));
+        return updated;
+      });
     })
     .finally(() => {
       setTranslatingIds(prev => ({ ...prev, [rec.id]: false }));
