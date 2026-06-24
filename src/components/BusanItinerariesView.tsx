@@ -827,65 +827,59 @@ export default function BusanItinerariesView({
             </p>
           </div>
 
-          {/* TWO MAIN MENU BUTTON CARDS */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2" id="tips-main-menu-selection">
+          {/* TWO MAIN MENU BUTTON CARDS - restricted to max-w-3xl to be about 2/3 size and highly compact */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2 max-w-3xl mx-auto" id="tips-main-menu-selection">
             {/* Card 1: BUSAN TRAVEL RECOMMENDATIONS */}
             <div
               onClick={() => setActiveSection('RECOMMENDATIONS')}
-              className="group bg-gradient-to-br from-amber-500/[0.04] via-orange-50/20 to-white p-7 sm:p-9 rounded-4xl border-2 border-amber-200/80 hover:border-amber-400 cursor-pointer shadow-[0_4px_22px_rgba(245,158,11,0.01)] hover:shadow-[0_12px_32px_rgba(245,158,11,0.08)] transform hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
+              className="group bg-gradient-to-br from-amber-500/[0.04] via-orange-50/20 to-white p-5 sm:p-6 rounded-3xl border-2 border-amber-200/80 hover:border-amber-400 cursor-pointer shadow-[0_4px_22px_rgba(245,158,11,0.01)] hover:shadow-[0_12px_32px_rgba(245,158,11,0.08)] transform hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
             >
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100/50 text-amber-850 text-[10.5px] font-black rounded-lg uppercase tracking-wider">
-                  <span>{language === 'KR' ? '추천 일정 7코스' : '7 Standard Courses'}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-300/30 flex items-center justify-center text-amber-700 shadow-sm shrink-0">
-                    <Compass className="w-5.5 h-5.5 stroke-[2.2]" />
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-300/30 flex items-center justify-center text-amber-700 shadow-sm shrink-0">
+                    <Compass className="w-5 h-5 stroke-[2.2]" />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-800 tracking-tight leading-tight">
+                  <h3 className="text-base sm:text-lg font-extrabold text-slate-800 tracking-tight leading-tight">
                     {language === 'KR' ? '여행 코스 추천' : 'Travel Course Recommendations'}
                   </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed">
+                <p className="text-xs sm:text-[13px] text-slate-500 font-semibold leading-relaxed">
                   {language === 'KR' 
-                    ? '평탄하고 차분한 길로 구성된 일일 숲길 산책 코스부터 바다 낭만 투어, 돼지국밥 식도락, 모노레일 탐방까지 현지인이 직접 엄선한 맞춤형 코스를 만나보세요.'
+                    ? '현지인이 직접 엄선한 맞춤 코스로 숲길 산책, 바다 낭만 투어, 돼지국밥 식도락, 해변열차'
                     : 'Discover fine handcrafted day trips, scenic coastal walks, delicious gastronomy guides and historic viewpoints.'}
                 </p>
               </div>
 
-              <div className="mt-8 flex items-center justify-between text-xs sm:text-sm font-black text-amber-700 pt-3 border-t border-amber-100/60">
+              <div className="mt-5 flex items-center justify-between text-xs sm:text-[13px] font-black text-amber-700 pt-2.5 border-t border-amber-100/60">
                 <span>{language === 'KR' ? '추천 일정 둘러보기' : 'Explore itineraries'}</span>
-                <span className="p-2 bg-amber-100 text-amber-850 rounded-xl group-hover:translate-x-1.5 transition-transform">➔</span>
+                <span className="p-1.5 bg-amber-100 text-amber-850 rounded-lg group-hover:translate-x-1 transition-transform">➔</span>
               </div>
             </div>
 
             {/* Card 2: SUBWAY PUBLIC TRANSIT TIPS */}
             <div
               onClick={() => setActiveSection('TRANSIT_TIPS')}
-              className="group bg-gradient-to-br from-sky-500/[0.04] via-blue-50/20 to-white p-7 sm:p-9 rounded-4xl border-2 border-sky-200/80 hover:border-sky-400 cursor-pointer shadow-[0_4px_22px_rgba(14,165,233,0.01)] hover:shadow-[0_12px_32px_rgba(14,165,233,0.08)] transform hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
+              className="group bg-gradient-to-br from-sky-500/[0.04] via-blue-50/20 to-white p-5 sm:p-6 rounded-3xl border-2 border-sky-200/80 hover:border-sky-400 cursor-pointer shadow-[0_4px_22px_rgba(14,165,233,0.01)] hover:shadow-[0_12px_32px_rgba(14,165,233,0.08)] transform hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
             >
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-100/60 text-sky-850 text-[10.5px] font-black rounded-lg uppercase tracking-wider">
-                  <span>{language === 'KR' ? '교통수단 핵심 정보' : 'Public Transit Guide'}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-2xl bg-sky-500/10 border border-sky-300/30 flex items-center justify-center text-sky-700 shadow-sm shrink-0">
-                    <Train className="w-5.5 h-5.5 stroke-[2.2]" />
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-sky-500/10 border border-sky-300/30 flex items-center justify-center text-sky-700 shadow-sm shrink-0">
+                    <Train className="w-5 h-5 stroke-[2.2]" />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-800 tracking-tight leading-tight">
+                  <h3 className="text-base sm:text-lg font-extrabold text-slate-800 tracking-tight leading-tight">
                     {language === 'KR' ? '대중교통 이용 팁' : 'Public Transport Tips'}
                   </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed">
+                <p className="text-xs sm:text-[13px] text-slate-500 font-semibold leading-relaxed">
                   {language === 'KR'
-                    ? '부산 지하철 1~4호선과 동해선, 경전철의 편리하고 안전한 교통약자 인프라 특징부터 휠체어/유모차 탑승 안전 팁, 엘리베이터 점검 등 돌발 시 대처 팁까지 유용한 노하우를 제공합니다.'
+                    ? '부산 지하철 1~4호선, 동해선, 경전철 인프라 특징과 대중교통 환승, 티켓 구매 등 유용한 노하우 제공'
                     : 'Interactive charts, maps, and professional strategies for senior companions, strollers or wheelchair navigations.'}
                 </p>
               </div>
 
-              <div className="mt-8 flex items-center justify-between text-xs sm:text-sm font-black text-sky-700 pt-3 border-t border-sky-100/60">
+              <div className="mt-5 flex items-center justify-between text-xs sm:text-[13px] font-black text-sky-700 pt-2.5 border-t border-sky-100/60">
                 <span>{language === 'KR' ? '지하철 교통 가이드 보기' : 'Show transit guides'}</span>
-                <span className="p-2 bg-sky-100 text-sky-850 rounded-xl group-hover:translate-x-1.5 transition-transform">➔</span>
+                <span className="p-1.5 bg-sky-100 text-sky-850 rounded-lg group-hover:translate-x-1 transition-transform">➔</span>
               </div>
             </div>
           </div>

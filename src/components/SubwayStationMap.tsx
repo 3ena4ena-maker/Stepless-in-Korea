@@ -733,18 +733,8 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
       <div className="w-full h-[320px] relative bg-slate-50 border-b border-slate-100 transition-all duration-300">
         
         {/* Floating Map Control Panel */}
-        <div className="absolute top-3 left-3 z-[1000] flex gap-2">
-          <button
-            onClick={() => {
-              setTempClientId(naverClientId || (import.meta as any).env?.VITE_NAVER_CLIENT_ID || 'jig5o1hthp');
-              setShowSettings(!showSettings);
-            }}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white shadow-md hover:shadow-lg rounded-full border border-slate-200/80 text-xs font-bold text-slate-700 hover:text-slate-900 transition-all cursor-pointer"
-          >
-            ⚙️ {language === 'KR' ? '지도 설정' : 'Map Settings'}
-          </button>
-          
-          {useLeaflet && (
+        {useLeaflet && (
+          <div className="absolute top-3 left-3 z-[1000] flex gap-2">
             <button
               onClick={() => {
                 setUseLeaflet(false);
@@ -754,8 +744,8 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
             >
               🗺️ {language === 'KR' ? '네이버 지도로 변경' : 'Switch to Naver Map'}
             </button>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Settings & Authorization Overlay */}
         {(showSettings || (naverAuthFailed && !useLeaflet)) && (
