@@ -627,8 +627,19 @@ export default function App() {
       const pathname = window.location.pathname;
       const parts = pathname.split('/');
       
-      // Look for /station/[stationId] or fallback to /[stationId] direct check
-      if (parts[1] === 'station' && parts[2]) {
+      // Look for /itinerary-[category]
+      if (parts[1] && parts[1].startsWith('itinerary-')) {
+        const categorySuffix = parts[1].replace('itinerary-', '').toUpperCase();
+        const validCategories = ['DAY', '1NIGHT', '2NIGHTS', '3NIGHTS', '4NIGHTS', 'GOURMET', 'HISTORY'];
+        if (validCategories.includes(categorySuffix)) {
+          setSelectedItineraryCategory(categorySuffix);
+          setCurrentTab('tips');
+          setIsHomeLanding(false);
+        } else {
+          setCurrentTab('tips');
+          setSelectedItineraryCategory(null);
+        }
+      } else if (parts[1] === 'station' && parts[2]) {
         const stationId = parts[2].toLowerCase();
         const exists = STATIONS.some(s => s.id === stationId);
         if (exists) {
@@ -649,6 +660,8 @@ export default function App() {
         if (parts[1] === 'home') {
           setIsHomeLanding(true);
           setSelectedStationId('seomyeon');
+        } else if (parts[1] === 'tips') {
+          setSelectedItineraryCategory(null);
         }
       } else {
         // Root path /
@@ -681,9 +694,12 @@ export default function App() {
         }
       }
     } else if (currentTab !== 'home') {
-      const expectedPath = `/${currentTab}`;
+      let expectedPath = `/${currentTab}`;
+      if (currentTab === 'tips' && selectedItineraryCategory) {
+        expectedPath = `/itinerary-${selectedItineraryCategory.toLowerCase()}`;
+      }
       if (window.location.pathname !== expectedPath) {
-        window.history.pushState({ tab: currentTab }, '', expectedPath);
+        window.history.pushState({ tab: currentTab, category: selectedItineraryCategory }, '', expectedPath);
       }
     }
 
@@ -725,7 +741,7 @@ export default function App() {
       const canonical = document.querySelector('link[rel="canonical"]');
       if (canonical) canonical.setAttribute('href', "https://steplessinkorea.pages.dev/");
     }
-  }, [selectedStationId, currentTab, isHomeLanding]);
+  }, [selectedStationId, currentTab, isHomeLanding, selectedItineraryCategory]);
 
   useEffect(() => {
     localStorage.setItem('busan_traveler_upvotes', JSON.stringify(hasUpvoted));

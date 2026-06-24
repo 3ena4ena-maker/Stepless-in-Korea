@@ -3,11 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   Clock, 
   ChevronDown, 
   ChevronUp, 
+  ChevronLeft,
+  ChevronRight,
   Info, 
   HelpCircle, 
   Compass, 
@@ -442,6 +444,16 @@ export default function BusanItinerariesView({
   // Initially show the categories overview dashboard (null), which is "카테고리만 보여지게 만들어줘"
   const [activeCategory, setActiveCategory] = useState<CategoryType | null>(initialCategory || null);
 
+  const overviewGridRef = useRef<HTMLDivElement>(null);
+  const quickPillsRef = useRef<HTMLDivElement>(null);
+
+  const scrollContainer = (ref: React.RefObject<HTMLDivElement | null>, direction: 'left' | 'right') => {
+    if (ref.current) {
+      const scrollAmount = direction === 'left' ? -220 : 220;
+      ref.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
   // Synchronize internal activeCategory and section state with changes in initialCategory prop
   React.useEffect(() => {
     setActiveCategory(initialCategory || null);
@@ -828,58 +840,54 @@ export default function BusanItinerariesView({
           </div>
 
           {/* TWO MAIN MENU BUTTON CARDS - restricted to max-w-3xl to be about 2/3 size and highly compact */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2 max-w-3xl mx-auto" id="tips-main-menu-selection">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 max-w-3xl mx-auto" id="tips-main-menu-selection">
             {/* Card 1: BUSAN TRAVEL RECOMMENDATIONS */}
             <div
               onClick={() => setActiveSection('RECOMMENDATIONS')}
-              className="group bg-gradient-to-br from-amber-500/[0.04] via-orange-50/20 to-white p-5 sm:p-6 rounded-3xl border-2 border-amber-200/80 hover:border-amber-400 cursor-pointer shadow-[0_4px_22px_rgba(245,158,11,0.01)] hover:shadow-[0_12px_32px_rgba(245,158,11,0.08)] transform hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
+              className="group bg-gradient-to-br from-amber-500/[0.04] via-orange-50/20 to-white p-4 sm:p-5 rounded-2xl border-2 border-amber-200/80 hover:border-amber-400 cursor-pointer shadow-[0_3px_15px_rgba(245,158,11,0.01)] hover:shadow-[0_8px_24px_rgba(245,158,11,0.06)] transform hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
             >
-              <div className="space-y-2.5">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-300/30 flex items-center justify-center text-amber-700 shadow-sm shrink-0">
-                    <Compass className="w-5 h-5 stroke-[2.2]" />
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-300/30 flex items-center justify-center text-amber-700 shadow-sm shrink-0">
+                      <Compass className="w-4.5 h-4.5 stroke-[2.2]" />
+                    </div>
+                    <h3 className="text-sm sm:text-base font-extrabold text-slate-800 tracking-tight leading-tight">
+                      {language === 'KR' ? '여행 코스 추천' : 'Travel Course Recommendations'}
+                    </h3>
                   </div>
-                  <h3 className="text-base sm:text-lg font-extrabold text-slate-800 tracking-tight leading-tight">
-                    {language === 'KR' ? '여행 코스 추천' : 'Travel Course Recommendations'}
-                  </h3>
+                  <span className="p-1 bg-amber-100 text-amber-850 rounded-md group-hover:translate-x-1 transition-transform text-xs">➔</span>
                 </div>
-                <p className="text-xs sm:text-[13px] text-slate-500 font-semibold leading-relaxed">
+                <p className="text-xs sm:text-[12.5px] text-slate-500 font-semibold leading-normal pr-6">
                   {language === 'KR' 
-                    ? '현지인이 직접 엄선한 맞춤 코스로 숲길 산책, 바다 낭만 투어, 돼지국밥 식도락, 해변열차'
+                    ? '현지인이 직접 엄선한 맞춤 여행 코스 추천'
                     : 'Discover fine handcrafted day trips, scenic coastal walks, delicious gastronomy guides and historic viewpoints.'}
                 </p>
-              </div>
-
-              <div className="mt-5 flex items-center justify-between text-xs sm:text-[13px] font-black text-amber-700 pt-2.5 border-t border-amber-100/60">
-                <span>{language === 'KR' ? '추천 일정 둘러보기' : 'Explore itineraries'}</span>
-                <span className="p-1.5 bg-amber-100 text-amber-850 rounded-lg group-hover:translate-x-1 transition-transform">➔</span>
               </div>
             </div>
 
             {/* Card 2: SUBWAY PUBLIC TRANSIT TIPS */}
             <div
               onClick={() => setActiveSection('TRANSIT_TIPS')}
-              className="group bg-gradient-to-br from-sky-500/[0.04] via-blue-50/20 to-white p-5 sm:p-6 rounded-3xl border-2 border-sky-200/80 hover:border-sky-400 cursor-pointer shadow-[0_4px_22px_rgba(14,165,233,0.01)] hover:shadow-[0_12px_32px_rgba(14,165,233,0.08)] transform hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
+              className="group bg-gradient-to-br from-sky-500/[0.04] via-blue-50/20 to-white p-4 sm:p-5 rounded-2xl border-2 border-sky-200/80 hover:border-sky-400 cursor-pointer shadow-[0_3px_15px_rgba(14,165,233,0.01)] hover:shadow-[0_8px_24px_rgba(14,165,233,0.06)] transform hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
             >
-              <div className="space-y-2.5">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-sky-500/10 border border-sky-300/30 flex items-center justify-center text-sky-700 shadow-sm shrink-0">
-                    <Train className="w-5 h-5 stroke-[2.2]" />
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-300/30 flex items-center justify-center text-sky-700 shadow-sm shrink-0">
+                      <Train className="w-4.5 h-4.5 stroke-[2.2]" />
+                    </div>
+                    <h3 className="text-sm sm:text-base font-extrabold text-slate-800 tracking-tight leading-tight">
+                      {language === 'KR' ? '대중교통 이용 팁' : 'Public Transport Tips'}
+                    </h3>
                   </div>
-                  <h3 className="text-base sm:text-lg font-extrabold text-slate-800 tracking-tight leading-tight">
-                    {language === 'KR' ? '대중교통 이용 팁' : 'Public Transport Tips'}
-                  </h3>
+                  <span className="p-1 bg-sky-100 text-sky-850 rounded-md group-hover:translate-x-1 transition-transform text-xs">➔</span>
                 </div>
-                <p className="text-xs sm:text-[13px] text-slate-500 font-semibold leading-relaxed">
+                <p className="text-xs sm:text-[12.5px] text-slate-500 font-semibold leading-normal pr-6">
                   {language === 'KR'
                     ? '부산 지하철 1~4호선, 동해선, 경전철 인프라 특징과 대중교통 환승, 티켓 구매 등 유용한 노하우 제공'
                     : 'Interactive charts, maps, and professional strategies for senior companions, strollers or wheelchair navigations.'}
                 </p>
-              </div>
-
-              <div className="mt-5 flex items-center justify-between text-xs sm:text-[13px] font-black text-sky-700 pt-2.5 border-t border-sky-100/60">
-                <span>{language === 'KR' ? '지하철 교통 가이드 보기' : 'Show transit guides'}</span>
-                <span className="p-1.5 bg-sky-100 text-sky-850 rounded-lg group-hover:translate-x-1 transition-transform">➔</span>
               </div>
             </div>
           </div>
@@ -965,7 +973,32 @@ export default function BusanItinerariesView({
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="categories-overview-grid">
+          <style dangerouslySetInnerHTML={{__html: `
+            #categories-overview-grid::-webkit-scrollbar,
+            #quick-categories-pills::-webkit-scrollbar {
+              height: 4px;
+              display: block !important;
+            }
+            #categories-overview-grid::-webkit-scrollbar-track,
+            #quick-categories-pills::-webkit-scrollbar-track {
+              background: #f1f5f9;
+              border-radius: 9999px;
+            }
+            #categories-overview-grid::-webkit-scrollbar-thumb,
+            #quick-categories-pills::-webkit-scrollbar-thumb {
+              background: #cbd5e1;
+              border-radius: 9999px;
+            }
+            #categories-overview-grid::-webkit-scrollbar-thumb:hover,
+            #quick-categories-pills::-webkit-scrollbar-thumb:hover {
+              background: #94a3b8;
+            }
+          `}} />
+
+          <div 
+            className="flex flex-wrap gap-2 justify-center sm:justify-start pb-2 w-full" 
+            id="categories-overview-grid"
+          >
             {categoriesConfig.map((cat) => (
               <div
                 key={cat.id}
@@ -976,18 +1009,15 @@ export default function BusanItinerariesView({
                     setActiveCategory(cat.id);
                   }
                 }}
-                className={`p-4 rounded-2xl border transition-all duration-300 cursor-pointer flex items-center gap-3.5 group transform hover:-translate-y-0.5 hover:shadow-md ${cat.bgClass} ${cat.borderClass}`}
+                className={`px-3 py-1.5 rounded-xl border transition-all duration-300 cursor-pointer flex items-center gap-1.5 group transform hover:-translate-y-0.5 hover:shadow-sm shrink-0 ${cat.bgClass} ${cat.borderClass}`}
               >
-                <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center shrink-0 shadow-sm transition-transform group-hover:scale-110 duration-300">
-                  {getCategoryLucideIcon(cat.id, "w-5 h-5 stroke-[2.2] text-slate-700")}
+                <div className="w-6 h-6 rounded-lg bg-white border border-slate-100 flex items-center justify-center shrink-0 shadow-sm transition-transform group-hover:scale-105 duration-300">
+                  {getCategoryLucideIcon(cat.id, "w-3.5 h-3.5 stroke-[2.2] text-slate-700")}
                 </div>
-                <div className="flex-1 min-w-0 text-left">
-                  <h4 className={`text-xs sm:text-sm md:text-base font-extrabold font-heading tracking-tight text-slate-800`}>
+                <div className="text-left">
+                  <h4 className="text-[11px] sm:text-xs font-black font-heading tracking-tight text-slate-800">
                     {language === 'KR' ? cat.titleKo : cat.titleEn}
                   </h4>
-                  <span className="text-[10px] md:text-xs font-bold text-slate-400 group-hover:text-[#004481] transition-colors">
-                    {language === 'KR' ? '코스 보기 →' : 'View →'}
-                  </span>
                 </div>
               </div>
             ))}
@@ -1029,7 +1059,7 @@ export default function BusanItinerariesView({
                 />
 
                 {/* Interactive badges overlaying the map representing East, West, South, North */}
-                <div className="absolute inset-0 p-4 flex flex-col justify-between z-10 pointer-events-none">
+                <div className="absolute inset-0 p-4 hidden sm:flex flex-col justify-between z-10 pointer-events-none">
                   {/* Top: North */}
                   <div className="flex justify-center pt-2">
                     <button 
@@ -1380,24 +1410,51 @@ export default function BusanItinerariesView({
           </div>
 
           {/* Quick Selection Pills on Top to switch easily */}
-          <div className="flex flex-wrap gap-1.5 pb-2 border-b border-slate-100">
-            {categoriesConfig.map((cat) => {
-              const isSelected = activeCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`px-3 py-1.5 rounded-xl border text-[11px] sm:text-xs font-extrabold transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
-                    isSelected
-                      ? 'bg-[#004481] text-white border-[#004481] shadow-md'
-                      : 'bg-white hover:bg-slate-50 text-slate-500 border-slate-200/75'
-                  }`}
-                >
-                  {getCategoryLucideIcon(cat.id, `w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-white' : 'text-slate-500'}`)}
-                  <span>{language === 'KR' ? cat.titleKo : cat.titleEn}</span>
-                </button>
-              );
-            })}
+          <div className="relative group/pills-container -mx-4 px-4 sm:mx-0 sm:px-0">
+            {/* Left Scroll Button */}
+            <button 
+              onClick={() => scrollContainer(quickPillsRef, 'left')}
+              className="absolute left-1 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full bg-white/95 border border-slate-200/80 shadow-md flex items-center justify-center text-slate-600 hover:text-slate-800 hover:bg-slate-50 transition-all opacity-0 group-hover/pills-container:opacity-100 sm:opacity-100 focus:outline-none"
+              aria-label="Scroll Left"
+            >
+              <ChevronLeft className="w-3.5 h-3.5" />
+            </button>
+
+            <div 
+              ref={quickPillsRef}
+              className="flex flex-row overflow-x-auto gap-1.5 pb-2.5 border-b border-slate-100 max-w-full px-6 sm:px-0" 
+              id="quick-categories-pills"
+              style={{
+                WebkitOverflowScrolling: 'touch',
+              }}
+            >
+              {categoriesConfig.map((cat) => {
+                const isSelected = activeCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => setActiveCategory(cat.id)}
+                    className={`px-3 py-1.5 rounded-xl border text-[11px] sm:text-xs font-extrabold transition-all duration-200 cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                      isSelected
+                        ? 'bg-[#004481] text-white border-[#004481] shadow-md'
+                        : 'bg-white hover:bg-slate-50 text-slate-500 border-slate-200/75'
+                    }`}
+                  >
+                    {getCategoryLucideIcon(cat.id, `w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-white' : 'text-slate-500'}`)}
+                    <span>{language === 'KR' ? cat.titleKo : cat.titleEn}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Right Scroll Button */}
+            <button 
+              onClick={() => scrollContainer(quickPillsRef, 'right')}
+              className="absolute right-1 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full bg-white/95 border border-slate-200/80 shadow-md flex items-center justify-center text-slate-600 hover:text-slate-800 hover:bg-slate-50 transition-all opacity-0 group-hover/pills-container:opacity-100 sm:opacity-100 focus:outline-none"
+              aria-label="Scroll Right"
+            >
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
           </div>
 
           {/* ========================================================= */}
