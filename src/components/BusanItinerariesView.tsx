@@ -39,6 +39,8 @@ interface BusanItinerariesViewProps {
   initialCategory?: CategoryType | null;
   onBack?: () => void;
   onSelectCategory?: (category: CategoryType) => void;
+  tipsSubPage?: 'index' | 'courses' | 'transit' | 'child-free' | 'transfer';
+  setTipsSubPage?: (page: 'index' | 'courses' | 'transit' | 'child-free' | 'transfer') => void;
 }
 
 interface CategoryConfig {
@@ -466,7 +468,9 @@ export default function BusanItinerariesView({
   language, 
   initialCategory = null, 
   onBack, 
-  onSelectCategory 
+  onSelectCategory,
+  tipsSubPage,
+  setTipsSubPage
 }: BusanItinerariesViewProps) {
   // Navigation Section: 'SELECTION' (cute entry) | 'RECOMMENDATIONS' (itineraries list) | 'TRANSIT_TIPS' (transit guide)
   const [activeSection, setActiveSection] = useState<'SELECTION' | 'RECOMMENDATIONS' | 'TRANSIT_TIPS'>(
@@ -475,6 +479,46 @@ export default function BusanItinerariesView({
 
   // Initially show the categories overview dashboard (null), which is "카테고리만 보여지게 만들어줘"
   const [activeCategory, setActiveCategory] = useState<CategoryType | null>(initialCategory || null);
+
+  const navigateToSubPage = (page: 'index' | 'courses' | 'transit' | 'child-free' | 'transfer') => {
+    if (setTipsSubPage) {
+      setTipsSubPage(page);
+    } else {
+      if (page === 'index') {
+        setActiveSection('SELECTION');
+      } else if (page === 'courses') {
+        setActiveSection('RECOMMENDATIONS');
+      } else if (page === 'transit') {
+        setActiveSection('TRANSIT_TIPS');
+        setTransitSection('SUBMENU');
+      } else if (page === 'child-free') {
+        setActiveSection('TRANSIT_TIPS');
+        setTransitSection('CHILD_FREE');
+      } else if (page === 'transfer') {
+        setActiveSection('TRANSIT_TIPS');
+        setTransitSection('TRANSFERS');
+      }
+    }
+  };
+
+  // Sync state when props change
+  React.useEffect(() => {
+    if (!tipsSubPage) return;
+    if (tipsSubPage === 'index') {
+      setActiveSection('SELECTION');
+    } else if (tipsSubPage === 'courses') {
+      setActiveSection('RECOMMENDATIONS');
+    } else if (tipsSubPage === 'transit') {
+      setActiveSection('TRANSIT_TIPS');
+      setTransitSection('SUBMENU');
+    } else if (tipsSubPage === 'child-free') {
+      setActiveSection('TRANSIT_TIPS');
+      setTransitSection('CHILD_FREE');
+    } else if (tipsSubPage === 'transfer') {
+      setActiveSection('TRANSIT_TIPS');
+      setTransitSection('TRANSFERS');
+    }
+  }, [tipsSubPage]);
 
   const overviewGridRef = useRef<HTMLDivElement>(null);
   const quickPillsRef = useRef<HTMLDivElement>(null);
@@ -814,9 +858,9 @@ export default function BusanItinerariesView({
           <button
             onClick={() => {
               if (activeSection === 'TRANSIT_TIPS' && transitSection !== 'SUBMENU') {
-                setTransitSection('SUBMENU');
+                navigateToSubPage('transit');
               } else {
-                setActiveSection('SELECTION');
+                navigateToSubPage('index');
                 setActiveCategory(null);
               }
             }}
@@ -839,7 +883,7 @@ export default function BusanItinerariesView({
           <div className="bg-slate-50/80 p-0.5 sm:p-1 rounded-xl sm:rounded-2xl border border-slate-100 flex gap-0.5 sm:gap-1 flex-1 max-w-[280px] sm:max-w-md">
             <button
               onClick={() => {
-                setActiveSection('RECOMMENDATIONS');
+                navigateToSubPage('courses');
                 setActiveCategory(null);
               }}
               className={`flex-1 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black transition-all duration-305 flex items-center justify-center gap-1 sm:gap-2 cursor-pointer ${
@@ -853,8 +897,7 @@ export default function BusanItinerariesView({
             </button>
             <button
               onClick={() => {
-                setActiveSection('TRANSIT_TIPS');
-                setTransitSection('SUBMENU');
+                navigateToSubPage('transit');
                 setActiveCategory(null);
               }}
               className={`flex-1 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black transition-all duration-305 flex items-center justify-center gap-1 sm:gap-2 cursor-pointer ${
@@ -898,7 +941,7 @@ export default function BusanItinerariesView({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 max-w-3xl mx-auto" id="tips-main-menu-selection">
             {/* Card 1: BUSAN TRAVEL RECOMMENDATIONS */}
             <div
-              onClick={() => setActiveSection('RECOMMENDATIONS')}
+              onClick={() => navigateToSubPage('courses')}
               className="group bg-gradient-to-br from-amber-500/[0.04] via-orange-50/20 to-white p-4 sm:p-5 rounded-2xl border-2 border-amber-200/80 hover:border-amber-400 cursor-pointer shadow-[0_3px_15px_rgba(245,158,11,0.01)] hover:shadow-[0_8px_24px_rgba(245,158,11,0.06)] transform hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
             >
               <div className="space-y-2">
@@ -923,10 +966,7 @@ export default function BusanItinerariesView({
 
             {/* Card 2: SUBWAY PUBLIC TRANSIT TIPS */}
             <div
-              onClick={() => {
-                setActiveSection('TRANSIT_TIPS');
-                setTransitSection('SUBMENU');
-              }}
+              onClick={() => navigateToSubPage('transit')}
               className="group bg-gradient-to-br from-sky-500/[0.04] via-blue-50/20 to-white p-4 sm:p-5 rounded-2xl border-2 border-sky-200/80 hover:border-sky-400 cursor-pointer shadow-[0_3px_15px_rgba(14,165,233,0.01)] hover:shadow-[0_8px_24px_rgba(14,165,233,0.06)] transform hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
             >
               <div className="space-y-2">
@@ -2456,7 +2496,7 @@ export default function BusanItinerariesView({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 max-w-4xl mx-auto" id="transit-submenu-selection">
               {/* Card 1: 부산 대중교통 어린이 무료 */}
               <div
-                onClick={() => setTransitSection('CHILD_FREE')}
+                onClick={() => navigateToSubPage('child-free')}
                 className="group bg-[#fff8f8] p-5 sm:p-6 rounded-3xl border-2 border-[#fcdcdc] hover:border-rose-300 cursor-pointer shadow-[0_2px_12px_rgba(244,63,94,0.01)] hover:shadow-[0_6px_20px_rgba(244,63,94,0.04)] transform hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
               >
                 <div className="space-y-4">
@@ -2483,7 +2523,7 @@ export default function BusanItinerariesView({
 
               {/* Card 2: 부산 대중교통 환승 */}
               <div
-                onClick={() => setTransitSection('TRANSFERS')}
+                onClick={() => navigateToSubPage('transfer')}
                 className="group bg-[#f4f9ff] p-5 sm:p-6 rounded-3xl border-2 border-[#dbeaff] hover:border-blue-300 cursor-pointer shadow-[0_2px_12px_rgba(59,130,246,0.01)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.04)] transform hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
               >
                 <div className="space-y-4">
@@ -2513,7 +2553,7 @@ export default function BusanItinerariesView({
           {transitSection === 'CHILD_FREE' && (
             <div className="space-y-4 animate-fade-in text-left">
               <button
-                onClick={() => setTransitSection('SUBMENU')}
+                onClick={() => navigateToSubPage('transit')}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-slate-500 hover:text-[#004481] hover:bg-slate-50 transition-all cursor-pointer border border-slate-100 mb-1"
               >
                 <span>◀</span>
@@ -2594,54 +2634,20 @@ export default function BusanItinerariesView({
 
                     {/* Unmodified Infographic Image directly below the 이용방법 description */}
                     <div className="mt-2 pt-4 border-t border-slate-100 space-y-4">
-                      {language === 'KR' ? (
-                        <div className="space-y-4">
-                          <div className="space-y-1.5">
-                            <p className="text-xs font-black text-slate-700 flex items-center gap-1.5">
-                              <span className="text-[#004481]">■</span>
-                              <span>[안내문 1] 부산 어린이 대중교통 무료화 제도</span>
-                            </p>
-                            <div className="relative w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 flex flex-col items-center p-1 sm:p-2 shadow-sm">
-                              <img 
-                                src="/images/childtransport_leaflet_img01.jpg" 
-                                alt="부산 대중교통 어린이 무료 정책 안내문" 
-                                className="w-full max-h-[850px] object-contain rounded-lg"
-                                referrerPolicy="no-referrer"
-                              />
-                            </div>
-                          </div>
-                          
-                          <div className="space-y-1.5 pt-2">
-                            <p className="text-xs font-black text-slate-700 flex items-center gap-1.5">
-                              <span className="text-[#004481]">■</span>
-                              <span>[안내문 2] 어린이 교통카드 등록 및 편의점 생년월일 등록 방법</span>
-                            </p>
-                            <div className="relative w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 flex flex-col items-center p-1 sm:p-2 shadow-sm">
-                              <img 
-                                src="/images/childtransport_leaflet_img02.jpg" 
-                                alt="편의점 어린이 교통카드 등록 방법 가이드" 
-                                className="w-full max-h-[850px] object-contain rounded-lg"
-                                referrerPolicy="no-referrer"
-                              />
-                            </div>
-                          </div>
+                      <div className="space-y-2">
+                        <p className="text-xs font-black text-slate-700 flex items-center gap-1.5">
+                          <span className="text-[#004481]">■</span>
+                          <span>{language === 'KR' ? '어린이 대중교통 무료화 등록 방법 안내 (How to Enroll)' : 'Child Free Fare Enrollment & Transit Card Guide'}</span>
+                        </p>
+                        <div className="relative w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 flex flex-col items-center p-1 sm:p-2 shadow-sm">
+                          <img 
+                            src="/images/childtransport_infographic_en.jpg" 
+                            alt={language === 'KR' ? '부산 대중교통 어린이 무료 정책 안내문 (How to Enroll)' : 'How to Enroll in the Free Fare Program Infographic'} 
+                            className="w-full h-auto object-contain rounded-lg"
+                            referrerPolicy="no-referrer"
+                          />
                         </div>
-                      ) : (
-                        <div className="space-y-2">
-                          <p className="text-xs font-black text-slate-700 flex items-center gap-1.5">
-                            <span className="text-[#004481]">■</span>
-                            <span>Child Free Fare Enrollment & Transit Card Guide</span>
-                          </p>
-                          <div className="relative w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 flex flex-col items-center p-1 sm:p-2 shadow-sm">
-                            <img 
-                              src="/images/childtransport_infographic_en.jpg" 
-                              alt="How to Enroll in the Free Fare Program Infographic" 
-                              className="w-full max-h-[850px] object-contain rounded-lg"
-                              referrerPolicy="no-referrer"
-                            />
-                          </div>
-                        </div>
-                      )}
+                      </div>
 
                       <div className="pt-1 flex justify-end">
                         <a 
@@ -2676,7 +2682,7 @@ export default function BusanItinerariesView({
           {transitSection === 'TRANSFERS' && (
             <div className="space-y-4 animate-fade-in text-left">
               <button
-                onClick={() => setTransitSection('SUBMENU')}
+                onClick={() => navigateToSubPage('transit')}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-slate-500 hover:text-[#004481] hover:bg-slate-50 transition-all cursor-pointer border border-slate-100 mb-1"
               >
                 <span>◀</span>

@@ -516,6 +516,7 @@ export default function App() {
   const [activePathFilter, setActivePathFilter] = useState<'ALL' | 'ACCESSIBLE' | 'CARRY'>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedItineraryCategory, setSelectedItineraryCategory] = useState<string | null>(null);
+  const [tipsSubPage, setTipsSubPage] = useState<'index' | 'courses' | 'transit' | 'child-free' | 'transfer'>('index');
   
   // Geolocation states
   const [geoLoading, setGeoLoading] = useState<boolean>(false);
@@ -634,11 +635,29 @@ export default function App() {
         if (validCategories.includes(categorySuffix)) {
           setSelectedItineraryCategory(categorySuffix);
           setCurrentTab('tips');
+          setTipsSubPage('courses');
           setIsHomeLanding(false);
         } else {
           setCurrentTab('tips');
           setSelectedItineraryCategory(null);
+          setTipsSubPage('index');
         }
+      } else if (parts[1] && parts[1].startsWith('tips-')) {
+        setCurrentTab('tips');
+        setSelectedItineraryCategory(null);
+        const sub = parts[1].replace('tips-', '');
+        if (sub === 'courses' || sub === 'itinerary') {
+          setTipsSubPage('courses');
+        } else if (sub === 'transit') {
+          setTipsSubPage('transit');
+        } else if (sub === 'child-free') {
+          setTipsSubPage('child-free');
+        } else if (sub === 'transfer') {
+          setTipsSubPage('transfer');
+        } else {
+          setTipsSubPage('index');
+        }
+        setIsHomeLanding(false);
       } else if (parts[1] === 'station' && parts[2]) {
         const stationId = parts[2].toLowerCase();
         const exists = STATIONS.some(s => s.id === stationId);
@@ -662,6 +681,17 @@ export default function App() {
           setSelectedStationId('seomyeon');
         } else if (parts[1] === 'tips') {
           setSelectedItineraryCategory(null);
+          if (parts[2] === 'courses' || parts[2] === 'itinerary') {
+            setTipsSubPage('courses');
+          } else if (parts[2] === 'transit') {
+            setTipsSubPage('transit');
+          } else if (parts[2] === 'child-free') {
+            setTipsSubPage('child-free');
+          } else if (parts[2] === 'transfer') {
+            setTipsSubPage('transfer');
+          } else {
+            setTipsSubPage('index');
+          }
         }
       } else {
         // Root path /
@@ -695,11 +725,23 @@ export default function App() {
       }
     } else if (currentTab !== 'home') {
       let expectedPath = `/${currentTab}`;
-      if (currentTab === 'tips' && selectedItineraryCategory) {
-        expectedPath = `/itinerary-${selectedItineraryCategory.toLowerCase()}`;
+      if (currentTab === 'tips') {
+        if (selectedItineraryCategory) {
+          expectedPath = `/itinerary-${selectedItineraryCategory.toLowerCase()}`;
+        } else if (tipsSubPage === 'courses') {
+          expectedPath = '/tips/courses';
+        } else if (tipsSubPage === 'transit') {
+          expectedPath = '/tips/transit';
+        } else if (tipsSubPage === 'child-free') {
+          expectedPath = '/tips/child-free';
+        } else if (tipsSubPage === 'transfer') {
+          expectedPath = '/tips/transfer';
+        } else {
+          expectedPath = '/tips';
+        }
       }
       if (window.location.pathname !== expectedPath) {
-        window.history.pushState({ tab: currentTab, category: selectedItineraryCategory }, '', expectedPath);
+        window.history.pushState({ tab: currentTab, category: selectedItineraryCategory, subPage: tipsSubPage }, '', expectedPath);
       }
     }
 
@@ -741,7 +783,7 @@ export default function App() {
       const canonical = document.querySelector('link[rel="canonical"]');
       if (canonical) canonical.setAttribute('href', "https://steplessinkorea.pages.dev/");
     }
-  }, [selectedStationId, currentTab, isHomeLanding, selectedItineraryCategory]);
+  }, [selectedStationId, currentTab, isHomeLanding, selectedItineraryCategory, tipsSubPage]);
 
   useEffect(() => {
     localStorage.setItem('busan_traveler_upvotes', JSON.stringify(hasUpvoted));
@@ -1852,6 +1894,8 @@ export default function App() {
               onSelectCategory={(category) => {
                 setSelectedItineraryCategory(category);
               }}
+              tipsSubPage={tipsSubPage}
+              setTipsSubPage={setTipsSubPage}
             />
           )}
 
@@ -1878,8 +1922,8 @@ export default function App() {
             </div>
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">
               {language === 'KR' 
-                ? '부산 지하철 이용객들의 평등하고 자유로운 지상 이동을 지원하기 위해 설계된 교통약자 특화형 편의 플랫폼입니다. 본 서비스는 공공데이터 연계 및 수동 검증 데이터를 기반으로 운영됩니다.' 
-                : 'A dedicated public transit helper to establish smooth, accessible pathways throughout major transit hubs.'}
+                ? '부산 지하철 이용객들의 평등하고 자유로운 지상 이동을 지원하기 위해 설계된 교통약자 특화형 편의 플랫폼입니다. 공공데이터 연계 및 수동 검증 데이터를 기반으로 운영되며, 부산 현지인이 직접 엄선하고 작성한 생생한 부산 여행 코스와 대중교통 이용 팁을 함께 제공하여 누구나 편리하게 부산을 여행할 수 있도록 돕습니다.' 
+                : 'A dedicated public transit helper to establish smooth, accessible pathways throughout major transit hubs. It features verified public data alongside authentic Busan itineraries and practical transit tips curated by a Busan local to ensure a convenient and enjoyable travel experience for everyone.'}
             </p>
           </div>
 
@@ -1932,19 +1976,31 @@ export default function App() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800/80 mt-12 pt-6 text-2xs sm:text-xs text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-2">
           <span>© 2026 floreur. All rights reserved.</span>
-          <div className="flex gap-4">
-            <button 
-              onClick={() => setShowTermsModal(true)} 
-              className="hover:text-slate-300 hover:underline cursor-pointer bg-transparent border-none text-slate-500 text-2xs sm:text-xs"
+          <div className="flex flex-wrap gap-4 justify-center sm:justify-end">
+            <a 
+              href="/about.html" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-slate-300 hover:underline cursor-pointer text-slate-500 text-2xs sm:text-xs"
+            >
+              {language === 'KR' ? '서비스 소개' : 'About'}
+            </a>
+            <a 
+              href="/terms.html" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-slate-300 hover:underline cursor-pointer text-slate-500 text-2xs sm:text-xs"
             >
               {language === 'KR' ? '이용약관' : 'Terms'}
-            </button>
-            <button 
-              onClick={() => setShowPrivacyModal(true)} 
-              className="hover:text-slate-300 hover:underline cursor-pointer bg-transparent border-none text-slate-500 text-2xs sm:text-xs"
+            </a>
+            <a 
+              href="/privacy.html" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-slate-300 hover:underline cursor-pointer text-slate-500 text-2xs sm:text-xs"
             >
               {language === 'KR' ? '개인정보처리방침' : 'Privacy'}
-            </button>
+            </a>
             <a 
               href="https://www.reddit.com/r/BusanTravelTips/" 
               target="_blank" 
