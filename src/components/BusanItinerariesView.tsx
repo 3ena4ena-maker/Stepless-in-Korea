@@ -29,6 +29,8 @@ import {
   MessageSquare
 } from 'lucide-react';
 import { BUSAN_ITINERARIES, ItineraryCourse, ItineraryStep } from '../data/itineraries';
+import { CHILD_TRANSPORT_INFOGRAPHIC_BASE64 } from '../childtransport_base64';
+
 
 
 
@@ -2641,7 +2643,7 @@ export default function BusanItinerariesView({
                         </p>
                         <div className="relative w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 flex flex-col items-center p-1 sm:p-2 shadow-sm">
                           <img 
-                            src="/images/childtransport_infographic_en.jpg" 
+                            src={CHILD_TRANSPORT_INFOGRAPHIC_BASE64} 
                             alt={language === 'KR' ? '부산 대중교통 어린이 무료 정책 안내문 (How to Enroll)' : 'How to Enroll in the Free Fare Program Infographic'} 
                             className="w-full h-auto object-contain rounded-lg"
                             referrerPolicy="no-referrer"
