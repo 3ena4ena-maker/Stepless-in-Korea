@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Train, Globe, Menu, X, Landmark, Compass, HelpCircle, Calendar } from 'lucide-react';
+import { Train, Globe, Menu, X, Landmark, Compass, HelpCircle, Calendar, Info } from 'lucide-react';
 
 interface HeaderProps {
   currentTab: string;
@@ -21,6 +21,7 @@ export default function Header({ currentTab, setCurrentTab, language, toggleLang
     { id: 'search', label: language === 'KR' ? '검색 및 출구 정보' : 'Station Info', icon: Train },
     { id: 'schedule', label: language === 'KR' ? '부산 주요일정표' : 'Busan Schedule', icon: Calendar },
     { id: 'tips', label: language === 'KR' ? '여행 팁' : 'Travel Tips', icon: HelpCircle },
+    { id: 'about', label: language === 'KR' ? '사이트 소개' : 'About', icon: Info },
   ];
 
   return (

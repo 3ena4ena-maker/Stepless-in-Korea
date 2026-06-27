@@ -11,6 +11,7 @@ import {
   Compass, 
   HelpCircle, 
   Info, 
+  Heart,
   AlertTriangle, 
   Baby, 
   Luggage, 
@@ -31,7 +32,8 @@ import {
   Map,
   Accessibility,
   Trash2,
-  Shield
+  Shield,
+  Sparkles
 } from 'lucide-react';
 import Header from './components/Header';
 import TimelineVisualizer from './components/TimelineVisualizer';
@@ -1902,6 +1904,110 @@ export default function App() {
           {/* New Tab 4: BUSAN MAJOR EVENTS CALENDAR VIEW */}
           {currentTab === 'schedule' && (
             <BusanEventsCalendarView language={language} />
+          )}
+
+          {/* New Tab 5: ABOUT THE SITE */}
+          {currentTab === 'about' && (
+            <div className="animate-fade-in text-left max-w-5xl mx-auto space-y-24 py-8" id="about-site-container">
+              
+              {/* SECTION 1: Introduction (About Us) */}
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16 items-center">
+                <div className="md:col-span-7 space-y-6">
+                  <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight">
+                    {language === 'KR' ? 'About Us' : 'About Us'}
+                  </h1>
+                  <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-sans font-medium whitespace-pre-line">
+                    {language === 'KR' ? (
+                      <>
+                        이 사이트는 <strong className="text-slate-900 font-extrabold">플로레르 마음연구소 대표</strong>가 매일 출퇴근길에 무거운 큰 캐리어와 유모차를 들고 계단으로 오르락내리락 하며 힘들어하는 관광객들을 우연히 마주하면서 시작되었습니다.
+                        {"\n\n"}
+                        사실 바로 옆 출구에 엘리베이터가 편리하게 마련되어 있는데도, 정보가 없어서 이용하지 못하는 모습을 보고 안타까운 마음에 널리 알리고자 이 사이트를 직접 기획하고 제작하게 되었습니다.
+                      </>
+                    ) : (
+                      <>
+                        This site was created by the <strong className="text-slate-900 font-extrabold">CEO of Florer Mind Institute</strong>, who frequently witnessed travelers hauling giant luggage and baby strollers up and down steep metro stairs during their daily commute.
+                        {"\n\n"}
+                        Realizing that spacious elevators were readily available at the adjacent exits but left unused due to a lack of clear guidance, we built this site to light up accessible routes for every visitor.
+                      </>
+                    )}
+                  </p>
+                </div>
+                <div className="md:col-span-5">
+                  <div className="relative rounded-[2rem] overflow-hidden shadow-xl border border-slate-100 bg-slate-100">
+                    <img 
+                      src="/src/assets/images/busan_travelers_about_1782566089566.jpg" 
+                      alt="Travelers in Busan" 
+                      className="w-full h-full object-cover aspect-[4/3] hover:scale-102 transition-transform duration-500"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* SECTION 2: Our Mission */}
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16 items-center md:flex-row-reverse">
+                {/* On desktop, show image on the left, so we reverse col-span ordering or render carefully */}
+                <div className="md:col-span-5 md:order-1">
+                  <div className="relative rounded-[2rem] overflow-hidden shadow-xl border border-slate-100 bg-slate-100">
+                    <img 
+                      src="/src/assets/images/accessible_path_about_1782566106628.jpg" 
+                      alt="Accessible Path in Busan" 
+                      className="w-full h-full object-cover aspect-[4/3] hover:scale-102 transition-transform duration-500"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                </div>
+                <div className="md:col-span-7 md:order-2 space-y-6">
+                  <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                    {language === 'KR' ? 'Our Mission' : 'Our Mission'}
+                  </h2>
+                  <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-sans font-medium whitespace-pre-line">
+                    {language === 'KR' ? (
+                      <>
+                        부산 현지인이 직접 전해주는 부산 여행에 대한 모든 꿀팁과 유용한 정보들을 아낌없이 모아두었습니다.
+                        {"\n\n"}
+                        누구나 아무런 제한 없이 모든 유용한 정보를 100% 무료로 안심하고 이용하실 수 있으며, 더 편안하고 더 재미있고, 가성비 훌륭한 성공적인 부산 여행을 완성하실 수 있도록 정성껏 설계했습니다.
+                      </>
+                    ) : (
+                      <>
+                        We gather authentic travel insights and practical tips curated directly by a native Busan local.
+                        {"\n\n"}
+                        Offered completely free of charge to everyone, we want you to experience an easier, more enjoyable, and highly cost-effective journey across the beautiful spots of Busan.
+                      </>
+                    )}
+                  </p>
+                </div>
+              </div>
+
+              {/* SECTION 3: Warm Feedback / Share Tips Block */}
+              <div className="bg-[#FAF8F5] rounded-[2.5rem] p-8 sm:p-14 border border-slate-100 text-center max-w-3xl mx-auto space-y-6 shadow-sm">
+                <h3 className="text-xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center justify-center gap-2.5 flex-wrap">
+                  <span className="text-2xl sm:text-4xl animate-pulse">🌊</span>
+                  <span>{language === 'KR' ? '부산에서 좋은 추억만 가져가시길 바랍니다' : 'Take Only Beautiful Memories from Busan'}</span>
+                </h3>
+                <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto font-sans font-medium">
+                  {language === 'KR' ? (
+                    <>
+                      부산을 방문하는 다른 여행객분들과 널리 나누고 싶은 나만의 꿀팁이나 개선이 필요한 정보, 아이디어가 있다면 언제든지 알려주세요! 따뜻하게 환영합니다.
+                    </>
+                  ) : (
+                    <>
+                      If you have any local accessibility hacks, stroller-friendly boardwalks, or subway exit corrections to share with fellow travelers, please feel free to drop us an email anytime!
+                    </>
+                  )}
+                </p>
+                <div className="pt-4 flex justify-center">
+                  <a
+                    href="mailto:3ena4ena@gmail.com"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-full font-black text-sm tracking-tight transition-all shadow-md hover:-translate-y-0.5 cursor-pointer select-none"
+                  >
+                    <span>✉️</span>
+                    <span>3ena4ena@gmail.com</span>
+                  </a>
+                </div>
+              </div>
+
+            </div>
           )}
 
 

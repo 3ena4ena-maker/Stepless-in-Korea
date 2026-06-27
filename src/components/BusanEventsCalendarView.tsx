@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, MapPin, Tag, Shuffle, Info, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, MapPin, Tag, Shuffle, Info, Sparkles, CheckCircle2, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface BusanEventsCalendarViewProps {
@@ -33,113 +33,156 @@ export interface BusanEvent {
   dotClass: string;
 }
 
-// 2026 Curated Busan Events Data
+// Curated Busan Events Data (Active & Upcoming as of June 27, 2026)
 const BUSAN_EVENTS_DATA: BusanEvent[] = [
   {
-    id: 'lantern-festival',
-    titleKo: '삼광사 연등축제 (부산연등축제)',
-    titleEn: 'Samgwangsa Temple Lantern Festival',
-    category: 'festival',
-    categoryKo: '전통 축제',
-    categoryEn: 'Traditional Festival',
-    startDate: '2026-05-12',
-    endDate: '2026-05-27',
-    stationKo: '서면역 / 양정역',
-    stationEn: 'Seomyeon / Yangjeong Station',
-    metroLine: 'Line 1 & 2',
-    accessibilityKo: '삼광사 경내에는 평탄 유도 데크 및 완만한 사찰 진입 보행로가 배치되어 휠체어와 유모차 통행이 원활합니다. (일부 전각 계단 제외)',
-    accessibilityEn: 'The temple courtyard features smooth wooden decks and gentle approach ramps making light wheelchair and stroller access highly enjoyable.',
-    descriptionKo: 'CNN이 선정한 "한국에서 가봐야 할 아름다운 곳 50선"에 해당하는 대규모 온등 축제로, 수만 개의 오색 연등이 사찰을 가득 매웁니다.',
-    descriptionEn: 'Selected as one of CNN\'s "50 Beautiful Places to Visit in Korea," featuring tens of thousands of beautiful lanterns wrapping the majestic temple.',
-    locationKo: '삼광사 대웅전 광장',
-    locationEn: 'Samgwangsa Temple Grounds',
-    colorClass: 'bg-amber-50 text-amber-800 border-amber-100',
-    dotClass: 'bg-amber-500'
-  },
-  {
-    id: 'sand-festival',
-    titleKo: '해운대 모래축제',
-    titleEn: 'Haeundae Sand Festival',
-    category: 'festival',
-    categoryKo: '해변 축제',
-    categoryEn: 'Beach Festival',
-    startDate: '2026-05-22',
-    endDate: '2026-05-25',
-    stationKo: '해운대역 (2호선)',
-    stationEn: 'Haeundae Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '해운대 해수욕장 백사장 초입에 평탄한 목재 데크로드가 설치되어 휠체어/유모차를 탄 채로 웅장한 모래 작품 바로 코앞까지 이동해 관람할 수 있습니다.',
-    accessibilityEn: 'Specially engineered wooden boardwalks run all the way through the sandy beach, allowing barrier-free access directly to the front of giant sand sculptures.',
-    descriptionKo: '세계적인 모래 조각가들이 모여 모래를 예술작품으로 형성화하며, 남녀노소 누구나 즐기는 모래 미끄럼틀과 다양한 서핑 행사 등이 공존합니다.',
-    descriptionEn: 'World-renowned sandbox artists carve delicate masterpieces out of high-density sand along the seaside. Standard access paths are extremely flat.',
-    locationKo: '해운대 해수욕장 광장 무대',
-    locationEn: 'Haeundae Beach Square',
-    colorClass: 'bg-orange-50 text-orange-850 border-orange-100',
-    dotClass: 'bg-orange-500'
-  },
-  {
-    id: 'port-festival',
-    titleKo: '부산항축제',
-    titleEn: 'Busan Port Festival',
+    id: 'busan-mobility-show-2026',
+    titleKo: '2026 부산모빌리티쇼',
+    titleEn: 'Busan International Mobility Show 2026',
     category: 'culture',
-    categoryKo: '문화/예술',
-    categoryEn: 'Culture & Arts',
-    startDate: '2026-05-30',
-    endDate: '2026-05-31',
-    stationKo: '부산역 (1호선)',
-    stationEn: 'Busan Station',
-    metroLine: 'Line 1',
-    accessibilityKo: '부산항 국제여객터미널 야외 친수공원은 계단이 없고 완전한 아스팔트 평면으로 구성되어 장애인 전용 엘리베이터 및 화장실을 쉽게 활용 가능합니다.',
-    accessibilityEn: 'The waterfront park at Busan Port Passenger Terminal is completely step-free, paved with asphalt, with highly accessible elevators in adjacent main terminals.',
-    descriptionKo: '세계 5대 항만인 부산항의 위상을 알리고, 선박 공개 행사, 대형 해상 불꽃쇼, 드론 라이트쇼 등 다채로운 해양이벤트를 선보입니다.',
-    descriptionEn: 'Showcases Busan Port\'s global maritime stature with ship tours, marine fireworks, dynamic drone theater, and accessible waterfront family activities.',
-    locationKo: '부산항 국제여객터미널 야외 친수공원',
-    locationEn: 'Busan Port International Passenger Terminal Park',
+    categoryKo: '자동차 / 기술',
+    categoryEn: 'Mobility & Technology',
+    startDate: '2026-06-27',
+    endDate: '2026-07-05',
+    stationKo: '센텀시티역 (2호선)',
+    stationEn: 'Centum City Station',
+    metroLine: 'Line 2',
+    accessibilityKo: '장애인 전용 주차 동선부터 메인 로비, 전시장 부스 동선까지 턱과 계단이 전혀 없는 그랜드 슬로프식 무장애 인프라가 100% 촘촘히 구축된 안심 랜드마크입니다.',
+    accessibilityEn: 'Designed with maximum barrier-free logistics, from designated parking to the main halls, allowing all wheelchair-guided and stroller family units to explore.',
+    descriptionKo: '"내일의 길을 열다(Moving Tomorrow)"를 주제로 미래형 전기 모빌리티, 자율주행 차량, 수소 트럭, 도심항공교통(UAM) 실물 신기술을 보고 시승 체험까지 지원하는 국내 최대 모빌리티 대전입니다.',
+    descriptionEn: 'The signature motor show of Korea, displaying next-gen zero-emission electric vehicles, AI autopilots, eco hybrid power trains, and high-tech flying mobility modules.',
+    locationKo: '벡스코 (BEXCO) 제1전시장 및 제2전시장',
+    locationEn: 'BEXCO Exhibition Center I & II',
     colorClass: 'bg-blue-50 text-blue-800 border-blue-100',
     dotClass: 'bg-blue-500'
   },
   {
-    id: 'bof-festival',
-    titleKo: '부산 원아시아페스티벌 (BOF)',
-    titleEn: 'Busan One Asia Festival (BOF) K-POP Concert',
-    category: 'performance',
-    categoryKo: '공연/콘서트',
-    categoryEn: 'Performance & Concert',
-    startDate: '2026-06-06',
-    endDate: '2026-06-07',
-    stationKo: '사직역 / 종합운동장역 (3호선)',
-    stationEn: 'Sajik / Sports Complex Station',
-    metroLine: 'Line 3',
-    accessibilityKo: '대형 스포츠 주경기장에서 전용 휠체어 관람 구역과 평탄한 엘리베이터 동선이 촘촘히 보장됩니다. 역사에서 체육공원까지 점자블록 및 리프트 완비.',
-    accessibilityEn: 'We provide dedicated wheelchair seating rows with optimal sight lines, complete lift mechanics from Sajik station, and large handicap restrooms.',
-    descriptionKo: '한류 메가코리아의 대표 콘텐츠인 K-POP 대형 패밀리 콘서트가 부산 가을 및 초여름을 뜨겁게 장식합니다. 세계적인 한류 스타들의 연속 옥외 퍼포먼스.',
-    descriptionEn: 'Busan\'s premier global K-POP megashow featuring superstars in concert with wheelchair accessibility and stepless stadium approach layouts.',
-    locationKo: '부산아시아드주경기장',
-    locationEn: 'Busan Asiad Main Stadium',
-    colorClass: 'bg-purple-50 text-purple-800 border-purple-100',
-    dotClass: 'bg-purple-600'
-  },
-  {
-    id: 'drone-show-1',
-    titleKo: '광안리 M 드론 라이트쇼 (토요일)',
-    titleEn: 'Gwangalli M Drone Light Show',
+    id: 'drone-show-july-04',
+    titleKo: '「광안리 M 드론라이트쇼」 스폰지밥 with 광안리',
+    titleEn: 'Gwangalli M Drone Light Show (SpongeBob with Gwangalli)',
     category: 'drone',
     categoryKo: '드론 연출',
     categoryEn: 'Drone Exhibition',
-    startDate: '2026-06-13',
-    endDate: '2026-06-13',
+    startDate: '2026-07-04',
+    endDate: '2026-07-04',
     stationKo: '광안역 (2호선)',
     stationEn: 'Gwangan Station',
     metroLine: 'Line 2',
-    accessibilityKo: '광안해변 테마거리는 완전한 보행 전용 보도블록 평면도로 구성되어 있으며, 횡단보도 단차가 낮아 해변 전체 어디서나 휠체어로 밤하늘을 볼 수 있습니다.',
-    accessibilityEn: 'Gwangalli boardwalk is completely flat, offering zero-obstruction viewing of the sky. Nearby public facilities feature wheelchair accessible ramps.',
-    descriptionKo: '매주 토요일 밤 해운대 대안 광안리 해변에서 500대 이상의 초정밀 멀티드론이 자아내는 빛의 예술을 해변가 평평한 자리에서 앉아 관람할 수 있습니다.',
-    descriptionEn: 'Every Saturday evening, over 500 state-of-the-art drones fill the night sky above the ocean, easily viewed from step-free beach pavilions.',
-    locationKo: '광안리 해수욕장 생활체육공원 앞',
+    accessibilityKo: '광안해변 테마거리는 보행 장애물이 없는 완전 평탄 보도블록으로 구성되어 휠체어/유모차 전 구역 진입이 자유롭고, 주변 경사로 공중화장실이 촘촘히 마련되어 최고 수준입니다.',
+    accessibilityEn: 'The spacious Gwangalli Beach esplanade is paved with continuous non-slip flat bricks, allowing wheels and strollers to claim spectacular view spots easily.',
+    descriptionKo: '7월 4일 토요일 (20:00 / 22:00 2회 공연) 진행. 네모바지 스폰지밥과 친구들이 광안리 밤바다 위에서 펼치는 유쾌하고 기발한 라이트쇼입니다.',
+    descriptionEn: 'Saturday, July 4 (Two flights: 20:00 & 22:00). SpongeBob and buddies light up Gwangalli Beach with highly creative marine structures.',
+    locationKo: '광안리 해수욕장 생활체육공원 앞 해상',
     locationEn: 'Gwangalli Beachfront Esplanade',
     colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
     dotClass: 'bg-emerald-500'
   },
+  {
+    id: 'drone-show-july-11',
+    titleKo: '「광안리 M 드론라이트쇼」 여름을 담다',
+    titleEn: 'Gwangalli M Drone Light Show (Vibe of Summer)',
+    category: 'drone',
+    categoryKo: '드론 연출',
+    categoryEn: 'Drone Exhibition',
+    startDate: '2026-07-11',
+    endDate: '2026-07-11',
+    stationKo: '광안역 (2호선)',
+    stationEn: 'Gwangan Station',
+    metroLine: 'Line 2',
+    accessibilityKo: '광안해변 테마거리는 보행 장애물이 없는 완전 평탄 보도블록으로 구성되어 휠체어/유모차 전 구역 진입이 자유롭고, 주변 경사로 공중화장실이 촘촘히 마련되어 최고 수준입니다.',
+    accessibilityEn: 'The spacious Gwangalli Beach esplanade is paved with continuous non-slip flat bricks, allowing wheels and strollers to claim spectacular view spots easily.',
+    descriptionKo: '7월 11일 토요일 (20:00 / 22:00 2회 공연) 진행. 무더위를 날려버릴 시원하고 청량한 바다와 바캉스 감성을 표현한 환상적인 드론 아트입니다.',
+    descriptionEn: 'Saturday, July 11 (Two flights: 20:00 & 22:00). Capturing the cooling, refreshing midsummer beach energy with synchronized drones.',
+    locationKo: '광안리 해수욕장 생활체육공원 앞 해상',
+    locationEn: 'Gwangalli Beachfront Esplanade',
+    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
+    dotClass: 'bg-emerald-500'
+  },
+  {
+    id: 'drone-show-july-18',
+    titleKo: '「광안리 M 드론라이트쇼」 한국의 멋',
+    titleEn: 'Gwangalli M Drone Light Show (Beauty of Korea)',
+    category: 'drone',
+    categoryKo: '드론 연출',
+    categoryEn: 'Drone Exhibition',
+    startDate: '2026-07-18',
+    endDate: '2026-07-18',
+    stationKo: '광안역 (2호선)',
+    stationEn: 'Gwangan Station',
+    metroLine: 'Line 2',
+    accessibilityKo: '광안해변 테마거리는 보행 장애물이 없는 완전 평탄 보도블록으로 구성되어 휠체어/유모차 전 구역 진입이 자유롭고, 주변 경사로 공중화장실이 촘촘히 마련되어 최고 수준입니다.',
+    accessibilityEn: 'The spacious Gwangalli Beach esplanade is paved with continuous non-slip flat bricks, allowing wheels and strollers to claim spectacular view spots easily.',
+    descriptionKo: '7월 18일 토요일 (20:00 / 22:00 2회 공연) 진행. 가장 한국적인 전통 선과 빛깔, 한옥과 민화의 감성적인 아름다움을 광안대교 상공에 그려냅니다.',
+    descriptionEn: 'Saturday, July 18 (Two flights: 20:00 & 22:00). Reimagining traditional Korean elegance and historic textures in night sky illumination.',
+    locationKo: '광안리 해수욕장 생활체육공원 앞 해상',
+    locationEn: 'Gwangalli Beachfront Esplanade',
+    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
+    dotClass: 'bg-emerald-500'
+  },
+  {
+    id: 'drone-show-july-25',
+    titleKo: '「광안리 M 드론라이트쇼」 포켓몬은 느긋느긋 바캉스 in 광안리',
+    titleEn: 'Gwangalli M Drone Light Show (Pokémon Lazy Vacation in Gwangalli)',
+    category: 'drone',
+    categoryKo: '드론 연출',
+    categoryEn: 'Drone Exhibition',
+    startDate: '2026-07-25',
+    endDate: '2026-07-25',
+    stationKo: '광안역 (2호선)',
+    stationEn: 'Gwangan Station',
+    metroLine: 'Line 2',
+    accessibilityKo: '광안해변 테마거리는 보행 장애물이 없는 완전 평탄 보도블록으로 구성되어 휠체어/유모차 전 구역 진입이 자유롭고, 주변 경사로 공중화장실이 촘촘히 마련되어 최고 수준입니다.',
+    accessibilityEn: 'The spacious Gwangalli Beach esplanade is paved with continuous non-slip flat bricks, allowing wheels and strollers to claim spectacular view spots easily.',
+    descriptionKo: '7월 25일 토요일 (20:00 / 22:00 2회 공연) 진행. 귀여운 포켓몬들이 해수욕장에서 여유로운 피서를 보내는 테마의 한여름 스페셜 기획전입니다.',
+    descriptionEn: 'Saturday, July 25 (Two flights: 20:00 & 22:00). Features adorable pocket monsters relaxing on Gwangalli Beach with colorful drone paintings.',
+    locationKo: '광안리 해수욕장 생활체육공원 앞 해상',
+    locationEn: 'Gwangalli Beachfront Esplanade',
+    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
+    dotClass: 'bg-emerald-500'
+  },
+  {
+    id: 'hydrangea-festival-2026',
+    titleKo: '제16회 수국꽃문화축제',
+    titleEn: '16th Hydrangea Flower Cultural Festival',
+    category: 'festival',
+    categoryKo: '꽃 축제',
+    categoryEn: 'Flower Festival',
+    startDate: '2026-07-04',
+    endDate: '2026-07-12',
+    stationKo: '남포역 (1호선) 연계 버스 환승',
+    stationEn: 'Nampo Station then transfer bus',
+    metroLine: 'Line 1',
+    accessibilityKo: '태종대 순환 저상버스 및 다누비 열차 탑승 지점까지 무단차 경사로가 설치되어 있습니다. 단, 사찰(태종사) 진입 숲길과 본당 내부 일부는 흙길이므로 휠체어 동반 시 안전 우회로를 따라 진입해 주십시오.',
+    accessibilityEn: 'Taejongdae Park features standard low-floor bus services. The temple forest paths have scenic soil tracks; stroller and wheelchair companions are guided to use the flat bypass lane.',
+    descriptionKo: '태종대 유원지 태종사 일원에 만발하는 수십 종의 환상적인 수국꽃들이 연출하는 파스텔톤 꽃 바다 속에서 다채로운 전통 다도 체험, 수국 숲길 버스킹을 즐기는 대표 힐링 여름 축제입니다.',
+    descriptionEn: 'Busan\'s legendary midsummer flower celebration, blanketed with beautiful pastel blue, pink, and purple hydrangeas throughout the serene woods, offering traditional tea and live acoustics.',
+    locationKo: '영도구 태종대 유원지 내 태종사 일원',
+    locationEn: 'Taejongsa Temple Grounds, Yeongdo-gu',
+    colorClass: 'bg-teal-50 text-teal-850 border-teal-100',
+    dotClass: 'bg-teal-500'
+  },
+  {
+    id: 'busan-brand-festa-2026',
+    titleKo: '2026 부산브랜드페스타',
+    titleEn: '2026 Busan Brand Festa',
+    category: 'festival',
+    categoryKo: '지역 상생 축제',
+    categoryEn: 'Local Brand Festival',
+    startDate: '2026-07-10',
+    endDate: '2026-07-12',
+    stationKo: '센텀시티역 (2호선)',
+    stationEn: 'Centum City Station',
+    metroLine: 'Line 2',
+    accessibilityKo: '넓고 평탄한 실내 전시장 내에서 평탄화가 100% 완료된 아스팔트 바닥면과 전용 휠체어 진입 전용 게이트를 완비하여, 유모차 동반 가족들도 안전하게 둘러볼 수 있습니다.',
+    accessibilityEn: 'Being a highly structured indoor pavilion, it offers complete floor leveling, stroller rentals, and broad walkways designed for absolute accessibility.',
+    descriptionKo: '부산 우수 강소기업들의 대표적인 식품, 리빙, 뷰티, 패션 명품들을 다채로운 부스 체험과 풍성한 무료 시식회, 대규모 라이브 커머스로 한자리에서 맛보고 즐기는 상생 대축제입니다.',
+    descriptionEn: 'An outstanding local brands trade show bringing Busan\'s signature crafts, lifestyle designs, and iconic foods with great discount packages and family hands-on booths.',
+    locationKo: '벡스코 (BEXCO) 제1전시장 3홀',
+    locationEn: 'BEXCO Exhibition Center I, Hall 3',
+    colorClass: 'bg-orange-50 text-orange-850 border-orange-100',
+    dotClass: 'bg-orange-500'
+  },
+
   {
     id: 'sea-festival',
     titleKo: '부산 바다축제',
@@ -244,142 +287,19 @@ const BUSAN_EVENTS_DATA: BusanEvent[] = [
     locationEn: 'Gwangalli Beach Front & Marine Park',
     colorClass: 'bg-fuchsia-50 text-fuchsia-850 border-fuchsia-100',
     dotClass: 'bg-fuchsia-500'
-  },
-  {
-    id: 'drone-show-gwangbok',
-    titleKo: '광안리 M 드론라이트쇼 (광복80주년)',
-    titleEn: 'Gwangalli M Drone Light Show (80th Liberation)',
-    category: 'drone',
-    categoryKo: '드론 연출',
-    categoryEn: 'Drone Exhibition',
-    startDate: '2025-08-09',
-    endDate: '2025-08-09',
-    stationKo: '광안역 (2호선)',
-    stationEn: 'Gwangan Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '광안리 해수욕장 전 구역 경사로 완비 및 완만한 유모차/휠체어 전용 보도가 갖추어져 관람이 용이합니다.',
-    accessibilityEn: 'Wheelchair paths with low boundaries run throughout the beach esplanade, making the drone view very comfortable.',
-    descriptionKo: '광복 80주년을 기념하여 역대 최대 규모인 1,500대 드론이 화려하게 야간 밤하늘을 수놓으며 2회 공연으로 펼쳐집니다.',
-    descriptionEn: 'To commemorate the 80th anniversary of National Liberation, 1,500 drones perform spectacular night shows with two flight sequences.',
-    locationKo: '광안리 해수욕장 생활체육공원 앞',
-    locationEn: 'Gwangalli Beachfront Esplanade',
-    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
-    dotClass: 'bg-emerald-500'
-  },
-  {
-    id: 'drone-show-volleyball',
-    titleKo: '광안리 M 드론라이트쇼 (국제여자 비치발리볼)',
-    titleEn: "Gwangalli M Drone Light Show (Women's Beach Volleyball)",
-    category: 'drone',
-    categoryKo: '드론 연출',
-    categoryEn: 'Drone Exhibition',
-    startDate: '2025-08-16',
-    endDate: '2025-08-16',
-    stationKo: '광안역 (2호선)',
-    stationEn: 'Gwangan Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '해변 산책길 전체가 평평하여 단차가 없으며, 비치발리볼 경기장 주변 장애인 화장실 및 접근성이 양호합니다.',
-    accessibilityEn: 'Easy boardwalk paths connect Gwangan subway station exits safely to the beach with solid, non-slip flat pavement.',
-    descriptionKo: '2025 부산 광안리 국제여자 비치발리볼 대회를 기념하여, 바닷가에서 시원하게 펼쳐지는 여름 스포츠의 역동성을 1,000대의 드론으로 표현합니다.',
-    descriptionEn: "Commemorates the 2025 Gwangalli International Women's Beach Volleyball tournament with 1,000 precise drones in action.",
-    locationKo: '광안리 해수욕장 생활체육공원 앞',
-    locationEn: 'Gwangalli Beachfront Esplanade',
-    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
-    dotClass: 'bg-emerald-500'
-  },
-  {
-    id: 'drone-show-cretaceous',
-    titleKo: '광안리 M 드론라이트쇼 (백악기 시대)',
-    titleEn: 'Gwangalli M Drone Light Show (Cretaceous Period)',
-    category: 'drone',
-    categoryKo: '드론 연출',
-    categoryEn: 'Drone Exhibition',
-    startDate: '2025-08-23',
-    endDate: '2025-08-23',
-    stationKo: '광안역 (2호선)',
-    stationEn: 'Gwangan Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '야외 공연 지구 진입로가 완전히 평탄화되어 있어 아동용 휠체어와 유모차가 충돌 없이 널찍하게 자리할 수 있습니다.',
-    accessibilityEn: 'Flattest seaside pavement with designated disabled spaces ensures stroller and family companions have premium sightlines.',
-    descriptionKo: '1,000대의 드론으로 거대하고 웅장한 공룡과 백악기 시대의 울창한 대자연 풍경들을 밤하늘의 조명 아트로 극대화해 나타냅니다.',
-    descriptionEn: 'Depicts moving Cretaceous dinosaurs and lush nature through an incredibly expressive 1,000-drone visual narrative.',
-    locationKo: '광안리 해수욕장 생활체육공원 앞',
-    locationEn: 'Gwangalli Beachfront Esplanade',
-    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
-    dotClass: 'bg-emerald-500'
-  },
-  {
-    id: 'drone-show-energy',
-    titleKo: '광안리 M 드론라이트쇼 (Energy Super Week)',
-    titleEn: 'Gwangalli M Drone Light Show (Energy Super Week)',
-    category: 'drone',
-    categoryKo: '드론 연출',
-    categoryEn: 'Drone Exhibition',
-    startDate: '2025-08-27',
-    endDate: '2025-08-27',
-    stationKo: '광안역 (2호선)',
-    stationEn: 'Gwangan Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '평일 저녁 시간대 대중교통 인근 보행로가 차 없는 거리처럼 넓고 평탄하여 편리한 도보 통행이 가능합니다.',
-    accessibilityEn: 'Highly accessible, broad ocean esplanade with flat wheelchair-adapted pedestrian walks to Gwangalli beach.',
-    descriptionKo: 'Energy Super Week In Busan 개최를 축하하는 주중 특별 공연으로, 당일 21시에 단 1회 1,000대의 드론 무대로 열립니다.',
-    descriptionEn: 'A special weekday presentation welcoming Energy Super Week In Busan, holding a single custom flight starting at 21:00.',
-    locationKo: '광안리 해수욕장 생활체육공원 앞',
-    locationEn: 'Gwangalli Beachfront Esplanade',
-    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
-    dotClass: 'bg-emerald-500'
-  },
-  {
-    id: 'drone-show-canceled-nightrace',
-    titleKo: '❌ 광안리 M 드론쇼 (미개최 - 나이트레이스)',
-    titleEn: '❌ Gwangalli M Drone Show (Canceled - Night Race)',
-    category: 'drone',
-    categoryKo: '드론 연출',
-    categoryEn: 'Drone Exhibition',
-    startDate: '2025-08-02',
-    endDate: '2025-08-02',
-    stationKo: '광안역 (2호선)',
-    stationEn: 'Gwangan Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '당일 해변 마라톤 행사로 해수욕장 전 구역 차량 인도가 매우 붐비므로 일반 통행용 휠체어 진입 시 각별한 주의가 필요합니다.',
-    accessibilityEn: 'Extremely dense marathon traffic makes general rollway coordination slow and challenging.',
-    descriptionKo: '당일 광안리해변에서 개최되는 대규모 옥외 스포츠 행사인 「나이트레이스 인 부산」으로 인하여 안전사고 예방차 드론쇼가 개최되지 않습니다.',
-    descriptionEn: 'No drone show is scheduled due to safety clearance regulations during the massive "Night Race in Busan" marathon festival holding the shore.',
-    locationKo: '광안리 해수욕장 해변 전역',
-    locationEn: 'Gwangalli Beach Shoreline',
-    colorClass: 'bg-slate-100 text-slate-500 border-slate-200/80 line-through',
-    dotClass: 'bg-slate-400'
-  },
-  {
-    id: 'drone-show-canceled-infinity',
-    titleKo: '❌ 광안리 M 드론쇼 (미개최 - 무한도전 런)',
-    titleEn: '❌ Gwangalli M Drone Show (Canceled - Infinite Run)',
-    category: 'drone',
-    categoryKo: '드론 연출',
-    categoryEn: 'Drone Exhibition',
-    startDate: '2025-08-30',
-    endDate: '2025-08-30',
-    stationKo: '광안역 (2호선)',
-    stationEn: 'Gwangan Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '당일 러닝 축제로 대인파 혼잡 구역이 형성되거나 임시 부스가 설치되어 휠체어가 선회하기 어렵습니다.',
-    accessibilityEn: 'Large run event structures are deployed on the sand and pavement, creating roll roadblocks for wheelchairs.',
-    descriptionKo: '당일 광안리해변에서 진행되는 해변 달리기 축제인 「무한도전 런」 행사로 인하여 야간 안전 제어를 위해 드론쇼가 미개최됩니다.',
-    descriptionEn: 'No drone exhibition tonight because the "Infinite Challenge Run" beach race restricts the launchpad security protocols.',
-    locationKo: '광안리 해수욕장 해변 전역',
-    locationEn: 'Gwangalli Beach Shoreline',
-    colorClass: 'bg-slate-100 text-slate-400 border-slate-200/80 line-through',
-    dotClass: 'bg-slate-450'
   }
 ];
 
 export default function BusanEventsCalendarView({ language }: BusanEventsCalendarViewProps) {
-  // Present Year and Month (initialize to June 2026 as current context is June 2026)
+  // Present Year and Month (initialize to July 2026 for rich summer events preview)
   const [currentYear, setCurrentYear] = useState<number>(2026);
-  const [currentMonth, setCurrentMonth] = useState<number>(6); // June
+  const [currentMonth, setCurrentMonth] = useState<number>(7); // July by default
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   
+  // Interactive day events overlay popup state
+  const [dayEventsPopup, setDayEventsPopup] = useState<{ dateString: string; events: BusanEvent[] } | null>(null);
+
   // Custom selector with smooth scroll optimization for mobile devices
   const handleSelectEvent = (eventId: string | null) => {
     setSelectedEventId(eventId);
@@ -489,8 +409,16 @@ export default function BusanEventsCalendarView({ language }: BusanEventsCalenda
 
   // Filter events based on currently selected category filter
   const filteredEvents = useMemo(() => {
-    return BUSAN_EVENTS_DATA;
-  }, []);
+    if (selectedCategory === 'all') {
+      return BUSAN_EVENTS_DATA;
+    }
+    return BUSAN_EVENTS_DATA.filter(evt => {
+      if (selectedCategory === 'drone') return evt.category === 'drone';
+      if (selectedCategory === 'festival') return evt.category === 'festival';
+      if (selectedCategory === 'culture') return evt.category === 'culture' || evt.category === 'performance';
+      return true;
+    });
+  }, [selectedCategory]);
 
   // Helper to find all filtered events active on a specific calendar day cell
   const getEventsForDay = (dateString: string) => {
@@ -510,6 +438,46 @@ export default function BusanEventsCalendarView({ language }: BusanEventsCalenda
       ? `${currentYear}년 ${labelsKo[currentMonth - 1]}` 
       : `${labelsEn[currentMonth - 1]} ${currentYear}`;
   }, [currentYear, currentMonth, language]);
+
+  // Beautiful formatting for calendar badges
+  const formatBadgeTitle = (evt: BusanEvent, lang: 'KR' | 'EN') => {
+    if (lang === 'KR') {
+      let text = evt.titleKo;
+      if (text.includes('」')) {
+        text = text.split('」')[1].trim();
+      }
+      text = text.replace('드론라이트쇼', '드론쇼');
+      if (text.length > 12) {
+        return text.substring(0, 11) + '..';
+      }
+      return text;
+    } else {
+      let text = evt.titleEn;
+      if (text.includes('(')) {
+        text = text.split('(')[1].replace(')', '').trim();
+      }
+      if (text.length > 12) {
+        return text.substring(0, 11) + '..';
+      }
+      return text;
+    }
+  };
+
+  // Format popup date for display
+  const formatPopupDate = (dateStr: string, lang: 'KR' | 'EN') => {
+    const parts = dateStr.split('-');
+    const dateObj = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+    const dayOfWeek = lang === 'KR' 
+      ? ['일', '월', '화', '수', '목', '금', '토'][dateObj.getDay()]
+      : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dateObj.getDay()];
+    
+    if (lang === 'KR') {
+      return `${parts[0]}년 ${parseInt(parts[1], 10)}월 ${parseInt(parts[2], 10)}일 (${dayOfWeek}요일)`;
+    } else {
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${months[dateObj.getMonth()]} ${parseInt(parts[2], 10)}, ${parts[0]} (${dayOfWeek})`;
+    }
+  };
 
   return (
     <div className="space-y-8 animate-fade-in text-left max-w-5xl mx-auto" id="busan-events-calendar-container">
@@ -570,6 +538,44 @@ export default function BusanEventsCalendarView({ language }: BusanEventsCalenda
             </div>
           </div>
 
+          {/* Interactive Category Selector & Legend Row */}
+          <div className="flex flex-col gap-3 border-b border-slate-50 pb-4">
+            <span className="text-[11px] font-black uppercase text-slate-400 tracking-wider">
+              {language === 'KR' ? '카테고리 필터 및 일정 구분' : 'Category Filter & Legend'}
+            </span>
+            <div className="flex flex-wrap gap-2 overflow-x-auto no-scrollbar scroll-smooth">
+              {[
+                { id: 'all', labelKo: '전체', labelEn: 'All', badgeClass: 'bg-slate-150 text-slate-800 border-slate-200' },
+                { id: 'drone', labelKo: '드론 연출', labelEn: 'Drone', badgeClass: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
+                { id: 'festival', labelKo: '축제 / 행사', labelEn: 'Festivals', badgeClass: 'bg-sky-50 text-sky-850 border-sky-200' },
+                { id: 'culture', labelKo: '문화 / 공연 / 예술', labelEn: 'Culture & Arts', badgeClass: 'bg-indigo-50 text-indigo-850 border-indigo-200' }
+              ].map(opt => {
+                const isActive = selectedCategory === opt.id;
+                return (
+                  <button
+                    key={opt.id}
+                    onClick={() => {
+                      setSelectedCategory(opt.id);
+                      setSelectedEventId(null); // Clear selected event to avoid confusion
+                    }}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black transition-all border shrink-0 cursor-pointer select-none ${
+                      isActive 
+                        ? 'ring-2 ring-[#004481]/40 shadow-sm font-extrabold ' + opt.badgeClass
+                        : 'bg-white text-slate-500 hover:text-slate-800 border-slate-150 hover:bg-slate-50/50'
+                    }`}
+                  >
+                    <span className={`w-1.5 h-1.5 rounded-full ${
+                      opt.id === 'all' ? 'bg-slate-400' :
+                      opt.id === 'drone' ? 'bg-emerald-500' :
+                      opt.id === 'festival' ? 'bg-sky-500' : 'bg-indigo-500'
+                    }`} />
+                    <span>{language === 'KR' ? opt.labelKo : opt.labelEn}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Calendar Day grid */}
           <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center">
             {/* Days of week labels */}
@@ -589,18 +595,20 @@ export default function BusanEventsCalendarView({ language }: BusanEventsCalenda
               const dayEvents = getEventsForDay(cell.dateString);
               const isSelected = selectedEventId ? dayEvents.some(e => e.id === selectedEventId) : false;
               
-              // Determine if the day is "today" (June 22, 2026 based on mock context)
-              const isToday = cell.dateString === '2026-06-22';
+              // Determine if the day is "today" (June 27, 2026 based on current context)
+              const isToday = cell.dateString === '2026-06-27';
 
               return (
                 <div
                   key={idx}
                   onClick={() => {
-                    if (dayEvents.length > 0) {
+                    if (dayEvents.length > 1) {
+                      setDayEventsPopup({ dateString: cell.dateString, events: dayEvents });
+                    } else if (dayEvents.length === 1) {
                       handleSelectEvent(dayEvents[0].id);
                     }
                   }}
-                  className={`min-h-[50px] sm:min-h-[72px] p-1 border rounded-xl sm:rounded-2xl flex flex-col justify-between transition-all text-left relative ${
+                  className={`min-h-[58px] sm:min-h-[96px] p-1 border rounded-xl sm:rounded-2xl flex flex-col justify-between transition-all text-left relative ${
                     cell.isPadding ? 'opacity-30 border-slate-50' : 'border-slate-100 hover:border-slate-250'
                   } ${
                     isToday ? 'bg-amber-500/[0.04] border-amber-300 ring-1 ring-amber-200' : ''
@@ -626,18 +634,24 @@ export default function BusanEventsCalendarView({ language }: BusanEventsCalenda
                       <div
                         key={evt.id}
                         onClick={(e) => {
-                          e.stopPropagation(); // Avoid triggering parent cell
+                          e.stopPropagation(); // Avoid triggering parent cell popover
                           handleSelectEvent(evt.id);
                         }}
                         className={`text-[9.5px] truncate px-1.5 py-0.5 rounded-lg font-black tracking-tight leading-tight transition-transform hover:scale-103 ${evt.colorClass} border`}
                         title={language === 'KR' ? evt.titleKo : evt.titleEn}
                       >
                         <span className="mr-0.5 select-none text-[9px]">📍</span>
-                        {language === 'KR' ? evt.titleKo.replace(/삼광사|모래|포트|어스|M|바다|록/g, '').substring(0, 6) : evt.titleEn.substring(0, 6)}
+                        {formatBadgeTitle(evt, language)}
                       </div>
                     ))}
                     {dayEvents.length > 2 && (
-                      <div className="text-[7.5px] font-black text-slate-450 pl-1">
+                      <div 
+                        onClick={(e) => {
+                          e.stopPropagation(); // Avoid twice-triggering the popover
+                          setDayEventsPopup({ dateString: cell.dateString, events: dayEvents });
+                        }}
+                        className="text-[9.5px] font-black text-slate-500 hover:text-[#004481] hover:bg-slate-100 bg-slate-50 border border-slate-200 rounded-lg px-1 py-0.5 mt-0.5 text-center transition-colors cursor-pointer select-none"
+                      >
                         + {dayEvents.length - 2} {language === 'KR' ? '개 더' : 'more'}
                       </div>
                     )}
@@ -811,6 +825,85 @@ export default function BusanEventsCalendarView({ language }: BusanEventsCalenda
         </div>
 
       </div>
+
+      {/* Day Events Selector Popup/Modal */}
+      <AnimatePresence>
+        {dayEventsPopup && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Backdrop overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setDayEventsPopup(null)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs"
+            />
+
+            {/* Modal Box */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ type: 'spring', duration: 0.4 }}
+              className="relative w-full max-w-md bg-white rounded-3xl border border-slate-100 p-6 shadow-2xl z-10 flex flex-col max-h-[85vh]"
+            >
+              {/* Header */}
+              <div className="flex justify-between items-start border-b border-slate-100 pb-3 mb-4 shrink-0">
+                <div>
+                  <span className="text-[10px] uppercase font-black tracking-widest text-slate-400 font-sans block">
+                    {language === 'KR' ? '오늘의 일정 선택기' : 'Day Schedule Selector'}
+                  </span>
+                  <h4 className="text-base sm:text-lg font-black text-slate-800 leading-snug">
+                    {formatPopupDate(dayEventsPopup.dateString, language)}
+                  </h4>
+                </div>
+                <button
+                  onClick={() => setDayEventsPopup(null)}
+                  className="p-1.5 hover:bg-slate-100 text-slate-400 hover:text-slate-600 rounded-xl border border-slate-100 cursor-pointer transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Scrollable event cards */}
+              <div className="overflow-y-auto space-y-3 pr-1 py-1 custom-scrollbar flex-1">
+                {dayEventsPopup.events.map(evt => (
+                  <div
+                    key={evt.id}
+                    onClick={() => {
+                      handleSelectEvent(evt.id);
+                      setDayEventsPopup(null);
+                    }}
+                    className={`p-4 rounded-2xl border transition-all hover:-translate-y-0.5 cursor-pointer bg-slate-50/50 hover:bg-white hover:shadow-md border-slate-150 flex justify-between items-center gap-4 group`}
+                  >
+                    <div className="space-y-1 text-left flex-1">
+                      <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-[9px] font-black border uppercase tracking-tight ${evt.colorClass}`}>
+                        <span className={`w-1 h-1 rounded-full ${evt.dotClass}`} />
+                        <span>{language === 'KR' ? evt.categoryKo : evt.categoryEn}</span>
+                      </span>
+                      <h5 className="text-sm font-black text-slate-800 group-hover:text-[#004481] transition-colors leading-snug">
+                        {language === 'KR' ? evt.titleKo : evt.titleEn}
+                      </h5>
+                      <p className="text-[11px] font-bold text-slate-500 flex items-center gap-1 font-sans">
+                        <span>🚇</span>
+                        <span>{language === 'KR' ? evt.stationKo : evt.stationEn}</span>
+                      </p>
+                    </div>
+                    <div className="shrink-0 text-slate-400 group-hover:text-[#004481] transition-transform group-hover:translate-x-1">
+                      <ChevronRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Footer guidance */}
+              <div className="mt-4 pt-3 border-t border-slate-100 text-[10.5px] font-bold text-slate-400 text-center font-sans shrink-0">
+                {language === 'KR' ? '일정을 클릭하면 상세 정보를 바로 아래에 표시합니다.' : 'Click an event to display accessibility-focused guidelines.'}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
     </div>
   );
