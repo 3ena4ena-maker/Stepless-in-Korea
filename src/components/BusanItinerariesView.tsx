@@ -810,18 +810,6 @@ export default function BusanItinerariesView({
   const [checkedRules, setCheckedRules] = useState<Record<number, boolean>>({});
   const [transitSection, setTransitSection] = useState<'SUBMENU' | 'CHILD_FREE' | 'TRANSFERS'>('SUBMENU');
 
-  // Scroll to simulated top of the view/page when the category changes to make it feel like navigating to a new page.
-  React.useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    const container = document.getElementById('busan-itineraries-container');
-    if (container) {
-      const timer = setTimeout(() => {
-        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 50);
-      return () => clearTimeout(timer);
-    }
-  }, [activeCategory, activeSection, transitSection]);
-
   // Quiz States
   const [quizActive, setQuizActive] = useState(false);
   const [quizStep, setQuizStep] = useState(0); // 0: Landing inside card, 1~7: Questions 1~7, 8: Result
@@ -832,6 +820,11 @@ export default function BusanItinerariesView({
   const [localActiveRegionPage, setLocalActiveRegionPage] = useState<'EAST' | 'WEST' | 'SOUTH' | 'NORTH' | null>(null);
   const activeRegionPage = propActiveRegionPage !== undefined ? propActiveRegionPage : localActiveRegionPage;
   const setActiveRegionPage = propSetActiveRegionPage !== undefined ? propSetActiveRegionPage : setLocalActiveRegionPage;
+
+  // Scroll to simulated top of the view/page when the category changes to make it feel like navigating to a new page.
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [activeCategory, activeSection, transitSection, activeRegionPage, propActiveRegionPage]);
 
   React.useEffect(() => {
     if (activeRegionPage) {
@@ -1199,6 +1192,11 @@ export default function BusanItinerariesView({
             <h2 className="text-base sm:text-lg font-black font-heading text-slate-900 tracking-tight leading-tight">
                {language === 'KR' ? '부산 여행에 대한 모든 것' : 'All About Busan Travel'}
             </h2>
+            <p className="text-[10px] sm:text-xs font-semibold text-slate-500 max-w-lg mx-auto">
+              {language === 'KR' 
+                ? '네이버 지도를 기준으로 장소 정보를 제공합니다' 
+                : 'We provide place details based on Naver Map.'}
+            </p>
             
             <div className="flex items-center justify-center gap-1.5 text-[9px] sm:text-[10px] font-bold text-slate-600 mx-auto pt-0.5">
               <span className="relative flex h-1 w-1 sm:h-1.5 sm:w-1.5 shrink-0">
