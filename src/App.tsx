@@ -519,6 +519,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedItineraryCategory, setSelectedItineraryCategory] = useState<string | null>(null);
   const [tipsSubPage, setTipsSubPage] = useState<'index' | 'courses' | 'transit' | 'child-free' | 'transfer'>('index');
+  const [activeRegionPage, setActiveRegionPage] = useState<'EAST' | 'WEST' | 'SOUTH' | 'NORTH' | null>(null);
   
   // Geolocation states
   const [geoLoading, setGeoLoading] = useState<boolean>(false);
@@ -638,11 +639,13 @@ export default function App() {
           setSelectedItineraryCategory(categorySuffix);
           setCurrentTab('tips');
           setTipsSubPage('courses');
+          setActiveRegionPage(null);
           setIsHomeLanding(false);
         } else {
           setCurrentTab('tips');
           setSelectedItineraryCategory(null);
           setTipsSubPage('index');
+          setActiveRegionPage(null);
         }
       } else if (parts[1] && parts[1].startsWith('tips-')) {
         setCurrentTab('tips');
@@ -650,14 +653,23 @@ export default function App() {
         const sub = parts[1].replace('tips-', '');
         if (sub === 'courses' || sub === 'itinerary') {
           setTipsSubPage('courses');
+          if (parts[2] && ['east', 'west', 'south', 'north'].includes(parts[2].toLowerCase())) {
+            setActiveRegionPage(parts[2].toUpperCase() as any);
+          } else {
+            setActiveRegionPage(null);
+          }
         } else if (sub === 'transit') {
           setTipsSubPage('transit');
+          setActiveRegionPage(null);
         } else if (sub === 'child-free') {
           setTipsSubPage('child-free');
+          setActiveRegionPage(null);
         } else if (sub === 'transfer') {
           setTipsSubPage('transfer');
+          setActiveRegionPage(null);
         } else {
           setTipsSubPage('index');
+          setActiveRegionPage(null);
         }
         setIsHomeLanding(false);
       } else if (parts[1] === 'station' && parts[2]) {
@@ -685,14 +697,23 @@ export default function App() {
           setSelectedItineraryCategory(null);
           if (parts[2] === 'courses' || parts[2] === 'itinerary') {
             setTipsSubPage('courses');
+            if (parts[3] && ['east', 'west', 'south', 'north'].includes(parts[3].toLowerCase())) {
+              setActiveRegionPage(parts[3].toUpperCase() as any);
+            } else {
+              setActiveRegionPage(null);
+            }
           } else if (parts[2] === 'transit') {
             setTipsSubPage('transit');
+            setActiveRegionPage(null);
           } else if (parts[2] === 'child-free') {
             setTipsSubPage('child-free');
+            setActiveRegionPage(null);
           } else if (parts[2] === 'transfer') {
             setTipsSubPage('transfer');
+            setActiveRegionPage(null);
           } else {
             setTipsSubPage('index');
+            setActiveRegionPage(null);
           }
         }
       } else {
@@ -731,7 +752,11 @@ export default function App() {
         if (selectedItineraryCategory) {
           expectedPath = `/itinerary-${selectedItineraryCategory.toLowerCase()}`;
         } else if (tipsSubPage === 'courses') {
-          expectedPath = '/tips/courses';
+          if (activeRegionPage) {
+            expectedPath = `/tips/courses/${activeRegionPage.toLowerCase()}`;
+          } else {
+            expectedPath = '/tips/courses';
+          }
         } else if (tipsSubPage === 'transit') {
           expectedPath = '/tips/transit';
         } else if (tipsSubPage === 'child-free') {
@@ -743,7 +768,7 @@ export default function App() {
         }
       }
       if (window.location.pathname !== expectedPath) {
-        window.history.pushState({ tab: currentTab, category: selectedItineraryCategory, subPage: tipsSubPage }, '', expectedPath);
+        window.history.pushState({ tab: currentTab, category: selectedItineraryCategory, subPage: tipsSubPage, regionPage: activeRegionPage }, '', expectedPath);
       }
     }
 
@@ -785,7 +810,7 @@ export default function App() {
       const canonical = document.querySelector('link[rel="canonical"]');
       if (canonical) canonical.setAttribute('href', "https://steplessinkorea.pages.dev/");
     }
-  }, [selectedStationId, currentTab, isHomeLanding, selectedItineraryCategory, tipsSubPage]);
+  }, [selectedStationId, currentTab, isHomeLanding, selectedItineraryCategory, tipsSubPage, activeRegionPage]);
 
   useEffect(() => {
     localStorage.setItem('busan_traveler_upvotes', JSON.stringify(hasUpvoted));
@@ -1255,7 +1280,7 @@ export default function App() {
         />
 
         {/* Core Main Area */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 pb-8 sm:py-8 animate-fade-in">
           
           {/* Tab 1: HOME LANDING VIEW */}
           {currentTab === 'home' && (
@@ -1898,6 +1923,8 @@ export default function App() {
               }}
               tipsSubPage={tipsSubPage}
               setTipsSubPage={setTipsSubPage}
+              activeRegionPage={activeRegionPage}
+              setActiveRegionPage={setActiveRegionPage}
             />
           )}
 
