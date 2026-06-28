@@ -1935,7 +1935,7 @@ export default function App() {
                 <div className="md:col-span-5">
                   <div className="relative rounded-[2rem] overflow-hidden shadow-xl border border-slate-100 bg-slate-100">
                     <img 
-                      src="/src/assets/images/busan_travelers_about_1782566089566.jpg" 
+                      src="/images/busan_travelers_about_1782566089566.jpg" 
                       alt="Travelers in Busan" 
                       className="w-full h-full object-cover aspect-[4/3] hover:scale-102 transition-transform duration-500"
                       referrerPolicy="no-referrer"
@@ -1950,7 +1950,7 @@ export default function App() {
                 <div className="md:col-span-5 md:order-1">
                   <div className="relative rounded-[2rem] overflow-hidden shadow-xl border border-slate-100 bg-slate-100">
                     <img 
-                      src="/src/assets/images/accessible_path_about_1782566106628.jpg" 
+                      src="/images/accessible_path_about_1782566106628.jpg" 
                       alt="Accessible Path in Busan" 
                       className="w-full h-full object-cover aspect-[4/3] hover:scale-102 transition-transform duration-500"
                       referrerPolicy="no-referrer"
