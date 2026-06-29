@@ -1127,7 +1127,11 @@ export default function BusanItinerariesView({
                 navigateToSubPage('transit');
               } else {
                 navigateToSubPage('index');
-                setActiveCategory(null);
+                if (onSelectCategory) {
+                  onSelectCategory(null);
+                } else {
+                  setActiveCategory(null);
+                }
               }
             }}
             className="flex items-center gap-1 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-[10px] sm:text-xs font-black text-slate-500 hover:text-[#004481] hover:bg-slate-50 active:scale-95 transition-all shrink-0 cursor-pointer border border-slate-100"
@@ -1150,7 +1154,11 @@ export default function BusanItinerariesView({
             <button
               onClick={() => {
                 navigateToSubPage('courses');
-                setActiveCategory(null);
+                if (onSelectCategory) {
+                  onSelectCategory(null);
+                } else {
+                  setActiveCategory(null);
+                }
               }}
               className={`flex-1 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black transition-all duration-305 flex items-center justify-center gap-1 sm:gap-2 cursor-pointer ${
                 activeSection === 'RECOMMENDATIONS'
@@ -1164,7 +1172,11 @@ export default function BusanItinerariesView({
             <button
               onClick={() => {
                 navigateToSubPage('transit');
-                setActiveCategory(null);
+                if (onSelectCategory) {
+                  onSelectCategory(null);
+                } else {
+                  setActiveCategory(null);
+                }
               }}
               className={`flex-1 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black transition-all duration-305 flex items-center justify-center gap-1 sm:gap-2 cursor-pointer ${
                 activeSection === 'TRANSIT_TIPS'
@@ -1956,7 +1968,13 @@ export default function BusanItinerariesView({
           {/* Back Navigation Bar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
             <button
-              onClick={() => setActiveCategory(null)}
+              onClick={() => {
+                if (onSelectCategory) {
+                  onSelectCategory(null);
+                } else {
+                  setActiveCategory(null);
+                }
+              }}
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 active:scale-95 text-slate-700 font-bold border border-slate-200 text-xs sm:text-sm cursor-pointer transition-all hover:border-slate-300"
             >
               <ArrowLeft className="w-4 h-4 text-slate-600" />
@@ -1996,7 +2014,13 @@ export default function BusanItinerariesView({
                 return (
                   <button
                     key={cat.id}
-                    onClick={() => setActiveCategory(cat.id)}
+                    onClick={() => {
+                      if (onSelectCategory) {
+                        onSelectCategory(cat.id);
+                      } else {
+                        setActiveCategory(cat.id);
+                      }
+                    }}
                     className={`px-3 py-1.5 rounded-xl border text-[11px] sm:text-xs font-extrabold transition-all duration-200 cursor-pointer flex items-center gap-1.5 shrink-0 ${
                       isSelected
                         ? 'bg-[#004481] text-white border-[#004481] shadow-md'

@@ -639,7 +639,11 @@ export default function App() {
           setSelectedItineraryCategory(categorySuffix);
           setCurrentTab('tips');
           setTipsSubPage('courses');
-          setActiveRegionPage(null);
+          if (parts[2] && ['east', 'west', 'south', 'north'].includes(parts[2].toLowerCase())) {
+            setActiveRegionPage(parts[2].toUpperCase() as any);
+          } else {
+            setActiveRegionPage(null);
+          }
           setIsHomeLanding(false);
         } else {
           setCurrentTab('tips');
@@ -750,7 +754,11 @@ export default function App() {
       let expectedPath = `/${currentTab}`;
       if (currentTab === 'tips') {
         if (selectedItineraryCategory) {
-          expectedPath = `/itinerary-${selectedItineraryCategory.toLowerCase()}`;
+          if (activeRegionPage) {
+            expectedPath = `/itinerary-${selectedItineraryCategory.toLowerCase()}/${activeRegionPage.toLowerCase()}`;
+          } else {
+            expectedPath = `/itinerary-${selectedItineraryCategory.toLowerCase()}`;
+          }
         } else if (tipsSubPage === 'courses') {
           if (activeRegionPage) {
             expectedPath = `/tips/courses/${activeRegionPage.toLowerCase()}`;
