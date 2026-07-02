@@ -669,7 +669,7 @@ export default function App() {
           setTipsSubPage('child-free');
           setActiveRegionPage(null);
         } else if (sub === 'transfer') {
-          setTipsSubPage('transfer');
+          setTipsSubPage('transit');
           setActiveRegionPage(null);
         } else {
           setTipsSubPage('index');
@@ -713,8 +713,11 @@ export default function App() {
             setTipsSubPage('child-free');
             setActiveRegionPage(null);
           } else if (parts[2] === 'transfer') {
-            setTipsSubPage('transfer');
+            setTipsSubPage('transit');
             setActiveRegionPage(null);
+          } else if (parts[2] && ['east', 'west', 'south', 'north'].includes(parts[2].toLowerCase())) {
+            setTipsSubPage('index');
+            setActiveRegionPage(parts[2].toUpperCase() as any);
           } else {
             setTipsSubPage('index');
             setActiveRegionPage(null);
@@ -770,9 +773,13 @@ export default function App() {
         } else if (tipsSubPage === 'child-free') {
           expectedPath = '/tips/child-free';
         } else if (tipsSubPage === 'transfer') {
-          expectedPath = '/tips/transfer';
+          expectedPath = '/tips/transit';
         } else {
-          expectedPath = '/tips';
+          if (activeRegionPage) {
+            expectedPath = `/tips/${activeRegionPage.toLowerCase()}`;
+          } else {
+            expectedPath = '/tips';
+          }
         }
       }
       if (window.location.pathname !== expectedPath) {

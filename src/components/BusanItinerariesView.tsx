@@ -30,8 +30,13 @@ import {
   Music,
   Theater,
   Copy,
-  Check
+  Check,
+  Users,
+  Footprints,
+  Building2,
+  X
 } from 'lucide-react';
+import ElegantIllustration from './ElegantIllustration';
 import { BUSAN_ITINERARIES, ItineraryCourse, ItineraryStep } from '../data/itineraries';
 import { CHILD_TRANSPORT_INFOGRAPHIC_BASE64 } from '../childtransport_base64';
 
@@ -686,6 +691,45 @@ const REGION_RECOMMENDATIONS: RegionDetail[] = [
         addressEn: '7, Cheyukgongwon-ro, Geumjeong-gu, Busan',
         tipKo: '차량 이용 시 주차 정산 시스템이 잘 되어 있고, 금정구청 바로 옆이라 대중교통 노선 연계성도 아주 양호합니다.',
         tipEn: 'Conveniently located near Geumjeong-gu Office with superb accessibility by city buses.'
+      },
+      {
+        nameKo: '화명 생태공원',
+        nameEn: 'Hwamyung Eco Park',
+        descKo: '낙동강 변을 따라 광활하게 펼쳐진 생태공원으로, 계절마다 피어나는 야생화 단지와 울창한 대나무 숲길, 연꽃 단지가 평화롭게 어우러집니다.',
+        descEn: 'A sprawling riverside ecological park along the Nakdong River, featuring seasonal wildflower gardens, dense bamboo paths, and serene lotus ponds.',
+        category: 'LANDMARK',
+        tagKo: '낙동강 수변 휴식',
+        tagEn: 'Eco River Park',
+        addressKo: '부산 북구 낙동대로 1739',
+        addressEn: '1739, Nakdong-daero, Buk-gu, Busan',
+        tipKo: '공원 전 구역이 완만한 무단차 평지로 이루어져 있어, 휠체어나 유모차가 낙동강 바람을 맞으며 산책하기 최상의 입지입니다.',
+        tipEn: 'The entire park is perfectly flat and paved, offering a superb wind-swept stroll without steps.'
+      },
+      {
+        nameKo: '만덕 레고마을',
+        nameEn: 'Mandeok Lego Village',
+        descKo: '산자락 아래 옹기종기 모여 있는 주택들의 지붕이 알록달록한 원색으로 칠해져 있어, 마치 위에서 내려다보면 레고 블록을 쌓아 올린 듯 이국적이고 귀여운 풍경을 자아냅니다.',
+        descEn: 'A charming hillside community where matching house roofs are painted in bright primary colors, resembling a cluster of toy Lego blocks from above.',
+        category: 'LANDMARK',
+        tagKo: '레고 블록 마을',
+        tagEn: 'Colorful Roof Village',
+        addressKo: '부산 북구 상리로 18',
+        addressEn: '18, Sangri-ro, Buk-gu, Busan',
+        tipKo: '마을 골목길은 경사가 다소 있으나, 레고마을 전경이 한눈에 들어오는 인근 전망 데크나 도로는 턱 없이 접근하기 쉽습니다.',
+        tipEn: 'While village alleys have some slopes, the designated scenic viewing deck offers accessible flat views.'
+      },
+      {
+        nameKo: '석불사 (병풍사)',
+        nameEn: 'Seokbulsa Temple (Byeongpungsa)',
+        descKo: '금정산 기암절벽 거대한 암벽 위에 웅장하게 조각된 마애불상군과 섬세한 석공예품들이 병풍처럼 둘러싸고 있는, 압도적인 기운의 신비로운 암석 사찰입니다.',
+        descEn: 'An awe-inspiring mountain temple carved directly into vertical stone cliffs, featuring colossal Buddhist rock reliefs that surround you like a screen.',
+        category: 'LANDMARK',
+        tagKo: '절벽 암각 불상',
+        tagEn: 'Cliffside Rock Temple',
+        addressKo: '부산 북구 만덕고개길 143-79',
+        addressEn: '143-79, Mandeokgogae-gil, Buk-gu, Busan',
+        tipKo: '산중에 있어 사찰 진입 직전 경사가 무척 가파르므로 차량을 이용해 절 바로 앞 주차장까지 이동하여 보행을 최소화하는 것을 권장합니다.',
+        tipEn: 'Located deep in the mountain with steep immediate slopes. We highly recommend traveling directly to the temple gate parking lot via taxi or vehicle.'
       }
     ]
   }
@@ -742,21 +786,22 @@ export default function BusanItinerariesView({
 
   const navigateToSubPage = (page: 'index' | 'courses' | 'transit' | 'child-free' | 'transfer') => {
     if (setTipsSubPage) {
-      setTipsSubPage(page);
+      if (page === 'transfer') {
+        setTipsSubPage('transit');
+      } else {
+        setTipsSubPage(page);
+      }
     } else {
       if (page === 'index') {
         setActiveSection('SELECTION');
       } else if (page === 'courses') {
         setActiveSection('RECOMMENDATIONS');
-      } else if (page === 'transit') {
+      } else if (page === 'transit' || page === 'transfer') {
         setActiveSection('TRANSIT_TIPS');
         setTransitSection('SUBMENU');
       } else if (page === 'child-free') {
         setActiveSection('TRANSIT_TIPS');
         setTransitSection('CHILD_FREE');
-      } else if (page === 'transfer') {
-        setActiveSection('TRANSIT_TIPS');
-        setTransitSection('TRANSFERS');
       }
     }
   };
@@ -776,7 +821,7 @@ export default function BusanItinerariesView({
       setTransitSection('CHILD_FREE');
     } else if (tipsSubPage === 'transfer') {
       setActiveSection('TRANSIT_TIPS');
-      setTransitSection('TRANSFERS');
+      setTransitSection('SUBMENU');
     }
   }, [tipsSubPage]);
 
@@ -1137,12 +1182,12 @@ export default function BusanItinerariesView({
             className="flex items-center gap-1 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-[10px] sm:text-xs font-black text-slate-500 hover:text-[#004481] hover:bg-slate-50 active:scale-95 transition-all shrink-0 cursor-pointer border border-slate-100"
           >
             <span>◀</span>
-            <span className="hidden xs:inline sm:inline">
+            <span className="hidden sm:inline">
               {activeSection === 'TRANSIT_TIPS' && transitSection !== 'SUBMENU'
                 ? (language === 'KR' ? '이용 팁 목록' : 'Back to Transit Tips')
                 : (language === 'KR' ? '추천/이용팁 메인' : 'Back to Main')}
             </span>
-            <span className="inline xs:hidden">
+            <span className="sm:hidden">
               {activeSection === 'TRANSIT_TIPS' && transitSection !== 'SUBMENU'
                 ? (language === 'KR' ? '목록' : 'List')
                 : (language === 'KR' ? '메인' : 'Main')}
@@ -1198,14 +1243,14 @@ export default function BusanItinerariesView({
         <div className="space-y-2.5 sm:space-y-4 animate-fade-in text-center py-0.5">
           {/* Extremely Clean, Professional & Playful Compact Header (No surrounding box container) */}
           <div className="text-center max-w-2xl mx-auto space-y-0.5 sm:space-y-1.5 relative py-0.5">
-            <span className="bg-amber-400 text-slate-900 border border-slate-900 text-[8px] sm:text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest inline-block shadow-[1px_1px_0px_0px_rgba(15,23,42,1)]">
+            <span className="bg-[#004481] text-white border border-slate-900 text-[8px] sm:text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest inline-block shadow-[1px_1px_0px_0px_rgba(15,23,42,1)]">
               BUSAN TRAVEL PORTAL
             </span>
             <h2 className="text-base sm:text-lg font-black font-heading text-slate-900 tracking-tight leading-tight">
                {language === 'KR' ? '부산 여행에 대한 모든 것' : 'All About Busan Travel'}
             </h2>
             <p className="text-[10px] sm:text-xs font-semibold text-slate-500 max-w-lg mx-auto">
-              {language === 'KR' 
+               {language === 'KR' 
                 ? '네이버 지도를 기준으로 장소 정보를 제공합니다' 
                 : 'We provide place details based on Naver Map.'}
             </p>
@@ -1224,16 +1269,16 @@ export default function BusanItinerariesView({
             {/* Card 1: BUSAN TRAVEL RECOMMENDATIONS */}
             <div
               onClick={() => navigateToSubPage('courses')}
-              className="group bg-[#FFF9F2] p-4 sm:p-5 rounded-2xl border-2 border-slate-900 hover:bg-[#FFF3E3] cursor-pointer shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 flex flex-col justify-between text-left relative overflow-hidden"
+              className="group bg-white p-4 sm:p-5 rounded-2xl border-2 border-slate-900 hover:bg-slate-50 cursor-pointer shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 flex flex-col justify-between text-left relative overflow-hidden"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-full bg-amber-400 border-2 border-slate-900 flex items-center justify-center text-slate-950 shadow-[1.5px_1.5px_0px_0px_rgba(15,23,42,1)] shrink-0 group-hover:scale-105 transition-transform">
+                    <div className="w-11 h-11 rounded-full bg-[#004481] border-2 border-slate-900 flex items-center justify-center text-white shadow-[1.5px_1.5px_0px_0px_rgba(15,23,42,1)] shrink-0 group-hover:scale-105 transition-transform">
                       <Compass className="w-5 h-5 stroke-[2.5]" />
                     </div>
                     <div>
-                      <span className="bg-amber-100 text-amber-900 border border-amber-300 text-[8px] font-black px-1.5 py-0.2 rounded-md uppercase tracking-wider block w-max mb-0.5">
+                      <span className="bg-slate-100 text-slate-700 border border-slate-200 text-[8px] font-black px-1.5 py-0.2 rounded-md uppercase tracking-wider block w-max mb-0.5">
                         COURSE
                       </span>
                       <h3 className="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-tight">
@@ -1256,16 +1301,16 @@ export default function BusanItinerariesView({
             {/* Card 2: SUBWAY PUBLIC TRANSIT TIPS */}
             <div
               onClick={() => navigateToSubPage('transit')}
-              className="group bg-[#F2F7FF] p-4 sm:p-5 rounded-2xl border-2 border-slate-900 hover:bg-[#E4EFFF] cursor-pointer shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 flex flex-col justify-between text-left relative overflow-hidden"
+              className="group bg-white p-4 sm:p-5 rounded-2xl border-2 border-slate-900 hover:bg-slate-50 cursor-pointer shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 flex flex-col justify-between text-left relative overflow-hidden"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-full bg-sky-400 border-2 border-slate-900 flex items-center justify-center text-slate-950 shadow-[1.5px_1.5px_0px_0px_rgba(15,23,42,1)] shrink-0 group-hover:scale-105 transition-transform">
+                    <div className="w-11 h-11 rounded-full bg-[#004481] border-2 border-slate-900 flex items-center justify-center text-white shadow-[1.5px_1.5px_0px_0px_rgba(15,23,42,1)] shrink-0 group-hover:scale-105 transition-transform">
                       <Train className="w-5 h-5 stroke-[2.5]" />
                     </div>
                     <div>
-                      <span className="bg-blue-100 text-blue-900 border border-blue-300 text-[8px] font-black px-1.5 py-0.2 rounded-md uppercase tracking-wider block w-max mb-0.5">
+                      <span className="bg-slate-100 text-slate-700 border border-slate-200 text-[8px] font-black px-1.5 py-0.2 rounded-md uppercase tracking-wider block w-max mb-0.5">
                         TRANSIT
                       </span>
                       <h3 className="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-tight">
@@ -1292,16 +1337,16 @@ export default function BusanItinerariesView({
               href="https://www.reddit.com/r/BusanTravelTips/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col sm:flex-row items-center justify-between gap-3 p-4 sm:px-6 sm:py-4 bg-[#FFF2EE] border-2 border-slate-900 rounded-2xl shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 cursor-pointer text-left"
+              className="group flex flex-col sm:flex-row items-center justify-between gap-3 p-4 sm:px-6 sm:py-4 bg-white border-2 border-slate-900 rounded-2xl shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 cursor-pointer text-left"
             >
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-[#ff4500] border-2 border-slate-900 flex items-center justify-center text-white shadow-[1.5px_1.5px_0px_0px_rgba(15,23,42,1)] shrink-0 group-hover:scale-105 transition-transform">
+                <div className="w-11 h-11 rounded-full bg-[#004481] border-2 border-slate-900 flex items-center justify-center text-white shadow-[1.5px_1.5px_0px_0px_rgba(15,23,42,1)] shrink-0 group-hover:scale-105 transition-transform">
                   <MessageSquare className="w-5.5 h-5.5 stroke-[2.5]" />
                 </div>
                 <div className="space-y-0.5">
                   <h4 className="text-sm sm:text-base font-black text-slate-900 flex items-center gap-2 leading-none">
                     <span>{language === 'KR' ? '실시간 부산 여행 팁 커뮤니티' : 'Live Busan Travel Tips & Q&A'}</span>
-                    <span className="text-[9px] bg-red-100 text-[#ff4500] border border-[#ff4500]/30 font-black px-1.5 py-0.2 rounded-md uppercase tracking-wider select-none shrink-0">Reddit</span>
+                    <span className="text-[9px] bg-slate-100 text-slate-700 border border-slate-200 font-black px-1.5 py-0.2 rounded-md uppercase tracking-wider select-none shrink-0">Reddit</span>
                   </h4>
                   <p className="text-[11px] text-slate-600 font-semibold leading-relaxed">
                     {language === 'KR'
@@ -1310,7 +1355,7 @@ export default function BusanItinerariesView({
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-1 bg-[#ff4500] hover:bg-[#e03d00] text-white border-2 border-slate-900 text-xs font-black px-3.5 py-2 rounded-xl transition-all self-stretch sm:self-center justify-center shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] whitespace-nowrap">
+              <div className="flex items-center gap-1 bg-[#004481] hover:bg-[#003566] text-white border-2 border-slate-900 text-xs font-black px-3.5 py-2 rounded-xl transition-all self-stretch sm:self-center justify-center shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] whitespace-nowrap">
                 <span>{language === 'KR' ? '레딧 바로가기' : 'Explore Reddit'}</span>
                 <span className="text-xs font-black">➔</span>
               </div>
@@ -1553,8 +1598,9 @@ export default function BusanItinerariesView({
                                   </button>
                                 </div>
                               )}
+                            </div>
 
-                              {/* Local Pro-Tip Callout Box */}
+                            {/* Local Pro-Tip Callout Box */}
                               {(item.tipKo || item.tipEn) && (
                                 <div className={`p-3 rounded-xl border ${regionBgColor} text-[11px] sm:text-xs flex items-start gap-2 mt-2 shadow-[0_1px_3px_rgba(0,0,0,0.01)]`}>
                                   <Sparkles className="w-4 h-4 text-amber-500 shrink-0 mt-0.5 animate-pulse" />
@@ -1569,50 +1615,49 @@ export default function BusanItinerariesView({
                                 </div>
                               )}
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
                       </div>
                     );
                   })}
                 </div>
               </div>
-          ) : (
-            <div className="bg-white p-3.5 sm:p-7 rounded-2xl sm:rounded-3xl border border-slate-100 shadow-[0_4px_22px_rgba(0,0,0,0.015)] text-left space-y-4 sm:space-y-6 animate-fade-in">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
-                <div className="space-y-0.5">
-                  <h3 className="text-sm sm:text-lg font-extrabold text-slate-800 flex items-center gap-1.5">
-                    <span className="text-lg sm:text-xl">🗺️</span>
-                    <span>{language === 'KR' ? '부산 권역별 가이드 지도 (동·서·남·북)' : 'Busan Regional Guide Map (East·West·South·North)'}</span>
-                  </h3>
-                  <p className="text-[11px] sm:text-xs text-slate-400 font-semibold leading-normal">
-                    {language === 'KR'
-                      ? '지도 주위의 동부/서부/남부/북부 버튼을 누르면, 해당 권역의 대표 명소와 맛집을 바로 확인하실 수 있습니다.'
-                      : 'Click on East/West/South/North buttons to explore top local spots and restaurants curated by locals.'}
-                  </p>
+            ) : (
+              <div className="bg-white p-3.5 sm:p-7 rounded-2xl sm:rounded-3xl border border-slate-100 shadow-[0_4px_22px_rgba(0,0,0,0.015)] text-left space-y-4 sm:space-y-6 animate-fade-in">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                  <div className="space-y-0.5">
+                    <h3 className="text-sm sm:text-lg font-extrabold text-slate-800 flex items-center gap-1.5">
+                      <span className="text-lg sm:text-xl">🗺️</span>
+                      <span>{language === 'KR' ? '부산 권역별 가이드 지도 (동·서·남·북)' : 'Busan Regional Guide Map (East·West·South·North)'}</span>
+                    </h3>
+                    <p className="text-[11px] sm:text-xs text-slate-400 font-semibold leading-normal">
+                      {language === 'KR'
+                        ? '지도 주위의 동부/서부/남부/북부 버튼을 누르면, 해당 권역의 대표 명소와 맛집을 바로 확인하실 수 있습니다.'
+                        : 'Click on East/West/South/North buttons to explore top local spots and restaurants curated by locals.'}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setMapModalOpen(true)}
+                    className="self-start sm:self-center flex items-center gap-1 text-[10px] sm:text-xs font-black text-[#004481] bg-blue-50/80 hover:bg-blue-100 active:scale-95 px-3 py-2 rounded-xl transition-all cursor-pointer border border-blue-100/50 shrink-0"
+                  >
+                    🔍 {language === 'KR' ? '지도 크게 보기' : 'Enlarge Map'}
+                  </button>
                 </div>
-                <button
-                  onClick={() => setMapModalOpen(true)}
-                  className="self-start sm:self-center flex items-center gap-1 text-[10px] sm:text-xs font-black text-[#004481] bg-blue-50/80 hover:bg-blue-100 active:scale-95 px-3 py-2 rounded-xl transition-all cursor-pointer border border-blue-100/50 shrink-0"
-                >
-                  🔍 {language === 'KR' ? '지도 크게 보기' : 'Enlarge Map'}
-                </button>
-              </div>
 
-              {/* Large Centered Interactive Map */}
-              <div className="space-y-6">
-                {/* Map Container */}
-                <div 
-                  className="relative aspect-[3/2] w-full max-w-3xl mx-auto rounded-3xl overflow-hidden border border-slate-150/70 shadow-[0_4px_20px_rgba(0,0,0,0.02)] bg-slate-50 group"
-                >
-                  <img 
-                    src="/images/busan_wide_map_1782270122755.jpg"
-                    alt="Busan Travel Map Illustration"
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover transition-transform duration-1000 ease-out"
-                  />
+                {/* Large Centered Interactive Map */}
+                <div className="space-y-6">
+                  {/* Map Container */}
+                  <div 
+                    className="relative aspect-[3/2] w-full max-w-3xl mx-auto rounded-3xl overflow-hidden border border-slate-150/70 shadow-[0_4px_20px_rgba(0,0,0,0.02)] bg-slate-50 group"
+                  >
+                    <img 
+                      src="/images/busan_wide_map_1782270122755.jpg"
+                      alt="Busan Travel Map Illustration"
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover transition-transform duration-1000 ease-out"
+                    />
 
-                  {/* Interactive badges overlaying the map representing East, West, South, North */}
+                    {/* Interactive badges overlaying the map representing East, West, South, North */}
                   <div className="absolute inset-0 p-4 hidden sm:flex flex-col justify-between z-10 pointer-events-none">
                     {/* Top: North */}
                     <div className="flex justify-center pt-2">
@@ -1788,266 +1833,194 @@ export default function BusanItinerariesView({
             </div>
           )}
 
-          {/* QUIZ SECTION (TEST) */}
-          {!quizActive ? (
-            <div className="bg-gradient-to-br from-[#004481]/5 via-sky-50/20 to-white p-6 sm:p-8 rounded-3xl border border-blue-100/70 shadow-[0_4px_18px_rgba(0,68,129,0.02)] flex flex-col md:flex-row items-start md:items-center justify-between gap-5 transition-all hover:shadow-[0_8px_30px_rgba(0,68,129,0.05)] duration-300">
-              <div className="space-y-1.5 text-left flex-1">
-                <div className="inline-flex items-center gap-1.5 bg-[#004481]/5 text-[#004481] px-3 py-1 rounded-full text-[10.5px] font-black uppercase tracking-wider">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
-                  <span>{language === 'KR' ? '여행 성향 코스 테스트' : 'Travel Style Quiz'}</span>
-                </div>
-                <h3 className="text-lg sm:text-xl font-extrabold text-[#004481] leading-tight">
-                  {language === 'KR' ? '나에게 딱 맞는 부산 여행 코스 찾기 🧭' : 'Find Your Perfect Busan Match 🧭'}
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
-                  {language === 'KR'
-                    ? '간단한 7가지 질문을 통해 나의 여행 스타일을 확인하고, 나에게 가장 완벽한 1박 2일 부산 여행 코스를 찾아보세요!'
-                    : 'Take a quick 7-question checklist to diagnostic your genuine travel style and retrieve the perfect 1N2D itinerary!'}
-                </p>
-              </div>
-              <button
-                onClick={() => {
-                  setQuizActive(true);
-                  setQuizStep(1);
-                  setAnswers([]);
-                }}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-[#004481] hover:bg-[#003366] active:scale-95 text-white font-extrabold text-xs sm:text-sm transition-all shadow-[0_4px_12px_rgba(0,68,129,0.15)] hover:shadow-[0_6px_20px_rgba(0,68,129,0.25)] cursor-pointer shrink-0"
-              >
-                <span>🚀 {language === 'KR' ? '나의 추천 코스 진단 시작' : 'Start Preferences Quiz'}</span>
-              </button>
-            </div>
-          ) : (
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.03)] space-y-6 animate-fade-in relative overflow-hidden">
-              {/* Quiz Header with progress bar & close button */}
-              <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-black text-[#004481] bg-blue-50 px-3 py-1.5 rounded-xl whitespace-nowrap">
-                    {quizStep <= quizQuestions.length 
-                      ? `${language === 'KR' ? '질문' : 'Question'} ${quizStep} / ${quizQuestions.length}`
-                      : (language === 'KR' ? '분석 완료' : 'Analysis Complete')
-                    }
-                  </span>
-                  {quizStep <= quizQuestions.length && (
-                    <div className="w-24 sm:w-36 bg-slate-100 h-2 rounded-full overflow-hidden shrink-0">
-                      <div 
-                        className="bg-[#004481] h-full transition-all duration-300"
-                        style={{ width: `${(quizStep / quizQuestions.length) * 100}%` }}
-                      />
-                    </div>
-                  )}
+            {/* QUIZ SECTION (TEST) */}
+            {!quizActive ? (
+              <div className="bg-gradient-to-br from-[#004481]/5 via-sky-50/20 to-white p-6 sm:p-8 rounded-3xl border border-blue-100/70 shadow-[0_4px_18px_rgba(0,68,129,0.02)] flex flex-col md:flex-row items-start md:items-center justify-between gap-5 transition-all hover:shadow-[0_8px_30px_rgba(0,68,129,0.05)] duration-300">
+                <div className="space-y-1.5 text-left flex-1">
+                  <div className="inline-flex items-center gap-1.5 bg-[#004481]/5 text-[#004481] px-3 py-1 rounded-full text-[10.5px] font-black uppercase tracking-wider">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
+                    <span>{language === 'KR' ? '여행 성향 코스 테스트' : 'Travel Style Quiz'}</span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-extrabold text-[#004481] leading-tight">
+                    {language === 'KR' ? '나에게 딱 맞는 부산 여행 코스 찾기 🧭' : 'Find Your Perfect Busan Match 🧭'}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
+                    {language === 'KR'
+                      ? '간단한 7가지 질문을 통해 나의 여행 스타일을 확인하고, 나에게 가장 완벽한 1박 2일 부산 여행 코스를 찾아보세요!'
+                      : 'Take a quick 7-question checklist to diagnostic your genuine travel style and retrieve the perfect 1N2D itinerary!'}
+                  </p>
                 </div>
                 <button
-                  onClick={resetQuiz}
-                  className="px-3 py-1.5 hover:bg-slate-50 text-slate-400 hover:text-slate-600 rounded-xl transition-all cursor-pointer text-xs font-bold border border-slate-100"
+                  onClick={() => {
+                    setQuizActive(true);
+                    setQuizStep(1);
+                    setAnswers([]);
+                  }}
+                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-[#004481] hover:bg-[#003366] active:scale-95 text-white font-extrabold text-xs sm:text-sm transition-all shadow-[0_4px_12px_rgba(0,68,129,0.15)] hover:shadow-[0_6px_20px_rgba(0,68,129,0.25)] cursor-pointer shrink-0"
                 >
-                  {language === 'KR' ? '종료하기' : 'Exit Test'}
+                  <span>🚀 {language === 'KR' ? '나의 추천 코스 진단 시작' : 'Start Preferences Quiz'}</span>
                 </button>
               </div>
-
-              {/* Questions Phase */}
-              {quizStep <= quizQuestions.length && quizStep > 0 ? (
-                <div className="space-y-6 text-left animate-fade-in">
-                  <h3 className="text-sm sm:text-base font-black text-slate-800 leading-relaxed">
-                    {language === 'KR' ? quizQuestions[quizStep-1].questionKo : quizQuestions[quizStep-1].questionEn}
-                  </h3>
-
-                  <div className="grid grid-cols-1 gap-3.5">
-                    {quizQuestions[quizStep-1].options.map((opt, oIdx) => (
-                      <button
-                        key={oIdx}
-                        onClick={() => handleAnswerSelect(opt.type)}
-                        className="w-full text-left p-4 sm:p-5 rounded-2xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50/[0.15] cursor-pointer transition-all duration-200 flex items-center gap-4 group transform hover:-translate-y-0.5 active:scale-[0.98]"
-                      >
-                        <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-sm font-black text-[#004481] group-hover:bg-[#004481] group-hover:text-white transition-all shrink-0">
-                          {opt.type}
-                        </div>
-                        <span className="text-2xl filter drop-shadow-[0_1px_1px_rgba(0,0,0,0.05)] select-none shrink-0 transition-transform group-hover:scale-110 duration-200">
-                          {opt.icon}
-                        </span>
-                        <span className="text-xs sm:text-sm font-semibold text-slate-700 leading-relaxed text-left flex-1">
-                          {language === 'KR' ? opt.textKo : opt.textEn}
-                        </span>
-                      </button>
-                    ))}
+            ) : (
+              <div className="bg-white p-6 sm:p-10 rounded-4xl border border-slate-150 shadow-md space-y-6 animate-fade-in relative overflow-hidden text-left" id="active-quiz-container">
+                <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-5">
+                  <div className="flex items-center gap-3">
+                    <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-blue-50 text-[#004481] font-sans font-black text-xs border border-blue-100 shadow-3xs">
+                      Q
+                    </span>
+                    <div className="text-left">
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block font-mono">TEST PROGRESS / 진단 진행도</span>
+                      <span className="text-xs font-black text-slate-700">
+                        {quizStep === 8 ? (language === 'KR' ? '진단 완료' : 'Completed') : `${quizStep} / ${quizQuestions.length}`}
+                      </span>
+                    </div>
                   </div>
+                  <button 
+                    onClick={resetQuiz} 
+                    className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all cursor-pointer"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
-              ) : (
-                // RESULTS PHASE
-                <div className="space-y-6 text-left py-2 animate-fade-in">
-                  {(() => {
+
+                {quizStep < 8 && (
+                  <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                    <div 
+                      className="bg-[#004481] h-full transition-all duration-300 rounded-full"
+                      style={{ width: `${(quizStep / quizQuestions.length) * 100}%` }}
+                    />
+                  </div>
+                )}
+
+                {quizStep === 8 ? (
+                  (() => {
                     const resultType = getQuizResultType();
-                    const details = getResultDetails(resultType);
-                    const countA = answers.filter(a => a === 'A').length;
-                    const countB = answers.filter(a => a === 'B').length;
-
+                    const result = getResultDetails(resultType);
                     return (
-                      <div className="space-y-6 max-w-3xl mx-auto">
-                        <div className="text-center space-y-4">
-                          <h4 className="text-xl sm:text-2xl font-black text-[#004481] tracking-tight leading-snug mt-2 text-center">
-                            {language === 'KR' ? details?.titleKo : details?.titleEn}
-                          </h4>
-                          <p className="text-xs sm:text-sm text-slate-500 font-extrabold text-center max-w-xl mx-auto leading-relaxed">
-                            {language === 'KR' ? details?.subTitleKo : details?.subTitleEn}
-                          </p>
-                        </div>
-
-                        {/* Course Schedule Map */}
-                        <div className="bg-slate-50 rounded-2xl p-5 sm:p-6 border border-slate-150 space-y-4 text-left">
-                          <h5 className="text-xs font-black uppercase text-[#004481] bg-blue-50 px-3 py-1.5 rounded-xl inline-block">
-                            📍 {language === 'KR' ? '추천 1박 2일 코스일정' : 'Recommended 1N2D Itinerary'}
-                          </h5>
-                          <div className="space-y-4 pl-1">
-                            {(language === 'KR' ? details?.courseKo : details?.courseEn)?.map((item, idx) => (
-                              <div key={idx} className="flex gap-3.5 items-start">
-                                <div className="w-6 h-6 rounded-full bg-[#004481] text-white flex items-center justify-center text-xs font-black shrink-0 mt-0.5">
-                                  {idx + 1}
-                                </div>
-                                <p className="text-xs sm:text-sm text-slate-700 font-semibold leading-relaxed">
-                                  {item}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Hotspots & Food side-by-side on desktop */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div className="bg-slate-50 rounded-2xl p-5 border border-slate-150 space-y-2">
-                            <div className="text-xs font-black text-slate-800 flex items-center gap-1.5">
-                              <span>🎯</span>
-                              <span>{language === 'KR' ? '추천 핫플레이스' : 'Recommended Hotspots'}</span>
-                            </div>
-                            <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
-                              {language === 'KR' ? details?.hotspotsKo : details?.hotspotsEn}
-                            </p>
-                          </div>
-
-                          <div className="bg-slate-50 rounded-2xl p-5 border border-slate-150 space-y-2">
-                            <div className="text-xs font-black text-slate-800 flex-[#1] flex items-center gap-1.5">
-                              <span>🍴</span>
-                              <span>{language === 'KR' ? '추천 로컬 푸드' : 'Recommended Local Cuisines'}</span>
-                            </div>
-                            <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
-                              {language === 'KR' ? details?.foodKo : details?.foodEn}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Tip Box */}
-                        <div className="bg-amber-50/70 p-5 rounded-2xl border border-amber-100 text-left relative mt-2">
-                          <span className="absolute -top-3 left-6 text-lg">💡</span>
-                          <div className="space-y-1">
-                            <span className="text-[10px] font-black text-amber-800 uppercase tracking-wide">
-                              {language === 'KR' ? '알아두면 유용한 현지 여행 꿀팁!' : 'USEFUL TRAVEL TIP!'}
+                      <div className="space-y-6 animate-fade-in text-left">
+                        <div className={`p-6 sm:p-8 rounded-3xl border ${result.bgClass} space-y-4`}>
+                          <div className="space-y-1.5">
+                            <span className={`inline-block text-[10px] font-black px-2.5 py-1 rounded-lg ${result.badgeColor} uppercase tracking-wider font-mono`}>
+                              {language === 'KR' ? '추천 성향 결과' : 'Your Travel Type'}
                             </span>
-                            <p className="text-xs sm:text-sm text-amber-900/90 leading-relaxed font-semibold">
-                              {language === 'KR' ? details?.tipKo : details?.tipEn}
-                            </p>
+                            <h4 className="text-lg sm:text-xl font-heading font-black">{language === 'KR' ? result.titleKo : result.titleEn}</h4>
+                            <p className="text-xs sm:text-sm font-semibold opacity-80 italic">{language === 'KR' ? result.subTitleKo : result.subTitleEn}</p>
+                          </div>
+
+                          <div className="pt-4 border-t border-black/10 space-y-3">
+                            <span className="text-[10px] font-black opacity-60 uppercase tracking-wider block font-mono">{language === 'KR' ? '추천 1박 2일 코스 요약' : 'RECOMMENDED 1N2D TIMELINE'}</span>
+                            <div className="space-y-2 text-xs sm:text-sm font-semibold">
+                              {(language === 'KR' ? result.courseKo : result.courseEn).map((line, idx) => (
+                                <p key={idx} className="flex gap-2">
+                                  <span className="text-[#004481] font-black shrink-0">➔</span>
+                                  <span>{line}</span>
+                                </p>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-black/10 text-xs sm:text-sm">
+                            <div className="space-y-1">
+                              <span className="text-[10px] font-black opacity-60 uppercase tracking-wider block font-mono">{language === 'KR' ? '추천 핵심 명소' : 'KEY HOTSPOTS'}</span>
+                              <p className="font-semibold text-slate-700">{language === 'KR' ? result.hotspotsKo : result.hotspotsEn}</p>
+                            </div>
+                            <div className="space-y-1">
+                              <span className="text-[10px] font-black opacity-60 uppercase tracking-wider block font-mono">{language === 'KR' ? '추천 부산 먹거리' : 'RECOMMENDED FOOD'}</span>
+                              <p className="font-semibold text-slate-700">{language === 'KR' ? result.foodKo : result.foodEn}</p>
+                            </div>
+                          </div>
+
+                          <div className="pt-4 border-t border-black/10 space-y-1.5 text-xs">
+                            <span className="text-[10px] font-black opacity-60 uppercase tracking-wider block font-mono">💡 {language === 'KR' ? '로컬 가이드 꿀팁' : 'LOCAL TRAVEL TIP'}</span>
+                            <p className="leading-relaxed font-semibold">{language === 'KR' ? result.tipKo : result.tipEn}</p>
                           </div>
                         </div>
 
-                        <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+                        <div className="flex flex-col sm:flex-row gap-3">
+                          <button
+                            onClick={() => {
+                              if (resultType === 'type1') {
+                                setActiveCategory('1NIGHT');
+                              } else if (resultType === 'type2') {
+                                setActiveCategory('HISTORY');
+                              } else {
+                                setActiveCategory('3NIGHTS');
+                              }
+                              setQuizActive(false);
+                            }}
+                            className="flex-1 py-3.5 px-6 rounded-2xl bg-[#004481] hover:bg-[#003366] text-white text-xs sm:text-sm font-black transition-all cursor-pointer shadow-md text-center"
+                          >
+                            {language === 'KR' ? '이 추천 코스의 무장애 동선 상세보기 ➔' : 'View Step-Free Itinerary Details ➔'}
+                          </button>
                           <button
                             onClick={resetQuiz}
-                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-[#004481] hover:bg-[#003366] active:scale-95 text-white font-black text-xs sm:text-sm transition-all shadow-[0_4px_12px_rgba(0,68,129,0.15)] cursor-pointer"
+                            className="py-3.5 px-6 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-black transition-all cursor-pointer"
                           >
-                            <span>🔄 {language === 'KR' ? '테스트 다시 하기' : 'Retake Test'}</span>
+                            {language === 'KR' ? '테스트 다시하기 🔄' : 'Retake Quiz 🔄'}
                           </button>
                         </div>
                       </div>
                     );
-                  })()}
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      ) : (
-        // Mode 2: DETAILED ITINERARY PAGE FOR SELECTED CATEGORY - "누르면 그 페이지로 넘어가게 만들어줘"
-        <div className="space-y-8 animate-fade-in text-left">
-          {/* Back Navigation Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-            <button
-              onClick={() => {
-                if (onSelectCategory) {
-                  onSelectCategory(null);
-                } else {
-                  setActiveCategory(null);
-                }
-              }}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 active:scale-95 text-slate-700 font-bold border border-slate-200 text-xs sm:text-sm cursor-pointer transition-all hover:border-slate-300"
-            >
-              <ArrowLeft className="w-4 h-4 text-slate-600" />
-              <span>{language === 'KR' ? '전체 카테고리로 돌아가기' : 'Back to All Categories'}</span>
-            </button>
+                  })()
+                ) : (
+                  (() => {
+                    const q = quizQuestions[quizStep - 1];
+                    return (
+                      <div className="space-y-6 animate-fade-in text-left">
+                        <div className="space-y-2">
+                          <span className="text-[10px] font-black text-[#004481] uppercase tracking-wider block font-mono">QUESTION 0{quizStep}</span>
+                          <h4 className="text-base sm:text-lg font-black text-slate-800 leading-snug">
+                            {language === 'KR' ? q.questionKo : q.questionEn}
+                          </h4>
+                        </div>
 
-            {/* Current Active Category indicator */}
-            <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-slate-100 shadow-sm">
-              {getCategoryLucideIcon(activeCategoryConfig?.id as CategoryType, 'w-4 h-4 text-slate-700')}
-              <span className="text-sm font-black text-slate-800">
-                {language === 'KR' ? activeCategoryConfig?.titleKo : activeCategoryConfig?.titleEn}  
-              </span>
-            </div>
+                        <div className="grid grid-cols-1 gap-4">
+                          {q.options.map((opt, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => handleAnswerSelect(opt.type)}
+                              className="p-5 rounded-2xl border border-slate-200 hover:border-[#004481] hover:bg-blue-50/[0.03] text-left transition-all active:scale-[0.99] cursor-pointer group flex items-start gap-4 shadow-3xs"
+                            >
+                              <span className="text-2xl shrink-0 p-1 bg-slate-50 group-hover:bg-blue-50 rounded-xl border border-slate-100 transition-colors">
+                                {opt.icon}
+                              </span>
+                              <div className="space-y-1 pt-1">
+                                <span className="text-[9.5px] font-black text-[#004481] tracking-wider block font-mono">OPTION {opt.type}</span>
+                                <p className="text-xs sm:text-sm font-extrabold text-slate-700 leading-normal group-hover:text-slate-900 transition-colors">
+                                  {language === 'KR' ? opt.textKo : opt.textEn}
+                                </p>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+
+                        <div className="flex items-center justify-between pt-4 border-t border-slate-100 text-xs font-black">
+                          <button
+                            onClick={() => {
+                              if (quizStep > 1) {
+                                  setQuizStep(prev => prev - 1);
+                                  setAnswers(prev => prev.slice(0, -1));
+                              } else {
+                                resetQuiz();
+                              }
+                            }}
+                            className="px-4 py-2 rounded-xl border border-slate-200 text-slate-500 hover:text-slate-700 hover:bg-slate-50 transition-all cursor-pointer"
+                          >
+                            {language === 'KR' ? '이전 단계' : 'Back'}
+                          </button>
+                          <span className="text-slate-400 font-mono">
+                            {quizStep} / {quizQuestions.length}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })()
+                )}
+              </div>
+            )}
           </div>
-
-          {/* Quick Selection Pills on Top to switch easily */}
-          <div className="relative group/pills-container -mx-4 px-4 sm:mx-0 sm:px-0">
-            {/* Left Scroll Button */}
-            <button 
-              onClick={() => scrollContainer(quickPillsRef, 'left')}
-              className="absolute left-1 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full bg-white/95 border border-slate-200/80 shadow-md flex items-center justify-center text-slate-600 hover:text-slate-800 hover:bg-slate-50 transition-all opacity-0 group-hover/pills-container:opacity-100 sm:opacity-100 focus:outline-none"
-              aria-label="Scroll Left"
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-            </button>
-
-            <div 
-              ref={quickPillsRef}
-              className="flex flex-row overflow-x-auto gap-1.5 pb-2.5 border-b border-slate-100 max-w-full px-6 sm:px-0" 
-              id="quick-categories-pills"
-              style={{
-                WebkitOverflowScrolling: 'touch',
-              }}
-            >
-              {categoriesConfig.map((cat) => {
-                const isSelected = activeCategory === cat.id;
-                return (
-                  <button
-                    key={cat.id}
-                    onClick={() => {
-                      if (onSelectCategory) {
-                        onSelectCategory(cat.id);
-                      } else {
-                        setActiveCategory(cat.id);
-                      }
-                    }}
-                    className={`px-3 py-1.5 rounded-xl border text-[11px] sm:text-xs font-extrabold transition-all duration-200 cursor-pointer flex items-center gap-1.5 shrink-0 ${
-                      isSelected
-                        ? 'bg-[#004481] text-white border-[#004481] shadow-md'
-                        : 'bg-white hover:bg-slate-50 text-slate-500 border-slate-200/75'
-                    }`}
-                  >
-                    {getCategoryLucideIcon(cat.id, `w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-white' : 'text-slate-500'}`)}
-                    <span>{language === 'KR' ? cat.titleKo : cat.titleEn}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Right Scroll Button */}
-            <button 
-              onClick={() => scrollContainer(quickPillsRef, 'right')}
-              className="absolute right-1 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full bg-white/95 border border-slate-200/80 shadow-md flex items-center justify-center text-slate-600 hover:text-slate-800 hover:bg-slate-50 transition-all opacity-0 group-hover/pills-container:opacity-100 sm:opacity-100 focus:outline-none"
-              aria-label="Scroll Right"
-            >
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-          {/* ========================================================= */}
-          {/* DYNAMIC RENDERING ENGINE FOR BESPOKE INDEPENDENT PAGES    */}
-          {/* ========================================================= */}
-          {(() => {
+        ) : (
+          (() => {
             const course = filteredCourses[0]; 
             if (!course) {
               return (
@@ -2059,6 +2032,538 @@ export default function BusanItinerariesView({
                 </div>
               );
             }
+
+            const getStepIllustrationType = (titleKo: string, cat: string): 'temple' | 'park' | 'food' | 'cafe' | 'sea' | 'transit' | 'village' | 'history' | 'culture' | 'default' => {
+              const normalized = titleKo.toLowerCase();
+              if (normalized.includes('절') || normalized.includes('범어사') || normalized.includes('석불사') || normalized.includes('사찰') || normalized.includes('용궁사')) return 'temple';
+              if (normalized.includes('공원') || normalized.includes('대숲') || normalized.includes('생태') || normalized.includes('유원지') || normalized.includes('수목원') || normalized.includes('숲')) return 'park';
+              if (normalized.includes('식당') || normalized.includes('음식') || normalized.includes('국밥') || normalized.includes('파전') || normalized.includes('불고기') || normalized.includes('시장') || normalized.includes('먹거리') || normalized.includes('식도락') || normalized.includes('밀면') || normalized.includes('갈비') || normalized.includes('미식') || normalized.includes('낙지')) return 'food';
+              if (normalized.includes('카페') || normalized.includes('커피') || normalized.includes('디저트')) return 'cafe';
+              if (normalized.includes('바다') || normalized.includes('해변') || normalized.includes('해운대') || normalized.includes('광안리') || normalized.includes('송도') || normalized.includes('해상') || normalized.includes('수변') || normalized.includes('스카이워크') || normalized.includes('전망대') || normalized.includes('포구') || normalized.includes('선착장')) return 'sea';
+              if (normalized.includes('열차') || normalized.includes('철도') || normalized.includes('모노레일') || normalized.includes('지하철') || normalized.includes('정거장') || normalized.includes('리프트') || normalized.includes('케이블카') || normalized.includes('패스')) return 'transit';
+              if (normalized.includes('마을') || normalized.includes('레고') || normalized.includes('감천') || normalized.includes('동네') || normalized.includes('주택') || normalized.includes('흰여울')) return 'village';
+              if (normalized.includes('역사') || normalized.includes('기념관') || normalized.includes('박물관') || normalized.includes('피난') || normalized.includes('임시수도') || normalized.includes('문화재')) return 'history';
+              if (normalized.includes('문화') || normalized.includes('회관') || normalized.includes('전시') || normalized.includes('미술관') || normalized.includes('공연')) return 'culture';
+              
+              if (cat === 'GOURMET') return 'food';
+              if (cat === 'HISTORY') return 'history';
+              if (cat === '1NIGHT') return 'sea';
+              if (cat === '3NIGHTS') return 'park';
+              return 'default';
+            };
+
+            // Unified premium travel flyer layout mapping for each category
+            const themeMap: Record<CategoryType, {
+              gradient: string;
+              primaryBg: string;
+              primaryText: string;
+              borderAccent: string;
+              sealText: string;
+              sealColor: string;
+              illustrationType: 'temple' | 'park' | 'food' | 'cafe' | 'sea' | 'transit' | 'village' | 'history' | 'culture' | 'default';
+              headerBg: string;
+              accentBg: string;
+              accentText: string;
+              accentBorder: string;
+            }> = {
+              DAY: {
+                gradient: "from-[#004481] via-[#005fa8] to-[#012521]",
+                primaryBg: "bg-emerald-50/40",
+                primaryText: "text-emerald-950",
+                borderAccent: "border-emerald-200",
+                sealText: language === 'KR' ? "★ 싱그러운 하루 특선" : "★ ECO GREEN DETOX",
+                sealColor: "bg-emerald-400 text-emerald-950",
+                illustrationType: "park",
+                headerBg: "bg-emerald-50",
+                accentBg: "bg-emerald-50",
+                accentText: "text-emerald-800",
+                accentBorder: "border-emerald-200",
+              },
+              '1NIGHT': {
+                gradient: "from-[#0c0f2b] via-[#161a4f] to-[#31255c]",
+                primaryBg: "bg-indigo-50/40",
+                primaryText: "text-indigo-950",
+                borderAccent: "border-indigo-200",
+                sealText: language === 'KR' ? "★ 로맨틱 야경 특선" : "★ NIGHT HORIZON SPECIAL",
+                sealColor: "bg-violet-400 text-white",
+                illustrationType: "sea",
+                headerBg: "bg-indigo-50",
+                accentBg: "bg-violet-50/60",
+                accentText: "text-violet-800",
+                accentBorder: "border-violet-200/50",
+              },
+              '2NIGHTS': {
+                gradient: "from-[#a13905] via-[#cf4f0a] to-[#7c1432]",
+                primaryBg: "bg-amber-50/40",
+                primaryText: "text-amber-950",
+                borderAccent: "border-amber-200",
+                sealText: language === 'KR' ? "★ 감성골목 2박 특선" : "★ TRENDY ALLEY EXPLORER",
+                sealColor: "bg-amber-400 text-amber-950",
+                illustrationType: "village",
+                headerBg: "bg-amber-50",
+                accentBg: "bg-amber-500/10",
+                accentText: "text-amber-900",
+                accentBorder: "border-amber-200/50",
+              },
+              '3NIGHTS': {
+                gradient: "from-[#023e20] via-[#056334] to-[#012521]",
+                primaryBg: "bg-emerald-50/40",
+                primaryText: "text-emerald-950",
+                borderAccent: "border-emerald-200",
+                sealText: language === 'KR' ? "★ 자연사색 3박 특선" : "★ BOTANICAL ESCAPE",
+                sealColor: "bg-emerald-400 text-slate-900",
+                illustrationType: "park",
+                headerBg: "bg-emerald-50",
+                accentBg: "bg-emerald-50",
+                accentText: "text-emerald-800",
+                accentBorder: "border-emerald-200",
+              },
+              '4NIGHTS': {
+                gradient: "from-[#003875] via-[#0058b5] to-[#041a38]",
+                primaryBg: "bg-sky-50/40",
+                primaryText: "text-sky-950",
+                borderAccent: "border-sky-200",
+                sealText: language === 'KR' ? "★ 센텀마스터 4박 특선" : "★ DEEP STAY CATALOG",
+                sealColor: "bg-sky-400 text-slate-900",
+                illustrationType: "transit",
+                headerBg: "bg-sky-50",
+                accentBg: "bg-sky-50",
+                accentText: "text-sky-850",
+                accentBorder: "border-sky-200",
+              },
+              GOURMET: {
+                gradient: "from-[#b5142a] via-[#e62e49] to-[#800515]",
+                primaryBg: "bg-rose-50/40",
+                primaryText: "text-rose-950",
+                borderAccent: "border-rose-200",
+                sealText: language === 'KR' ? "★ 백년미식 백투백 특선" : "★ 100-YEAR CULINARY MAP",
+                sealColor: "bg-rose-400 text-slate-900",
+                illustrationType: "food",
+                headerBg: "bg-rose-50",
+                accentBg: "bg-rose-500/[0.04]",
+                accentText: "text-rose-800",
+                accentBorder: "border-rose-200/60",
+              },
+              HISTORY: {
+                gradient: "from-[#4a3f35] via-[#635548] to-[#29221b]",
+                primaryBg: "bg-stone-100/50",
+                primaryText: "text-stone-950",
+                borderAccent: "border-stone-200",
+                sealText: language === 'KR' ? "★ 피란수도 역사 특선" : "★ HISTORIC MEMOIR TRAIL",
+                sealColor: "bg-amber-200 text-stone-900",
+                illustrationType: "history",
+                headerBg: "bg-stone-50",
+                accentBg: "bg-stone-50/70",
+                accentText: "text-amber-900",
+                accentBorder: "border-stone-200",
+              }
+            };
+
+            const targetCourse = activeCategory === 'DAY'
+              ? (filteredCourses[activeDayCourseIndex] || filteredCourses[0])
+              : filteredCourses[0];
+
+            const theme = themeMap[activeCategory as CategoryType] || themeMap['DAY'];
+
+            // Extract distinct days present in steps
+            const daysArray = Array.from(new Set(targetCourse.steps.map(step => {
+              const timeLower = step.time?.toLowerCase() || '';
+              if (timeLower.includes('day 1')) return 'Day 1';
+              if (timeLower.includes('day 2')) return 'Day 2';
+              if (timeLower.includes('day 3')) return 'Day 3';
+              if (timeLower.includes('day 4')) return 'Day 4';
+              if (timeLower.includes('day 5')) return 'Day 5';
+              return 'Day 1';
+            })));
+            daysArray.sort((a, b) => a.localeCompare(b));
+            if (daysArray.length === 0) daysArray.push('Day 1');
+
+            const getStepsForDay = (dayStr: string) => {
+              return targetCourse.steps.filter(step => {
+                const timeLower = step.time?.toLowerCase() || '';
+                if (dayStr === 'Day 1') {
+                  return timeLower.includes('day 1') || 
+                    (!timeLower.includes('day 2') && 
+                     !timeLower.includes('day 3') && 
+                     !timeLower.includes('day 4') && 
+                     !timeLower.includes('day 5'));
+                }
+                return timeLower.includes(dayStr.toLowerCase());
+              });
+            };
+
+            return (
+              <div className="space-y-8 animate-fade-in text-left">
+                {/* DAY Course Sub-Tab Selector (only for DAY category) */}
+                {activeCategory === 'DAY' && (
+                  <div className="bg-slate-50/85 p-1.5 rounded-2xl border border-slate-200/80 flex flex-col sm:flex-row gap-2 shadow-[inset_0_1px_3px_rgba(0,0,0,0.01)]">
+                    <button
+                      onClick={() => setActiveDayCourseIndex(0)}
+                      className={`flex-1 flex items-center justify-center gap-2.5 py-3 px-5 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer border ${
+                        activeDayCourseIndex === 0
+                          ? 'bg-[#004481] text-white shadow-md border-[#004481] transform scale-[1.01]'
+                          : 'bg-white hover:bg-slate-50 text-slate-500 border-slate-200/50'
+                      }`}
+                    >
+                      <ElegantIllustration type="history" size="sm" className={activeDayCourseIndex === 0 ? "text-white" : "text-slate-400"} />
+                      <span>{language === 'KR' ? '부산 중구 원도심 역사·미식' : 'Historic Jung-gu Alleys'}</span>
+                    </button>
+                    <button
+                      onClick={() => setActiveDayCourseIndex(1)}
+                      className={`flex-1 flex items-center justify-center gap-2.5 py-3 px-5 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer border ${
+                        activeDayCourseIndex === 1
+                          ? 'bg-[#004481] text-white shadow-md border-[#004481] transform scale-[1.01]'
+                          : 'bg-white hover:bg-slate-50 text-slate-500 border-slate-200/50'
+                      }`}
+                    >
+                      <ElegantIllustration type="park" size="sm" className={activeDayCourseIndex === 1 ? "text-white" : "text-slate-400"} />
+                      <span>{language === 'KR' ? '초록초록 디톡스 생태공원' : 'Green Eco Detox Park'}</span>
+                    </button>
+                  </div>
+                )}
+
+                {/* 1. PREMIUM TRAVEL FLYER HEADER BANNER */}
+                <div className={`relative bg-gradient-to-br ${theme.gradient} text-white p-8 sm:p-12 rounded-4xl border-4 border-white shadow-xl overflow-hidden`}>
+                  {/* Decorative grid pattern layout */}
+                  <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+                  
+                  {/* Decorative frame borders inside */}
+                  <div className="absolute inset-3 sm:inset-4 border border-white/20 rounded-3xl pointer-events-none"></div>
+                  
+                  {/* Blueprint crosshairs / Corner plus signs representing structural design */}
+                  <div className="absolute top-5 left-5 text-white/30 text-lg font-mono select-none">+</div>
+                  <div className="absolute top-5 right-5 text-white/30 text-lg font-mono select-none">+</div>
+                  <div className="absolute bottom-5 left-5 text-white/30 text-lg font-mono select-none">+</div>
+                  <div className="absolute bottom-5 right-5 text-white/30 text-lg font-mono select-none">+</div>
+
+                  {/* Elegant Top Seals */}
+                  <div className="flex flex-wrap items-center gap-3 mb-6 relative z-10">
+                    <span className={`${theme.sealColor} text-[10px] font-black tracking-widest uppercase px-4 py-2 rounded-lg shadow-sm border border-black/10 flex items-center gap-2 transform -rotate-1`}>
+                      <span>{theme.sealText}</span>
+                    </span>
+                    <span className="bg-white/15 backdrop-blur-md text-white text-[10px] font-bold px-3.5 py-1.5 rounded-lg border border-white/20 shadow-xs flex items-center gap-1.5">
+                      <Footprints className="w-3.5 h-3.5 shrink-0" />
+                      <span>{language === 'KR' ? '무장애 1등급 검증 코스' : 'Barrier-Free Grade 1 Approved'}</span>
+                    </span>
+                  </div>
+
+                  <div className="relative z-10 space-y-4 max-w-4xl">
+                    <h2 className="text-2xl sm:text-4xl font-black font-heading tracking-tight leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
+                      {language === 'KR' ? targetCourse.titleKo : targetCourse.titleEn}
+                    </h2>
+                    <p className="text-xs sm:text-base text-white/90 font-medium leading-relaxed drop-shadow-[0_1px_3px_rgba(0,0,0,0.15)]">
+                      {language === 'KR' ? targetCourse.subtitleKo : targetCourse.subtitleEn}
+                    </p>
+                  </div>
+
+                  {/* Dynamic side Illustration instead of floating stickers */}
+                  <div className="absolute right-6 bottom-6 opacity-10 hidden md:block scale-150 transform translate-x-4 translate-y-4 text-white">
+                    <ElegantIllustration type={theme.illustrationType} size="hero" />
+                  </div>
+                </div>
+
+                {/* 2. "어떤 패키지여행인가요?" Q&A INTRO CARD */}
+                <div className="bg-white p-6 sm:p-10 rounded-3xl border border-slate-150 shadow-sm relative overflow-hidden">
+                  {/* Floating light decorative category illustration */}
+                  <div className="absolute -top-6 -right-6 text-slate-100 opacity-20 select-none pointer-events-none scale-150 transform rotate-12">
+                    <ElegantIllustration type={theme.illustrationType} size="hero" />
+                  </div>
+
+                  <div className="flex flex-col md:flex-row items-center md:items-start gap-8 border-b border-slate-100 pb-8 mb-8">
+                    {/* Retro Illustrated Stamp with vector art */}
+                    <div className="flex flex-col items-center justify-center text-center p-4 w-32 h-32 rounded-full bg-slate-50 border-2 border-dashed border-[#004481]/20 shrink-0 shadow-xs relative">
+                      <ElegantIllustration type={theme.illustrationType} size="md" className="text-[#004481]" />
+                      <span className="text-[10px] font-black text-[#004481] mt-2 bg-blue-50/80 border border-blue-200/50 px-2.5 py-1 rounded-md whitespace-nowrap tracking-tight shadow-3xs">
+                        {language === 'KR' ? '안전 보장' : "Safe Way"}
+                      </span>
+                    </div>
+
+                    <div className="text-left space-y-3">
+                      <div className="inline-flex items-center gap-2 rounded-full bg-rose-50 border border-rose-100 px-4 py-1.5 text-[11px] font-black text-rose-600 tracking-wide">
+                        <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                        <span>{language === 'KR' ? 'Q. 어떤 여행 일정인가요?' : 'Q. What kind of tour is this?'}</span>
+                      </div>
+                      <h3 className="text-lg sm:text-xl font-black text-slate-800 leading-snug">
+                        {language === 'KR' 
+                          ? '가족 • 연인 • 부모님 모두가 평온하게 누리는 100% 검증된 무장애 힐링 안내서' 
+                          : 'A 100% verified step-free path designed meticulously for comfortable stays.'}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed font-sans">
+                        {language === 'KR'
+                          ? '부산의 푸른 비경은 보고 싶지만 가파른 지형이나 턱 높은 식당 때문에 혹시 걱정하셨나요? 이 패키지는 휠체어나 유모차가 단차 걱정 없이 부드럽게 진입할 수 있는 넓은 도로, 완만한 경사 우회 슬로프, 장애인 전용 엘리베이터 연계 및 안전 시설이 완벽히 검증된 명품 도보 노선입니다.'
+                          : 'Worried about steep hills, steps, or inaccessible facilities? Fret not! This masterpiece itinerary features fully paved coastal promenades, step-free store entries, public high-speed lifts, and accessible facilities.'}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Bullet badges using Lucide Icons for high-end feel */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                    <div className="bg-slate-50/60 p-5 rounded-2xl border border-slate-150/80 flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
+                        <Users className="w-5 h-5 text-[#004481]" />
+                      </div>
+                      <div>
+                        <p className="text-[11.5px] font-black text-[#004481]">{language === 'KR' ? '추천 대상' : 'Recommended For'}</p>
+                        <p className="text-xs text-slate-600 font-bold mt-1 leading-relaxed">
+                          {language === 'KR' ? '휠체어/유모차 이용객, 실버 세대 가족' : 'Wheelchairs, strollers, seniors, and active families'}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-50/60 p-5 rounded-2xl border border-slate-150/80 flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
+                        <Footprints className="w-5 h-5 text-emerald-700" />
+                      </div>
+                      <div>
+                        <p className="text-[11.5px] font-black text-emerald-800">{language === 'KR' ? '보행 난이도' : 'Walking Level'}</p>
+                        <p className="text-xs text-slate-600 font-bold mt-1 leading-relaxed">
+                          {language === 'KR' ? '계단 완전 배제, 완만하고 평탄한 포장로' : 'Zero staircases, fully paved wide roads'}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-50/60 p-5 rounded-2xl border border-slate-150/80 flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center shrink-0">
+                        <Building2 className="w-5 h-5 text-purple-700" />
+                      </div>
+                      <div>
+                        <p className="text-[11.5px] font-black text-purple-800">{language === 'KR' ? '편의 시설' : 'Infrastructure'}</p>
+                        <p className="text-xs text-slate-600 font-bold mt-1 leading-relaxed">
+                          {language === 'KR' ? '장애인 화장실 인접, 넓은 무단차 엘리베이터' : 'Accessible restroom networks, high-speed lifts'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. CORE MILESTONES CARD GRID with elegant vector illustrations */}
+                <div className="space-y-5">
+                  <div className="text-center space-y-1.5">
+                    <span className="bg-blue-50 text-[#004481] px-4 py-1.5 rounded-full text-[11px] font-black uppercase tracking-wider inline-block border border-blue-150">
+                      ★ {language === 'KR' ? '부산 코스 주요 경유지 일람' : 'Course Milestones At a Glance'}
+                    </span>
+                    <h3 className="text-base sm:text-xl font-black text-slate-800">
+                      {language === 'KR' ? '대표 명소를 동선 순서대로 만나보세요' : 'Explore Major Milestones in Chronological Order'}
+                    </h3>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2 justify-center">
+                    {targetCourse.steps.map((step, idx) => {
+                      const illType = getStepIllustrationType(step.titleKo, activeCategory);
+
+                      return (
+                        <div 
+                          key={idx}
+                          className="group flex flex-col items-center bg-white p-6 rounded-3xl border border-slate-150 hover:border-blue-400 transition-all duration-300 shadow-sm hover:shadow-md text-center cursor-pointer relative overflow-hidden"
+                        >
+                          {/* Inner double border decorative line */}
+                          <div className="absolute inset-1.5 border border-slate-100 rounded-2xl pointer-events-none group-hover:border-blue-100 transition-colors"></div>
+
+                          {/* Illustration shape mimicking the poster's products */}
+                          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-slate-50/80 border border-slate-150 group-hover:border-blue-200 group-hover:bg-blue-50/30 transition-all flex items-center justify-center shadow-3xs relative shrink-0 text-slate-600 group-hover:text-[#004481]">
+                            <div className="scale-90 group-hover:scale-100 transition-transform duration-300">
+                              <ElegantIllustration type={illType} size="md" />
+                            </div>
+                            {/* Tiny badge with step number */}
+                            <span className="absolute -bottom-1 right-1 w-6 h-6 rounded-full bg-[#004481] text-white flex items-center justify-center text-[10px] font-black border-2 border-white shadow-xs">
+                              {String(idx + 1).padStart(2, '0')}
+                            </span>
+                          </div>
+
+                          <div className="mt-4 space-y-1.5 w-full relative z-10">
+                            <h4 className="text-xs sm:text-sm font-black text-slate-800 line-clamp-1 group-hover:text-[#004481] transition-colors leading-tight px-1">
+                              {language === 'KR' 
+                                ? step.titleKo.split(':')[0].split('-').pop()?.trim() 
+                                : step.titleEn.split(':')[0].split('-').pop()?.trim()}
+                            </h4>
+                            <p className="text-[9px] text-slate-400 font-black tracking-widest uppercase line-clamp-1">
+                              {language === 'KR' ? '무장애 검증' : 'Verified'}
+                            </p>
+                            <div className="pt-1">
+                              <span className="text-[9.5px] px-2.5 py-1 rounded-md bg-blue-50/60 text-blue-700 font-black border border-blue-100/50 group-hover:bg-[#004481] group-hover:text-white group-hover:border-[#004481] transition-all whitespace-nowrap">
+                                details ➔
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+
+                {/* 4. DETAIL CHRONOLOGICAL ITINERARY TIMELINE & STORY SECTION */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Left Column: Category Highlight Sidebar (Story section) */}
+                  <div className="lg:col-span-1 space-y-6">
+                    {/* Retro Travel Flyer Highlights Box */}
+                    <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200/80 space-y-4 relative overflow-hidden text-left">
+                      <div className="absolute top-0 right-0 p-6 text-5xl opacity-5 pointer-events-none">⚓</div>
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">
+                        {language === 'KR' ? 'CAMP MEMO / 여행 가이드 코멘트' : 'CAMP MEMO / LOCAL GUIDE NOTE'}
+                      </span>
+                      <h4 className="text-sm sm:text-base font-black text-[#004481] font-heading flex items-center gap-1.5">
+                        <Compass className="w-4 h-4 shrink-0" />
+                        <span>{language === 'KR' ? '동선 검증 및 이동 비결' : 'Verified Transit Secrets'}</span>
+                      </h4>
+                      <p className="text-xs text-slate-500 font-semibold leading-relaxed">
+                        {language === 'KR' 
+                          ? '오목조목 정비된 데크길과 계단이 없는 평탄 지도를 활용해, 여행 내내 계단을 한 번도 마주하지 않도록 설계되었습니다. 각 도착지마다 지하철 엘리베이터 승차 위치와 턱 없는 진입 슬라이드를 사전에 검증하여 여정이 더욱 포근해집니다.' 
+                          : 'Our expert local guides have mapped and physically walked each street. High-speed elevators and flat pavements allow strollers and wheelchairs to wander worry-free.'}
+                      </p>
+
+                      <div className="pt-3 border-t border-slate-200/80 space-y-2">
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">INFO CHECK / 요약 규격</span>
+                        <div className="grid grid-cols-2 gap-2 text-[10.5px] font-black text-slate-700">
+                          <div className="bg-white p-2 rounded-xl border border-slate-200/50">
+                            <span className="text-slate-400 block text-[8.5px] mb-0.5">{language === 'KR' ? '소요 시간' : 'Duration'}</span>
+                            {language === 'KR' ? targetCourse.durationKo : targetCourse.durationEn}
+                          </div>
+                          <div className="bg-white p-2 rounded-xl border border-slate-200/50">
+                            <span className="text-slate-400 block text-[8.5px] mb-0.5">{language === 'KR' ? '보행 난이도' : 'Difficulty'}</span>
+                            {language === 'KR' ? `쉬움 [${targetCourse.difficultyKo}]` : `Easy [${targetCourse.difficultyEn}]`}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Dynamic Extra Sidebar based on active category (preserving historical details) */}
+                    {activeCategory === 'HISTORY' && (
+                      <div className="bg-[#fcfaf4] p-5.5 rounded-3xl border border-amber-200/70 text-left space-y-3 font-sans">
+                        <span className="text-[10px] font-black text-amber-800 tracking-wider block uppercase font-mono">HISTORY DETAILED INSIGHT / 초량 이바구 돋보기</span>
+                        <h4 className="text-sm font-black text-amber-950 font-heading">6.25 피란 수도와 산복도로</h4>
+                        <p className="text-xs text-stone-500 leading-relaxed font-semibold">
+                          {language === 'KR' 
+                            ? '6.25 전쟁 당시 수많은 피란민들이 도망쳐 내려와 영도와 초량 산기슭에 손수 돌을 쌓아 임시 가옥을 지으며 터전을 이룬 것이 오늘날 산복도로의 기원입니다. 과거에 물동이를 이고 힘겹게 오르던 고갯길은 이제 주민과 여행자를 위해 모노레일과 야자매트로 다정하게 정비되었습니다.' 
+                            : 'During the Korean War, thousands of refugees built stone homes on vertical cliffs surrounding Choryang. The historical steep valleys are now fully equipped with a modern monorail for seniors and stroller access.'}
+                        </p>
+                      </div>
+                    )}
+
+                    {activeCategory === '1NIGHT' && (
+                      <div className="bg-indigo-50/50 p-5 rounded-3xl border border-indigo-150/70 text-left space-y-2.5">
+                        <h6 className="text-xs font-black text-indigo-900 flex items-center gap-1.5">
+                          <span>☕</span>
+                          <span>{language === 'KR' ? '아침 일출 명당 & 보행 편한 카페' : 'Morning Vista Cafe Recommendations'}</span>
+                        </h6>
+                        <p className="text-[11px] sm:text-xs text-indigo-950/70 font-semibold leading-relaxed">
+                          {language === 'KR' 
+                            ? '민락항이나 광안리 수변 공원 근처 카페들은 대부분 1층에 턱이 아예 없는 통유리로 지어져 있어 아침 바다와 갈매기를 감상하며 따뜻한 바닐라 라떼를 맛보기 완전 편안합니다.' 
+                            : 'Most oceanfront cafes around Gwangalli or Millak harbor are structurally barrier-free, allowing cozy stroller roll-ups right next to sunlit windows.'}
+                        </p>
+                      </div>
+                    )}
+
+                    {activeCategory === '2NIGHTS' && (
+                      <div className="bg-amber-500/[0.02] p-5 rounded-3xl border border-dashed border-amber-200 mt-4 text-left">
+                        <span className="text-[10px] font-black text-amber-850 uppercase tracking-wider block mb-1">Accessibility Insight / 편안한 관람 가이드</span>
+                        <p className="text-xs text-amber-900/80 leading-normal font-semibold">
+                          {language === 'KR' 
+                            ? '전포·서면 상가 구역은 평지 보도 정비가 잘 되어 있으며, 해변열차 탑승 시 리프트 보드나 휠체어 경사 슬라이드가 안정적으로 지원되므로 걱정 없이 누릴 수 있습니다.' 
+                            : 'Jeonpo & Seomyeon have flat shopping lanes, while Haeundae Green Railway station has premium accessibility ramps and boarding platform lifts for robust safety.'}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Right Column: Detailed Timeline / Step-by-Step path */}
+                  <div className="lg:col-span-2 space-y-6">
+                    {daysArray.map((dayLabel) => {
+                      const daySteps = getStepsForDay(dayLabel);
+                      if (daySteps.length === 0) return null;
+
+                      return (
+                        <div 
+                          key={dayLabel} 
+                          className="bg-white p-6 sm:p-8 rounded-4xl border border-slate-150 shadow-[0_2px_12px_rgba(0,0,0,0.01)] space-y-6 text-left"
+                        >
+                          <h4 className="text-base sm:text-lg font-black text-slate-800 border-b border-slate-100 pb-3.5 flex items-center gap-2.5">
+                            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-blue-50 text-[#004481] font-sans font-black text-xs border border-blue-100 shadow-2xs">
+                              {dayLabel === 'Day 1' ? 'D1' : dayLabel === 'Day 2' ? 'D2' : dayLabel === 'Day 3' ? 'D3' : dayLabel === 'Day 4' ? 'D4' : 'D5'}
+                            </span>
+                            <span>{language === 'KR' ? `${dayLabel} 무장애 동선 안내` : `${dayLabel} Step-Free Details`}</span>
+                          </h4>
+
+                          <div className="relative pl-6 sm:pl-8 space-y-6 text-left">
+                            {/* Vertical timeline track line */}
+                            <div className="absolute left-[11px] sm:left-[15px] top-3.5 bottom-6 w-0.5 border-l border-dashed border-slate-200"></div>
+
+                            {daySteps.map((st, sidx) => (
+                              <div key={sidx} className="relative group text-left space-y-2">
+                                {/* Bullet number inside a high-contrast sticker */}
+                                <div className="absolute -left-[27px] sm:-left-[31px] top-1.5 w-6 h-6 rounded-full bg-slate-50 border border-slate-300 flex items-center justify-center text-[10px] font-black text-slate-700 shadow-3xs font-mono group-hover:bg-[#004481] group-hover:text-white group-hover:border-[#004481] transition-all duration-200">
+                                  {sidx + 1}
+                                </div>
+
+                                <div className="space-y-1 text-left">
+                                  {/* Step Time or Indicator */}
+                                  {st.time && (
+                                    <span className="text-[10px] font-black text-slate-400 tracking-wide block uppercase font-mono">
+                                      ⏱️ {st.time.replace(/Day\s*\d+\s*-\s*/gi, '')}
+                                    </span>
+                                  )}
+
+                                  <h5 className="text-sm sm:text-base font-black text-stone-850 flex flex-wrap items-center gap-1.5 leading-snug">
+                                    <span className="text-blue-700 font-black mr-0.5">
+                                      {language === 'KR' ? `Course ${sidx + 1} ➔` : `Course ${sidx + 1} ➔`}
+                                    </span>
+                                    <span>{language === 'KR' ? st.titleKo : st.titleEn}</span>
+                                  </h5>
+
+                                  <p className="text-xs sm:text-sm text-stone-500 font-semibold leading-relaxed pt-1">
+                                    {language === 'KR' ? st.descKo : st.descEn}
+                                  </p>
+
+                                  {/* Gourmet Michelin-guide indicators */}
+                                  {activeCategory === 'GOURMET' && (
+                                    <div className="flex flex-wrap items-center gap-2 text-[10px] font-black text-rose-900 bg-rose-50/50 p-2 rounded-xl mt-2 max-w-max border border-rose-100">
+                                      <span>✅ {language === 'KR' ? '턱 없음 / 우회 경판 완비' : 'No doorsill doorstep'}</span>
+                                      <span className="w-1 h-1 bg-rose-300 rounded-full"></span>
+                                      <span>✅ {language === 'KR' ? '넓은 입식 의자테이블' : 'Seat tables provided'}</span>
+                                    </div>
+                                  )}
+
+                                  {/* Public Transit Subway Station accessibility guidance */}
+                                  {st.stationInfoKo && (
+                                    <div className="mt-2.5 text-[10px] sm:text-[10.5px] font-bold text-blue-800 bg-blue-50/50 px-3 py-1 rounded-xl border border-blue-100/60 max-w-max flex items-center gap-1">
+                                      <span>🚇</span>
+                                      <span>{language === 'KR' ? st.stationInfoKo : st.stationInfoEn}</span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 5. OVERALL TRIP TIPS / PRECAUTIONS BOTTOM BANNER */}
+                <div className={`p-5 sm:p-7 text-left flex items-start gap-4 rounded-3xl border ${theme.accentBorder} ${theme.accentBg}`}>
+                  <div className={`p-2.5 rounded-xl bg-white border ${theme.accentBorder} ${theme.accentText} shrink-0 mt-0.5 shadow-3xs`}>
+                    <Info className="w-4 h-4 shrink-0" />
+                  </div>
+                  <div className="space-y-1 text-left">
+                    <span className={`text-[10.5px] font-black ${theme.accentText} uppercase tracking-wider block`}>
+                      ★ {language === 'KR' ? '무장애 안전 이동 및 핵심 꿀팁' : 'BARRIER-FREE LOCAL TRIP TIPS'}
+                    </span>
+                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-semibold">
+                      {language === 'KR' ? targetCourse.overallTipKo : targetCourse.overallTipEn}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })())}
+
+          {/* ========================================================= */}
+          {/* ORIGINAL BACKUP RENDER ENGINE (Bypassed but kept intact for fallback safety) */}
+          {/* ========================================================= */}
+          {(() => {
+            const course = filteredCourses[0];
+            if (!course) return null;
 
             switch (activeCategory) {
               // -------------------------------------------------------------
@@ -2922,11 +3427,11 @@ export default function BusanItinerariesView({
                       {/* Left Sidebar block: Historial Story */}
                       <div className="md:col-span-1 bg-[#fbf9f4] p-5.5 rounded-3xl border border-[#dcd1ba] text-left space-y-3 font-sans">
                         <span className="text-[10px] font-black text-amber-800 tracking-wider block uppercase">HISTORY LOGS / 초량 이바구 돋보기</span>
-                        <h4 className="text-sm font-black text-amber-950 font-heading">{language === 'KR' ? '6.25 피란 수도와 산복도로' : 'Korean War Provisional Capital'}</h4>
+                        <h4 className="text-sm font-black text-amber-950 font-heading">{language === 'KR' ? '6.25 피란 수도와 산복도로' : 'Refugee Cap.'}</h4>
                         <p className="text-xs text-stone-500 leading-relaxed font-semibold">
                           {language === 'KR' 
                             ? '6.25 전쟁 당시 수많은 피란민들이 도망쳐 내려와 영도와 초량 산기슭에 손수 돌을 쌓아 임시 가옥을 지으며 터전을 이룬 것이 오늘날 산복도로의 기원입니다. 과거에 물동이를 이고 힘겹게 오르던 고갯길은 이제 주민과 여행자를 위해 모노레일과 야자매트로 다정하게 정비되었습니다.' 
-                            : 'During the Korean War, thousands of refugees built stone homes on vertical cliffs surrounding Choryang. The historical steep valleys are now fully equipped with a modern monorail for seniors and stroller access.'}
+                            : 'During the Korean War, thousands of refugees built stone homes on vertical cliffs surrounding Choryang.'}
                         </p>
                       </div>
 
@@ -2976,14 +3481,12 @@ export default function BusanItinerariesView({
           })()}
         </div>
       )}
-        </div>
-      )}
 
       {/* ========================================================================= */}
       {/* VIEW 3: PUBLIC TRANSIT TIPS VIEW                                         */}
       {/* ========================================================================= */}
       {activeSection === 'TRANSIT_TIPS' && (
-        <div className="space-y-4 sm:space-y-6 animate-fade-in text-left">
+        <div className="space-y-6 sm:space-y-8 animate-fade-in text-left">
           {/* Header Bar - highly compact */}
           <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-[0_4px_15px_rgba(0,0,0,0.01)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
@@ -3007,58 +3510,505 @@ export default function BusanItinerariesView({
           </div>
 
           {transitSection === 'SUBMENU' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 max-w-4xl mx-auto" id="transit-submenu-selection">
-              {/* Card 1: 부산 대중교통 어린이 무료 */}
-              <div
-                onClick={() => navigateToSubPage('child-free')}
-                className="group bg-[#fff8f8] p-5 sm:p-6 rounded-3xl border-2 border-[#fcdcdc] hover:border-rose-300 cursor-pointer shadow-[0_2px_12px_rgba(244,63,94,0.01)] hover:shadow-[0_6px_20px_rgba(244,63,94,0.04)] transform hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-2xl bg-[#fbe7e7] border border-[#f7cece] flex items-center justify-center text-2xl shadow-sm shrink-0">
-                        👶
-                      </div>
-                      <h3 className="text-base sm:text-lg font-extrabold text-slate-800 tracking-tight leading-tight">
-                        {language === 'KR' ? '부산 대중교통 어린이 무료' : 'Busan Free Transit for Children'}
-                      </h3>
-                    </div>
-                    <div className="w-8 h-8 rounded-xl bg-[#fbe7e7] hover:bg-[#fad8d8] text-rose-800 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                      <span className="text-sm font-bold">➔</span>
+            <div className="space-y-8 max-w-4xl mx-auto">
+              {/* SPECIAL BENEFITS / TRANSIT TIPS HEADER SECTION (Style 1: Centered Brand Title) */}
+              <div className="text-center py-4 sm:py-6 max-w-3xl mx-auto space-y-2">
+                <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight font-heading leading-tight">
+                  {language === 'KR' 
+                    ? '부산 대중교통 이용 혜택과 주요 수칙' 
+                    : 'Busan Public Transit Benefits & Rules'}
+                </h1>
+              </div>
+
+              {/* CARD GRID (Style 1: Minimalist outline illustrations with numbers) */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* CARD 01: 어린이 대중교통 요금 무료 */}
+                <div
+                  onClick={() => navigateToSubPage('child-free')}
+                  className="relative group bg-white p-6 sm:p-8 rounded-3xl border-2 border-slate-900 hover:border-[#004481] cursor-pointer shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,68,129,1)] transition-all duration-300 text-center flex flex-col justify-between min-h-[380px]"
+                >
+                  {/* Number Badge */}
+                  <div className="absolute top-4 left-4 w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-xs font-black tracking-tight">
+                    01
+                  </div>
+
+                  {/* Title */}
+                  <div className="mt-4">
+                    <h3 className="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-tight">
+                      {language === 'KR' ? '모든 어린이 무료 혜택' : 'All Children Free Benefit'}
+                    </h3>
+                  </div>
+
+                  {/* Minimalist Line-Art Illustration */}
+                  <div className="my-6 flex justify-center items-center">
+                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 group-hover:bg-blue-50 group-hover:border-blue-200 transition-colors">
+                      <svg className="w-24 h-24 text-slate-800" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="50" cy="45" r="22" />
+                        <path d="M28 45c0-10 10-18 22-18s22 8 22 18" />
+                        <path d="M50 27v-5M44 22h12" />
+                        <circle cx="42" cy="42" r="2" fill="currentColor" />
+                        <circle cx="58" cy="42" r="2" fill="currentColor" />
+                        <path d="M44 51c2 4 10 4 12 0" />
+                        <circle cx="36" cy="48" r="1.5" fill="currentColor" opacity="0.5" />
+                        <circle cx="64" cy="48" r="1.5" fill="currentColor" opacity="0.5" />
+                        <path d="M25 80c5-12 12-13 25-13s20 1 25 13" />
+                        <path d="M18 25l2 2m0-2l-2 2M82 25l2 2m0-2l-2 2" strokeWidth="1" />
+                        <path d="M50 12l1 3h3l-2.5 2 1 3-2.5-2-2.5 2 1-3-2.5-2h3z" strokeWidth="1" fill="currentColor" />
+                      </svg>
                     </div>
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed pr-6">
-                    {language === 'KR' 
-                      ? '만 6세~12세 어린이 요금 0원 혜택 등록 및 교통카드 사용 방법 안내'
-                      : 'Guidelines on registration for free fares and using transit cards for children aged 6 to 12.'}
-                  </p>
+
+                  {/* Subtext */}
+                  <div className="space-y-4">
+                    <p className="text-xs sm:text-sm text-slate-500 font-bold leading-relaxed">
+                      {language === 'KR' 
+                        ? '만 6세~12세 요금 0원 무료 혜택 등록 및 교통카드 사용법 상세 안내' 
+                        : 'Registering for ₩0 fares & using transit cards for kids aged 6 to 12.'}
+                    </p>
+                    <div className="inline-flex items-center justify-center gap-2 w-full bg-[#004481] hover:bg-[#003566] text-white border-2 border-slate-900 text-xs sm:text-sm font-black py-2.5 px-4 rounded-xl shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] transition-all duration-200 group-hover:scale-[1.02]">
+                      <span>{language === 'KR' ? '상세 가이드 보기' : 'View Full Guide'}</span>
+                      <span className="text-sm">➔</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* CARD 02: 부산 지하철 & 무료 환승 제도 */}
+                <div
+                  className="relative group bg-white p-6 sm:p-8 rounded-3xl border-2 border-slate-900 hover:border-[#004481] shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] transition-all duration-300 text-center flex flex-col justify-between min-h-[380px]"
+                >
+                  {/* Number Badge */}
+                  <div className="absolute top-4 left-4 w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-xs font-black tracking-tight">
+                    02
+                  </div>
+
+                  {/* Title */}
+                  <div className="mt-4">
+                    <h3 className="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-tight">
+                      {language === 'KR' ? '부산 대중교통 환승 혜택' : 'Busan Transit Transfer Benefits'}
+                    </h3>
+                  </div>
+
+                  {/* Minimalist Line-Art Illustration */}
+                  <div className="my-6 flex justify-center items-center">
+                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 transition-colors">
+                      <svg className="w-24 h-24 text-slate-800" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M15 80V40c0-20 15-30 35-30s35 10 35 30v40" strokeDasharray="2 2" stroke="#cbd5e1" />
+                        <rect x="25" y="30" width="50" height="42" rx="10" />
+                        <rect x="30" y="36" width="40" height="18" rx="4" />
+                        <circle cx="37" cy="62" r="3" fill="currentColor" />
+                        <circle cx="63" cy="62" r="3" fill="currentColor" />
+                        <path d="M10 88h80M25 88l-5 6M75 88l5 6" />
+                        <path d="M45 62h10" />
+                        <path d="M50 30V18m-10 0h20" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Subtext */}
+                  <div>
+                    <p className="text-xs sm:text-sm text-slate-500 font-bold leading-relaxed mb-4">
+                      {language === 'KR' 
+                        ? '30분 이내 무료 환승 및 4대 지하철 노선 거점 주요 수칙 가이드' 
+                        : 'Free transfers within 30 minutes & key stations overview for 4 lines.'}
+                    </p>
+                    <span className="text-[10px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-black uppercase">
+                      {language === 'KR' ? '아래 상세 안내 포함' : 'Detailed below'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* CARD 03: 버스 휴대품 반입 기준 */}
+                <div
+                  className="relative group bg-white p-6 sm:p-8 rounded-3xl border-2 border-slate-900 hover:border-[#004481] shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] transition-all duration-300 text-center flex flex-col justify-between min-h-[380px]"
+                >
+                  {/* Number Badge */}
+                  <div className="absolute top-4 left-4 w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-xs font-black tracking-tight">
+                    03
+                  </div>
+
+                  {/* Title */}
+                  <div className="mt-4">
+                    <h3 className="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-tight">
+                      {language === 'KR' ? '버스 휴대품 반입 기준' : 'Bus Carry-on Limits'}
+                    </h3>
+                  </div>
+
+                  {/* Minimalist Line-Art Illustration */}
+                  <div className="my-6 flex justify-center items-center">
+                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 transition-colors">
+                      <svg className="w-24 h-24 text-slate-800" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="28" y="32" width="44" height="48" rx="6" />
+                        <path d="M42 32V20h16v12" />
+                        <path d="M34 44h32M34 54h32M34 64h32" strokeWidth="1" strokeDasharray="1 1" />
+                        <circle cx="36" cy="83" r="3" />
+                        <circle cx="64" cy="83" r="3" />
+                        <path d="M64 40l6 10-4 2-6-10z" fill="currentColor" opacity="0.1" />
+                        <path d="M18 32v48M14 32h8M14 80h8" strokeWidth="1" stroke="#94a3b8" />
+                        <text x="8" y="60" fontSize="8" fill="#64748b" fontWeight="bold" stroke="none" fontFamily="monospace">H</text>
+                        <path d="M28 90h44M28 86v8M72 86v8" strokeWidth="1" stroke="#94a3b8" />
+                        <text x="46" y="98" fontSize="8" fill="#64748b" fontWeight="bold" stroke="none" fontFamily="monospace">W</text>
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Subtext */}
+                  <div>
+                    <p className="text-xs sm:text-sm text-slate-500 font-bold leading-relaxed mb-4">
+                      {language === 'KR' 
+                        ? '시내버스 내 20kg 미만, 50×40×20cm 규격 등 승차 허용 수하물 상세' 
+                        : 'Allowed carry-on bag sizes (under 20kg, 50x40x20cm) guidelines.'}
+                    </p>
+                    <span className="text-[10px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-black uppercase">
+                      {language === 'KR' ? '아래 상세 안내 포함' : 'Detailed below'}
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              {/* Card 2: 부산 대중교통 환승 */}
-              <div
-                onClick={() => navigateToSubPage('transfer')}
-                className="group bg-[#f4f9ff] p-5 sm:p-6 rounded-3xl border-2 border-[#dbeaff] hover:border-blue-300 cursor-pointer shadow-[0_2px_12px_rgba(59,130,246,0.01)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.04)] transform hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between text-left relative overflow-hidden"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-2xl bg-[#e4f0ff] border border-[#cbe1ff] flex items-center justify-center text-2xl shadow-sm shrink-0">
-                        🚇
-                      </div>
-                      <h3 className="text-base sm:text-lg font-extrabold text-slate-800 tracking-tight leading-tight">
-                        {language === 'KR' ? '부산 대중교통 환승' : 'Busan Public Transit Transfers'}
+              {/* HIGH-VISIBILITY DETAIL PANELS (Style 2: Layout like the brochure flyers in image 2) */}
+              <div className="space-y-8 pt-8 border-t border-slate-100">
+{/* Sub-panel 2: High-contrast split scorecard for transfer guidelines */}
+                <div className="bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-xs">
+                  <div className="p-6 sm:p-8 bg-[#004481]/5 border-b border-slate-100 flex items-center gap-2.5">
+                    <span className="text-xl">🔄</span>
+                    <div>
+                      <h3 className="text-base sm:text-lg font-black text-slate-800">
+                        {language === 'KR' ? '부산 대중교통 무료 환승 기준 안내' : 'Busan Public Transit Free Transfer Guide'}
                       </h3>
-                    </div>
-                    <div className="w-8 h-8 rounded-xl bg-[#e4f0ff] hover:bg-[#d4e7ff] text-blue-800 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                      <span className="text-sm font-bold">➔</span>
+                      <p className="text-xs text-slate-500 font-semibold mt-0.5">
+                        {language === 'KR' ? '버스, 지하철 간 무료 환승을 위해 탑승 전 반드시 숙지하세요.' : 'Important rules for hassle-free free transit connection.'}
+                      </p>
                     </div>
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed pr-6">
-                    {language === 'KR'
-                      ? '부산 지하철 노선 요약 및 하차 후 30분 이내 무료 환승 완전 가이드'
-                      : 'Busan Subway route summary and complete guide to free transfers within 30 minutes of exit.'}
-                  </p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-150">
+                    {/* Left: Allowed transfers (Green highlights) */}
+                    <div className="p-6 sm:p-8 space-y-4">
+                      <div className="flex items-center gap-2 text-emerald-800">
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        <p className="text-sm font-black uppercase tracking-wider">{language === 'KR' ? '무료 환승 적용 가능 수칙' : 'Allowed / Applies to'}</p>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div className="flex items-start gap-3 p-3.5 bg-emerald-50/40 rounded-2xl border border-emerald-100/50">
+                          <span className="text-xl text-emerald-600 shrink-0">✓</span>
+                          <div className="space-y-0.5">
+                            <h4 className="text-xs sm:text-sm font-black text-slate-800">{language === 'KR' ? '하차 태그 후 30분 이내 승차' : 'Tap off within 30 Minutes'}</h4>
+                            <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                              {language === 'KR' 
+                                ? '교통카드 하차 접촉 후 30분 이내에 환승 수단에 승차해야 정상 적용됩니다.' 
+                                : 'You must tap card on departure and board next transit within 30 mins.'}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-3.5 bg-emerald-50/40 rounded-2xl border border-emerald-100/50">
+                          <span className="text-xl text-emerald-600 shrink-0">✓</span>
+                          <div className="space-y-0.5">
+                            <h4 className="text-xs sm:text-sm font-black text-slate-800">{language === 'KR' ? '최대 2회 (총 3대 수단) 지원' : 'Up to 2 consecutive transfers'}</h4>
+                            <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                              {language === 'KR' 
+                                ? '버스 ➔ 버스, 버스 ➔ 지하철 등 상이한 노선 및 교통수단 간 최대 2회 연계 혜택을 줍니다.' 
+                                : 'Supports up to 2 transfers across different routes/means (e.g. Bus ➔ Subway).'}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right: Excluded transfers (Red highlights) */}
+                    <div className="p-6 sm:p-8 space-y-4">
+                      <div className="flex items-center gap-2 text-rose-800">
+                        <span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+                        <p className="text-sm font-black uppercase tracking-wider">{language === 'KR' ? '환승 적용 예외 및 불가 기준' : 'Exclusions / Disallowed'}</p>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div className="flex items-start gap-3 p-3.5 bg-rose-50/40 rounded-2xl border border-rose-100/50">
+                          <span className="text-xl text-rose-600 shrink-0">✗</span>
+                          <div className="space-y-0.5">
+                            <h4 className="text-xs sm:text-sm font-black text-slate-800">{language === 'KR' ? '동일 번호 버스 노선 간 환승 불가' : 'Same Bus Route Number'}</h4>
+                            <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                              {language === 'KR' 
+                                ? '동일 노선(예: 100번 버스에서 내린 뒤 같은 번호인 100번 승차)은 환승 할인이 적용되지 않습니다.' 
+                                : 'Transfer discount is bypassed if boarding the exact same bus route number.'}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-3.5 bg-rose-50/40 rounded-2xl border border-rose-100/50">
+                          <span className="text-xl text-rose-600 shrink-0">✗</span>
+                          <div className="space-y-0.5">
+                            <h4 className="text-xs sm:text-sm font-black text-slate-800">{language === 'KR' ? '지하철 개찰구 외부 이용 간 환승 불가' : 'Subway to Subway (Exit/Re-enter)'}</h4>
+                            <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                              {language === 'KR' 
+                                ? '개찰구 밖으로 나갔다가 지하철을 다시 탑승할 경우 환승으로 인정되지 않고 기본요금이 새로 청구됩니다.' 
+                                : 'Exiting a subway turnstile and re-entering does not count as a transfer.'}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sub-panel 3: Illustrated luggage & food allowance comparison block based on provided regulations */}
+                <div className="bg-[#fcfcfd] p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-slate-100 pb-3 gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">🚌</span>
+                      <h3 className="text-base sm:text-lg font-black text-slate-800">
+                        {language === 'KR' ? '부산 시내버스 휴대품 및 음식물 반입 기준' : 'Busan City Bus Luggage & Food Regulations'}
+                      </h3>
+                    </div>
+                    <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-rose-50 text-rose-600 border border-rose-100 uppercase self-start sm:self-auto">
+                      {language === 'KR' ? '탑승 전 확인 필수' : 'Check before boarding'}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* LEFT: Personal Belongings Regulations (휴대품 반입 규정) */}
+                    <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/70 space-y-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">🧳</span>
+                        <div>
+                          <h4 className="text-sm sm:text-base font-black text-slate-800">
+                            {language === 'KR' ? '휴대품 반입 규정' : 'Restrictions on Personal Belongings'}
+                          </h4>
+                          <p className="text-[10px] sm:text-xs text-rose-600 font-extrabold mt-0.5">
+                            {language === 'KR' ? '부피가 큰 거대물품 등을 들고 타지 맙시다.' : 'No Bulky Belongings Allowed.'}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Interactive Visual Illustration Board */}
+                      <div className="grid grid-cols-2 gap-4 py-4 px-3 bg-slate-50 rounded-2xl border border-slate-100">
+                        {/* Allowed (Green) */}
+                        <div className="flex flex-col items-center justify-between p-3 bg-white rounded-xl border border-emerald-100 shadow-3xs text-center space-y-2">
+                          <span className="bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full">
+                            {language === 'KR' ? '반입 가능' : 'ALLOWED'}
+                          </span>
+                          <div className="relative w-24 h-24 flex items-center justify-center rounded-full border-4 border-emerald-500 bg-emerald-50/20 shadow-inner">
+                            <svg width="72" height="72" viewBox="0 0 100 100" className="w-18 h-18">
+                              <g transform="translate(10, 5)">
+                                {/* Dimensions indicator lines */}
+                                <line x1="8" y1="20" x2="8" y2="72" stroke="#10b981" strokeWidth="1.5" strokeDasharray="3 3" />
+                                <text x="1" y="48" fill="#047857" fontSize="8" fontWeight="black">50cm</text>
+                                
+                                <line x1="20" y1="78" x2="60" y2="78" stroke="#10b981" strokeWidth="1.5" strokeDasharray="3 3" />
+                                <text x="32" y="86" fill="#047857" fontSize="8" fontWeight="black">40cm</text>
+
+                                <line x1="64" y1="20" x2="74" y2="10" stroke="#10b981" strokeWidth="1.5" strokeDasharray="3 3" />
+                                <text x="70" y="22" fill="#047857" fontSize="8" fontWeight="black">20cm</text>
+
+                                {/* Handle */}
+                                <rect x="30" y="5" width="20" height="15" rx="2" fill="none" stroke="#1e293b" strokeWidth="3" />
+                                <line x1="30" y1="15" x2="30" y2="20" stroke="#1e293b" strokeWidth="3" />
+                                <line x1="50" y1="15" x2="50" y2="20" stroke="#1e293b" strokeWidth="3" />
+                                {/* Main body */}
+                                <rect x="20" y="20" width="40" height="52" rx="6" fill="#3b82f6" stroke="#1e293b" strokeWidth="3" />
+                                {/* Front design / pocket */}
+                                <rect x="26" y="28" width="28" height="36" rx="4" fill="#60a5fa" stroke="#1e293b" strokeWidth="2" />
+                                {/* Wheels */}
+                                <circle cx="28" cy="75" r="4" fill="#1e293b" />
+                                <circle cx="52" cy="75" r="4" fill="#1e293b" />
+                              </g>
+                            </svg>
+                          </div>
+                          <span className="text-[10px] font-black text-slate-700">
+                            {language === 'KR' ? '기내용 20인치 이하' : 'Under 20" Carry-on'}
+                          </span>
+                        </div>
+
+                        {/* Prohibited (Red) */}
+                        <div className="flex flex-col items-center justify-between p-3 bg-white rounded-xl border border-rose-100 shadow-3xs text-center space-y-2">
+                          <span className="bg-rose-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full">
+                            {language === 'KR' ? '반입 불가' : 'PROHIBITED'}
+                          </span>
+                          <div className="relative w-24 h-24 flex items-center justify-center rounded-full border-4 border-rose-500 bg-rose-50/20 shadow-inner overflow-hidden">
+                            <svg width="72" height="72" viewBox="0 0 100 100" className="w-18 h-18 opacity-80">
+                              <g transform="translate(15, 10)">
+                                {/* Handle */}
+                                <rect x="25" y="2" width="20" height="12" rx="2" fill="none" stroke="#1e293b" strokeWidth="3" />
+                                {/* Main body */}
+                                <rect x="12" y="14" width="46" height="58" rx="6" fill="#f59e0b" stroke="#1e293b" strokeWidth="3" />
+                                {/* Front pocket */}
+                                <rect x="18" y="22" width="34" height="42" rx="4" fill="#fbbf24" stroke="#1e293b" strokeWidth="2" />
+                                {/* Wheels */}
+                                <circle cx="22" cy="75" r="4" fill="#1e293b" />
+                                <circle cx="48" cy="75" r="4" fill="#1e293b" />
+                              </g>
+                            </svg>
+                            {/* Prohibited diagonal cross-bar overlay */}
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                              <svg width="80" height="80" viewBox="0 0 100 100" className="w-full h-full text-rose-500 stroke-rose-500">
+                                <line x1="15" y1="15" x2="85" y2="85" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
+                              </svg>
+                            </div>
+                          </div>
+                          <span className="text-[10px] font-black text-rose-600">
+                            {language === 'KR' ? '20인치 초과 캐리어' : 'Over 20" Luggage'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        {/* Not Allowed Section */}
+                        <div className="p-3.5 bg-rose-50/30 rounded-xl border border-rose-100/50 space-y-2">
+                          <div className="flex items-center gap-1.5 text-rose-700 text-xs font-black">
+                            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 shrink-0"></span>
+                            <span>{language === 'KR' ? '반입 불가 (Prohibited)' : 'Prohibited Items'}</span>
+                          </div>
+                          <ul className="text-xs text-slate-600 font-bold space-y-1.5 list-disc pl-4 leading-relaxed">
+                            <li>
+                              {language === 'KR' 
+                                ? '1인당 2개 이상의 캐리어를 들고 탑승하려는 경우' 
+                                : 'Carrying 2 or more suitcases per person'}
+                            </li>
+                            <li>
+                              {language === 'KR' 
+                                ? '항공기내 반입용 20인치 여행가방 규격(50×40×20cm)을 초과하는 물품' 
+                                : 'Items exceeding the standard 20-inch flight carry-on suitcase size'}
+                            </li>
+                            <li>
+                              {language === 'KR' 
+                                ? '차량의 통로 및 승·하차문을 막을 염려가 있는 물품' 
+                                : 'Items likely to block aisles or entry/exit doors'}
+                            </li>
+                          </ul>
+                        </div>
+
+                        {/* Allowed Section */}
+                        <div className="p-3.5 bg-emerald-50/30 rounded-xl border border-emerald-100/50 space-y-2">
+                          <div className="flex items-center gap-1.5 text-emerald-700 text-xs font-black">
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+                            <span>{language === 'KR' ? '반입 가능 (Allowed)' : 'Allowed Items'}</span>
+                          </div>
+                          <ul className="text-xs text-slate-600 font-bold space-y-1.5 list-disc pl-4 leading-relaxed">
+                            <li>
+                              {language === 'KR' 
+                                ? '중량 20kg 미만, 부피 50 × 40 × 20cm 미만의 허용 규격 내 물품' 
+                                : 'Weight under 20kg, dimensions under 50 × 40 × 20cm'}
+                            </li>
+                            <li>
+                              {language === 'KR' 
+                                ? '항공기내 반입용 20인치 여행가방 규격 이내의 물품' 
+                                : 'Items within standard 20-inch flight carry-on suitcase specifications'}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* RIGHT: Food & Drinks Regulations (음식물 반입 규정) */}
+                    <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/70 space-y-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">🥤</span>
+                        <div>
+                          <h4 className="text-sm sm:text-base font-black text-slate-800">
+                            {language === 'KR' ? '음식물 반입 규정' : 'Restrictions on Food and Drinks'}
+                          </h4>
+                          <p className="text-[10px] sm:text-xs text-rose-600 font-extrabold mt-0.5">
+                            {language === 'KR' ? '커피 등 음식물을 들고 타지 맙시다.' : 'No Food And Drinks Allowed.'}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Interactive Visual Illustration Board */}
+                      <div className="grid grid-cols-2 gap-4 py-4 px-3 bg-slate-50 rounded-2xl border border-slate-100">
+                        {/* Allowed (Green) */}
+                        <div className="flex flex-col items-center justify-between p-3 bg-white rounded-xl border border-emerald-100 shadow-3xs text-center space-y-2">
+                          <span className="bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full">
+                            {language === 'KR' ? '반입 가능' : 'ALLOWED'}
+                          </span>
+                          <div className="relative w-24 h-24 flex items-center justify-center rounded-full border-4 border-emerald-500 bg-emerald-50/20 shadow-inner">
+                            <svg width="72" height="72" viewBox="0 0 100 100" className="w-18 h-18">
+                              <g transform="translate(25, 8)">
+                                {/* Cap */}
+                                <rect x="18" y="5" width="14" height="8" rx="1.5" fill="#3b82f6" stroke="#1e293b" strokeWidth="3" />
+                                {/* Neck */}
+                                <rect x="21" y="13" width="8" height="6" fill="#e2e8f0" stroke="#1e293b" strokeWidth="3" />
+                                {/* Main plastic bottle body with ridges */}
+                                <path d="M12 19 C12 19, 10 24, 10 28 L10 70 C10 73, 13 75, 16 75 L34 75 C37 75, 40 73, 40 70 L40 28 C40 24, 38 19, 38 19 Z" fill="#93c5fd" stroke="#1e293b" strokeWidth="3" />
+                                {/* Horizontal ridges */}
+                                <line x1="14" y1="32" x2="36" y2="32" stroke="#1e293b" strokeWidth="2.5" strokeLinecap="round" />
+                                <line x1="14" y1="44" x2="36" y2="44" stroke="#1e293b" strokeWidth="2.5" strokeLinecap="round" />
+                                <line x1="14" y1="56" x2="36" y2="56" stroke="#1e293b" strokeWidth="2.5" strokeLinecap="round" />
+                              </g>
+                            </svg>
+                          </div>
+                          <span className="text-[10px] font-black text-slate-700">
+                            {language === 'KR' ? '뚜껑이 닫힌 생수/음료' : 'Sealed Water Bottles'}
+                          </span>
+                        </div>
+
+                        {/* Prohibited (Red) */}
+                        <div className="flex flex-col items-center justify-between p-3 bg-white rounded-xl border border-rose-100 shadow-3xs text-center space-y-2">
+                          <span className="bg-rose-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full">
+                            {language === 'KR' ? '반입 불가' : 'PROHIBITED'}
+                          </span>
+                          <div className="relative w-24 h-24 flex items-center justify-center rounded-full border-4 border-rose-500 bg-rose-50/20 shadow-inner overflow-hidden">
+                            <svg width="72" height="72" viewBox="0 0 100 100" className="w-18 h-18 opacity-80">
+                              <g transform="translate(20, 8)">
+                                {/* Straw */}
+                                <path d="M42 5 L42 22 L32 22" fill="none" stroke="#ef4444" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                                {/* Lid */}
+                                <ellipse cx="30" cy="24" rx="20" ry="6" fill="#ffffff" stroke="#1e293b" strokeWidth="3" />
+                                <rect x="20" y="24" width="20" height="3" fill="#e2e8f0" stroke="#1e293b" strokeWidth="2" />
+                                {/* Cup body */}
+                                <path d="M13 28 L18 72 C18 74, 20 76, 22 76 L38 76 C40 76, 42 74, 43 72 L47 28 Z" fill="#fcd34d" stroke="#1e293b" strokeWidth="3" />
+                                {/* Coffee sleeve */}
+                                <path d="M15 40 L17 56 L43 56 L45 40 Z" fill="#b45309" stroke="#1e293b" strokeWidth="2" />
+                                {/* Coffee icon emblem on sleeve */}
+                                <circle cx="30" cy="48" r="4" fill="#78350f" />
+                              </g>
+                            </svg>
+                            {/* Prohibited diagonal cross-bar overlay */}
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                              <svg width="80" height="80" viewBox="0 0 100 100" className="w-full h-full text-rose-500 stroke-rose-500">
+                                <line x1="15" y1="15" x2="85" y2="85" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
+                              </svg>
+                            </div>
+                          </div>
+                          <span className="text-[10px] font-black text-rose-600">
+                            {language === 'KR' ? '일회용 테이크아웃 컵' : 'Disposable Cups & Drinks'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        {/* Not Allowed Section */}
+                        <div className="p-3.5 bg-rose-50/30 rounded-xl border border-rose-100/50 space-y-2">
+                          <div className="flex items-center gap-1.5 text-rose-700 text-xs font-black">
+                            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 shrink-0"></span>
+                            <span>{language === 'KR' ? '반입 불가 (Prohibited)' : 'Prohibited Food/Drinks'}</span>
+                          </div>
+                          <ul className="text-xs text-slate-600 font-bold space-y-1.5 list-disc pl-4 leading-relaxed">
+                            <li>
+                              {language === 'KR' 
+                                ? '가벼운 충격에도 쏟아질 우려가 있는 일회용 용기(일명 \'테이크아웃 컵\') 등에 담긴 음식물 및 음료' 
+                                : 'Food and drinks in disposable containers/cups (e.g., takeout cups) prone to spilling upon light impact'}
+                            </li>
+                          </ul>
+                        </div>
+
+                        {/* Allowed Section */}
+                        <div className="p-3.5 bg-emerald-50/30 rounded-xl border border-emerald-100/50 space-y-2">
+                          <div className="flex items-center gap-1.5 text-emerald-700 text-xs font-black">
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+                            <span>{language === 'KR' ? '반입 가능 (Allowed)' : 'Allowed Food/Drinks'}</span>
+                          </div>
+                          <ul className="text-xs text-slate-600 font-bold space-y-1.5 list-disc pl-4 leading-relaxed">
+                            <li>
+                              {language === 'KR' 
+                                ? '차내에서 취식할 목적이 아닌 단순히 운반하기 위해 소지하고 타는 완전히 포장된 음식물 또는 식재료 등' 
+                                : 'Fully packaged food or raw ingredients carried simply for transport purposes and not for in-transit consumption'}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -3066,250 +4016,197 @@ export default function BusanItinerariesView({
 
           {transitSection === 'CHILD_FREE' && (
             <div className="space-y-6 animate-fade-in text-left">
-              <button
-                onClick={() => navigateToSubPage('transit')}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-black text-slate-800 hover:text-white bg-white hover:bg-slate-900 border-2 border-slate-900 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] transition-all cursor-pointer mb-2"
-              >
-                <span>◀</span>
-                <span>{language === 'KR' ? '이용 팁 목록으로 돌아가기' : 'Back to Transit Tips'}</span>
-              </button>
+              {/* BRAND HEADER TITLE */}
+              <div className="text-center py-4 sm:py-6 max-w-2xl mx-auto space-y-2">
+                <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight uppercase font-heading">
+                  {language === 'KR' ? '어린이 대중교통 무료 요금 안내' : 'Children Public Transit Free Fare Guide'}
+                </h1>
+                <p className="text-xs sm:text-sm text-slate-500 font-bold">
+                  {language === 'KR' 
+                    ? '부산 대중교통 어린이 무료 정책의 대상 설정과 올바른 충전카드 등록 요령입니다' 
+                    : 'Target group definition and child transit card registration methods'}
+                </p>
+              </div>
 
-              {/* Core Policy Details Card - Playful Flat Illustration Styling */}
-              <div className="bg-[#FFFDF9] p-6 sm:p-8 rounded-3xl border-2 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] text-left space-y-6 relative overflow-hidden">
-                <div className="absolute top-2 right-4 text-4xl opacity-10 select-none">🎁</div>
-                
-                <div className="border-b-2 border-slate-900 pb-4">
-                  <span className="bg-emerald-400 text-slate-900 border-2 border-slate-900 text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider inline-block shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] mb-2">
-                    KIDS FARE FREE
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-black text-slate-900 leading-snug flex items-center gap-2">
-                    <span>{language === 'KR' ? '대중교통 어린이 무료 혜택 한눈에 보기' : 'Child Free Transit Policy Details'}</span>
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-700 mt-1.5 leading-relaxed font-bold">
-                    {language === 'KR'
-                      ? '부산 거주 어린이 및 국내외 모든 어린이 관광객에게 동일하게 적용됩니다!'
-                      : 'Applies equally to both local children and all domestic/foreign child tourists!'}
+              {/* CARD GRID (Style 1: Minimalist outline illustrations matching first image) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                {/* SUB-CARD 01: Eligibility */}
+                <div className="relative bg-white p-5 rounded-3xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex flex-col justify-between text-center min-h-[340px]">
+                  <div className="absolute top-4 left-4 w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-xs font-black tracking-tight">
+                    01
+                  </div>
+
+                  <div className="mt-4">
+                    <h3 className="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-tight">
+                      {language === 'KR' ? '지원 대상 연령' : 'Target Age Group'}
+                    </h3>
+                  </div>
+
+                  <div className="my-4 flex justify-center items-center">
+                    <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+                      <svg className="w-16 h-16 text-slate-800" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="50" cy="45" r="22" />
+                        <path d="M28 45c0-10 10-18 22-18s22 8 22 18" />
+                        <path d="M50 27v-5M44 22h12" />
+                        <circle cx="42" cy="42" r="2" fill="currentColor" />
+                        <circle cx="58" cy="42" r="2" fill="currentColor" />
+                        <path d="M44 51c2 4 10 4 12 0" />
+                        <circle cx="36" cy="48" r="1.5" fill="currentColor" opacity="0.5" />
+                        <circle cx="64" cy="48" r="1.5" fill="currentColor" opacity="0.5" />
+                        <path d="M25 80c5-12 12-13 25-13s20 1 25 13" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <p className="text-xs sm:text-[13px] text-slate-500 font-bold leading-relaxed">
+                    {language === 'KR' 
+                      ? '만 6세 ~ 12세 어린이 전원 대상 (타 지역 거주어린이 및 해외 관광객 포함)' 
+                      : 'All kids aged 6 to 12 (includes foreign visitors and domestic travellers).'}
                   </p>
                 </div>
 
-                {/* Grid of Key Info (cartoon / neo-brutalist style cards) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Card 1: Eligibility */}
-                  <div className="bg-[#F2F7FF] p-4 rounded-2xl border-2 border-slate-900 flex items-start gap-3.5 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
-                    <span className="text-xl p-2 rounded-xl bg-white border-2 border-slate-900 text-blue-600 shrink-0 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]">👥</span>
-                    <div className="space-y-0.5">
-                      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{language === 'KR' ? '지원 대상' : 'Eligibility'}</p>
-                      <p className="text-xs sm:text-sm text-slate-800 font-black leading-snug">
-                        {language === 'KR' ? '만 6세 ~ 12세 어린이 (외국인 포함)' : 'Children aged 6 to 12 (including foreign residents/visitors)'}
-                      </p>
+                {/* SUB-CARD 02: Benefit */}
+                <div className="relative bg-white p-5 rounded-3xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex flex-col justify-between text-center min-h-[340px]">
+                  <div className="absolute top-4 left-4 w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-xs font-black tracking-tight">
+                    02
+                  </div>
+
+                  <div className="mt-4">
+                    <h3 className="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-tight">
+                      {language === 'KR' ? '부과 요금 및 혜택' : 'Transit Fare / Fares'}
+                    </h3>
+                  </div>
+
+                  <div className="my-4 flex justify-center items-center">
+                    <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+                      <svg className="w-16 h-16 text-slate-800" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="50" cy="42" r="22" />
+                        <circle cx="50" cy="42" r="18" strokeDasharray="3 3" />
+                        <path d="M42 61v18l8-6 8 6V61" />
+                        <path d="M50 32l3.5 7h7.5l-6 5.5 2 7.5-7-5.5-7 5.5 2-7.5-6-5.5h7.5z" fill="currentColor" />
+                      </svg>
                     </div>
                   </div>
 
-                  {/* Card 2: Fare Details (Combined Card) */}
-                  <div className="bg-[#FFF5F5] p-4 rounded-2xl border-2 border-slate-900 flex items-start gap-3.5 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
-                    <span className="text-xl p-2 rounded-xl bg-white border-2 border-slate-900 text-rose-600 shrink-0 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]">💳</span>
-                    <div className="space-y-1">
-                      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{language === 'KR' ? '부과 요금' : 'Charged Fare'}</p>
-                      <p className="text-xs sm:text-sm text-rose-600 font-black leading-snug">
-                        {language === 'KR' ? '교통카드 사용 시 ₩0원 청구' : '₩0 will be charged when using a transit card.'}
-                      </p>
-                      <p className="text-[11px] text-slate-500 font-bold border-t border-slate-200 pt-1 mt-1">
-                        {language === 'KR' ? '※ 현금 승차 시 일반 어린이 요금 정상 부과' : '※ Regular child fares apply when paying with cash'}
-                      </p>
-                    </div>
+                  <div className="space-y-1">
+                    <span className="text-emerald-600 font-black text-xs block">{language === 'KR' ? '교통카드 접촉 시 0원' : '₩0 with card tap'}</span>
+                    <p className="text-xs sm:text-[13px] text-slate-500 font-bold leading-relaxed">
+                      {language === 'KR' 
+                        ? '※ 단, 현금으로 탑승 결제할 경우 일반 어린이 요금이 그대로 부과됩니다.' 
+                        : 'Regular cash fares apply if boarding without tapping a card.'}
+                    </p>
                   </div>
                 </div>
 
-                {/* Steps & Exclusion inside flat illustration box */}
-                <div className="space-y-6 pt-2">
-                  {/* Applicability & Exclusion Warning Card - Moved to the top */}
-                  <div className="bg-[#FFF2EE] p-5 rounded-2xl border-2 border-slate-900 flex items-start gap-4 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
-                    <span className="text-2xl p-2 bg-white border-2 border-slate-900 text-rose-500 shrink-0 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]">⚠️</span>
-                    <div className="space-y-1">
-                      <h4 className="text-sm sm:text-base font-black text-slate-900">{language === 'KR' ? '이용수단 및 제외 노선 주의사항' : 'Applicable Transit & Exclusions'}</h4>
-                      <p className="text-xs sm:text-[13px] text-slate-700 leading-relaxed font-bold">
-                        {language === 'KR'
-                          ? '부산광역시에 등록된 모든 시내버스, 마을버스, 부산 도시철도(지하철 1~4호선, 부산-김해경전철)에 해당하며, 광역급행버스 2000번 버스 및 코레일 동해선 전철은 무료 혜택에서 제외됩니다.'
-                          : 'Busan-registered city buses, town buses (Maeul-bus), and urban rail/subway. *(Excludes Bus No. 2000 and the Donghae Line).*'}
-                      </p>
+                {/* SUB-CARD 03: Register */}
+                <div className="relative bg-white p-5 rounded-3xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex flex-col justify-between text-center min-h-[340px]">
+                  <div className="absolute top-4 left-4 w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-xs font-black tracking-tight">
+                    03
+                  </div>
+
+                  <div className="mt-4">
+                    <h3 className="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-tight">
+                      {language === 'KR' ? '교통카드 등록요령' : 'How to Enroll'}
+                    </h3>
+                  </div>
+
+                  <div className="my-4 flex justify-center items-center">
+                    <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+                      <svg className="w-16 h-16 text-slate-800" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="34" y="20" width="32" height="60" rx="6" />
+                        <rect x="38" y="26" width="24" height="42" rx="2" />
+                        <circle cx="50" cy="74" r="2.5" />
+                        <circle cx="50" cy="44" r="10" strokeDasharray="2 2" />
+                        <path d="M45 44l3 3 7-7" strokeWidth="2" stroke="#10b981" />
+                      </svg>
                     </div>
                   </div>
 
-                  {/* How to Use Card */}
-                  <div className="bg-white p-5 sm:p-6 rounded-2xl border-2 border-slate-900 flex flex-col gap-5 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
-                    <div className="flex items-start gap-3">
-                      <span className="text-2xl p-1.5 bg-sky-100 rounded-xl border-2 border-slate-900 shrink-0 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]">🚀</span>
-                      <div className="space-y-1.5">
-                        <h4 className="text-sm sm:text-base font-black text-slate-900">{language === 'KR' ? '이용방법 (생년월일 등록 필수!)' : 'How to Use'}</h4>
-                        <p className="text-xs sm:text-[13px] text-slate-700 leading-relaxed font-bold">
-                          {language === 'KR' 
-                            ? '일반 대중교통카드는 편의점에서 구매 가능하고 교통카드는 전국에서 사용 가능합니다! 편의점에서 구매한 후, 어린이 생년월일을 등록하여 사용하세요. (편의점 계산대에서 직접 생년월일 등록을 요청하거나 모바일 "이즐충전소" 등의 앱을 통해 등록 가능합니다.)'
-                            : 'Transit cards can be purchased at convenience stores and can be used nationwide! Register the child\'s date of birth after purchase. (You can request birthdate registration directly at convenience store registers or register via mobile apps such as "Ezle Charge".)'}
-                        </p>
-                      </div>
-                    </div>
+                  <p className="text-xs sm:text-[13px] text-slate-500 font-bold leading-relaxed">
+                    {language === 'KR' 
+                      ? '일반 교통카드 구매 후 편의점 계산대에서 직접 생년월일을 등록하거나 앱을 통해 활성화' 
+                      : 'Purchase a card at convenience stores and request date-of-birth registration.'}
+                  </p>
+                </div>
 
-                    {/* Terminal Voice announcement and penalty notice */}
-                    <div className="bg-[#FFFDF2] p-4 rounded-xl border-2 border-slate-900 flex items-start gap-3 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]">
-                      <span className="text-xl shrink-0">🔊</span>
-                      <div className="text-xs sm:text-[13px] font-bold text-slate-800 space-y-1">
-                        <p className="font-black text-amber-950">
-                          {language === 'KR' ? '📢 교통카드 접촉 시 안내 음성 및 부정 사용 주의' : '📢 Terminal Voice Guidance & Fine Penalty Alert'}
-                        </p>
-                        <p className="leading-relaxed">
-                          {language === 'KR'
-                            ? '어린이 교통카드를 대중교통 단말기에 접촉하면 "어린이입니다"라는 안내 목소리가 나옵니다. 부정 사용 시 관련법에 따라 부가금이 부과되오니 올바르게 사용해 주시기 바랍니다.'
-                            : 'When tapping a child transit card on the terminal reader, a voice guidance message saying "어린이입니다" (It\'s a child) is played. Fines/penalties apply for fraudulent or unauthorized use.'}
-                        </p>
-                      </div>
-                    </div>
+                {/* SUB-CARD 04: Exclusions */}
+                <div className="relative bg-white p-5 rounded-3xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex flex-col justify-between text-center min-h-[340px]">
+                  <div className="absolute top-4 left-4 w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-xs font-black tracking-tight">
+                    04
+                  </div>
 
-                    {/* Unmodified Infographic Image frame with beautiful clean cartoon layout border */}
-                    <div className="pt-4 border-t-2 border-dashed border-slate-300 space-y-3">
-                      <div className="space-y-2">
-                        <p className="text-xs sm:text-sm font-black text-slate-900 flex items-center gap-2">
-                          <span className="w-2.5 h-2.5 bg-[#004481] border border-slate-900 rounded-full inline-block"></span>
-                          <span>{language === 'KR' ? '어린이 대중교통 무료화 등록 방법 안내 (How to Enroll)' : 'Child Free Fare Enrollment & Transit Card Guide'}</span>
-                        </p>
-                        <div className="relative w-full overflow-hidden rounded-2xl border-2 border-slate-900 bg-white flex flex-col items-center p-2 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
-                          <img 
-                            src={CHILD_TRANSPORT_INFOGRAPHIC_BASE64} 
-                            alt={language === 'KR' ? '부산 대중교통 어린이 무료 정책 안내문 (How to Enroll)' : 'How to Enroll in the Free Fare Program Infographic'} 
-                            className="w-full h-auto object-contain rounded-xl"
-                            referrerPolicy="no-referrer"
-                          />
-                        </div>
-                      </div>
+                  <div className="mt-4">
+                    <h3 className="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-tight">
+                      {language === 'KR' ? '이용범위 및 예외' : 'Exclusions'}
+                    </h3>
+                  </div>
 
-                      <div className="pt-2 flex justify-end">
-                        <a 
-                          href="https://www.busan.go.kr/depart/childtransport" 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-blue-600 font-black transition-colors hover:underline"
-                        >
-                          <span>{language === 'KR' ? '출처: 부산광역시 대표포털' : 'Source: Busan Metropolitan City Portal'}</span>
-                          <ExternalLink className="w-3.5 h-3.5 stroke-[2.5]" />
-                        </a>
-                      </div>
+                  <div className="my-4 flex justify-center items-center">
+                    <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+                      <svg className="w-16 h-16 text-slate-800" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M50 18L18 74h64L50 18z" />
+                        <path d="M50 38v18" strokeWidth="2.5" />
+                        <circle cx="50" cy="64" r="2.5" fill="currentColor" />
+                      </svg>
                     </div>
                   </div>
+
+                  <p className="text-xs sm:text-[13px] text-slate-500 font-bold leading-relaxed">
+                    {language === 'KR' 
+                      ? '시내버스, 마을버스, 지하철 1~4호선 해당. (광역급행 2000번 버스 및 코레일 동해선은 무료 대상에서 제외)' 
+                      : 'Applies to buses and subways. Excludes Express No. 2000 & Donghae Line.'}
+                  </p>
                 </div>
               </div>
-            </div>
-          )}
 
-          {transitSection === 'TRANSFERS' && (
-            <div className="space-y-4 animate-fade-in text-left">
-              <button
-                onClick={() => navigateToSubPage('transit')}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-slate-500 hover:text-[#004481] hover:bg-slate-50 transition-all cursor-pointer border border-slate-100 mb-1"
-              >
-                <span>◀</span>
-                <span>{language === 'KR' ? '이용 팁 목록으로 돌아가기' : 'Back to Transit Tips'}</span>
-              </button>
-
-              {/* Subway & Transfers Card - Highly Compacted */}
-              <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.01)] text-left space-y-4">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-lg">🚇</span>
-                  <h3 className="text-base font-extrabold text-slate-800">
-                    {language === 'KR' ? '부산 지하철 노선 요약 & 환승 제도' : 'Busan Subway Summary & Transfer Policy'}
-                  </h3>
-                </div>
-
-                {/* Compact pill grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                  <div className="px-2.5 py-1.5 rounded-xl bg-orange-50/40 border border-orange-100 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-orange-500 shrink-0"></span>
-                    <div className="text-left">
-                      <p className="text-[10px] font-black text-orange-700">{language === 'KR' ? '1호선' : 'Line 1'}</p>
-                      <p className="text-[9px] text-slate-500 font-bold truncate max-w-[120px]">{language === 'KR' ? '부산역 • 남포 • 서면' : 'Busan Stn, Nampo, Seomyeon'}</p>
-                    </div>
+              {/* DETAIL PAMPHLET CALLOUT (Style 2: High-visibility layout from image 2) */}
+              <div className="space-y-6 pt-6 border-t border-slate-150">
+                {/* Voice guide terminal box */}
+                <div className="bg-gradient-to-br from-[#004481]/5 via-white to-blue-50/10 p-6 rounded-3xl border border-blue-100 shadow-3xs flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                  <div className="w-16 h-16 rounded-2xl bg-blue-100 border border-blue-200 flex items-center justify-center text-3xl shrink-0 shadow-3xs">
+                    🔊
                   </div>
-
-                  <div className="px-2.5 py-1.5 rounded-xl bg-emerald-50/40 border border-emerald-100 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
-                    <div className="text-left">
-                      <p className="text-[10px] font-black text-emerald-700">{language === 'KR' ? '2호선' : 'Line 2'}</p>
-                      <p className="text-[9px] text-slate-500 font-bold truncate max-w-[120px]">{language === 'KR' ? '해운대 • 광안리 • 서면' : 'Haeundae, Gwangalli'}</p>
-                    </div>
-                  </div>
-
-                  <div className="px-2.5 py-1.5 rounded-xl bg-amber-50/40 border border-amber-100 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-amber-600 shrink-0"></span>
-                    <div className="text-left">
-                      <p className="text-[10px] font-black text-amber-700">{language === 'KR' ? '3호선' : 'Line 3'}</p>
-                      <p className="text-[9px] text-slate-500 font-bold truncate max-w-[120px]">{language === 'KR' ? '사직 • 연산 • 수영' : 'Sajik, Yeonsan, Suyeong'}</p>
-                    </div>
-                  </div>
-
-                  <div className="px-2.5 py-1.5 rounded-xl bg-blue-50/40 border border-blue-100 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-blue-500 shrink-0"></span>
-                    <div className="text-left">
-                      <p className="text-[10px] font-black text-blue-700">{language === 'KR' ? '동해선' : 'Donghae'}</p>
-                      <p className="text-[9px] text-slate-500 font-bold truncate max-w-[120px]">{language === 'KR' ? '오시리아 • 기장 해변' : 'Osiria, Gijang Beaches'}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Transfer banner - slim and beautiful */}
-                <div className="bg-gradient-to-br from-blue-50/70 via-white to-blue-50/30 p-5 rounded-2xl border border-blue-100 shadow-[0_2px_12px_rgba(59,130,246,0.02)] space-y-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-base">💡</span>
-                    <h4 className="text-sm font-black text-blue-900">
-                      {language === 'KR' ? '대중교통 환승 꿀팁 & 주요 수칙' : 'Public Transit Transfer Tips & Rules'}
+                  <div className="space-y-1.5 text-left">
+                    <span className="text-[10px] bg-blue-600 text-white px-2 rounded-full font-black uppercase tracking-wider block w-max">
+                      Voice Announcement Alert
+                    </span>
+                    <h4 className="text-base sm:text-lg font-black text-slate-800">
+                      {language === 'KR' ? '📢 교통카드 접촉 단말기 안내 음성 주의' : '📢 Voice Announcement at Terminal Reader'}
                     </h4>
+                    <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
+                      {language === 'KR' 
+                        ? '등록된 어린이 카드를 접촉하면 "어린이입니다"라는 음성 안내가 단말기에서 송출됩니다. 타인의 교통카드를 무단 사용할 경우 관련 규정에 따라 기본요금 30배 가량의 무거운 부가금(벌금)이 징수될 수 있으니 주의 바랍니다.' 
+                        : 'Tapping a child card triggers "어린이입니다" (It\'s a child). Severe fines apply to unauthorized users of child/youth transit cards.'}
+                    </p>
                   </div>
+                </div>
+
+                {/* Infographic with sleek frame border */}
+                <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+                  <p className="text-xs sm:text-sm font-black text-slate-900 flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 bg-[#004481] rounded-full inline-block"></span>
+                    <span>{language === 'KR' ? '어린이 대중교통 무료화 등록 방법 안내서' : 'Official Enrollment Guide Infographic'}</span>
+                  </p>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                    <div className="bg-white/80 p-3 rounded-xl border border-blue-50 flex items-start gap-2">
-                      <span className="text-emerald-500 font-bold shrink-0">✓</span>
-                      <div>
-                        <p className="font-extrabold text-slate-800">{language === 'KR' ? '30분 이내 무료 환승' : 'Free Transfer within 30 Mins'}</p>
-                        <p className="text-slate-500 font-semibold mt-0.5 leading-relaxed">
-                          {language === 'KR' 
-                            ? '교통카드 하차 태그 후 30분 이내 탑승 시 적용됩니다.' 
-                            : 'Applies when tapping on boarding within 30 minutes of tapping off.'}
-                        </p>
-                      </div>
-                    </div>
+                  <div className="relative w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 flex flex-col items-center p-3 shadow-3xs">
+                    <img 
+                      src={CHILD_TRANSPORT_INFOGRAPHIC_BASE64} 
+                      alt={language === 'KR' ? '부산 대중교통 어린이 무료 정책 안내문 (How to Enroll)' : 'How to Enroll in the Free Fare Program Infographic'} 
+                      className="w-full h-auto object-contain rounded-xl max-h-[800px]"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
 
-                    <div className="bg-white/80 p-3 rounded-xl border border-blue-50 flex items-start gap-2">
-                      <span className="text-emerald-500 font-bold shrink-0">✓</span>
-                      <div>
-                        <p className="font-extrabold text-slate-800">{language === 'KR' ? '최대 2회 무료 환승' : 'Up to 2 Free Transfers'}</p>
-                        <p className="text-slate-500 font-semibold mt-0.5 leading-relaxed">
-                          {language === 'KR' 
-                            ? '버스-버스, 버스-지하철 간 연계 시 무료 환승이 지원됩니다.' 
-                            : 'Applicable between bus-to-bus and bus-to-subway.'}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="bg-rose-50/40 p-3 rounded-xl border border-rose-100/50 flex items-start gap-2">
-                      <span className="text-rose-500 font-bold shrink-0">✗</span>
-                      <div>
-                        <p className="font-extrabold text-rose-900">{language === 'KR' ? '지하철 간 환승 불가' : 'No Subway-to-Subway Transfer'}</p>
-                        <p className="text-rose-700/80 font-semibold mt-0.5 leading-relaxed">
-                          {language === 'KR' 
-                            ? '개찰구 밖으로 나갔다가 지하철에 다시 승차할 경우 환승 적용이 되지 않습니다.' 
-                            : 'Transfer discount is not applied when exiting and re-entering subway stations.'}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="bg-rose-50/40 p-3 rounded-xl border border-rose-100/50 flex items-start gap-2">
-                      <span className="text-rose-500 font-bold shrink-0">✗</span>
-                      <div>
-                        <p className="font-extrabold text-rose-900">{language === 'KR' ? '동일 버스 노선 환승 불가' : 'No Transfer on Same Bus Line'}</p>
-                        <p className="text-rose-700/80 font-semibold mt-0.5 leading-relaxed">
-                          {language === 'KR' 
-                            ? '하차한 버스와 같은 번호(동일 노선)의 버스로 환승할 경우에는 할인되지 않습니다.' 
-                            : 'Transfer discount does not apply when boarding the same bus route number.'}
-                        </p>
-                      </div>
-                    </div>
+                  <div className="flex justify-end pt-2">
+                    <a 
+                      href="https://www.busan.go.kr/depart/childtransport" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-blue-600 font-black transition-colors hover:underline"
+                    >
+                      <span>{language === 'KR' ? '출처: 부산광역시 대표포털' : 'Source: Busan Metropolitan City Portal'}</span>
+                      <ExternalLink className="w-3.5 h-3.5 stroke-[2.5]" />
+                    </a>
                   </div>
                 </div>
               </div>
