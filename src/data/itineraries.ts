@@ -29,6 +29,74 @@ export interface ItineraryCourse {
 
 export const BUSAN_ITINERARIES: ItineraryCourse[] = [
   {
+    id: 'itinerary-day-first-time',
+    titleKo: '이동 최소화! 알짜배기 부산 원도심 당일치기 코스',
+    titleEn: 'Minimize Movement! Best of Busan Historical Downtown 1-Day Tour',
+    subtitleKo: '첫 부산 방문을 위한 알짜배기 코스로, 교통 수단을 효율적으로 사용하여 원도심의 알짜배기 명소와 광안리 야경까지 하루 만에 완전 정복하는 최고의 코스예요.',
+    subtitleEn: 'A highly efficient day tour for first-time visitors, covering must-see historic downtown spots, Yeongdo cliffs, and Gwangalli night view.',
+    category: 'DAY',
+    durationKo: '당일치기 (약 12시간)',
+    durationEn: '1 Day (Approx. 12 Hours)',
+    tagKo: '첫 방문 필수 🌊',
+    tagEn: 'First-time Must 🌊',
+    difficultyKo: '보통',
+    difficultyEn: 'Moderate',
+    overallTipKo: '부산역에서 시작해 원도심인 감천문화마을과 남포동, 영도를 거쳐 광안리 야경으로 이어지는 코스입니다. 지하철과 노선버스를 영리하게 조합하거나 저상버스, 택시 등을 효율적으로 이용하면 이동 거리를 최소화하며 알차게 하루를 보낼 수 있습니다.',
+    overallTipEn: 'Starting from Busan Station, this course takes you through Gamcheon, Nampo-dong, Yeongdo, and finishes with Gwangalli night views. Combining the subway, local buses, or taxis minimizes travel time for an incredibly packed single-day itinerary.',
+    steps: [
+      {
+        time: '09:00 - 09:30',
+        titleKo: '부산역 (설레는 부산 여행의 시작)',
+        titleEn: 'Busan Station (The Start of the Exciting Journey)',
+        descKo: 'KTX/SRT 열차에서 내려 힘찬 부산 여행을 시작하는 출발점입니다. 역사 내 짐 보관 서비스나 물품보관함을 이용해 무거운 짐을 보관하거나 숙소로 미리 보내 가벼운 몸으로 여행을 출발하는 것이 요령입니다.',
+        descEn: 'Step off your high-speed train and kickstart your adventure. We highly recommend using luggage storage or delivery services within the station to travel light.',
+        icon: 'Train',
+        stationInfoKo: 'KTX/SRT 부산역 및 지하철 1호선 부산역 연계 편리',
+        stationInfoEn: 'Easy transfers between KTX/SRT Busan Station and Subway Line 1.'
+      },
+      {
+        time: '10:00 - 12:00',
+        titleKo: '감천문화마을: 알록달록 무지개 빛깔 산등성이 예술마을',
+        titleEn: 'Gamcheon Culture Village: Colorful Hillside Rainbow Art Village',
+        descKo: '산비탈을 따라 계단식으로 늘어선 아기자기하고 예쁜 파스텔톤 집들이 모여 이국적인 비경을 선사합니다. 어린왕자 동상 앞 포토존에서 인생사진을 남기고 전망대에서 탁 트인 원도심의 바다 풍경을 감상해 보세요.',
+        descEn: 'Explore the picturesque pastel-toned houses lined up along the hillside. Capture iconic photos with the Little Prince and enjoy panoramic views of the historic port.',
+        icon: 'Map',
+        stationInfoKo: '토성역(1호선) 6번 출구 앞 버스정류장에서 사하구1-1, 서구2, 서구2-2 마을버스 환승 후 감천문화마을 하차',
+        stationInfoEn: 'Toseong Station (Line 1) Exit 6, transfer to local mini bus Saha 1-1, Seo-gu 2, or Seo-gu 2-2 to Gamcheon Culture Village.'
+      },
+      {
+        time: '12:30 - 15:00',
+        titleKo: '부평깡통시장 & 국제시장 & 보수동 책방거리 (남포동 미식/역사 탐방)',
+        titleEn: 'Bupyeong Kkangtong Market, Gukje Market & Bosudong Book Alley',
+        descKo: '부산 원도심의 심장부에서 따뜻한 비빔당면, 씨앗호떡, 원조 물떡 등 군침 도는 대표 길거리 미식을 맛보며 든든한 점심 식사를 즐깁니다. 평탄하게 이어진 시장 골목을 지나며 영화의 감동이 살아있는 국제시장과 정겨운 종이 냄새 가득한 보수동 책방거리를 도보로 산책하세요.',
+        descEn: 'Indulge in Busan’s famous street foods such as spicy glass noodles, sweet seed hotteok, and chewy water rice cakes for lunch. Stroll on flat market aisles and historic alleys filled with cozy rare bookstores.',
+        icon: 'Food',
+        stationInfoKo: '자갈치역(1호선) 7번 출구 또는 남포역(1호선) 1번/3번 출구 평탄한 도보 5~10분',
+        stationInfoEn: 'Jagalchi Station (Line 1) Exit 7 or Nampo Station (Line 1) Exits 1 or 3, smooth 5-10 mins walk.'
+      },
+      {
+        time: '15:30 - 18:30',
+        titleKo: '영도 흰여울문화마을 & 태종대: 깎아지른 절벽 위 그리스 감성 바다 수평선',
+        titleEn: 'Yeongdo Huinnyeoul Culture Village & Taejongdae Sea Cliffs',
+        descKo: '남해 바다가 아득하게 펼쳐지는 절벽을 따라 하얀 골목이 이어지는 그리스 산토리니 풍의 흰여울문화마을입니다. 상부 도로변의 예쁜 바다 뷰 카페에서 티타임을 보낸 후, 태종대로 넘어가 친환경 순환 열차 다누비열차를 타고 수려한 소나무 숲길과 아찔한 해안 절벽 비경을 한눈에 감상해 보세요.',
+        descEn: 'A beautiful Santorini-style village with white walls built along steep sea cliffs. Enjoy ocean-view cafes, then head to Taejongdae to ride the friendly Danubi train around the coastal pine forest.',
+        icon: 'Sunset',
+        stationInfoKo: '남포역 6번 출구 영도대교 정류장에서 6, 9, 82, 85번 등 시내버스 탑승 후 흰여울문화마을 하차',
+        stationInfoEn: 'From Nampo Station Exit 6 (Yeongdo Bridge stop), take local bus 6, 9, 82, or 85 to Huinnyeoul Culture Village.'
+      },
+      {
+        time: '19:30 - 21:00',
+        titleKo: '광안리해수욕장: 밤하늘을 수놓는 광안대교 다이내믹 야경 쇼',
+        titleEn: 'Gwangalli Beach: Dynamic Light Show of Gwangan Bridge',
+        descKo: '부산의 잊지 못할 밤을 완성하는 곳입니다. 드넓은 모래사장 뒤편으로 펼쳐지는 아름다운 오색 광안대교 LED 라이팅 쇼를 감상하며 시원한 바닷바람과 함께 여정을 낭만적으로 장식해 보세요. 매주 토요일 저녁에는 화려한 드론 쇼도 열리니 일정을 맞추면 좋습니다.',
+        descEn: 'Wrap up your ultimate Busan day. Relax on the beach watching the dynamic colorful LED light show illuminating the gigantic suspension bridge over the gentle waves.',
+        icon: 'Sunset',
+        stationInfoKo: '광안역(2호선) 3번 또는 5번 출구에서 해변 방향 도보 10분, 또는 버스 연계 편리',
+        stationInfoEn: 'Gwangan Station (Line 2) Exit 3 or 5, 10 mins walk down to the beach.'
+      }
+    ]
+  },
+  {
     id: 'itinerary-day-junggu',
     titleKo: '역사와 맛이 살아숨쉬는 부산 중구 골목길 상생 당일 코스',
     titleEn: 'Busan Jung-gu Historic & Gourmet Time Travel Day Tour',
