@@ -1670,7 +1670,7 @@ export default function BusanItinerariesView({
                     className="relative aspect-[16/9] w-full max-w-3xl mx-auto rounded-3xl overflow-hidden border border-slate-150/70 shadow-[0_4px_20px_rgba(0,0,0,0.02)] bg-slate-50 group"
                   >
                     <img 
-                      src="/images/Gemini_Generated_Image_4ctuo54ctuo54ctu.jpg"
+                      src="/images/busan_wide_map_1782270122755.jpg"
                       alt="Busan Travel Map Illustration"
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover transition-transform duration-1000 ease-out"
@@ -2312,6 +2312,13 @@ export default function BusanItinerariesView({
                         alt="이동 최소화! 부산 원도심 알짜배기 지도" 
                         className="w-full h-auto"
                         referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          const currentSrc = target.src;
+                          if (currentSrc.includes('Gemini_Generated_Image_')) {
+                            target.src = '/images/busan_detail_map_final_1783070942179.jpg';
+                          }
+                        }}
                       />
                     </div>
                   )}
@@ -4207,7 +4214,7 @@ export default function BusanItinerariesView({
             {/* Modal Body (Scrollable Image container) */}
             <div className="flex-1 overflow-auto bg-slate-50 p-4 flex items-center justify-center min-h-0">
               <img 
-                src="/images/Gemini_Generated_Image_4ctuo54ctuo54ctu.jpg"
+                src="/images/busan_wide_map_1782270122755.jpg"
                 alt="Busan Travel Map Illustration Enlarged"
                 referrerPolicy="no-referrer"
                 className="max-w-full max-h-[70vh] object-contain rounded-xl shadow-md border border-slate-200/60"
