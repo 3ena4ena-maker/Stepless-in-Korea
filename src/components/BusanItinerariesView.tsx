@@ -1667,10 +1667,10 @@ export default function BusanItinerariesView({
                 <div className="space-y-6">
                   {/* Map Container */}
                   <div 
-                    className="relative aspect-[3/2] w-full max-w-3xl mx-auto rounded-3xl overflow-hidden border border-slate-150/70 shadow-[0_4px_20px_rgba(0,0,0,0.02)] bg-slate-50 group"
+                    className="relative aspect-[16/9] w-full max-w-3xl mx-auto rounded-3xl overflow-hidden border border-slate-150/70 shadow-[0_4px_20px_rgba(0,0,0,0.02)] bg-slate-50 group"
                   >
                     <img 
-                      src="/images/busan_wide_map_1782270122755.jpg"
+                      src="/images/Gemini_Generated_Image_4ctuo54ctuo54ctu.jpg"
                       alt="Busan Travel Map Illustration"
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover transition-transform duration-1000 ease-out"
@@ -2308,9 +2308,9 @@ export default function BusanItinerariesView({
                   {activeCategory === 'DAY' && activeDayCourseIndex === 0 && (
                     <div className="flex justify-center my-6 max-w-4xl mx-auto overflow-hidden rounded-3xl border border-slate-150 shadow-md">
                       <img 
-                        src="/images/busan_detail_map_1783001970274.jpg" 
+                        src="/images/Gemini_Generated_Image_4ctuo54ctuo54ctu.jpg" 
                         alt="이동 최소화! 부산 원도심 알짜배기 지도" 
-                        className="w-full h-auto object-cover"
+                        className="w-full h-auto"
                         referrerPolicy="no-referrer"
                       />
                     </div>
@@ -2380,9 +2380,13 @@ export default function BusanItinerariesView({
                             >
                               <h4 className="text-base sm:text-lg font-black text-slate-800 border-b border-slate-100 pb-3.5 flex items-center gap-2.5">
                                 <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-blue-50 text-[#004481] font-sans font-black text-xs border border-blue-100 shadow-2xs">
-                                  {dayLabel === 'Day 1' ? 'D1' : dayLabel === 'Day 2' ? 'D2' : dayLabel === 'Day 3' ? 'D3' : dayLabel === 'Day 4' ? 'D4' : 'D5'}
+                                  {activeCategory === 'DAY' ? '당일' : (dayLabel === 'Day 1' ? 'D1' : dayLabel === 'Day 2' ? 'D2' : dayLabel === 'Day 3' ? 'D3' : dayLabel === 'Day 4' ? 'D4' : 'D5')}
                                 </span>
-                                <span>{language === 'KR' ? `${dayLabel} 무장애 동선 안내` : `${dayLabel} Step-Free Details`}</span>
+                                <span>
+                                  {activeCategory === 'DAY' 
+                                    ? (language === 'KR' ? '당일치기 동선 안내' : 'Same-Day Itinerary Details') 
+                                    : (language === 'KR' ? `${dayLabel} 무장애 동선 안내` : `${dayLabel} Step-Free Details`)}
+                                </span>
                               </h4>
 
                               <div className="relative pl-6 sm:pl-8 space-y-6 text-left">
@@ -4203,7 +4207,7 @@ export default function BusanItinerariesView({
             {/* Modal Body (Scrollable Image container) */}
             <div className="flex-1 overflow-auto bg-slate-50 p-4 flex items-center justify-center min-h-0">
               <img 
-                src="/images/busan_wide_map_1782270122755.jpg"
+                src="/images/Gemini_Generated_Image_4ctuo54ctuo54ctu.jpg"
                 alt="Busan Travel Map Illustration Enlarged"
                 referrerPolicy="no-referrer"
                 className="max-w-full max-h-[70vh] object-contain rounded-xl shadow-md border border-slate-200/60"
