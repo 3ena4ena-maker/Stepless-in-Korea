@@ -2302,7 +2302,7 @@ export default function BusanItinerariesView({
                         className="group relative flex justify-center overflow-hidden rounded-3xl border border-slate-150 shadow-md cursor-zoom-in transition-all duration-300 hover:shadow-lg hover:border-blue-200"
                       >
                         <img 
-                          src="/images/day_trip_b.png?v=3" 
+                          src="https://pub-6b56409795d7463cae4a585e8ff75f52.r2.dev/day%20trip_b.png" 
                           alt="이동 최소화! 부산 원도심 알짜배기 지도" 
                           className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.01]"
                           referrerPolicy="no-referrer"
@@ -4211,7 +4211,7 @@ export default function BusanItinerariesView({
             {/* Modal Body (Scrollable Image container) */}
             <div className="flex-1 overflow-auto bg-[#faf6f0] p-4 sm:p-6 flex items-center justify-center min-h-0">
               <img 
-                src="/images/day_trip_b.png?v=3"
+                src="https://pub-6b56409795d7463cae4a585e8ff75f52.r2.dev/day%20trip_b.png"
                 alt="Busan Central Map Original Enlarged"
                 referrerPolicy="no-referrer"
                 className="max-w-full max-h-[75vh] sm:max-h-[80vh] object-contain rounded-2xl shadow-xl border border-amber-200/40"
