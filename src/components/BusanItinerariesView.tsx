@@ -2284,44 +2284,33 @@ export default function BusanItinerariesView({
                   </div>
                 </div>
 
-                {/* 3. CORE MILESTONES CARD GRID with elegant vector illustrations */}
-                <div className="space-y-5">
-                  <div className="text-center space-y-1.5">
-                    <span className="bg-blue-50 text-[#004481] px-4 py-1.5 rounded-full text-[11px] font-black uppercase tracking-wider inline-block border border-blue-150">
-                      ★ {language === 'KR' ? '부산 코스 주요 경유지 일람' : 'Course Milestones At a Glance'}
-                    </span>
-                    <h3 className="text-base sm:text-xl font-black text-slate-800">
-                      {language === 'KR' ? '대표 명소를 동선 순서대로 만나보세요' : 'Explore Major Milestones in Chronological Order'}
-                    </h3>
-                  </div>
 
-                  {activeCategory === 'DAY' && activeDayCourseIndex === 0 && (
-                    <div className="my-6 max-w-4xl mx-auto space-y-2">
-                      <div 
-                        onClick={() => setDetailMapModalOpen(true)}
-                        className="group relative flex justify-center overflow-hidden rounded-3xl border border-slate-150 shadow-md cursor-zoom-in transition-all duration-300 hover:shadow-lg hover:border-blue-200"
-                      >
-                        <img 
-                          src="https://pub-6b56409795d7463cae4a585e8ff75f52.r2.dev/day%20trip_b.png" 
-                          alt="이동 최소화! 부산 원도심 알짜배기 지도" 
-                          className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.01]"
-                          referrerPolicy="no-referrer"
-                        />
-                        {/* Interactive overlay guide */}
-                        <div className="absolute inset-0 bg-slate-900/5 group-hover:bg-slate-900/10 transition-colors duration-300 flex items-end justify-center pb-4 sm:pb-6">
-                          <span className="bg-slate-900/85 backdrop-blur-md text-white font-extrabold text-[10px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-lg flex items-center gap-1.5 transform translate-y-1 group-hover:translate-y-0 transition-all duration-300 border border-white/20">
-                            🔍 {language === 'KR' ? '지도를 누르면 원본 크기로 크게 볼 수 있습니다' : 'Click to view high-resolution original map'}
-                          </span>
-                        </div>
+
+
+                {activeCategory === 'DAY' && activeDayCourseIndex === 0 && (
+                  <div className="my-6 max-w-4xl mx-auto space-y-2">
+                    <div 
+                      onClick={() => setDetailMapModalOpen(true)}
+                      className="group relative flex justify-center overflow-hidden rounded-3xl border border-slate-150 shadow-md cursor-zoom-in transition-all duration-300 hover:shadow-lg hover:border-blue-200"
+                    >
+                      <img 
+                        src="https://pub-6b56409795d7463cae4a585e8ff75f52.r2.dev/day%20trip_b.png" 
+                        alt="이동 최소화! 부산 원도심 알짜배기 지도" 
+                        className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.01]"
+                        referrerPolicy="no-referrer"
+                      />
+                      {/* Interactive overlay guide */}
+                      <div className="absolute inset-0 bg-slate-900/5 group-hover:bg-slate-900/10 transition-colors duration-300 flex items-end justify-center pb-4 sm:pb-6">
+                        <span className="bg-slate-900/85 backdrop-blur-md text-white font-extrabold text-[10px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-lg flex items-center gap-1.5 transform translate-y-1 group-hover:translate-y-0 transition-all duration-300 border border-white/20">
+                          🔍 {language === 'KR' ? '지도를 누르면 원본 크기로 크게 볼 수 있습니다' : 'Click to view high-resolution original map'}
+                        </span>
                       </div>
-                      <p className="text-center text-[11px] text-slate-400 font-bold">
-                        {language === 'KR' ? '※ 지도를 클릭하시면 글씨가 선명한 원본 해상도로 확대됩니다.' : '* Click the map to enlarge it in sharp, full high-resolution.'}
-                      </p>
                     </div>
-                  )}
-
-
-                </div>
+                    <p className="text-center text-[11px] text-slate-400 font-bold">
+                      {language === 'KR' ? '※ 지도를 클릭하시면 글씨가 선명한 원본 해상도로 확대됩니다.' : '* Click the map to enlarge it in sharp, full high-resolution.'}
+                    </p>
+                  </div>
+                )}
 
 
                 {/* 4. DETAIL CHRONOLOGICAL ITINERARY TIMELINE & STORY SECTION */}
