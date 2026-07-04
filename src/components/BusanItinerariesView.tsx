@@ -873,6 +873,7 @@ export default function BusanItinerariesView({
   const [quizStep, setQuizStep] = useState(0); // 0: Landing inside card, 1~7: Questions 1~7, 8: Result
   const [answers, setAnswers] = useState<('A' | 'B')[]>([]);
   const [mapModalOpen, setMapModalOpen] = useState(false);
+  const [detailMapModalOpen, setDetailMapModalOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState<'EAST' | 'WEST' | 'SOUTH' | 'NORTH'>('EAST');
   
   const [localActiveRegionPage, setLocalActiveRegionPage] = useState<'EAST' | 'WEST' | 'SOUTH' | 'NORTH' | null>(null);
@@ -2306,20 +2307,27 @@ export default function BusanItinerariesView({
                   </div>
 
                   {activeCategory === 'DAY' && activeDayCourseIndex === 0 && (
-                    <div className="flex justify-center my-6 max-w-4xl mx-auto overflow-hidden rounded-3xl border border-slate-150 shadow-md">
-                      <img 
-                        src="/images/Gemini_Generated_Image_4ctuo54ctuo54ctu.jpg" 
-                        alt="이동 최소화! 부산 원도심 알짜배기 지도" 
-                        className="w-full h-auto"
-                        referrerPolicy="no-referrer"
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          const currentSrc = target.src;
-                          if (currentSrc.includes('Gemini_Generated_Image_')) {
-                            target.src = '/images/busan_detail_map_final_1783070942179.jpg';
-                          }
-                        }}
-                      />
+                    <div className="my-6 max-w-4xl mx-auto space-y-2">
+                      <div 
+                        onClick={() => setDetailMapModalOpen(true)}
+                        className="group relative flex justify-center overflow-hidden rounded-3xl border border-slate-150 shadow-md cursor-zoom-in transition-all duration-300 hover:shadow-lg hover:border-blue-200"
+                      >
+                        <img 
+                          src="/images/busan_detail_map_final_1783070942179.jpg" 
+                          alt="이동 최소화! 부산 원도심 알짜배기 지도" 
+                          className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.01]"
+                          referrerPolicy="no-referrer"
+                        />
+                        {/* Interactive overlay guide */}
+                        <div className="absolute inset-0 bg-slate-900/5 group-hover:bg-slate-900/10 transition-colors duration-300 flex items-end justify-center pb-4 sm:pb-6">
+                          <span className="bg-slate-900/85 backdrop-blur-md text-white font-extrabold text-[10px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-lg flex items-center gap-1.5 transform translate-y-1 group-hover:translate-y-0 transition-all duration-300 border border-white/20">
+                            🔍 {language === 'KR' ? '지도를 누르면 원본 크기로 크게 볼 수 있습니다' : 'Click to view high-resolution original map'}
+                          </span>
+                        </div>
+                      </div>
+                      <p className="text-center text-[11px] text-slate-400 font-bold">
+                        {language === 'KR' ? '※ 지도를 클릭하시면 글씨가 선명한 원본 해상도로 확대됩니다.' : '* Click the map to enlarge it in sharp, full high-resolution.'}
+                      </p>
                     </div>
                   )}
 
@@ -4182,6 +4190,60 @@ export default function BusanItinerariesView({
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* DETAIL MAP LIGHTBOX MODAL */}
+      {detailMapModalOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md animate-fade-in"
+          onClick={() => setDetailMapModalOpen(false)}
+        >
+          <div 
+            className="relative max-w-7xl w-full bg-[#fdfbf7] rounded-3xl overflow-hidden shadow-2xl border border-amber-100 flex flex-col max-h-[95vh] animate-scale-up"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 sm:px-6 border-b border-amber-100/50 bg-[#fdfbf7] shrink-0">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">🗺️</span>
+                <h4 className="font-extrabold text-stone-800 text-sm sm:text-base">
+                  {language === 'KR' ? '원도심 알짜배기 가이드 지도 (원본 해상도)' : 'Central Busan Guide Map (Original Resolution)'}
+                </h4>
+              </div>
+              <button 
+                onClick={() => setDetailMapModalOpen(false)}
+                className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-600 hover:text-stone-900 flex items-center justify-center transition-all cursor-pointer text-sm font-bold border border-stone-200/50"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Modal Body (Scrollable Image container) */}
+            <div className="flex-1 overflow-auto bg-[#faf6f0] p-4 sm:p-6 flex items-center justify-center min-h-0">
+              <img 
+                src="/images/busan_detail_map_final_1783070942179.jpg"
+                alt="Busan Central Map Original Enlarged"
+                referrerPolicy="no-referrer"
+                className="max-w-full max-h-[75vh] sm:max-h-[80vh] object-contain rounded-2xl shadow-xl border border-amber-200/40"
+              />
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 bg-[#fdfbf7] border-t border-amber-100/50 text-center shrink-0 flex flex-col sm:flex-row items-center justify-between gap-2 px-6">
+              <p className="text-xs text-stone-500 font-bold">
+                {language === 'KR'
+                  ? '※ 이동 최소화! 대표 명소 동선을 원본 그대로 최적화하여 보여줍니다.'
+                  : '* Displays the original optimal route of major attractions with zero visual modifications.'}
+              </p>
+              <button
+                onClick={() => setDetailMapModalOpen(false)}
+                className="text-xs bg-stone-900 hover:bg-stone-800 text-white font-extrabold px-4 py-1.5 rounded-full shadow transition-all cursor-pointer"
+              >
+                {language === 'KR' ? '닫기' : 'Close'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
