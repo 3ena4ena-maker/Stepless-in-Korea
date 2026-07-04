@@ -2236,18 +2236,7 @@ export default function BusanItinerariesView({
                           : 'bg-white hover:bg-slate-50 text-slate-500 border-slate-200/50'
                       }`}
                     >
-                      <ElegantIllustration type="food" size="sm" className={activeDayCourseIndex === 1 ? "text-white" : "text-slate-400"} />
-                      <span>{language === 'KR' ? '중구 골목길 역사·미식' : 'Jung-gu History & Gourmet'}</span>
-                    </button>
-                    <button
-                      onClick={() => setActiveDayCourseIndex(2)}
-                      className={`flex-1 flex items-center justify-center gap-2.5 py-3 px-5 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer border ${
-                        activeDayCourseIndex === 2
-                          ? 'bg-[#004481] text-white shadow-md border-[#004481] transform scale-[1.01]'
-                          : 'bg-white hover:bg-slate-50 text-slate-500 border-slate-200/50'
-                      }`}
-                    >
-                      <ElegantIllustration type="park" size="sm" className={activeDayCourseIndex === 2 ? "text-white" : "text-slate-400"} />
+                      <ElegantIllustration type="park" size="sm" className={activeDayCourseIndex === 1 ? "text-white" : "text-slate-400"} />
                       <span>{language === 'KR' ? '초록초록 디톡스 생태공원' : 'Green Eco Detox Park'}</span>
                     </button>
                   </div>

@@ -97,62 +97,6 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
     ]
   },
   {
-    id: 'itinerary-day-junggu',
-    titleKo: '역사와 맛이 살아숨쉬는 부산 중구 골목길 상생 당일 코스',
-    titleEn: 'Busan Jung-gu Historic & Gourmet Time Travel Day Tour',
-    subtitleKo: 'BIFF광장부터 용두산공원까지, 아련한 피란 시절의 역사와 다채로운 길거리 미식을 함께 누리는 종합 하루 투어예요.',
-    subtitleEn: 'A rich single-day stroll through BIFF Square, classic markets, historic alleys, and scenic Yongdusan Park',
-    category: 'DAY',
-    durationKo: '당일치기 (약 8시간)',
-    durationEn: '1 Day (Approx. 8 Hours)',
-    tagKo: '원도심 역사미식 🏛️',
-    tagEn: 'Historic Downtown 🏛️',
-    difficultyKo: '보통',
-    difficultyEn: 'Moderate',
-    overallTipKo: '부산 중구는 산기슭의 오래된 골목과 경사가 다소 남아 있으나, 보수동책방골목 평지 유도선, 40계단 기념관 내부 고속 엘리베이터 공중 연계, 용두산공원 전용 우회 램프와 슬로프가 매우 체계적으로 관리되어 있어 누구나 힘들이지 않고 원도심의 진정한 매력을 완주할 수 있습니다.',
-    overallTipEn: 'While the historic central downtown features steep alleys, modern detours bypass traditional steps. Accessible elevators, wide pathways, and smooth pavement enable a comfortable, rich roll for strollers and wheelchairs.',
-    steps: [
-      {
-        time: '09:30 - 11:30',
-        titleKo: 'BIFF광장 - 국제시장 - 부평깡통시장: 침샘 가득 시네마 미식천국',
-        titleEn: 'BIFF Square, Gukje Market & Bupyeong Kkangtong Market',
-        descKo: '활기찬 자갈치역 앞 광장에서 영화인들의 핸드프린팅이 가득한 BIFF광장으로 이동하여 전국적인 명물 씨앗호떡으로 입안 가득 감칠맛을 즐깁니다. 이어 아치형 비바람 가림막(아케이드)이 높다랗게 정비된 국제시장과 깡통시장의 평탄한 사거리 골목을 거닐며 3대 소문난 떡볶이와 보들보들한 비빔당면을 맛보며 활력을 안사하세요.',
-        descEn: 'Kick off your morning at BIFF Square with delicious warm seed pancakes. Seamlessly glide into the spacious indoor shopping rows of Gukje Market and Bupyeong Kkangtong Market, paved perfectly level for effortless rolling.',
-        icon: 'Food',
-        stationInfoKo: '자갈치역(1호선) 7번 출구 평탄한 골목 인도 도보 3분',
-        stationInfoEn: 'Jagalchi Station (Line 1) Exit 7, 3 mins flat barrier-free walk'
-      },
-      {
-        time: '11:30 - 13:30',
-        titleKo: '보수동책방골목 - 부산근대역사관 개방형 아카이브 전시 센터',
-        titleEn: 'Bosudong Book Street & Busan Modern History Museum',
-        descKo: '오랜 고서들이 오붓이 쌓인 보수동책방골목입니다. 보행에 어려움을 줄 수 있는 안쪽 좁고 험한 계단 대신, 바깥쪽 넓은 보행로 눈높이를 따라 종이 내음을 가만히 사색하며 걷기 좋습니다. 곧이어 옆에 있는 부산근대역사관(부산근현대역사관) 실내로 들어갑니다. 입구의 편리한 무단차 경사로와 내부 초고속 와이드 엘리베이터, 다목적 화장실을 활용하여 근현대사를 쾌적하게 배울 수 있습니다.',
-        descEn: 'Inhale the soothing woodsy scent of rare books along Bosudong Book Alley. Continue to the reconstructed Busan Modern History Museum, featuring beautiful glass auto-entryways, pristine elevator networks, and barrier-free exhibit layouts.',
-        icon: 'Map'
-      },
-      {
-        time: '13:30 - 15:30',
-        titleKo: '부산영화체험박물관/트릭아이뮤지엄부산 & 40계단 문화관 가상현실 여정',
-        titleEn: 'Museum of Movies, Trickeye Museum & 40 Steps Memorial',
-        descKo: '실감 나는 크로마키 영화 촬영과 입체 트릭아이 착시 포토존이 다채로운 신개념 미디어 복합 놀이터예요. 전 층이 매끈한 고급 우레탄 바닥이며 휠체어 전용 리프트와 체험석이 골고루 비치되어 환상적입니다. 이어 근처에 위치한 피란 시절의 애환이 깃든 40계단 거리로 걸어가, 40계단 기념관 내부의 공용 고속 엘리베이터를 타고 계단 상단부 가로수길로 안전하게 올라가 가상 명상을 가질 수 있습니다.',
-        descEn: 'Step into green-screen movie sets and fun optical illusions at the Museum of Movies. Then, head to the emotive 40 Steps Street. Bypass the historic steep staircase entirely by utilizing the public elevator located inside the memory building.',
-        icon: 'Camera',
-        stationInfoKo: '중앙역(1호선) 11번, 13번 출구 평지 보도 연계 편리',
-        stationInfoEn: 'Jungang Station (Line 1) Exits 11 or 13, smooth flat sidewalks'
-      },
-      {
-        time: '16:00 - 18:00',
-        titleKo: '용두산공원 & 부산타워: 원도심과 갈매기 바다를 굽어보는 하늘 정원',
-        titleEn: 'Yongdusan Park & Busan Tower Sky Observatory',
-        descKo: '도심 속 울창한 수목이 매력적인 용두산공원에 닿는 마침표입니다. 광복동 쇼핑 거리에서 수직 에스컬레이터에 올라 올라가거나, 유모차/휠체어 동반 시 대청동 방향에서 완만한 차도 슬로프 인도를 타면 정밀한 공원 광장에 평탄하게 입성합니다. 노을이 지는 부산타워(다이아몬드타워) 초고속 엘리베이터에 승차하여, 시그니처 360도 원경 유리창 너머 아름답게 펼쳐진 남항과 자갈치 바닷물결, 초량 야경을 감상해보세요.',
-        descEn: 'Conclude your historical loop at Yongdusan Park. Travel easily to the scenic hilltop via the sheltered Gwangbok-dong street escalator network. Ascend Busan Tower Observatory to marvel at 360-degree vistas of the glittering ports.',
-        icon: 'Sunset',
-        stationInfoKo: '남포역(1호선) 7번 출구 평탄 인도 도보 5분',
-        stationInfoEn: 'Nampo Station (Line 1) Exit 7, 5 mins walk via wide sidewalk'
-      }
-    ]
-  },
-  {
     id: 'itinerary-day',
     titleKo: '초록빛 물결 속의 힐링, 초록초록 디톡스 일일 투어',
     titleEn: 'Green Detox Daily Tour: Healing in the Waves of Green',
