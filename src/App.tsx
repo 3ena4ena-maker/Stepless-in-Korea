@@ -807,7 +807,7 @@ export default function App() {
         if (ogDesc) ogDesc.setAttribute('content', descText);
 
         const canonical = document.querySelector('link[rel="canonical"]');
-        if (canonical) canonical.setAttribute('href', `https://steplessinkorea.pages.dev/station/${selectedStationId}`);
+        if (canonical) canonical.setAttribute('href', `https://stepless.kr/station/${selectedStationId}`);
       }
     } else {
       document.title = "부산 지하철역 엘리베이터 위치 & 유모차 동선 안내 | 스테프리스";
@@ -823,7 +823,7 @@ export default function App() {
       if (ogDesc) ogDesc.setAttribute('content', defaultDesc);
 
       const canonical = document.querySelector('link[rel="canonical"]');
-      if (canonical) canonical.setAttribute('href', "https://steplessinkorea.pages.dev/");
+      if (canonical) canonical.setAttribute('href', "https://stepless.kr/");
     }
   }, [selectedStationId, currentTab, isHomeLanding, selectedItineraryCategory, tipsSubPage, activeRegionPage]);
 

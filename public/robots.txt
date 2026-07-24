@@ -4,5 +4,5 @@ Allow: /
 User-agent: Yeti
 Allow: /
 
-Sitemap: https://steplessinkorea.pages.dev/sitemap.xml
+Sitemap: https://stepless.kr/sitemap.xml
 

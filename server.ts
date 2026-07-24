@@ -407,7 +407,7 @@ app.get("/ads.txt", (req, res) => {
 // Serve Naver & Google crawls search engine rules (robots.txt & sitemap.xml)
 app.get("/robots.txt", (req, res) => {
   res.type("text/plain");
-  res.send("User-agent: *\nAllow: /\n\nUser-agent: Yeti\nAllow: /\n\nSitemap: https://steplessinkorea.pages.dev/sitemap.xml\n");
+  res.send("User-agent: *\nAllow: /\n\nUser-agent: Yeti\nAllow: /\n\nSitemap: https://stepless.kr/sitemap.xml\n");
 });
 
 app.get("/sitemap.xml", (req, res) => {
@@ -415,7 +415,7 @@ app.get("/sitemap.xml", (req, res) => {
   res.send(`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://steplessinkorea.pages.dev/</loc>
+    <loc>https://stepless.kr/</loc>
     <lastmod>2026-06-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
