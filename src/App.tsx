@@ -721,10 +721,10 @@ export default function App() {
               setTipsSubPage('transit');
               setActiveRegionPage(null);
             } else if (parts[2] && ['east', 'west', 'south', 'north'].includes(parts[2].toLowerCase())) {
-              setTipsSubPage('index');
+              setTipsSubPage('courses');
               setActiveRegionPage(parts[2].toUpperCase() as any);
             } else {
-              setTipsSubPage('index');
+              setTipsSubPage('courses');
               setActiveRegionPage(null);
             }
           }
@@ -1315,6 +1315,10 @@ export default function App() {
         <Header 
           currentTab={currentTab} 
           setCurrentTab={(tab) => {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+
             const validTabs = ['home', 'search', 'schedule', 'tips', 'about'];
             const targetTab = validTabs.includes(tab) ? tab : 'home';
             setCurrentTab(targetTab);
@@ -1327,7 +1331,7 @@ export default function App() {
             }
             if (targetTab === 'tips') {
               setSelectedItineraryCategory(null);
-              setTipsSubPage('index');
+              setTipsSubPage('courses');
               setActiveRegionPage(null);
             }
           }} 
@@ -1412,6 +1416,171 @@ export default function App() {
                       </div>
                     </div>
                   )}
+                  {/* Category Quick Access Hub - Direct 1-click access to all service categories */}
+                  <div className="bg-white p-5 sm:p-7 rounded-3xl border border-slate-100 shadow-[0_4px_22px_rgba(0,0,0,0.015)] text-left space-y-4 animate-fade-in">
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                      <div>
+                        <h3 className="text-base sm:text-lg font-extrabold text-[#004481] flex items-center gap-2">
+                          <span>🎯</span>
+                          <span>{language === 'KR' ? '주요 서비스 카테고리 바로가기' : 'Explore Service Categories'}</span>
+                        </h3>
+                        <p className="text-xs text-slate-400 font-medium mt-0.5">
+                          {language === 'KR' ? '원하시는 카테고리를 클릭하면 관련 상세 콘텐츠로 즉시 이동합니다.' : 'Click any category to view full detailed information instantly.'}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 sm:gap-3">
+                      {/* Category 1: Station Exits Search */}
+                      <button
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                          document.documentElement.scrollTop = 0;
+                          document.body.scrollTop = 0;
+                          setCurrentTab('search');
+                          setIsHomeLanding(false);
+                        }}
+                        className="p-3.5 rounded-2xl bg-slate-50 hover:bg-blue-50/80 border border-slate-200/60 hover:border-blue-200 text-left transition-all cursor-pointer group active:scale-95 flex flex-col justify-between"
+                      >
+                        <div className="w-8 h-8 rounded-xl bg-blue-100 text-[#004481] flex items-center justify-center font-bold text-sm mb-2 group-hover:scale-110 transition-transform shrink-0">
+                          🔍
+                        </div>
+                        <div>
+                          <div className="text-xs font-black text-slate-800 group-hover:text-[#004481] leading-snug">
+                            {language === 'KR' ? '역별 출구 검색' : 'Station Exits'}
+                          </div>
+                          <div className="text-[10px] text-slate-400 font-semibold mt-0.5">
+                            {language === 'KR' ? '전체 지하철역' : 'All Stations'}
+                          </div>
+                        </div>
+                      </button>
+
+                      {/* Category 2: Travel Courses */}
+                      <button
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                          document.documentElement.scrollTop = 0;
+                          document.body.scrollTop = 0;
+                          setCurrentTab('tips');
+                          setTipsSubPage('courses');
+                          setSelectedItineraryCategory(null);
+                          setActiveRegionPage(null);
+                          setIsHomeLanding(false);
+                        }}
+                        className="p-3.5 rounded-2xl bg-slate-50 hover:bg-emerald-50/80 border border-slate-200/60 hover:border-emerald-200 text-left transition-all cursor-pointer group active:scale-95 flex flex-col justify-between"
+                      >
+                        <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-sm mb-2 group-hover:scale-110 transition-transform shrink-0">
+                          🗺️
+                        </div>
+                        <div>
+                          <div className="text-xs font-black text-slate-800 group-hover:text-emerald-800 leading-snug">
+                            {language === 'KR' ? '여행 코스 추천' : 'Itineraries'}
+                          </div>
+                          <div className="text-[10px] text-slate-400 font-semibold mt-0.5">
+                            {language === 'KR' ? '권역별/일정별' : 'By Area & Days'}
+                          </div>
+                        </div>
+                      </button>
+
+                      {/* Category 3: Transit Tips */}
+                      <button
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                          document.documentElement.scrollTop = 0;
+                          document.body.scrollTop = 0;
+                          setCurrentTab('tips');
+                          setTipsSubPage('transit');
+                          setIsHomeLanding(false);
+                        }}
+                        className="p-3.5 rounded-2xl bg-slate-50 hover:bg-amber-50/80 border border-slate-200/60 hover:border-amber-200 text-left transition-all cursor-pointer group active:scale-95 flex flex-col justify-between"
+                      >
+                        <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-sm mb-2 group-hover:scale-110 transition-transform shrink-0">
+                          🚌
+                        </div>
+                        <div>
+                          <div className="text-xs font-black text-slate-800 group-hover:text-amber-800 leading-snug">
+                            {language === 'KR' ? '대중교통 팁' : 'Transit Tips'}
+                          </div>
+                          <div className="text-[10px] text-slate-400 font-semibold mt-0.5">
+                            {language === 'KR' ? '환승 및 탑승' : 'Transfers & Rules'}
+                          </div>
+                        </div>
+                      </button>
+
+                      {/* Category 4: Child-Free & Barrier-Free */}
+                      <button
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                          document.documentElement.scrollTop = 0;
+                          document.body.scrollTop = 0;
+                          setCurrentTab('tips');
+                          setTipsSubPage('child-free');
+                          setIsHomeLanding(false);
+                        }}
+                        className="p-3.5 rounded-2xl bg-slate-50 hover:bg-purple-50/80 border border-slate-200/60 hover:border-purple-200 text-left transition-all cursor-pointer group active:scale-95 flex flex-col justify-between"
+                      >
+                        <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center font-bold text-sm mb-2 group-hover:scale-110 transition-transform shrink-0">
+                          👶
+                        </div>
+                        <div>
+                          <div className="text-xs font-black text-slate-800 group-hover:text-purple-800 leading-snug">
+                            {language === 'KR' ? '영유아/교통약자' : 'Barrier-Free'}
+                          </div>
+                          <div className="text-[10px] text-slate-400 font-semibold mt-0.5">
+                            {language === 'KR' ? '유모차·휠체어' : 'Strollers & Lifts'}
+                          </div>
+                        </div>
+                      </button>
+
+                      {/* Category 5: Busan Schedule */}
+                      <button
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                          document.documentElement.scrollTop = 0;
+                          document.body.scrollTop = 0;
+                          setCurrentTab('schedule');
+                          setIsHomeLanding(false);
+                        }}
+                        className="p-3.5 rounded-2xl bg-slate-50 hover:bg-rose-50/80 border border-slate-200/60 hover:border-rose-200 text-left transition-all cursor-pointer group active:scale-95 flex flex-col justify-between"
+                      >
+                        <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-800 flex items-center justify-center font-bold text-sm mb-2 group-hover:scale-110 transition-transform shrink-0">
+                          📅
+                        </div>
+                        <div>
+                          <div className="text-xs font-black text-slate-800 group-hover:text-rose-800 leading-snug">
+                            {language === 'KR' ? '주요일정 표' : 'Events Calendar'}
+                          </div>
+                          <div className="text-[10px] text-slate-400 font-semibold mt-0.5">
+                            {language === 'KR' ? '부산 축제 및 행사' : 'Festivals & Info'}
+                          </div>
+                        </div>
+                      </button>
+
+                      {/* Category 6: About */}
+                      <button
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                          document.documentElement.scrollTop = 0;
+                          document.body.scrollTop = 0;
+                          setCurrentTab('about');
+                          setIsHomeLanding(false);
+                        }}
+                        className="p-3.5 rounded-2xl bg-slate-50 hover:bg-sky-50/80 border border-slate-200/60 hover:border-sky-200 text-left transition-all cursor-pointer group active:scale-95 flex flex-col justify-between"
+                      >
+                        <div className="w-8 h-8 rounded-xl bg-sky-100 text-sky-800 flex items-center justify-center font-bold text-sm mb-2 group-hover:scale-110 transition-transform shrink-0">
+                          ℹ️
+                        </div>
+                        <div>
+                          <div className="text-xs font-black text-slate-800 group-hover:text-sky-800 leading-snug">
+                            {language === 'KR' ? '사이트 소개' : 'About Us'}
+                          </div>
+                          <div className="text-[10px] text-slate-400 font-semibold mt-0.5">
+                            {language === 'KR' ? '이용 안내' : 'Safety Policy'}
+                          </div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
                 </>
               )}
 
@@ -1437,8 +1606,13 @@ export default function App() {
                           onClick={() => {
                             setSelectedStationId(s.id);
                             setIsHomeLanding(false);
-                            // Keep all detailed pathways collapsed initially as requested
                             setExpandedExitNum(null);
+                            setTimeout(() => {
+                              const mapElem = document.getElementById('exits-explorer-section');
+                              if (mapElem) {
+                                mapElem.scrollIntoView({ behavior: 'smooth' });
+                              }
+                            }, 50);
                           }}
                           className={`min-h-[56px] sm:min-h-[64px] p-1 rounded-xl transition-all border flex flex-col items-center justify-center gap-0.5 cursor-pointer w-full overflow-hidden ${
                             isActive

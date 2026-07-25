@@ -30,7 +30,12 @@ export default function Header({ currentTab, setCurrentTab, language, toggleLang
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div 
-            onClick={() => setCurrentTab('home')} 
+            onClick={() => {
+              window.scrollTo(0, 0);
+              document.documentElement.scrollTop = 0;
+              document.body.scrollTop = 0;
+              setCurrentTab('home');
+            }} 
             className="flex items-center gap-2.5 cursor-pointer group"
             id="header-logo-container"
           >
@@ -56,7 +61,12 @@ export default function Header({ currentTab, setCurrentTab, language, toggleLang
                 <button
                   key={item.id}
                   id={`nav-btn-${item.id}`}
-                  onClick={() => setCurrentTab(item.id)}
+                  onClick={() => {
+                    window.scrollTo(0, 0);
+                    document.documentElement.scrollTop = 0;
+                    document.body.scrollTop = 0;
+                    setCurrentTab(item.id);
+                  }}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                     isActive
                       ? 'text-[#004481] bg-slate-50'
@@ -121,6 +131,9 @@ export default function Header({ currentTab, setCurrentTab, language, toggleLang
                   key={item.id}
                   id={`mobile-nav-btn-${item.id}`}
                   onClick={() => {
+                    window.scrollTo(0, 0);
+                    document.documentElement.scrollTop = 0;
+                    document.body.scrollTop = 0;
                     setCurrentTab(item.id);
                     setMobileMenuOpen(false);
                   }}
