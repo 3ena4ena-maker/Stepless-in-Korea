@@ -183,7 +183,15 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
     }
 
     // Reset previous loaded markers to avoid rendering duplication
-    markersRef.current.forEach(m => m.setMap(null));
+    markersRef.current.forEach(m => {
+      try {
+        if (m && typeof m.setMap === 'function') {
+          m.setMap(null);
+        }
+      } catch (e) {
+        // ignore
+      }
+    });
     markersRef.current = [];
 
     // Map exits and build markers
@@ -717,13 +725,38 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
   // Clean-up logic on unmount to release resources safely
   useEffect(() => {
     return () => {
-      markersRef.current.forEach(m => {
-        if (m) m.setMap(null);
-      });
-      if (leafletMapInstance.current) {
-        leafletMapInstance.current.remove();
-        leafletMapInstance.current = null;
+      try {
+        markersRef.current.forEach(m => {
+          if (m && typeof m.setMap === 'function') {
+            m.setMap(null);
+          }
+        });
+        markersRef.current = [];
+      } catch (e) {
+        console.warn('Map marker cleanup error:', e);
       }
+
+      try {
+        leafletMarkersRef.current.forEach(m => {
+          if (m && typeof m.remove === 'function') {
+            m.remove();
+          }
+        });
+        leafletMarkersRef.current = [];
+      } catch (e) {
+        console.warn('Leaflet marker cleanup error:', e);
+      }
+
+      try {
+        if (leafletMapInstance.current) {
+          leafletMapInstance.current.remove();
+          leafletMapInstance.current = null;
+        }
+      } catch (e) {
+        console.warn('Leaflet map instance removal error:', e);
+      }
+
+      mapInstance.current = null;
     };
   }, []);
 

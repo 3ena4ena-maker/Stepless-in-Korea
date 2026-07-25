@@ -759,53 +759,65 @@ export default function App() {
   // Synchronize dynamic URL path, document headers metadata (SEO-friendly) and scroll to top on tab switch
   useEffect(() => {
     // Scroll window to top whenever tab or view changes to avoid blank space from previous scroll offset
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    try {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    } catch (e) {
+      try {
+        window.scrollTo(0, 0);
+      } catch (err) {
+        // ignore
+      }
+    }
 
-    // 1. Change URL path
-    if (currentTab === 'home') {
-      if (isHomeLanding) {
-        const expectedPath = '/';
-        if (window.location.pathname !== expectedPath && window.location.pathname !== '/home') {
-          window.history.pushState({ tab: 'home', isHomeLanding: true }, '', expectedPath);
+    // 1. Change URL path safely
+    try {
+      if (currentTab === 'home') {
+        if (isHomeLanding) {
+          const expectedPath = '/';
+          if (window.location.pathname !== expectedPath && window.location.pathname !== '/home') {
+            window.history.pushState({ tab: 'home', isHomeLanding: true }, '', expectedPath);
+          }
+        } else if (selectedStationId) {
+          const expectedPath = `/station/${selectedStationId}`;
+          if (window.location.pathname !== expectedPath) {
+            window.history.pushState({ stationId: selectedStationId, tab: 'home', isHomeLanding: false }, '', expectedPath);
+          }
         }
-      } else if (selectedStationId) {
-        const expectedPath = `/station/${selectedStationId}`;
+      } else if (currentTab !== 'home') {
+        let expectedPath = `/${currentTab}`;
+        if (currentTab === 'tips') {
+          if (selectedItineraryCategory) {
+            if (activeRegionPage) {
+              expectedPath = `/itinerary-${selectedItineraryCategory.toLowerCase()}/${activeRegionPage.toLowerCase()}`;
+            } else {
+              expectedPath = `/itinerary-${selectedItineraryCategory.toLowerCase()}`;
+            }
+          } else if (tipsSubPage === 'courses') {
+            if (activeRegionPage) {
+              expectedPath = `/tips/courses/${activeRegionPage.toLowerCase()}`;
+            } else {
+              expectedPath = '/tips/courses';
+            }
+          } else if (tipsSubPage === 'transit') {
+            expectedPath = '/tips/transit';
+          } else if (tipsSubPage === 'child-free') {
+            expectedPath = '/tips/child-free';
+          } else if (tipsSubPage === 'transfer') {
+            expectedPath = '/tips/transit';
+          } else {
+            if (activeRegionPage) {
+              expectedPath = `/tips/${activeRegionPage.toLowerCase()}`;
+            } else {
+              expectedPath = '/tips';
+            }
+          }
+        }
         if (window.location.pathname !== expectedPath) {
-          window.history.pushState({ stationId: selectedStationId, tab: 'home', isHomeLanding: false }, '', expectedPath);
+          window.history.pushState({ tab: currentTab, category: selectedItineraryCategory, subPage: tipsSubPage, regionPage: activeRegionPage }, '', expectedPath);
         }
       }
-    } else if (currentTab !== 'home') {
-      let expectedPath = `/${currentTab}`;
-      if (currentTab === 'tips') {
-        if (selectedItineraryCategory) {
-          if (activeRegionPage) {
-            expectedPath = `/itinerary-${selectedItineraryCategory.toLowerCase()}/${activeRegionPage.toLowerCase()}`;
-          } else {
-            expectedPath = `/itinerary-${selectedItineraryCategory.toLowerCase()}`;
-          }
-        } else if (tipsSubPage === 'courses') {
-          if (activeRegionPage) {
-            expectedPath = `/tips/courses/${activeRegionPage.toLowerCase()}`;
-          } else {
-            expectedPath = '/tips/courses';
-          }
-        } else if (tipsSubPage === 'transit') {
-          expectedPath = '/tips/transit';
-        } else if (tipsSubPage === 'child-free') {
-          expectedPath = '/tips/child-free';
-        } else if (tipsSubPage === 'transfer') {
-          expectedPath = '/tips/transit';
-        } else {
-          if (activeRegionPage) {
-            expectedPath = `/tips/${activeRegionPage.toLowerCase()}`;
-          } else {
-            expectedPath = '/tips';
-          }
-        }
-      }
-      if (window.location.pathname !== expectedPath) {
-        window.history.pushState({ tab: currentTab, category: selectedItineraryCategory, subPage: tipsSubPage, regionPage: activeRegionPage }, '', expectedPath);
-      }
+    } catch (e) {
+      console.warn('URL pushState error ignored:', e);
     }
 
     // 2. Change metadata (Dynamic Title, Description, and OpenGraph tags)
@@ -2144,7 +2156,7 @@ export default function App() {
           {currentTab === 'tips' && (
             <BusanItinerariesView 
               language={language}
-              initialCategory={selectedItineraryCategory}
+              initialCategory={selectedItineraryCategory as any}
               onBack={() => {
                 setSelectedItineraryCategory(null);
               }}
