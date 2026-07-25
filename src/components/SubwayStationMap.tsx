@@ -68,11 +68,10 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
         key !== 'VITE_NAVER_CLIENT_ID' && 
         key !== 'VITE_NAVER_CLIENT_SECRET' && 
         env[key] && 
-        env[key] !== 'x7vtxblyj1' && 
         env[key] !== 'jig5o1hthp'
       );
 
-      if ((!clientId || clientId === 'x7vtxblyj1' || clientId === 'jig5o1hthp') && customKey) {
+      if (!clientId && customKey) {
         clientId = env[customKey];
       }
 
