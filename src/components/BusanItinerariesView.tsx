@@ -821,9 +821,19 @@ export default function BusanItinerariesView({
 
   // Sync state when props change
   React.useEffect(() => {
+    setActiveCategory(initialCategory || null);
+    if (initialCategory) {
+      setActiveSection('RECOMMENDATIONS');
+    }
+  }, [initialCategory]);
+
+  React.useEffect(() => {
     if (!tipsSubPage) return;
     if (tipsSubPage === 'index') {
       setActiveSection('SELECTION');
+      if (!initialCategory) {
+        setActiveCategory(null);
+      }
     } else if (tipsSubPage === 'courses') {
       setActiveSection('RECOMMENDATIONS');
     } else if (tipsSubPage === 'transit') {
@@ -836,7 +846,7 @@ export default function BusanItinerariesView({
       setActiveSection('TRANSIT_TIPS');
       setTransitSection('SUBMENU');
     }
-  }, [tipsSubPage]);
+  }, [tipsSubPage, initialCategory]);
 
   const overviewGridRef = useRef<HTMLDivElement>(null);
   const quickPillsRef = useRef<HTMLDivElement>(null);

@@ -684,14 +684,6 @@ export default function App() {
           setIsHomeLanding(false);
           setCurrentTab('home');
         }
-      } else if (parts[1] && parts[1] !== 'home' && parts[1] !== 'search' && parts[1] !== 'schedule' && parts[1] !== 'tips') {
-        const stationId = parts[1].toLowerCase();
-        const exists = STATIONS.some(s => s.id === stationId);
-        if (exists) {
-          setSelectedStationId(stationId);
-          setIsHomeLanding(false);
-          setCurrentTab('home');
-        }
       } else if (['home', 'search', 'schedule', 'tips', 'about'].includes(parts[1])) {
         setCurrentTab(parts[1]);
         if (parts[1] === 'home') {
@@ -725,6 +717,18 @@ export default function App() {
               setActiveRegionPage(null);
             }
           }
+        }
+      } else if (parts[1]) {
+        const stationId = parts[1].toLowerCase();
+        const exists = STATIONS.some(s => s.id === stationId);
+        if (exists) {
+          setSelectedStationId(stationId);
+          setIsHomeLanding(false);
+          setCurrentTab('home');
+        } else {
+          setIsHomeLanding(true);
+          setSelectedStationId('seomyeon');
+          setCurrentTab('home');
         }
       } else {
         // Root path /
@@ -1297,16 +1301,20 @@ export default function App() {
         <Header 
           currentTab={currentTab} 
           setCurrentTab={(tab) => {
-            setCurrentTab(tab);
-            if (tab === 'home') {
+            const validTabs = ['home', 'search', 'schedule', 'tips', 'about'];
+            const targetTab = validTabs.includes(tab) ? tab : 'home';
+            setCurrentTab(targetTab);
+            if (targetTab === 'home') {
               setIsHomeLanding(true);
               setSelectedStationId('seomyeon');
               setExpandedExitNum(null);
             } else {
               setIsHomeLanding(false);
             }
-            if (tab === 'tips') {
+            if (targetTab === 'tips') {
               setSelectedItineraryCategory(null);
+              setTipsSubPage('index');
+              setActiveRegionPage(null);
             }
           }} 
           language={language} 
