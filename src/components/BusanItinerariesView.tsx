@@ -882,7 +882,9 @@ export default function BusanItinerariesView({
 
   // Scroll to simulated top of the view/page when the category changes to make it feel like navigating to a new page.
   React.useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, [activeCategory, activeSection, transitSection, activeRegionPage, propActiveRegionPage]);
 
   React.useEffect(() => {

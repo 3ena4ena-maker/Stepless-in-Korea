@@ -692,35 +692,38 @@ export default function App() {
           setIsHomeLanding(false);
           setCurrentTab('home');
         }
-      } else if (['home', 'search', 'schedule', 'tips'].includes(parts[1])) {
+      } else if (['home', 'search', 'schedule', 'tips', 'about'].includes(parts[1])) {
         setCurrentTab(parts[1]);
         if (parts[1] === 'home') {
           setIsHomeLanding(true);
           setSelectedStationId('seomyeon');
-        } else if (parts[1] === 'tips') {
-          setSelectedItineraryCategory(null);
-          if (parts[2] === 'courses' || parts[2] === 'itinerary') {
-            setTipsSubPage('courses');
-            if (parts[3] && ['east', 'west', 'south', 'north'].includes(parts[3].toLowerCase())) {
-              setActiveRegionPage(parts[3].toUpperCase() as any);
+        } else {
+          setIsHomeLanding(false);
+          if (parts[1] === 'tips') {
+            setSelectedItineraryCategory(null);
+            if (parts[2] === 'courses' || parts[2] === 'itinerary') {
+              setTipsSubPage('courses');
+              if (parts[3] && ['east', 'west', 'south', 'north'].includes(parts[3].toLowerCase())) {
+                setActiveRegionPage(parts[3].toUpperCase() as any);
+              } else {
+                setActiveRegionPage(null);
+              }
+            } else if (parts[2] === 'transit') {
+              setTipsSubPage('transit');
+              setActiveRegionPage(null);
+            } else if (parts[2] === 'child-free') {
+              setTipsSubPage('child-free');
+              setActiveRegionPage(null);
+            } else if (parts[2] === 'transfer') {
+              setTipsSubPage('transit');
+              setActiveRegionPage(null);
+            } else if (parts[2] && ['east', 'west', 'south', 'north'].includes(parts[2].toLowerCase())) {
+              setTipsSubPage('index');
+              setActiveRegionPage(parts[2].toUpperCase() as any);
             } else {
+              setTipsSubPage('index');
               setActiveRegionPage(null);
             }
-          } else if (parts[2] === 'transit') {
-            setTipsSubPage('transit');
-            setActiveRegionPage(null);
-          } else if (parts[2] === 'child-free') {
-            setTipsSubPage('child-free');
-            setActiveRegionPage(null);
-          } else if (parts[2] === 'transfer') {
-            setTipsSubPage('transit');
-            setActiveRegionPage(null);
-          } else if (parts[2] && ['east', 'west', 'south', 'north'].includes(parts[2].toLowerCase())) {
-            setTipsSubPage('index');
-            setActiveRegionPage(parts[2].toUpperCase() as any);
-          } else {
-            setTipsSubPage('index');
-            setActiveRegionPage(null);
           }
         }
       } else {
@@ -828,7 +831,17 @@ export default function App() {
   }, [selectedStationId, currentTab, isHomeLanding, selectedItineraryCategory, tipsSubPage, activeRegionPage]);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 50);
+
+    return () => clearTimeout(timer);
   }, [currentTab, selectedStationId, isHomeLanding, selectedItineraryCategory, tipsSubPage, activeRegionPage]);
 
   useEffect(() => {
@@ -1289,6 +1302,8 @@ export default function App() {
               setIsHomeLanding(true);
               setSelectedStationId('seomyeon');
               setExpandedExitNum(null);
+            } else {
+              setIsHomeLanding(false);
             }
             if (tab === 'tips') {
               setSelectedItineraryCategory(null);
