@@ -794,8 +794,8 @@ export default function BusanItinerariesView({
     initialCategory ? 'RECOMMENDATIONS' : 'SELECTION'
   );
 
-  // Initially show the categories overview dashboard (null), which is "카테고리만 보여지게 만들어줘"
-  const [activeCategory, setActiveCategory] = useState<CategoryType | null>(initialCategory || null);
+  // Initially default activeCategory to initialCategory or 'DAY' so itinerary contents are displayed immediately
+  const [activeCategory, setActiveCategory] = useState<CategoryType | null>(initialCategory || 'DAY');
 
   const navigateToSubPage = (page: 'index' | 'courses' | 'transit' | 'child-free' | 'transfer') => {
     if (setTipsSubPage) {
@@ -821,7 +821,7 @@ export default function BusanItinerariesView({
 
   // Sync state when props change
   React.useEffect(() => {
-    setActiveCategory(initialCategory || null);
+    setActiveCategory(initialCategory || 'DAY');
     if (initialCategory) {
       setActiveSection('RECOMMENDATIONS');
     }
@@ -831,11 +831,10 @@ export default function BusanItinerariesView({
     if (!tipsSubPage) return;
     if (tipsSubPage === 'index') {
       setActiveSection('SELECTION');
-      if (!initialCategory) {
-        setActiveCategory(null);
-      }
+      setActiveCategory(initialCategory || 'DAY');
     } else if (tipsSubPage === 'courses') {
       setActiveSection('RECOMMENDATIONS');
+      setActiveCategory(prev => prev || initialCategory || 'DAY');
     } else if (tipsSubPage === 'transit') {
       setActiveSection('TRANSIT_TIPS');
       setTransitSection('SUBMENU');

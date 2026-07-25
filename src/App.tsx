@@ -571,8 +571,11 @@ export default function App() {
   useEffect(() => {
     fetch("/api/recommendations")
       .then(res => {
-        if (res.ok) return res.json();
-        throw new Error("Failed to load recommendations from server");
+        const contentType = res.headers.get("content-type");
+        if (res.ok && contentType && contentType.includes("application/json")) {
+          return res.json();
+        }
+        throw new Error("API response is not JSON or server is unverified");
       })
       .then(data => {
         if (Array.isArray(data)) {
@@ -581,7 +584,8 @@ export default function App() {
         }
       })
       .catch(err => {
-        console.error("Backend recommendations fetch failed:", err);
+        // Quiet fallback to local storage / default state if backend route returns HTML
+        console.warn("Backend recommendations API unavailable, using local cache/defaults:", err.message);
       });
   }, []);
 
@@ -1342,7 +1346,7 @@ export default function App() {
               setIsHomeLanding(false);
             }
             if (targetTab === 'tips') {
-              setSelectedItineraryCategory(null);
+              setSelectedItineraryCategory('DAY');
               setTipsSubPage('courses');
               setActiveRegionPage(null);
             }
@@ -1475,7 +1479,7 @@ export default function App() {
                           document.body.scrollTop = 0;
                           setCurrentTab('tips');
                           setTipsSubPage('courses');
-                          setSelectedItineraryCategory(null);
+                          setSelectedItineraryCategory('DAY');
                           setActiveRegionPage(null);
                           setIsHomeLanding(false);
                         }}
