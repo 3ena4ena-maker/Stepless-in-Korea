@@ -83,8 +83,9 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
 
     // Dynamic error hook in window to prevent default browser alert dialog
     window.navermaps_auth_error = () => {
-      console.warn("Naver Maps API Authentication failed.");
+      console.warn("Naver Maps API Authentication failed. Automatically falling back to Leaflet Map.");
       setNaverAuthFailed(true);
+      setUseLeaflet(true); // Automatically switch to Leaflet map when domain is not authorized in NCP
     };
 
     if (window.naver && window.naver.maps) {
@@ -112,14 +113,15 @@ export default function SubwayStationMap({ station, language, focusedExitCoords 
           setScriptLoaded(true);
           setNaverAuthFailed(false);
         } else {
-          console.warn("Naver Maps script loaded but API not available.");
+          console.warn("Naver Maps script loaded but API not available. Auto switching to Leaflet.");
           setNaverAuthFailed(true);
+          setUseLeaflet(true);
         }
       }, 500);
     };
     script.onerror = () => {
-      console.warn("Naver Maps script failed to load.");
-      setLoadError(true);
+      console.warn("Naver Maps script failed to load. Auto switching to Leaflet.");
+      setUseLeaflet(true);
     };
     document.head.appendChild(script);
 
