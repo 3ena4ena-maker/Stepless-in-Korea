@@ -628,7 +628,18 @@ export default function App() {
   // Handling Path-based Client-side routing on mount and popstate
   useEffect(() => {
     const handleUrlRouting = () => {
-      const pathname = window.location.pathname;
+      let pathname = window.location.pathname;
+      
+      // Parse SPA redirect query parameter from public/404.html if redirected by GitHub Pages
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectedPath = searchParams.get('p');
+      if (redirectedPath) {
+        pathname = redirectedPath;
+        const cleanSearch = searchParams.get('q');
+        const newUrl = redirectedPath + (cleanSearch ? '?' + cleanSearch : '') + window.location.hash;
+        window.history.replaceState(null, '', newUrl);
+      }
+
       const parts = pathname.split('/');
       
       // Look for /itinerary-[category]
@@ -745,8 +756,11 @@ export default function App() {
     };
   }, []);
 
-  // Synchronize dynamic URL path and document headers metadata (SEO-friendly) whenever active station or tab changes
+  // Synchronize dynamic URL path, document headers metadata (SEO-friendly) and scroll to top on tab switch
   useEffect(() => {
+    // Scroll window to top whenever tab or view changes to avoid blank space from previous scroll offset
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
     // 1. Change URL path
     if (currentTab === 'home') {
       if (isHomeLanding) {
