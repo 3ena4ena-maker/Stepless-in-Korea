@@ -1226,24 +1226,6 @@ export default function BusanItinerariesView({
           <div className="bg-slate-50/80 p-0.5 sm:p-1 rounded-xl sm:rounded-2xl border border-slate-100 flex gap-0.5 sm:gap-1 flex-1 max-w-[280px] sm:max-w-md">
             <button
               onClick={() => {
-                navigateToSubPage('courses');
-                if (onSelectCategory) {
-                  onSelectCategory(null);
-                } else {
-                  setActiveCategory(null);
-                }
-              }}
-              className={`flex-1 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black transition-all duration-305 flex items-center justify-center gap-1 sm:gap-2 cursor-pointer ${
-                activeSection === 'RECOMMENDATIONS'
-                  ? 'bg-[#004481] text-white shadow-sm'
-                  : 'text-slate-500 hover:text-slate-850 hover:bg-slate-100/50'
-              }`}
-            >
-              <span>🏖️</span>
-              <span className="text-[10px] sm:text-xs font-black">{language === 'KR' ? '여행 추천' : 'Trip'}</span>
-            </button>
-            <button
-              onClick={() => {
                 navigateToSubPage('transit');
                 if (onSelectCategory) {
                   onSelectCategory(null);
@@ -1259,6 +1241,24 @@ export default function BusanItinerariesView({
             >
               <span>🚇</span>
               <span className="text-[10px] sm:text-xs font-black">{language === 'KR' ? '교통 팁' : 'Transit'}</span>
+            </button>
+            <button
+              onClick={() => {
+                navigateToSubPage('courses');
+                if (onSelectCategory) {
+                  onSelectCategory(null);
+                } else {
+                  setActiveCategory(null);
+                }
+              }}
+              className={`flex-1 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black transition-all duration-305 flex items-center justify-center gap-1 sm:gap-2 cursor-pointer ${
+                activeSection === 'RECOMMENDATIONS'
+                  ? 'bg-[#004481] text-white shadow-sm'
+                  : 'text-slate-500 hover:text-slate-850 hover:bg-slate-100/50'
+              }`}
+            >
+              <span>🏖️</span>
+              <span className="text-[10px] sm:text-xs font-black">{language === 'KR' ? '여행 추천' : 'Trip'}</span>
             </button>
           </div>
         </div>
@@ -1294,39 +1294,7 @@ export default function BusanItinerariesView({
 
           {/* TWO MAIN MENU BUTTON CARDS in beautiful flat illustration style */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 pt-0.5 max-w-2xl mx-auto" id="tips-main-menu-selection">
-            {/* Card 1: BUSAN TRAVEL RECOMMENDATIONS */}
-            <div
-              onClick={() => navigateToSubPage('courses')}
-              className="group bg-white p-4 sm:p-5 rounded-2xl border-2 border-slate-900 hover:bg-slate-50 cursor-pointer shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 flex flex-col justify-between text-left relative overflow-hidden"
-            >
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-full bg-[#004481] border-2 border-slate-900 flex items-center justify-center text-white shadow-[1.5px_1.5px_0px_0px_rgba(15,23,42,1)] shrink-0 group-hover:scale-105 transition-transform">
-                      <Compass className="w-5 h-5 stroke-[2.5]" />
-                    </div>
-                    <div>
-                      <span className="bg-slate-100 text-slate-700 border border-slate-200 text-[8px] font-black px-1.5 py-0.2 rounded-md uppercase tracking-wider block w-max mb-0.5">
-                        COURSE
-                      </span>
-                      <h3 className="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-tight">
-                        {language === 'KR' ? '여행 코스 추천' : 'Travel Course Recommendations'}
-                      </h3>
-                    </div>
-                  </div>
-                  <div className="w-7 h-7 rounded-full bg-white border-2 border-slate-900 flex items-center justify-center font-black text-slate-900 text-xs shadow-[1.5px_1.5px_0px_0px_rgba(15,23,42,1)] shrink-0">
-                    ➔
-                  </div>
-                </div>
-                <p className="text-[11px] sm:text-xs text-slate-600 font-bold leading-normal pr-1">
-                  {language === 'KR' 
-                    ? '현지인이 발로 뛰며 검증하고 설계한 힐링 및 테마 코스 추천'
-                    : 'Discover fine handcrafted day trips, scenic coastal walks, delicious gastronomy guides and historic viewpoints.'}
-                </p>
-              </div>
-            </div>
-
-            {/* Card 2: SUBWAY PUBLIC TRANSIT TIPS */}
+            {/* Card 1: SUBWAY PUBLIC TRANSIT TIPS */}
             <div
               onClick={() => navigateToSubPage('transit')}
               className="group bg-white p-4 sm:p-5 rounded-2xl border-2 border-slate-900 hover:bg-slate-50 cursor-pointer shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 flex flex-col justify-between text-left relative overflow-hidden"
@@ -1354,6 +1322,38 @@ export default function BusanItinerariesView({
                   {language === 'KR'
                     ? '부산 지하철 노선 요약부터 어린이 무료 대중교통 이용 방법, 30분 무료 환승 요령까지 완벽 정리'
                     : 'Interactive charts, maps, and professional strategies for senior companions, strollers or wheelchair navigations.'}
+                </p>
+              </div>
+            </div>
+
+            {/* Card 2: BUSAN TRAVEL RECOMMENDATIONS */}
+            <div
+              onClick={() => navigateToSubPage('courses')}
+              className="group bg-white p-4 sm:p-5 rounded-2xl border-2 border-slate-900 hover:bg-slate-50 cursor-pointer shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 flex flex-col justify-between text-left relative overflow-hidden"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-full bg-[#004481] border-2 border-slate-900 flex items-center justify-center text-white shadow-[1.5px_1.5px_0px_0px_rgba(15,23,42,1)] shrink-0 group-hover:scale-105 transition-transform">
+                      <Compass className="w-5 h-5 stroke-[2.5]" />
+                    </div>
+                    <div>
+                      <span className="bg-slate-100 text-slate-700 border border-slate-200 text-[8px] font-black px-1.5 py-0.2 rounded-md uppercase tracking-wider block w-max mb-0.5">
+                        COURSE
+                      </span>
+                      <h3 className="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-tight">
+                        {language === 'KR' ? '여행 코스 추천' : 'Travel Course Recommendations'}
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="w-7 h-7 rounded-full bg-white border-2 border-slate-900 flex items-center justify-center font-black text-slate-900 text-xs shadow-[1.5px_1.5px_0px_0px_rgba(15,23,42,1)] shrink-0">
+                    ➔
+                  </div>
+                </div>
+                <p className="text-[11px] sm:text-xs text-slate-600 font-bold leading-normal pr-1">
+                  {language === 'KR' 
+                    ? '현지인이 발로 뛰며 검증하고 설계한 힐링 및 테마 코스 추천'
+                    : 'Discover fine handcrafted day trips, scenic coastal walks, delicious gastronomy guides and historic viewpoints.'}
                 </p>
               </div>
             </div>

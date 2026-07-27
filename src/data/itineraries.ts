@@ -405,9 +405,13 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
       },
       {
         time: 'Day 2 (서면 & 동래/온천천)',
-        titleKo: '서면 젊음의거리 → 전포카페거리 → 동래 온천천 수변공원 벚꽃/유채꽃 산책 → 망미골목 F1963',
-        titleEn: 'Seomyeon → Jeonpo Cafe Street → Oncheoncheon Stream Walk → M      // Day 4� 편리',
-        stationInfoEn: 'Haeundae Station Exit 3 or 5 links directly to Gunam-ro pedestrian square.'
+        titleKo: "서면 젊음의거리 → 전포카페거리 → 동래 온천천 수변공원 벚꽃/유채꽃 산책 → 망미골목 F1963",
+        titleEn: "Seomyeon → Jeonpo Cafe Street → Oncheoncheon Stream Walk → Mangmi Alley F1963",
+        descKo: "둘째 날은 부산 도심의 에너지와 카페 문화, 맑은 하천 산책로와 복합문화공간 F1963에서 예술적 감성을 경험합니다.",
+        descEn: "On Day 2, experience urban energy, trendy cafe culture, serene stream walks, and the artistic vibes at F1963 cultural center.",
+        icon: "Coffee",
+        stationInfoKo: "지하철 1·2호선 서면역, 1호선 동래역/온천장역, 3호선 망미역 연계",
+        stationInfoEn: "Connected via Line 1 & 2 Seomyeon Stn, Line 1 Dongnae, Line 3 Mangmi Stn."
       },
       {
         time: 'Day 1',

@@ -33,7 +33,8 @@ import {
   Accessibility,
   Trash2,
   Shield,
-  Sparkles
+  Sparkles,
+  Calendar
 } from 'lucide-react';
 import Header from './components/Header';
 import TimelineVisualizer from './components/TimelineVisualizer';
@@ -728,7 +729,7 @@ export default function App() {
               setTipsSubPage('courses');
               setActiveRegionPage(parts[2].toUpperCase() as any);
             } else {
-              setTipsSubPage('courses');
+              setTipsSubPage('transit');
               setActiveRegionPage(null);
             }
           }
@@ -1325,7 +1326,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] text-slate-800 font-sans antialiased pb-12 flex flex-col justify-between">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-800 font-sans antialiased pb-24 md:pb-12 flex flex-col justify-between">
       <div>
         {/* Navigation Header */}
         <Header 
@@ -1525,6 +1526,88 @@ export default function App() {
                         </button>
                       );
                     })}
+                  </div>
+                </div>
+
+                {/* ⚡ At-A-Glance Mobile-Friendly Station Mobility Card */}
+                <div className="bg-gradient-to-br from-slate-900 via-[#002b54] to-[#004481] text-white p-4 sm:p-5 rounded-3xl shadow-md space-y-3">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                    <div className="flex items-center gap-2">
+                      <span className="p-1.5 rounded-xl bg-emerald-500/20 text-emerald-300">
+                        <Accessibility className="w-5 h-5" />
+                      </span>
+                      <div>
+                        <h3 className="font-extrabold text-sm sm:text-base tracking-tight text-white flex items-center gap-2">
+                          <span>{language === 'KR' ? `${activeStation.name} 한 눈에 보는 출구 요약` : `${activeStation.englishName} Step-Free Overview`}</span>
+                        </h3>
+                        <p className="text-[11px] text-slate-300 font-medium">
+                          {language === 'KR' ? '계단 없이 이용 가능한 출구 및 편의시설' : 'Accessible exits & station facilities at a glance'}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      {activeStation.lines.map(line => (
+                        <span key={line} className={`px-2.5 py-0.5 text-[11px] font-extrabold text-white rounded-full shadow-sm ${
+                          line === '1' ? 'bg-[#F06A00]' : 
+                          line === '2' ? 'bg-[#1b6d24]' : 
+                          line === '3' ? 'bg-[#906A3B]' : 
+                          line === '동해' ? 'bg-[#004960]' : 
+                          'bg-slate-500'
+                        }`}>
+                          {language === 'KR' 
+                            ? (line === '동해' ? '동해선' : `${line}호선`)
+                            : (line === '동해' ? 'Donghae' : `Line ${line}`)
+                          }
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-0.5">
+                    {/* Elevator Exits */}
+                    <div className="bg-white/10 backdrop-blur-sm p-3 rounded-2xl border border-white/10 flex items-center gap-3">
+                      <div className="p-2 bg-emerald-500/25 text-emerald-300 rounded-xl shrink-0">
+                        <ElevatorIcon className="w-5 h-5 text-emerald-300" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[10px] text-emerald-200 font-extrabold uppercase tracking-wider block">
+                          {language === 'KR' ? '엘리베이터 출구' : 'Elevator Exits'}
+                        </span>
+                        <span className="font-black text-white text-xs sm:text-sm truncate block mt-0.5">
+                          {activeStation.exits.filter(e => e.hasElevator).map(e => translateExitNumber(e.number, language)).join(', ') || (language === 'KR' ? '없음' : 'None')}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Escalator Exits */}
+                    <div className="bg-white/10 backdrop-blur-sm p-3 rounded-2xl border border-white/10 flex items-center gap-3">
+                      <div className="p-2 bg-blue-500/25 text-blue-300 rounded-xl shrink-0">
+                        <EscalatorIcon className="w-5 h-5 text-blue-300" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[10px] text-blue-200 font-extrabold uppercase tracking-wider block">
+                          {language === 'KR' ? '에스컬레이터 출구' : 'Escalator Exits'}
+                        </span>
+                        <span className="font-black text-white text-xs sm:text-sm truncate block mt-0.5">
+                          {activeStation.exits.filter(e => e.hasEscalator && !e.hasElevator).map(e => translateExitNumber(e.number, language)).join(', ') || (language === 'KR' ? '없음' : 'None')}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Lockers */}
+                    <div className="bg-white/10 backdrop-blur-sm p-3 rounded-2xl border border-white/10 flex items-center gap-3">
+                      <div className="p-2 bg-amber-500/25 text-amber-300 rounded-xl shrink-0">
+                        <Luggage className="w-5 h-5 text-amber-300" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[10px] text-amber-200 font-extrabold uppercase tracking-wider block">
+                          {language === 'KR' ? '역내 물품보관함' : 'Luggage Lockers'}
+                        </span>
+                        <span className="font-black text-amber-100 text-xs sm:text-sm truncate block mt-0.5">
+                          {getLockerInfoText(activeStation.id, language)}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -2404,6 +2487,60 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* 📱 Sticky Mobile Bottom Navigation Bar (At-a-glance 1-tap switching) */}
+      <nav 
+        className="md:hidden fixed bottom-0 left-0 right-0 z-[1000] bg-white/95 backdrop-blur-md border-t border-slate-200/90 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] px-2 py-1.5 flex justify-around items-center"
+        aria-label="Mobile Bottom Navigation"
+      >
+        {[
+          { id: 'home', label: language === 'KR' ? '홈' : 'Home', icon: Compass },
+          { id: 'search', label: language === 'KR' ? '역 검색' : 'Stations', icon: Train },
+          { id: 'schedule', label: language === 'KR' ? '일정표' : 'Schedule', icon: Calendar },
+          { id: 'tips', label: language === 'KR' ? '여행 팁' : 'Tips', icon: HelpCircle },
+          { id: 'about', label: language === 'KR' ? '소개' : 'About', icon: Info },
+        ].map(item => {
+          const Icon = item.icon;
+          const isActive = currentTab === item.id || (item.id === 'tips' && currentTab.startsWith('itinerary-'));
+          return (
+            <button
+              key={item.id}
+              id={`mobile-bottom-nav-${item.id}`}
+              onClick={() => {
+                window.scrollTo(0, 0);
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+
+                const validTabs = ['home', 'search', 'schedule', 'tips', 'about'];
+                const targetTab = validTabs.includes(item.id) ? item.id : 'home';
+                setCurrentTab(targetTab);
+                if (targetTab === 'home') {
+                  setIsHomeLanding(true);
+                  setSelectedStationId('seomyeon');
+                  setExpandedExitNum(null);
+                } else {
+                  setIsHomeLanding(false);
+                }
+                if (targetTab === 'tips') {
+                  setSelectedItineraryCategory('DAY');
+                  setTipsSubPage('transit');
+                  setActiveRegionPage(null);
+                }
+              }}
+              className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all cursor-pointer ${
+                isActive 
+                  ? 'text-[#004481] font-black scale-105' 
+                  : 'text-slate-400 font-medium hover:text-slate-600'
+              }`}
+            >
+              <div className={`p-1 rounded-lg ${isActive ? 'bg-blue-50 text-[#004481]' : ''}`}>
+                <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
+              </div>
+              <span className="text-[10px] leading-tight mt-0.5 tracking-tight">{item.label}</span>
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 }
