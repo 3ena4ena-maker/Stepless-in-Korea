@@ -72,7 +72,7 @@ const TRAVEL_WORDS_MAP: Record<string, string> = {
   '공방': 'craft workshop',
   '독립 서점': 'independent bookstore',
   '편집숍': 'boutique shop',
-  '무장애': 'barrier-free',
+  '계단없는': 'barrier-free',
   '산책': 'stroll',
   '최고': 'best / superb',
   '알뜰': 'Budget / Saving',

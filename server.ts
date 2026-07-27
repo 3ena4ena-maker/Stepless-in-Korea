@@ -46,7 +46,7 @@ const DEFAULT_RECOMMENDATIONS: TravelerRecommendation[] = [
     topic: '전포 사잇길 소품샵 & 빈티지 카페 골목',
     category: 'CAFE',
     stationOrExit: '전포역 4번 및 8번출구',
-    content: '전포 카페거리에서 조금만 위쪽으로 가면 나오는 사잇길에는 아기자기한 공방, 감성 넘치는 독립 서점, 개성 가득한 빈티지 편집숍들이 가득해요! 평탄하고 걸어 다니기 좋아 무장애 산책하기 최고입니다.',
+    content: '전포 카페거리에서 조금만 위쪽으로 가면 나오는 사잇길에는 아기자기한 공방, 감성 넘치는 독립 서점, 개성 가득한 빈티지 편집숍들이 가득해요! 평탄하고 걸어 다니기 좋아 계단 없는 산책하기 최고입니다.',
     upvotes: 28,
     createdAt: '2026-06-03T15:30:00Z'
   },
@@ -237,7 +237,7 @@ function fallbackTranslate(topic: string, content: string, stationOrExit: string
     '카페': 'Cafe',
     '골목': 'Alley',
     '사잇길': 'Sait-gil',
-    '무장애': 'barrier-free',
+    '계단없는': 'barrier-free',
     '산책': 'stroll',
     '지하철': 'subway',
     '철도': 'railway',

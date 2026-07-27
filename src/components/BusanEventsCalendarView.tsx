@@ -47,7 +47,7 @@ const BUSAN_EVENTS_DATA: BusanEvent[] = [
     stationKo: '센텀시티역 (2호선)',
     stationEn: 'Centum City Station',
     metroLine: 'Line 2',
-    accessibilityKo: '장애인 전용 주차 동선부터 메인 로비, 전시장 부스 동선까지 턱과 계단이 전혀 없는 그랜드 슬로프식 무장애 인프라가 100% 촘촘히 구축된 안심 랜드마크입니다.',
+    accessibilityKo: '장애인 전용 주차 동선부터 메인 로비, 전시장 부스 동선까지 턱과 계단이 전혀 없는 그랜드 슬로프식 편의 인프라가 100% 촘촘히 구축된 안심 랜드마크입니다.',
     accessibilityEn: 'Designed with maximum barrier-free logistics, from designated parking to the main halls, allowing all wheelchair-guided and stroller family units to explore.',
     descriptionKo: '"내일의 길을 열다(Moving Tomorrow)"를 주제로 미래형 전기 모빌리티, 자율주행 차량, 수소 트럭, 도심항공교통(UAM) 실물 신기술을 보고 시승 체험까지 지원하는 국내 최대 모빌리티 대전입니다.',
     descriptionEn: 'The signature motor show of Korea, displaying next-gen zero-emission electric vehicles, AI autopilots, eco hybrid power trains, and high-tech flying mobility modules.',
