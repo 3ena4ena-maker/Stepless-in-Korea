@@ -1062,6 +1062,19 @@ export default function BusanItinerariesView({
 
   const categoriesConfig: CategoryConfig[] = [
     {
+      id: 'GOURMET',
+      icon: '🍕',
+      tagKo: '침샘 가득',
+      tagEn: 'Delicious',
+      titleKo: '식도락',
+      titleEn: 'Gourmet',
+      descKo: '마음이 보들보들해지는 원조 돼지국밥 노포 맛집부터 예쁜 카페, 씨앗호떡까지 입구가 평평하고 여유로운 부산 로컬 미식 지도예요.',
+      descEn: 'Savor traditional pork soup and hot sweet pancakes on fully flat pedestrian walkways.',
+      bgClass: 'bg-rose-50/70 hover:bg-rose-50',
+      borderClass: 'border-rose-100 hover:border-rose-200',
+      textClass: 'text-rose-950'
+    },
+    {
       id: 'DAY',
       icon: '🌿',
       tagKo: '싱그러운 디톡스',
@@ -1125,19 +1138,6 @@ export default function BusanItinerariesView({
       bgClass: 'bg-sky-50/70 hover:bg-sky-50',
       borderClass: 'border-sky-100 hover:border-sky-200',
       textClass: 'text-sky-950'
-    },
-    {
-      id: 'GOURMET',
-      icon: '🍕',
-      tagKo: '침샘 가득',
-      tagEn: 'Delicious',
-      titleKo: '식도락',
-      titleEn: 'Gourmet',
-      descKo: '마음이 보들보들해지는 원조 돼지국밥 노포 맛집부터 예쁜 카페, 씨앗호떡까지 입구가 평평하고 여유로운 부산 로컬 미식 지도예요.',
-      descEn: 'Savor traditional pork soup and hot sweet pancakes on fully flat pedestrian walkways.',
-      bgClass: 'bg-rose-50/70 hover:bg-rose-50',
-      borderClass: 'border-rose-100 hover:border-rose-200',
-      textClass: 'text-rose-950'
     },
     {
       id: 'HISTORY',
