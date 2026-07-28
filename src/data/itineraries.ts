@@ -8,6 +8,7 @@ export interface ItineraryStep {
   stationInfoKo?: string;
   stationInfoEn?: string;
   foodCategory?: 'cafe' | 'brunch' | 'restaurant' | 'streetfood';
+  categoryType?: string;
   regionId?: 'haeundae_gijang' | 'gwangalli_centum' | 'seomyeon_jeonpo' | 'nampo_yeongdo' | 'others';
   regionNameKo?: string;
   regionNameEn?: string;
@@ -19,7 +20,7 @@ export interface ItineraryCourse {
   titleEn: string;
   subtitleKo: string;
   subtitleEn: string;
-  category: 'DAY' | '1NIGHT' | '2NIGHTS' | '3NIGHTS' | '4NIGHTS' | 'GOURMET' | 'HISTORY';
+  category: 'DAY' | '1NIGHT' | '2NIGHTS' | '3NIGHTS' | '4NIGHTS' | 'GOURMET' | 'EXPERIENCE';
   durationKo: string;
   durationEn: string;
   tagKo: string;
@@ -1299,40 +1300,155 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
     ]
   },
   {
-    id: 'itinerary-history',
-    titleKo: '피란민의 눈물과 극적 부활: 초량 이바구길·골목길 역사 낭만 산책',
-    titleEn: 'Hope & History: Choryang Ibagu & Provisional Capital Living Trail',
-    subtitleKo: '근대 역사의 골목길 풍경과 아름다운 기념관들을 모노레일 및 안전한 산책길을 통해 탐방하는 코스예요.',
-    subtitleEn: 'Tracing historic paths of refugees using panoramic monorails and accessible flat exhibition rooms',
-    category: 'HISTORY',
-    durationKo: '4시간',
-    durationEn: '4 Hours',
-    tagKo: '역사 문화 탐방 📜',
-    tagEn: 'Historic Footsteps 📜',
-    difficultyKo: '보통',
-    difficultyEn: 'Moderate',
-    overallTipKo: '초량의 유서 깊은 산복도로는 많은 계단으로 알려져 있지만, 가파른 168계단 바로 옆에 무료 고속 경사식 풍경 모노레일이 안전히 설치되어 있어요! 힘든 오르막 대신 구름 위를 걷는 듯한 공중 전차를 타며 사색을 나누어 보세요.',
-    overallTipEn: 'The dizzying 168 stairs of Choryang are accompanied by a fully free, modern glass monorail lift, letting strollers ascend the extreme mountain neighborhoods with ease.',
+    id: 'itinerary-experience',
+    titleKo: '오감만족 부산! 체험 & 박물관 다채로운 문화 탐방 가이드',
+    titleEn: 'Hands-on & Culture: Busan Museums & Interactive Experience Guide',
+    subtitleKo: '국립해양박물관, 부산시립미술관, F1963, 국립부산과학관 등 권역별 주요 박물관과 미술관, 체험형 문화공간을 무장애 편의 동선으로 즐기는 가이드예요.',
+    subtitleEn: 'Explore National Maritime Museum, Busan Museum of Art, F1963, and Busan National Science Museum with accessible, step-free routes categorized by region.',
+    category: 'EXPERIENCE',
+    durationKo: '체험 & 박물관 권역별 가이드',
+    durationEn: 'Categorized Museum & Experience Guide',
+    tagKo: '체험 & 박물관 🏛️',
+    tagEn: 'Museum & Experience 🏛️',
+    difficultyKo: '쉬움',
+    difficultyEn: 'Easy',
+    overallTipKo: '부산의 주요 박물관과 미술관, 복합문화공간을 [해운대·기장 / 광안리·센텀 / 서면·전포 / 남포·영도 / 그 외 지역] 5개 권역별로 한눈에 보실 수 있도록 정리했습니다. 모든 시설은 휠체어/유모차가 들어갈 수 있는 엘리베이터, 무장애 경사로, 넓은 화장실이 완비되어 날씨와 상관없이 편리하게 둘러보실 수 있습니다.',
+    overallTipEn: 'Busan major museums and cultural centers are categorized into 5 main regions. All listed venues offer full barrier-free access with elevators and wide flat ramps, allowing all visitors to comfortably enjoy rich exhibitions indoors regardless of weather.',
     steps: [
+      // --- 1. 해운대 · 기장 ---
       {
-        time: '10:00 - 11:30',
-        titleKo: '초량 이바구길 골목과 쉼터 모노레일 탑승',
-        titleEn: 'Choryang Monorail Ascent',
-        descKo: '우리나라 현대사의 흔적이 고스란히 남아 있는 고즈넉한 골목길을 만나보세요. 가파른 고갯길을 만났을 땐 걱정을 덜어두고 바로 옆 무료 모노레일에 편안히 탑승하여 아름다운 시내 전경을 내려다볼 수 있어요.',
-        descEn: 'Stroll the historical Choryang alleys. On encountering the sheer 168 cliff cliffs, board the free glass public monorail to safely glide straight up to the peak with a wide panorama view.',
-        icon: 'Map',
-        stationInfoKo: '초량역 3번 출구에서 평지 진입로(초량초등학교 방면) 이용 도보 8분',
-        stationInfoEn: 'Choryang Station Exit 3, 8 mins walk via level schools walkway'
+        regionId: 'haeundae_gijang',
+        regionNameKo: '해운대 · 기장',
+        regionNameEn: 'Haeundae & Gijang',
+        categoryType: 'SCIENCE_ECO',
+        time: '체험박물관',
+        titleKo: '국립부산과학관',
+        titleEn: 'National Busan Science Museum',
+        descKo: '동남권 최대 규모의 체험형 과학 박물관입니다. 자동차, 항공우주, 선박 해양 등 직접 몸으로 눌러보고 체험하는 인터랙티브 전시장이 평지 단층 및 대형 엘리베이터 동선으로 확장되어 누구나 편리하게 즐깁니다.',
+        descEn: 'A massive hands-on science complex featuring aerospace, marine science, and interactive physics exhibits with wide step-free halls.',
+        icon: 'Camera',
+        stationInfoKo: '부산 기장군 기장읍 동부산관광6로 59 (동해선 오시리아역 1번 출구에서 185번 버스 탑승 5분)',
+        stationInfoEn: '59 Dongbusangwangwang 6-ro, Gijang-eup, Gijang-gun, Busan'
+      },
+
+      // --- 2. 광안리 · 센텀 ---
+      {
+        regionId: 'gwangalli_centum',
+        regionNameKo: '광안리 · 센텀',
+        regionNameEn: 'Gwangalli & Centum',
+        categoryType: 'ART',
+        time: '미디어아트',
+        titleKo: '뮤지엄원 (Museum 1)',
+        titleEn: 'Museum 1 Media Art Gallery',
+        descKo: '센텀시티에 위치한 약 8,000만 개의 LED가 만들어내는 초대형 미디어아트 전문 미술관입니다. 단차 없는 통로와 평지 동선으로 화려한 빛의 미학을 체험할 수 있습니다.',
+        descEn: 'A digital art museum featuring massive LED displays and completely step-free exhibition walkways in Centum City.',
+        icon: 'Camera',
+        stationInfoKo: '부산 해운대구 센텀산단로 99 (2호선 센텀시티역 6번 출구 도보 5분)',
+        stationInfoEn: '99 Centumsandan-ro, Haeundae-gu, Busan'
       },
       {
-        time: '11:40 - 13:00',
-        titleKo: '임시수도기념관 아늑한 야외 전시실 및 정원 산책로',
-        titleEn: 'Provisional Capital Memorial Hall Site',
-        descKo: '근대 역사 속에서 중요한 역할을 해온 옛 경남도지사 관저와 기념전시관입니다. 야외에 마련된 푸른 정원 산책로에는 보행에 편리한 친환경 야자매트가 잘 마련되어 있고, 기념전시실 입구에는 길고 완만한 우회 램프가 깔끔히 연계되어 안전하고 깊이 있는 관람을 즐기시기 좋습니다.',
-        descEn: 'Visit the actual historic residence and security bunkers used during the Korean War. The outdoor lush classical gardens are lined with level non-slip weed meshes and access ramps.',
+        regionId: 'gwangalli_centum',
+        regionNameKo: '광안리 · 센텀',
+        regionNameEn: 'Gwangalli & Centum',
+        categoryType: 'CULTURE',
+        time: '영화도서관',
+        titleKo: '영화의전당 라이브러리',
+        titleEn: 'Busan Cinema Center Library',
+        descKo: '영화의전당 비프힐 4층에 위치한 국내 대표 영화 전문 도서관입니다. 희귀 영화 자료, LP, 영상 매체를 쾌적한 엘리베이터 동선과 라운지 좌석에서 한적하게 감상할 수 있습니다.',
+        descEn: 'A specialized cinema library inside Busan Cinema Center BIFF Hill 4F, featuring movie archives, rare videos, and accessible lounge seating.',
+        icon: 'Map',
+        stationInfoKo: '부산 해운대구 수영강변대로 120 비프힐 4층 (2호선 센텀시티역 6번 출구 도보 7분)',
+        stationInfoEn: '4F BIFF Hill, 120 Suyeonggangbyeon-daero, Haeundae-gu, Busan'
+      },
+      {
+        regionId: 'gwangalli_centum',
+        regionNameKo: '광안리 · 센텀',
+        regionNameEn: 'Gwangalli & Centum',
+        categoryType: 'CULTURE',
+        time: '복합문화',
+        titleKo: 'F1963',
+        titleEn: 'F1963 Cultural Center',
+        descKo: '옛 와이어 공장을 리노베이션한 매력적인 복합문화공간입니다. 대형 예스24 서점, 국제갤러리 전시, 대나무 숲길 산책로가 평지 및 경사로 동선으로 이어져 휴식하기 좋습니다.',
+        descEn: 'A transformed former wire factory complex housing galleries, large bookstores, bamboo gardens, and spacious cafes with step-free access.',
+        icon: 'Map',
+        stationInfoKo: '부산 수영구 구락로123번길 20 (3호선 망미역 2번 출구에서 버스/택시 이용 5분)',
+        stationInfoEn: '20 Gurak-ro 123beon-gil, Suyeong-gu, Busan'
+      },
+
+      // --- 3. 서면 · 전포 ---
+      {
+        regionId: 'seomyeon_jeonpo',
+        regionNameKo: '서면 · 전포',
+        regionNameEn: 'Seomyeon & Jeonpo',
+        categoryType: 'MUSEUM',
+        time: '금융박물관',
+        titleKo: '증권박물관 부산관',
+        titleEn: 'Korea Securities Museum (Busan)',
+        descKo: 'BIFC(부산국제금융센터) 내 위치한 금융·증권 전문 박물관입니다. 세계 및 한국 증권 발행의 역사와 금융 경제 체험을 엘리베이터 및 무장애 동선으로 안전하게 탐방할 수 있습니다.',
+        descEn: 'Located inside BIFC, a specialized museum showcasing global and Korean securities history and financial economic exhibits with full elevator access.',
+        icon: 'Map',
+        stationInfoKo: '부산 남구 문현금융로 40 BIFC 2층 (2호선 국제금융센터·부산은행역 3번 출구 연결)',
+        stationInfoEn: '2F BIFC, 40 Munhyeongeomyung-ro, Nam-gu, Busan (Directly connected to BIFC Station Exit 3)'
+      },
+
+      // --- 4. 남포동 · 영도 ---
+      {
+        regionId: 'nampo_yeongdo',
+        regionNameKo: '남포동 · 영도',
+        regionNameEn: 'Nampo & Yeongdo',
+        categoryType: 'CULTURE',
+        time: '영화체험관',
+        titleKo: '부산영화체험박물관',
+        titleEn: 'Busan Museum of Movies',
+        descKo: '영화의 도시 부산에 위치한 국내 최초의 영화 전문 체험형 박물관입니다. 크로마키 합성, 성우 더빙, 영화 원리 체험 등 다채로운 실내 미디어 체험존과 무장애 이동 동선을 갖추고 있습니다.',
+        descEn: 'Korea first movie-themed interactive museum featuring voice dubbing, chroma key synthesis, and cinema exhibits with ramp and elevator access.',
         icon: 'Camera',
-        stationInfoKo: '토성역 2번 출구에서 평지 인도 도보 5분',
-        stationInfoEn: 'Toseong Station Exit 2, 5 mins level walk with clear tactile cues'
+        stationInfoKo: '부산 중구 대청로126번길 12 (1호선 중앙역 5번 출구 / 용두산공원 하단 도보 5분)',
+        stationInfoEn: '12 Daecheong-ro 126beon-gil, Jung-gu, Busan'
+      },
+      {
+        regionId: 'nampo_yeongdo',
+        regionNameKo: '남포동 · 영도',
+        regionNameEn: 'Nampo & Yeongdo',
+        categoryType: 'ART',
+        time: '미디어아트',
+        titleKo: '아르떼뮤지엄 부산',
+        titleEn: 'ARTE MUSEUM BUSAN',
+        descKo: '영도 해안가에 위치한 세계 최대 규모의 몰입형 미디어아트 전시관입니다. 부산의 바다와 자연, 화려한 스펙터클 연출을 완만한 평지 실내 공간과 최신 편의시설로 경험할 수 있습니다.',
+        descEn: 'A colossal immersive media art exhibition hall located in Yeongdo, featuring stunning nature-themed digital art on flat indoor floors.',
+        icon: 'Camera',
+        stationInfoKo: '부산 영도구 해양로 247 (1호선 남포역 6번 출구에서 186, 66번 버스 탑승)',
+        stationInfoEn: '247 Haeyang-ro, Yeongdo-gu, Busan'
+      },
+      {
+        regionId: 'nampo_yeongdo',
+        regionNameKo: '남포동 · 영도',
+        regionNameEn: 'Nampo & Yeongdo',
+        categoryType: 'MUSEUM',
+        time: '해양박물관',
+        titleKo: '국립해양박물관',
+        titleEn: 'National Maritime Museum',
+        descKo: '아쿠아리움 원통 수조와 해양 전시관, 체험형 에듀케이션 공간을 갖춘 대한민국 대표 해양 박물관입니다. 건물 전체에 엘리베이터와 완만한 경사로가 완비되어 누구나 쾌적하게 관람할 수 있습니다.',
+        descEn: 'A magnificent maritime museum featuring a cylindrical aquarium, interactive ocean exhibits, and smooth indoor ramps throughout.',
+        icon: 'Camera',
+        stationInfoKo: '부산 영도구 해양로301번길 45 (1호선 남포역 6번 출구 버스정류장에서 66번 저상버스 탑승)',
+        stationInfoEn: '45 Haeyang-ro 301beon-gil, Yeongdo-gu, Busan'
+      },
+
+      // --- 5. 그 외 지역 ---
+      {
+        regionId: 'others',
+        regionNameKo: '그 외 지역',
+        regionNameEn: 'Other Regions',
+        categoryType: 'SCIENCE_ECO',
+        time: '어린이창의',
+        titleKo: '부산광역시교육청 어린이창의교육관',
+        titleEn: 'Busan Children Creative Education Museum',
+        descKo: '초읍 어린이대공원 내 위치한 체험형 과학교육 및 창의 박물관입니다. 우주 탐구관, 로봇 체험관, 다채로운 창의 놀이 공간과 무장애 엘리베이터가 완비되어 아이와 함께 방문하기 최적입니다.',
+        descEn: 'An interactive children science and creativity museum located inside Children Park with space, robotics, and accessible elevators.',
+        icon: 'Camera',
+        stationInfoKo: '부산 부산진구 새싹로 295 (어린이대공원 내, 1호선 서면역/부전역에서 81, 133, 54번 버스 탑승 후 어린이대공원 하차)',
+        stationInfoEn: '295 Saessak-ro, Busanjin-gu, Busan'
       }
     ]
   }

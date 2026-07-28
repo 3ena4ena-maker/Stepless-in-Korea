@@ -20,6 +20,7 @@ import {
   Sunset,
   Coffee,
   ArrowLeft,
+  ArrowRight,
   Sparkles,
   Sun,
   Moon,
@@ -34,7 +35,9 @@ import {
   Users,
   Footprints,
   Building2,
-  X
+  X,
+  Star,
+  Search
 } from 'lucide-react';
 import ElegantIllustration from './ElegantIllustration';
 import { BUSAN_ITINERARIES, ItineraryCourse, ItineraryStep } from '../data/itineraries';
@@ -43,7 +46,7 @@ import { CHILD_TRANSPORT_INFOGRAPHIC_BASE64 } from '../childtransport_base64';
 
 
 
-type CategoryType = 'DAY' | '1NIGHT' | '2NIGHTS' | '3NIGHTS' | '4NIGHTS' | 'GOURMET' | 'HISTORY';
+type CategoryType = 'DAY' | '1NIGHT' | '2NIGHTS' | '3NIGHTS' | '4NIGHTS' | 'GOURMET' | 'EXPERIENCE';
 
 interface BusanItinerariesViewProps {
   language: 'KR' | 'EN';
@@ -779,6 +782,355 @@ const BoogiSeagullSVG = () => (
   </svg>
 );
 
+function CategoryIllustration({ type }: { type: string }) {
+  switch (type) {
+    case 'GOURMET':
+      return (
+        <div className="w-full h-44 bg-gradient-to-br from-amber-100 via-orange-50 to-red-100 relative overflow-hidden flex items-center justify-center">
+          <div className="absolute -right-6 -bottom-6 w-32 h-32 rounded-full bg-amber-200/40 blur-xs" />
+          <div className="absolute -left-6 -top-6 w-28 h-28 rounded-full bg-red-200/30 blur-xs" />
+          <svg className="w-28 h-28 z-10 drop-shadow-md" viewBox="0 0 120 120" fill="none">
+            <path d="M20 55 C20 85, 100 85, 100 55 Z" fill="#f97316" />
+            <ellipse cx="60" cy="55" rx="40" ry="10" fill="#fb923c" />
+            <ellipse cx="60" cy="55" rx="36" ry="7" fill="#fef08a" />
+            <path d="M45 42 C42 34 48 28 45 20" stroke="#f97316" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.8" />
+            <path d="M60 40 C57 32 63 26 60 18" stroke="#f97316" strokeWidth="3.5" strokeLinecap="round" fill="none" opacity="0.9" />
+            <path d="M75 42 C72 34 78 28 75 20" stroke="#f97316" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.8" />
+            <line x1="25" y1="20" x2="85" y2="60" stroke="#78350f" strokeWidth="3.5" strokeLinecap="round" />
+            <line x1="30" y1="16" x2="90" y2="56" stroke="#78350f" strokeWidth="3.5" strokeLinecap="round" />
+            <path d="M82 72 C90 68, 98 75, 98 80 C98 85, 90 92, 82 88 C78 86, 78 74, 82 72 Z" fill="#0284c7" />
+            <polygon points="98,80 106,73 106,87" fill="#0284c7" />
+          </svg>
+        </div>
+      );
+    case 'GAMCHEON':
+      return (
+        <div className="w-full h-44 bg-gradient-to-br from-sky-100 via-amber-50 to-teal-100 relative overflow-hidden flex items-center justify-center">
+          <div className="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-amber-200/50" />
+          <svg className="w-32 h-32 z-10 drop-shadow-md" viewBox="0 0 120 120" fill="none">
+            <circle cx="95" cy="25" r="12" fill="#fbbf24" opacity="0.9" />
+            <rect x="15" y="65" width="22" height="30" rx="2" fill="#38bdf8" />
+            <polygon points="13,65 26,52 39,65" fill="#ef4444" />
+            <rect x="20" y="73" width="5" height="7" fill="#ffffff" />
+            <rect x="29" y="73" width="5" height="7" fill="#ffffff" />
+
+            <rect x="35" y="55" width="24" height="40" rx="2" fill="#facc15" />
+            <polygon points="33,55 47,42 61,55" fill="#3b82f6" />
+            <rect x="42" y="63" width="10" height="10" fill="#ffffff" />
+
+            <rect x="57" y="60" width="26" height="35" rx="2" fill="#f43f5e" />
+            <polygon points="55,60 70,46 85,60" fill="#10b981" />
+            <rect x="64" y="68" width="12" height="10" fill="#ffffff" />
+
+            <rect x="81" y="70" width="24" height="25" rx="2" fill="#a855f7" />
+            <polygon points="79,70 93,58 107,70" fill="#f97316" />
+
+            <path d="M5 95 Q 60 85, 115 95 L 115 105 L 5 105 Z" fill="#4d7c0f" opacity="0.3" />
+          </svg>
+        </div>
+      );
+    case 'HAEUNDAE':
+      return (
+        <div className="w-full h-44 bg-gradient-to-br from-cyan-100 via-sky-100 to-blue-200 relative overflow-hidden flex items-center justify-center">
+          <div className="absolute top-3 left-4 w-12 h-12 rounded-full bg-amber-300/60 blur-xs" />
+          <svg className="w-32 h-32 z-10 drop-shadow-md" viewBox="0 0 120 120" fill="none">
+            <path d="M10 70 Q 35 45, 60 70 Q 85 45, 110 70" stroke="#0284c7" strokeWidth="2.5" fill="none" opacity="0.6" />
+            <line x1="35" y1="57" x2="35" y2="70" stroke="#0284c7" strokeWidth="2" opacity="0.6" />
+            <line x1="85" y1="57" x2="85" y2="70" stroke="#0284c7" strokeWidth="2" opacity="0.6" />
+            <line x1="5" y1="70" x2="115" y2="70" stroke="#0369a1" strokeWidth="4" strokeLinecap="round" />
+            
+            <path d="M5 85 C25 80, 35 90, 60 85 C85 80, 95 90, 115 85" stroke="#0284c7" strokeWidth="3" fill="none" strokeLinecap="round" />
+            <path d="M5 95 C25 90, 35 100, 60 95 C85 90, 95 100, 115 95" stroke="#38bdf8" strokeWidth="3" fill="none" strokeLinecap="round" />
+
+            <path d="M25 45 C25 32, 55 32, 55 45 Z" fill="#ef4444" />
+            <path d="M35 45 C35 32, 45 32, 45 45 Z" fill="#ffffff" />
+            <line x1="40" y1="45" x2="40" y2="65" stroke="#78350f" strokeWidth="2.5" strokeLinecap="round" />
+          </svg>
+        </div>
+      );
+    case 'MUSEUM':
+      return (
+        <div className="w-full h-44 bg-gradient-to-br from-amber-100 via-yellow-50 to-amber-200 relative overflow-hidden flex items-center justify-center">
+          <svg className="w-28 h-28 z-10 drop-shadow-md" viewBox="0 0 120 120" fill="none">
+            <polygon points="20,45 60,20 100,45" fill="#b45309" />
+            <rect x="18" y="45" width="84" height="6" fill="#78350f" />
+            <rect x="25" y="51" width="8" height="32" rx="1" fill="#d97706" />
+            <rect x="42" y="51" width="8" height="32" rx="1" fill="#d97706" />
+            <rect x="59" y="51" width="8" height="32" rx="1" fill="#d97706" />
+            <rect x="76" y="51" width="8" height="32" rx="1" fill="#d97706" />
+            <rect x="91" y="51" width="8" height="32" rx="1" fill="#d97706" />
+            <rect x="15" y="83" width="90" height="5" fill="#78350f" />
+            <rect x="10" y="88" width="100" height="6" fill="#b45309" />
+
+            <circle cx="85" cy="30" r="14" fill="#fef08a" stroke="#d97706" strokeWidth="2" />
+            <circle cx="80" cy="26" r="2.5" fill="#ef4444" />
+            <circle cx="88" cy="24" r="2.5" fill="#3b82f6" />
+            <circle cx="92" cy="31" r="2.5" fill="#10b981" />
+          </svg>
+        </div>
+      );
+    case 'SEOMYEON':
+      return (
+        <div className="w-full h-44 bg-gradient-to-br from-[#f3e8ff] via-[#fae8ff] to-[#e0e7ff] relative overflow-hidden flex items-center justify-center">
+          <svg className="w-28 h-28 z-10 drop-shadow-md" viewBox="0 0 120 120" fill="none">
+            <path d="M35 50 L40 85 C41 90, 79 90, 80 85 L85 50 Z" fill="#9333ea" />
+            <ellipse cx="60" cy="50" rx="25" ry="6" fill="#c084fc" />
+            <ellipse cx="60" cy="50" rx="21" ry="4" fill="#581c87" />
+            <path d="M83 55 C95 55, 95 75, 78 77" stroke="#9333ea" strokeWidth="4.5" fill="none" strokeLinecap="round" />
+            <path d="M50 38 C47 30, 53 24, 50 16" stroke="#c084fc" strokeWidth="3" strokeLinecap="round" fill="none" />
+            <path d="M60 36 C57 28, 63 22, 60 14" stroke="#a855f7" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+            <path d="M70 38 C67 30, 73 24, 70 16" stroke="#c084fc" strokeWidth="3" strokeLinecap="round" fill="none" />
+            <circle cx="28" cy="30" r="4" fill="#a855f7" />
+            <path d="M25 70 L30 65 L35 70 Z" fill="#a855f7" />
+          </svg>
+        </div>
+      );
+    case 'YEONGDO':
+      return (
+        <div className="w-full h-44 bg-gradient-to-br from-indigo-100 via-sky-100 to-slate-200 relative overflow-hidden flex items-center justify-center">
+          <svg className="w-28 h-28 z-10 drop-shadow-md" viewBox="0 0 120 120" fill="none">
+            <polygon points="45,30 115,10 115,70" fill="#fef08a" opacity="0.6" />
+            <polygon points="38,30 52,30 57,85 33,85" fill="#475569" />
+            <polygon points="38,45 52,45 54,58 36,58" fill="#ef4444" />
+            <rect x="40" y="20" width="10" height="10" fill="#f59e0b" />
+            <polygon points="37,20 45,10 53,20" fill="#1e293b" />
+
+            <path d="M10 85 C30 80, 40 90, 65 85 C90 80, 100 90, 115 85 L115 105 L10 105 Z" fill="#1e40af" opacity="0.8" />
+            <path d="M5 93 C25 88, 35 98, 60 93 C85 88, 95 98, 115 93" stroke="#60a5fa" strokeWidth="3" fill="none" />
+          </svg>
+        </div>
+      );
+    case 'GIJANG':
+    default:
+      return (
+        <div className="w-full h-44 bg-gradient-to-br from-teal-100 via-cyan-100 to-sky-200 relative overflow-hidden flex items-center justify-center">
+          <svg className="w-28 h-28 z-10 drop-shadow-md" viewBox="0 0 120 120" fill="none">
+            <ellipse cx="60" cy="55" rx="38" ry="14" stroke="#0d9488" strokeWidth="2.5" transform="rotate(-30 60 55)" fill="none" />
+            <ellipse cx="60" cy="55" rx="38" ry="14" stroke="#0284c7" strokeWidth="2.5" transform="rotate(30 60 55)" fill="none" />
+            <circle cx="60" cy="55" r="9" fill="#0f766e" />
+            <circle cx="60" cy="55" r="5" fill="#ccfbf1" />
+            <circle cx="30" cy="40" r="4" fill="#f59e0b" />
+            <circle cx="90" cy="70" r="4" fill="#3b82f6" />
+            <circle cx="85" cy="35" r="4" fill="#ec4899" />
+            <path d="M10 90 C30 85, 40 95, 65 90 C90 85, 100 95, 115 90" stroke="#0f766e" strokeWidth="3" strokeLinecap="round" fill="none" />
+          </svg>
+        </div>
+      );
+  }
+}
+
+const RECOMMENDATION_OVERVIEW_CARDS = [
+  {
+    id: 'GOURMET',
+    titleKo: '자갈치 & 남포동 식도락 미식 탐방',
+    titleEn: 'Jagalchi & Nampo Seafood Gourmet Trail',
+    theme: 'GOURMET',
+    duration: '1NIGHT',
+    durationLabelKo: '1박 2일 추천',
+    durationLabelEn: '1 Night 2 Days',
+    rating: '4.9',
+    badgeText: 'Trending',
+    badgeBg: 'bg-[#ffde43]',
+    badgeTextCol: 'text-slate-900',
+    themeBadgeKo: '식도락',
+    themeBadgeEn: 'Gourmet',
+    descKo: '부산 대표 수산시장 자갈치, 국제시장, 전포 카페거리의 별미를 엘리베이터와 단차 없는 평지 동선으로 안전하고 맛있게 즐기는 핵심 미식 코스.',
+    descEn: 'Feast on fresh seafood and local delicacies at Jagalchi Market and Jeonpo Cafe Street with step-free flat walking paths.',
+    illustrationType: 'GOURMET'
+  },
+  {
+    id: 'DAY',
+    titleKo: '감천문화마을 & 남포동 당일치기 코스',
+    titleEn: 'Gamcheon Village & Nampo Day Trip',
+    theme: 'EXPERIENCE',
+    duration: 'DAY',
+    durationLabelKo: '당일치기 추천',
+    durationLabelEn: '1-Day Tour',
+    rating: '4.8',
+    badgeText: 'POPULAR',
+    badgeBg: 'bg-emerald-600',
+    badgeTextCol: 'text-white',
+    themeBadgeKo: '체험&박물관',
+    themeBadgeEn: 'Experience',
+    descKo: '알록달록 감천문화마을 완만 데크길부터 용두산공원 경사로와 자갈치 시장까지 당일로 알차게 탐방하는 무장애 필수 코스.',
+    descEn: 'Explore the vibrant Gamcheon Village and Yongdusan Park via smooth wooden decks and accessible ramps in a single day.',
+    illustrationType: 'GAMCHEON'
+  },
+  {
+    id: '1NIGHT',
+    titleKo: '해운대 & 광안리 바다 야경 1박 2일 힐링',
+    titleEn: 'Haeundae & Gwangalli Beach 1-Night Trip',
+    theme: 'EXPERIENCE',
+    duration: '1NIGHT',
+    durationLabelKo: '1박 2일 추천',
+    durationLabelEn: '1 Night 2 Days',
+    rating: '4.9',
+    badgeText: 'BEST',
+    badgeBg: 'bg-sky-600',
+    badgeTextCol: 'text-white',
+    themeBadgeKo: '식도락&체험',
+    themeBadgeEn: 'Ocean Trail',
+    descKo: '동백섬 데크 산책로, 해운대 수평 백사장, 광안대교 야경을 엘리베이터와 저상버스로 여유롭고 안락하게 누리는 바다 힐링 코스.',
+    descEn: 'Enjoy step-free ocean view boardwalks, Dongbaek Island decks, and Gwangalli Bridge night lights with accessible transit.',
+    illustrationType: 'HAEUNDAE'
+  },
+  {
+    id: 'EXPERIENCE',
+    titleKo: '국립해양박물관 & 국립부산과학관 체험 특선',
+    titleEn: 'National Museums & Science Hands-on Trail',
+    theme: 'EXPERIENCE',
+    duration: 'DAY',
+    durationLabelKo: '체험&박물관 추천',
+    durationLabelEn: 'Museum Trail',
+    rating: '4.9',
+    badgeText: 'HOT',
+    badgeBg: 'bg-amber-600',
+    badgeTextCol: 'text-white',
+    themeBadgeKo: '체험&박물관',
+    themeBadgeEn: 'Museums',
+    descKo: '날씨 상관없이 완벽한 실내 에스컬레이터·엘리베이터 동선! 아쿠아리움 원통 수조, 인터랙티브 과학관, 미술관을 한눈에.',
+    descEn: 'Indoor barrier-free cultural venues featuring giant cylindrical aquariums, interactive science zones, and media art halls.',
+    illustrationType: 'MUSEUM'
+  },
+  {
+    id: '2NIGHTS',
+    titleKo: '센텀시티 & 서면 2박 3일 복합문화 도심 투어',
+    titleEn: 'Centum City & Seomyeon 2-Nights Urban Tour',
+    theme: 'EXPERIENCE',
+    duration: '2NIGHTS',
+    durationLabelKo: '2박 3일 추천',
+    durationLabelEn: '2 Nights 3 Days',
+    rating: '4.8',
+    badgeText: 'RECOMMENDED',
+    badgeBg: 'bg-indigo-600',
+    badgeTextCol: 'text-white',
+    themeBadgeKo: '도심&문화',
+    themeBadgeEn: 'Urban Culture',
+    descKo: '영화의전당, 뮤지엄원 미디어아트, F1963 문화공간과 서면 전포거리까지 부산 도심의 현대적 매력을 품은 3일 코스.',
+    descEn: 'Discover Busan Cinema Center, Museum 1 digital art, and F1963 wire-factory culture space with flat elevators.',
+    illustrationType: 'SEOMYEON'
+  },
+  {
+    id: '3NIGHTS',
+    titleKo: '영도 & 태종대 3박 4일 해안 절경 투어',
+    titleEn: 'Yeongdo & Taejongdae 3-Nights Coastal Tour',
+    theme: 'EXPERIENCE',
+    duration: '3NIGHTS',
+    durationLabelKo: '3박 4일 추천',
+    durationLabelEn: '3 Nights 4 Days',
+    rating: '4.7',
+    badgeText: 'FEATURED',
+    badgeBg: 'bg-teal-600',
+    badgeTextCol: 'text-white',
+    themeBadgeKo: '해안&역사',
+    themeBadgeEn: 'Seaside',
+    descKo: '아르떼뮤지엄 미디어아트, 영도 피아크 오션뷰 라운지, 부산 근현대역사관까지 영도와 남포 일대를 깊이 있게 탐방.',
+    descEn: 'Immerse in ARTE Museum digital art, Yeongdo oceanview lounges, and modern history venues across 4 rewarding days.',
+    illustrationType: 'YEONGDO'
+  },
+  {
+    id: '4NIGHTS',
+    titleKo: '기장 & 동부산 4박 5일 여유 만점 완벽 완주',
+    titleEn: 'Gijang & East Busan 4-Nights Grand Tour',
+    theme: 'EXPERIENCE',
+    duration: '4NIGHTS',
+    durationLabelKo: '4박 5일 추천',
+    durationLabelEn: '4 Nights 5 Days',
+    rating: '4.9',
+    badgeText: 'GRAND TOUR',
+    badgeBg: 'bg-[#004481]',
+    badgeTextCol: 'text-white',
+    themeBadgeKo: '완주코스',
+    themeBadgeEn: 'Full Tour',
+    descKo: '동부산 오시리아, 해동용궁사 입구 완만 데크, 부산박물관, 낙동강하구에코센터까지 부산 전역의 매력을 여유롭게 완주.',
+    descEn: 'The ultimate 5-day barrier-free Busan journey covering East Busan Osiria, Busan Museum, and Eulsukdo Eco Park.',
+    illustrationType: 'GIJANG'
+  }
+];
+
+const FoodieIllustration = () => (
+  <svg viewBox="0 0 200 140" className="w-full h-32 max-w-[180px] mx-auto" fill="none">
+    {/* Outer bowl */}
+    <path d="M 40 65 C 40 115, 160 115, 160 65 Z" fill="#ffffff" stroke="#1e293b" strokeWidth="3" strokeLinejoin="round" />
+    <ellipse cx="100" cy="65" rx="60" ry="12" fill="#f8fafc" stroke="#1e293b" strokeWidth="3" />
+    
+    {/* Bowl decorative arcs */}
+    <path d="M 55 80 Q 70 92 85 80" stroke="#1e293b" strokeWidth="2" fill="none" />
+    <path d="M 85 80 Q 100 92 115 80" stroke="#1e293b" strokeWidth="2" fill="none" />
+    <path d="M 115 80 Q 130 92 145 80" stroke="#1e293b" strokeWidth="2" fill="none" />
+
+    {/* Skewers / Eomuk */}
+    <line x1="125" y1="20" x2="65" y2="72" stroke="#1e293b" strokeWidth="3.5" strokeLinecap="round" />
+    <line x1="135" y1="25" x2="75" y2="77" stroke="#1e293b" strokeWidth="3.5" strokeLinecap="round" />
+    {/* Fishcake folds */}
+    <path d="M 102 32 L 120 45 L 110 53 L 92 40 Z" fill="#d97706" opacity="0.4" stroke="#1e293b" strokeWidth="2" />
+    <path d="M 112 40 L 130 53 L 120 61 L 102 48 Z" fill="#d97706" opacity="0.4" stroke="#1e293b" strokeWidth="2" />
+
+    {/* Food item / Egg in bowl */}
+    <ellipse cx="120" cy="68" rx="14" ry="9" fill="#d97706" opacity="0.3" stroke="#1e293b" strokeWidth="2" />
+    
+    {/* Anchor accent on the right */}
+    <path d="M 154 95 C 154 107, 170 107, 170 95" stroke="#1e293b" strokeWidth="2" fill="none" />
+    <line x1="162" y1="87" x2="162" y2="105" stroke="#1e293b" strokeWidth="2" />
+    <line x1="157" y1="91" x2="167" y2="91" stroke="#1e293b" strokeWidth="2" />
+    <circle cx="162" cy="85" r="2.5" stroke="#1e293b" strokeWidth="1.5" />
+  </svg>
+);
+
+const ExperienceIllustration = () => (
+  <svg viewBox="0 0 200 140" className="w-full h-32 max-w-[180px] mx-auto" fill="none">
+    {/* Background Mountain / Sea contours */}
+    <path d="M 15 80 L 40 55 L 70 80 Z" fill="#d97706" opacity="0.25" stroke="#1e293b" strokeWidth="2" strokeLinejoin="round" />
+    <path d="M 50 80 Q 100 42 150 80" fill="#f1f5f9" stroke="#1e293b" strokeWidth="2" strokeLinejoin="round" />
+
+    {/* Museum / Traditional Building Roof */}
+    <polygon points="45,58 80,40 115,58" fill="#1e293b" />
+    <rect x="47" y="58" width="66" height="5" fill="#d97706" opacity="0.5" stroke="#1e293b" strokeWidth="1.5" />
+    <rect x="51" y="63" width="58" height="17" fill="#ffffff" stroke="#1e293b" strokeWidth="2" />
+    <line x1="63" y1="63" x2="63" y2="80" stroke="#1e293b" strokeWidth="1.5" />
+    <line x1="80" y1="63" x2="80" y2="80" stroke="#1e293b" strokeWidth="1.5" />
+    <line x1="97" y1="63" x2="97" y2="80" stroke="#1e293b" strokeWidth="1.5" />
+
+    {/* Tower / Sculpture Pillar */}
+    <rect x="135" y="35" width="18" height="45" rx="3" fill="#ffffff" stroke="#1e293b" strokeWidth="2.5" />
+    <line x1="144" y1="35" x2="144" y2="25" stroke="#1e293b" strokeWidth="2.5" />
+    <circle cx="144" cy="22" r="3" fill="#d97706" />
+
+    {/* Sea waves at base */}
+    <path d="M 10 80 C 30 75, 40 85, 60 80 C 80 75, 90 85, 110 80 C 130 75, 140 85, 160 80 C 180 75, 190 85, 200 80" stroke="#1e293b" strokeWidth="2.5" fill="none" />
+  </svg>
+);
+
+const ItineraryIllustration = () => (
+  <svg viewBox="0 0 200 140" className="w-full h-32 max-w-[180px] mx-auto" fill="none">
+    {/* Suitcase */}
+    <rect x="30" y="38" width="80" height="58" rx="8" fill="#1e293b" />
+    {/* Suitcase corners */}
+    <rect x="30" y="38" width="16" height="16" rx="4" fill="#d97706" opacity="0.8" />
+    <rect x="94" y="38" width="16" height="16" rx="4" fill="#d97706" opacity="0.8" />
+    <rect x="30" y="80" width="16" height="16" rx="4" fill="#d97706" opacity="0.8" />
+    <rect x="94" y="80" width="16" height="16" rx="4" fill="#d97706" opacity="0.8" />
+    {/* Handle */}
+    <path d="M 55 38 V 26 C 55 22, 85 22, 85 26 V 38" stroke="#d97706" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+    {/* Center latch */}
+    <rect x="65" y="58" width="10" height="18" rx="2" fill="#d97706" />
+
+    {/* Clock */}
+    <circle cx="125" cy="62" r="26" fill="#ffffff" stroke="#1e293b" strokeWidth="3" />
+    <circle cx="125" cy="62" r="22" fill="#fef3c7" stroke="#d97706" strokeWidth="1.5" />
+    {/* Clock Hands */}
+    <line x1="125" y1="62" x2="125" y2="48" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+    <line x1="125" y1="62" x2="136" y2="62" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+    <circle cx="125" cy="62" r="2.5" fill="#1e293b" />
+
+    {/* BUSAN with umbrella */}
+    <text x="68" y="114" fontFamily="sans-serif" fontWeight="900" fontSize="13" fill="#1e293b" letterSpacing="2">BUSAN</text>
+    {/* Umbrella icon */}
+    <path d="M 126 108 C 126 103, 138 103, 138 108 Z" fill="#d97706" />
+    <line x1="132" y1="108" x2="132" y2="116" stroke="#1e293b" strokeWidth="1.5" />
+  </svg>
+);
+
 export default function BusanItinerariesView({ 
   language, 
   initialCategory = null, 
@@ -794,8 +1146,12 @@ export default function BusanItinerariesView({
     initialCategory ? 'RECOMMENDATIONS' : 'SELECTION'
   );
 
-  // Initially default activeCategory to initialCategory or 'DAY' so itinerary contents are displayed immediately
-  const [activeCategory, setActiveCategory] = useState<CategoryType | null>(initialCategory || 'DAY');
+  // Initially activeCategory defaults to initialCategory or null (Category Overview)
+  const [activeCategory, setActiveCategory] = useState<CategoryType | null>(initialCategory || null);
+
+  const [selectedThemeFilter, setSelectedThemeFilter] = useState<'ALL' | 'GOURMET' | 'EXPERIENCE'>('ALL');
+  const [selectedDurationFilter, setSelectedDurationFilter] = useState<'ALL' | 'DAY' | '1NIGHT' | '2NIGHTS' | '3NIGHTS' | '4NIGHTS'>('ALL');
+  const [overviewSearchQuery, setOverviewSearchQuery] = useState<string>('');
 
   const navigateToSubPage = (page: 'index' | 'courses' | 'transit' | 'child-free' | 'transfer') => {
     if (setTipsSubPage) {
@@ -821,7 +1177,7 @@ export default function BusanItinerariesView({
 
   // Sync state when props change
   React.useEffect(() => {
-    setActiveCategory(initialCategory || 'DAY');
+    setActiveCategory(initialCategory || null);
     if (initialCategory) {
       setActiveSection('RECOMMENDATIONS');
     }
@@ -831,10 +1187,10 @@ export default function BusanItinerariesView({
     if (!tipsSubPage) return;
     if (tipsSubPage === 'index') {
       setActiveSection('SELECTION');
-      setActiveCategory(initialCategory || 'DAY');
+      setActiveCategory(initialCategory || null);
     } else if (tipsSubPage === 'courses') {
       setActiveSection('RECOMMENDATIONS');
-      setActiveCategory(prev => prev || initialCategory || 'DAY');
+      setActiveCategory(prev => (prev !== undefined ? prev : (initialCategory || null)));
     } else if (tipsSubPage === 'transit') {
       setActiveSection('TRANSIT_TIPS');
       setTransitSection('SUBMENU');
@@ -904,6 +1260,26 @@ export default function BusanItinerariesView({
       setSelectedRegion(activeRegionPage);
     }
   }, [activeRegionPage]);
+
+  const [selectedExperienceRegion, setSelectedExperienceRegion] = useState<string>('ALL');
+  const [selectedExperienceTheme, setSelectedExperienceTheme] = useState<string>('ALL');
+
+  const EXPERIENCE_THEME_TABS = [
+    { id: 'ALL', nameKo: '전체 테마', nameEn: 'All Themes', icon: '✨' },
+    { id: 'MUSEUM', nameKo: '박물관 & 역사관', nameEn: 'Museums & History', icon: '🏛️' },
+    { id: 'ART', nameKo: '미술관 & 전시관', nameEn: 'Art & Exhibitions', icon: '🎨' },
+    { id: 'SCIENCE_ECO', nameKo: '과학 & 수족관 & 생태', nameEn: 'Science & Aquarium', icon: '🐬' },
+    { id: 'CULTURE', nameKo: '복합문화공간', nameEn: 'Cultural Spaces', icon: '🎬' }
+  ];
+
+  const REGION_FILTER_TABS = [
+    { id: 'ALL', nameKo: '전체 지역', nameEn: 'All Regions', icon: '📍' },
+    { id: 'haeundae_gijang', nameKo: '해운대 · 기장', nameEn: 'Haeundae & Gijang', icon: '🌊' },
+    { id: 'gwangalli_centum', nameKo: '광안리 · 센텀', nameEn: 'Gwangalli & Centum', icon: '🖼️' },
+    { id: 'seomyeon_jeonpo', nameKo: '서면 · 전포', nameEn: 'Seomyeon & Jeonpo', icon: '☕' },
+    { id: 'nampo_yeongdo', nameKo: '남포동 · 영도', nameEn: 'Nampo & Yeongdo', icon: '🏙️' },
+    { id: 'others', nameKo: '그 외 지역', nameEn: 'Other Regions', icon: '🌿' }
+  ];
 
   const [activeRegionCategory, setActiveRegionCategory] = useState<'LANDMARK' | 'FOOD' | 'CAFE' | 'CULTURE'>('LANDMARK');
   const [copiedIndex, setCopiedIndex] = useState<string | null>(null);
@@ -1053,8 +1429,8 @@ export default function BusanItinerariesView({
         return <Home className={className} />;
       case 'GOURMET':
         return <Utensils className={className} />;
-      case 'HISTORY':
-        return <BookOpen className={className} />;
+      case 'EXPERIENCE':
+        return <Building2 className={className} />;
       default:
         return <MapPin className={className} />;
     }
@@ -1073,6 +1449,19 @@ export default function BusanItinerariesView({
       bgClass: 'bg-rose-50/70 hover:bg-rose-50',
       borderClass: 'border-rose-100 hover:border-rose-200',
       textClass: 'text-rose-950'
+    },
+    {
+      id: 'EXPERIENCE',
+      icon: '🏛️',
+      tagKo: '다채로운 체험',
+      tagEn: 'Interactive',
+      titleKo: '체험&박물관',
+      titleEn: 'Experience & Museum',
+      descKo: '국립해양박물관부터 부산시립미술관, F1963 복합문화공간까지 온 가족이 날씨 상관없이 편리한 엘리베이터 동선으로 즐기는 다채로운 체험&박물관 코스예요.',
+      descEn: 'Enjoy hands-on exhibitions, maritime museums, and art centers with step-free elevators and wide ramps.',
+      bgClass: 'bg-amber-50/70 hover:bg-amber-50',
+      borderClass: 'border-amber-100 hover:border-amber-200',
+      textClass: 'text-amber-950'
     },
     {
       id: 'DAY',
@@ -1138,19 +1527,6 @@ export default function BusanItinerariesView({
       bgClass: 'bg-sky-50/70 hover:bg-sky-50',
       borderClass: 'border-sky-100 hover:border-sky-200',
       textClass: 'text-sky-950'
-    },
-    {
-      id: 'HISTORY',
-      icon: '📜',
-      tagKo: '어제와 오늘',
-      tagEn: 'History',
-      titleKo: '역사',
-      titleEn: 'History',
-      descKo: '초량 산복도로 골목의 무료 전망 모노레일을 타고 올라가, 6.25의 흔적을 품은 임시수도기념관 정원을 거닐며 역사를 만나는 다정하고 푸근한 산책 코스예요.',
-      descEn: 'Ascend steep hills on glass monorail lifts and touch historic provisional capital museums.',
-      bgClass: 'bg-stone-50/70 hover:bg-stone-50',
-      borderClass: 'border-stone-100 hover:border-stone-200',
-      textClass: 'text-stone-950'
     }
   ];
 
@@ -1398,16 +1774,16 @@ export default function BusanItinerariesView({
       {activeSection === 'RECOMMENDATIONS' && (
         <div className="space-y-4 sm:space-y-6">
 
-          {/* Quick Category Selector Tabs (당일치기, 1박, 2박, 3박, 4박, 식도락, 역사) */}
-          <div className="bg-white p-2.5 sm:p-3.5 rounded-2xl border border-slate-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.03)] space-y-2 animate-fade-in text-left">
-            <div className="flex items-center justify-between px-1">
-              <div className="flex items-center gap-1.5">
-                <span className="text-sm">🏖️</span>
-                <span className="text-xs sm:text-sm font-extrabold text-slate-800">
-                  {language === 'KR' ? '여행 코스 추천 카테고리' : 'Trip Categories'}
-                </span>
-              </div>
-              {activeCategory !== null && (
+          {/* Quick Category Selector Tabs (Only visible when a specific category is selected) */}
+          {activeCategory !== null && (
+            <div className="bg-white p-2.5 sm:p-3.5 rounded-2xl border border-slate-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.03)] space-y-2 animate-fade-in text-left">
+              <div className="flex items-center justify-between px-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-sm">🏖️</span>
+                  <span className="text-xs sm:text-sm font-extrabold text-slate-800">
+                    {language === 'KR' ? '카테고리 전환' : 'Switch Category'}
+                  </span>
+                </div>
                 <button
                   onClick={() => {
                     if (onSelectCategory) {
@@ -1419,107 +1795,163 @@ export default function BusanItinerariesView({
                   className="text-[11px] font-bold text-[#004481] hover:underline flex items-center gap-1 bg-blue-50/60 hover:bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-100 transition-colors cursor-pointer"
                 >
                   <span>📋</span>
-                  <span>{language === 'KR' ? '전체 메뉴 보기' : 'All Overview'}</span>
+                  <span>{language === 'KR' ? '전체 카테고리 목록으로' : 'All Categories'}</span>
                 </button>
-              )}
-            </div>
+              </div>
 
-            <div 
-              ref={quickPillsRef}
-              className="flex items-center gap-1.5 overflow-x-auto pb-1 pt-0.5 no-scrollbar w-full"
-              id="quick-categories-pills"
-            >
-              {categoriesConfig.map((cat) => {
-                const isSelected = activeCategory === cat.id;
-                return (
-                  <button
-                    key={cat.id}
-                    onClick={() => {
-                      if (onSelectCategory) {
-                        onSelectCategory(cat.id);
-                      } else {
-                        setActiveCategory(cat.id);
-                      }
-                    }}
-                    className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 cursor-pointer shrink-0 border ${
-                      isSelected
-                        ? 'bg-[#004481] text-white border-[#004481] shadow-sm transform scale-[1.02]'
-                        : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200/70 hover:border-slate-300'
-                    }`}
-                  >
-                    <span>{cat.icon}</span>
-                    <span>{language === 'KR' ? cat.titleKo : cat.titleEn}</span>
-                  </button>
-                );
-              })}
+              <div 
+                ref={quickPillsRef}
+                className="flex items-center gap-1.5 overflow-x-auto pb-1 pt-0.5 no-scrollbar w-full"
+                id="quick-categories-pills"
+              >
+                {categoriesConfig.map((cat) => {
+                  const isSelected = activeCategory === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => {
+                        if (onSelectCategory) {
+                          onSelectCategory(cat.id);
+                        } else {
+                          setActiveCategory(cat.id);
+                        }
+                      }}
+                      className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 cursor-pointer shrink-0 border ${
+                        isSelected
+                          ? 'bg-[#004481] text-white border-[#004481] shadow-sm transform scale-[1.02]'
+                          : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200/70 hover:border-slate-300'
+                      }`}
+                    >
+                      <span>{cat.icon}</span>
+                      <span>{language === 'KR' ? cat.titleKo : cat.titleEn}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Main Container Switching: Categories Grid VS Category Detailed Itinerary */}
           {activeCategory === null ? (
-        // Mode 2: SHOW CATEGORY ONLY (GRID VIEW) - "카테고리만 보여지게 만들어줘"
-        <div className="space-y-4 sm:space-y-8">
-          
-          <div className="border-b border-slate-100 pb-3 animate-fade-in">
-            <h3 className="text-base font-extrabold text-slate-800 flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-amber-500 animate-spin" />
-              <span>{language === 'KR' ? '추천 카테고리를 선택하세요' : 'Select a Category of Itinerary'}</span>
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-400 font-semibold mt-1">
-              {language === 'KR' 
-                ? '원하시는 여행 일정과 미식, 역사 테마를 클릭하면 전용 가이드로 이동합니다.' 
-                : 'Click any travel plan, food guide, or history route below to unlock deep step-free details.'}
-            </p>
-          </div>
-
-          <style dangerouslySetInnerHTML={{__html: `
-            #categories-overview-grid::-webkit-scrollbar,
-            #quick-categories-pills::-webkit-scrollbar {
-              height: 4px;
-              display: block !important;
-            }
-            #categories-overview-grid::-webkit-scrollbar-track,
-            #quick-categories-pills::-webkit-scrollbar-track {
-              background: #f1f5f9;
-              border-radius: 9999px;
-            }
-            #categories-overview-grid::-webkit-scrollbar-thumb,
-            #quick-categories-pills::-webkit-scrollbar-thumb {
-              background: #cbd5e1;
-              border-radius: 9999px;
-            }
-            #categories-overview-grid::-webkit-scrollbar-thumb:hover,
-            #quick-categories-pills::-webkit-scrollbar-thumb:hover {
-              background: #94a3b8;
-            }
-          `}} />
-
-          <div 
-            className="flex flex-wrap gap-2 justify-center sm:justify-start pb-2 w-full" 
-            id="categories-overview-grid"
-          >
-            {categoriesConfig.map((cat) => (
-              <div
-                key={cat.id}
-                onClick={() => {
-                  if (onSelectCategory) {
-                    onSelectCategory(cat.id);
-                  } else {
-                    setActiveCategory(cat.id);
-                  }
-                }}
-                className={`px-3 py-1.5 rounded-xl border transition-all duration-300 cursor-pointer flex items-center gap-1.5 group transform hover:-translate-y-0.5 hover:shadow-sm shrink-0 ${cat.bgClass} ${cat.borderClass}`}
-              >
-                <div className="w-6 h-6 rounded-lg bg-white border border-slate-100 flex items-center justify-center shrink-0 shadow-sm transition-transform group-hover:scale-105 duration-300">
-                  {getCategoryLucideIcon(cat.id, "w-3.5 h-3.5 stroke-[2.2] text-slate-700")}
+        // Mode 2: SHOW 3 CLEAN MAIN CATEGORY CARDS (MATCHING IMAGE 2)
+        <div className="space-y-6 sm:space-y-8 animate-fade-in py-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 max-w-5xl mx-auto">
+            {/* Card 1: Foodie / 식도락 */}
+            <div
+              onClick={() => {
+                if (onSelectCategory) {
+                  onSelectCategory('GOURMET');
+                } else {
+                  setActiveCategory('GOURMET');
+                }
+              }}
+              className="bg-white rounded-3xl border border-slate-100/90 shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.07)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer group hover:-translate-y-1 p-6 sm:p-7 text-left"
+            >
+              <div className="space-y-5">
+                {/* Top Illustration Area */}
+                <div className="bg-slate-50/70 rounded-2xl p-5 flex items-center justify-center group-hover:bg-amber-50/40 transition-colors">
+                  <FoodieIllustration />
                 </div>
-                <div className="text-left">
-                  <h4 className="text-[11px] sm:text-xs font-black font-heading tracking-tight text-slate-800">
-                    {language === 'KR' ? cat.titleKo : cat.titleEn}
-                  </h4>
+
+                {/* Title and Subtitle */}
+                <div className="space-y-1.5">
+                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 group-hover:text-[#004481] transition-colors">
+                    {language === 'KR' ? '식도락 (Foodie)' : 'Foodie'}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
+                    {language === 'KR'
+                      ? '부산의 진정한 맛을 찾아 떠나는 미식 여행'
+                      : 'Explore authentic local flavors and culinary landmarks across Busan.'}
+                  </p>
                 </div>
               </div>
-            ))}
+
+              {/* Bottom Right Link */}
+              <div className="pt-6 flex justify-end items-center">
+                <span className="text-xs sm:text-sm font-extrabold text-slate-800 group-hover:text-[#004481] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  <span>Details</span>
+                  <span className="text-sm">→</span>
+                </span>
+              </div>
+            </div>
+
+            {/* Card 2: Experience / 체험 & 박물관 */}
+            <div
+              onClick={() => {
+                if (onSelectCategory) {
+                  onSelectCategory('EXPERIENCE');
+                } else {
+                  setActiveCategory('EXPERIENCE');
+                }
+              }}
+              className="bg-white rounded-3xl border border-slate-100/90 shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.07)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer group hover:-translate-y-1 p-6 sm:p-7 text-left"
+            >
+              <div className="space-y-5">
+                {/* Top Illustration Area */}
+                <div className="bg-slate-50/70 rounded-2xl p-5 flex items-center justify-center group-hover:bg-sky-50/40 transition-colors">
+                  <ExperienceIllustration />
+                </div>
+
+                {/* Title and Subtitle */}
+                <div className="space-y-1.5">
+                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 group-hover:text-[#004481] transition-colors">
+                    {language === 'KR' ? '체험 & 박물관 (Experience)' : 'Experience'}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
+                    {language === 'KR'
+                      ? '역사와 문화가 살아있는 부산의 다양한 체험 활동'
+                      : 'Interactive arts, museums, and historical landmarks for all ages.'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Bottom Right Link */}
+              <div className="pt-6 flex justify-end items-center">
+                <span className="text-xs sm:text-sm font-extrabold text-slate-800 group-hover:text-[#004481] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  <span>Details</span>
+                  <span className="text-sm">→</span>
+                </span>
+              </div>
+            </div>
+
+            {/* Card 3: Itinerary / 일정별 여행 */}
+            <div
+              onClick={() => {
+                if (onSelectCategory) {
+                  onSelectCategory('DAY');
+                } else {
+                  setActiveCategory('DAY');
+                }
+              }}
+              className="bg-white rounded-3xl border border-slate-100/90 shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.07)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer group hover:-translate-y-1 p-6 sm:p-7 text-left"
+            >
+              <div className="space-y-5">
+                {/* Top Illustration Area */}
+                <div className="bg-slate-50/70 rounded-2xl p-5 flex items-center justify-center group-hover:bg-emerald-50/40 transition-colors">
+                  <ItineraryIllustration />
+                </div>
+
+                {/* Title and Subtitle */}
+                <div className="space-y-1.5">
+                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 group-hover:text-[#004481] transition-colors">
+                    {language === 'KR' ? '일정별 여행 (Itinerary)' : 'Itinerary'}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
+                    {language === 'KR'
+                      ? '당일치기부터 4박까지, 당신의 일정에 딱 맞는 부산 여행'
+                      : 'Carefully curated day trips and multi-night travel routes.'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Bottom Right Link */}
+              <div className="pt-6 flex justify-end items-center">
+                <span className="text-xs sm:text-sm font-extrabold text-slate-800 group-hover:text-[#004481] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  <span>Details</span>
+                  <span className="text-sm">→</span>
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* BUSAN TOURIST ILLUSTRATION MAP SECTION OR REGIONAL SUBPAGE */}
@@ -2033,7 +2465,7 @@ export default function BusanItinerariesView({
                               if (resultType === 'type1') {
                                 setActiveCategory('1NIGHT');
                               } else if (resultType === 'type2') {
-                                setActiveCategory('HISTORY');
+                                setActiveCategory('EXPERIENCE');
                               } else {
                                 setActiveCategory('3NIGHTS');
                               }
@@ -2235,18 +2667,18 @@ export default function BusanItinerariesView({
                 accentText: "text-rose-800",
                 accentBorder: "border-rose-200/60",
               },
-              HISTORY: {
-                gradient: "from-[#4a3f35] via-[#635548] to-[#29221b]",
-                primaryBg: "bg-stone-100/50",
-                primaryText: "text-stone-950",
-                borderAccent: "border-stone-200",
-                sealText: language === 'KR' ? "★ 피란수도 역사 특선" : "★ HISTORIC MEMOIR TRAIL",
-                sealColor: "bg-amber-200 text-stone-900",
-                illustrationType: "history",
-                headerBg: "bg-stone-50",
-                accentBg: "bg-stone-50/70",
+              EXPERIENCE: {
+                gradient: "from-[#4a3f2c] via-[#785434] to-[#2e1d0f]",
+                primaryBg: "bg-amber-100/50",
+                primaryText: "text-amber-950",
+                borderAccent: "border-amber-200",
+                sealText: language === 'KR' ? "★ 체험 & 박물관 특선" : "★ MUSEUM & EXPERIENCE TRAIL",
+                sealColor: "bg-amber-200 text-amber-900",
+                illustrationType: "culture",
+                headerBg: "bg-amber-50",
+                accentBg: "bg-amber-50/70",
                 accentText: "text-amber-900",
-                accentBorder: "border-stone-200",
+                accentBorder: "border-amber-200",
               }
             };
 
@@ -2363,24 +2795,12 @@ export default function BusanItinerariesView({
 
                 {/* 4. DETAIL CHRONOLOGICAL ITINERARY TIMELINE & STORY SECTION */}
                 {(() => {
-                  const hasSidebar = activeCategory === 'HISTORY' || activeCategory === '1NIGHT' || activeCategory === '2NIGHTS';
+                  const hasSidebar = activeCategory === '1NIGHT' || activeCategory === '2NIGHTS';
                   return (
                     <div className={hasSidebar ? "grid grid-cols-1 lg:grid-cols-3 gap-6" : "max-w-4xl mx-auto w-full"}>
                       {hasSidebar && (
                         <div className="lg:col-span-1 space-y-6">
-                          {/* Dynamic Extra Sidebar based on active category (preserving historical details) */}
-                          {activeCategory === 'HISTORY' && (
-                            <div className="bg-[#fcfaf4] p-5.5 rounded-3xl border border-amber-200/70 text-left space-y-3 font-sans">
-                              <span className="text-[10px] font-black text-amber-800 tracking-wider block uppercase font-mono">HISTORY DETAILED INSIGHT / 초량 이바구 돋보기</span>
-                              <h4 className="text-sm font-black text-amber-950 font-heading">6.25 피란 수도와 산복도로</h4>
-                              <p className="text-xs text-stone-500 leading-relaxed font-semibold">
-                                {language === 'KR' 
-                                  ? '6.25 전쟁 당시 수많은 피란민들이 도망쳐 내려와 영도와 초량 산기슭에 손수 돌을 쌓아 임시 가옥을 지으며 터전을 이룬 것이 오늘날 산복도로의 기원입니다. 과거에 물동이를 이고 힘겹게 오르던 고갯길은 이제 주민과 여행자를 위해 모노레일과 야자매트로 다정하게 정비되었습니다.' 
-                                  : 'During the Korean War, thousands of refugees built stone homes on vertical cliffs surrounding Choryang. The historical steep valleys are now fully equipped with a modern monorail for seniors and stroller access.'}
-                              </p>
-                            </div>
-                          )}
-
+                          {/* Dynamic Extra Sidebar based on active category */}
                           {activeCategory === '1NIGHT' && (
                             <div className="bg-indigo-50/50 p-5 rounded-3xl border border-indigo-150/70 text-left space-y-2.5">
                               <h6 className="text-xs font-black text-indigo-900 flex items-center gap-1.5">
@@ -2426,7 +2846,7 @@ export default function BusanItinerariesView({
                                   {[
                                     { id: 'ALL', labelKo: '전체 지역', labelEn: 'All Regions', icon: '📍', activeClass: 'bg-slate-900 text-white ring-2 ring-slate-900 shadow-xs', inactiveClass: 'bg-slate-100 text-slate-700 border border-slate-200/80 hover:bg-slate-200/80' },
                                     { id: 'haeundae_gijang', labelKo: '해운대 · 기장', labelEn: 'Haeundae & Gijang', icon: '🌊', activeClass: 'bg-sky-600 text-white ring-2 ring-sky-600 shadow-xs', inactiveClass: 'bg-sky-50 text-sky-900 border border-sky-200/80 hover:bg-sky-100' },
-                                    { id: 'gwangalli_centum', labelKo: '광안리 · 센텀', labelEn: 'Gwangalli & Centum', icon: '🏖️', activeClass: 'bg-teal-600 text-white ring-2 ring-teal-600 shadow-xs', inactiveClass: 'bg-teal-50 text-teal-900 border border-teal-200/80 hover:bg-teal-100' },
+                                    { id: 'gwangalli_centum', labelKo: '광안리 · 센텀', labelEn: 'Gwangalli & Centum', icon: '🖼️', activeClass: 'bg-teal-600 text-white ring-2 ring-teal-600 shadow-xs', inactiveClass: 'bg-teal-50 text-teal-900 border border-teal-200/80 hover:bg-teal-100' },
                                     { id: 'seomyeon_jeonpo', labelKo: '서면 · 전포', labelEn: 'Seomyeon & Jeonpo', icon: '☕', activeClass: 'bg-indigo-600 text-white ring-2 ring-indigo-600 shadow-xs', inactiveClass: 'bg-indigo-50 text-indigo-900 border border-indigo-200/80 hover:bg-indigo-100' },
                                     { id: 'nampo_yeongdo', labelKo: '남포동 · 영도', labelEn: 'Nampo & Yeongdo', icon: '🏙️', activeClass: 'bg-blue-600 text-white ring-2 ring-blue-600 shadow-xs', inactiveClass: 'bg-blue-50 text-blue-900 border border-blue-200/80 hover:bg-blue-100' },
                                     { id: 'others', labelKo: '그 외 지역', labelEn: 'Other Regions', icon: '🌿', activeClass: 'bg-emerald-600 text-white ring-2 ring-emerald-600 shadow-xs', inactiveClass: 'bg-emerald-50 text-emerald-900 border border-emerald-200/80 hover:bg-emerald-100' },
@@ -2648,6 +3068,261 @@ export default function BusanItinerariesView({
                                             onClick={() => {
                                               navigator.clipboard?.writeText(`${st.titleKo} (${cleanAddress})`);
                                               alert(language === 'KR' ? '상호 및 주소가 복사되었습니다.' : 'Copied name and address.');
+                                            }}
+                                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-white/80 border border-slate-200 text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                                          >
+                                            <span>📋 복사</span>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              );
+                            })()}
+                          </div>
+                        ) : activeCategory === 'EXPERIENCE' ? (
+                          <div className="space-y-6 w-full text-left">
+                            {/* 1. LOCATION & CATEGORY FILTER CONTROL PANEL */}
+                            <div className="bg-white p-5 sm:p-7 rounded-3xl border border-amber-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.02)] space-y-5 text-left">
+                              {/* Primary Location Tabs */}
+                              <div className="space-y-2 text-left">
+                                <div className="flex items-center justify-between text-xs font-bold text-slate-500 uppercase tracking-wider px-1">
+                                  <span>📍 {language === 'KR' ? '부산 지역 선택' : 'Select Busan Region'}</span>
+                                  <span className="text-[11px] font-normal text-slate-400">
+                                    {language === 'KR' ? '원하는 위치를 클릭하세요' : 'Click to filter by area'}
+                                  </span>
+                                </div>
+                                <div className="flex flex-wrap gap-2 text-left">
+                                  {[
+                                    { id: 'ALL', labelKo: '전체 지역', labelEn: 'All Regions', icon: '📍', activeClass: 'bg-slate-900 text-white ring-2 ring-slate-900 shadow-xs', inactiveClass: 'bg-slate-100 text-slate-700 border border-slate-200/80 hover:bg-slate-200/80' },
+                                    { id: 'haeundae_gijang', labelKo: '해운대 · 기장', labelEn: 'Haeundae & Gijang', icon: '🌊', activeClass: 'bg-sky-600 text-white ring-2 ring-sky-600 shadow-xs', inactiveClass: 'bg-sky-50 text-sky-900 border border-sky-200/80 hover:bg-sky-100' },
+                                    { id: 'gwangalli_centum', labelKo: '광안리 · 센텀', labelEn: 'Gwangalli & Centum', icon: '🖼️', activeClass: 'bg-teal-600 text-white ring-2 ring-teal-600 shadow-xs', inactiveClass: 'bg-teal-50 text-teal-900 border border-teal-200/80 hover:bg-teal-100' },
+                                    { id: 'seomyeon_jeonpo', labelKo: '서면 · 전포', labelEn: 'Seomyeon & Jeonpo', icon: '☕', activeClass: 'bg-indigo-600 text-white ring-2 ring-indigo-600 shadow-xs', inactiveClass: 'bg-indigo-50 text-indigo-900 border border-indigo-200/80 hover:bg-indigo-100' },
+                                    { id: 'nampo_yeongdo', labelKo: '남포동 · 영도', labelEn: 'Nampo & Yeongdo', icon: '🏙️', activeClass: 'bg-blue-600 text-white ring-2 ring-blue-600 shadow-xs', inactiveClass: 'bg-blue-50 text-blue-900 border border-blue-200/80 hover:bg-blue-100' },
+                                    { id: 'others', labelKo: '그 외 지역', labelEn: 'Other Regions', icon: '🌿', activeClass: 'bg-emerald-600 text-white ring-2 ring-emerald-600 shadow-xs', inactiveClass: 'bg-emerald-50 text-emerald-900 border border-emerald-200/80 hover:bg-emerald-100' },
+                                  ].map((reg) => {
+                                    const isSelected = selectedExperienceRegion === reg.id;
+                                    const count = reg.id === 'ALL'
+                                      ? targetCourse.steps.length
+                                      : targetCourse.steps.filter(s => s.regionId === reg.id).length;
+
+                                    return (
+                                      <button
+                                        key={reg.id}
+                                        onClick={() => setSelectedExperienceRegion(reg.id)}
+                                        className={`px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                                          isSelected ? reg.activeClass : reg.inactiveClass
+                                        }`}
+                                      >
+                                        <span>{reg.icon}</span>
+                                        <span>{language === 'KR' ? reg.labelKo : reg.labelEn}</span>
+                                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-extrabold ${
+                                          isSelected ? 'bg-white/20 text-white' : 'bg-black/5 text-slate-700'
+                                        }`}>
+                                          {count}
+                                        </span>
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+
+                              <hr className="border-slate-100 my-1" />
+
+                              {/* Secondary Experience Category Sub-filters */}
+                              <div className="space-y-2 text-left">
+                                <div className="text-xs font-bold text-slate-500 uppercase tracking-wider px-1">
+                                  <span>🏛️ {language === 'KR' ? '체험 카테고리 필터' : 'Experience Category Filter'}</span>
+                                </div>
+                                <div className="flex flex-wrap gap-1.5 sm:gap-2 text-left">
+                                  {[
+                                    { id: 'ALL', labelKo: '전체 테마', labelEn: 'All Themes', icon: '✨', activeClass: 'bg-amber-800 text-white ring-2 ring-amber-800 shadow-xs', inactiveClass: 'bg-amber-50 text-amber-950 border border-amber-200/90 hover:bg-amber-100' },
+                                    { id: 'MUSEUM', labelKo: '박물관 & 역사관', labelEn: 'Museums & History', icon: '🏛️', activeClass: 'bg-amber-900 text-white ring-2 ring-amber-900 shadow-xs', inactiveClass: 'bg-amber-50 text-amber-900 border border-amber-200/90 hover:bg-amber-100' },
+                                    { id: 'ART', labelKo: '미술관 & 전시관', labelEn: 'Art & Exhibitions', icon: '🎨', activeClass: 'bg-purple-800 text-white ring-2 ring-purple-800 shadow-xs', inactiveClass: 'bg-purple-50 text-purple-900 border border-purple-200/90 hover:bg-purple-100' },
+                                    { id: 'SCIENCE_ECO', labelKo: '과학 & 수족관 & 생태', labelEn: 'Science & Aquarium', icon: '🐬', activeClass: 'bg-cyan-800 text-white ring-2 ring-cyan-800 shadow-xs', inactiveClass: 'bg-cyan-50 text-cyan-900 border border-cyan-200/90 hover:bg-cyan-100' },
+                                    { id: 'CULTURE', labelKo: '복합문화공간', labelEn: 'Cultural Spaces', icon: '🎬', activeClass: 'bg-emerald-800 text-white ring-2 ring-emerald-800 shadow-xs', inactiveClass: 'bg-emerald-50 text-emerald-900 border border-emerald-200/90 hover:bg-emerald-100' },
+                                  ].map((cat) => {
+                                    const isSelected = selectedExperienceTheme === cat.id;
+                                    const count = targetCourse.steps.filter(s => {
+                                      const matchReg = selectedExperienceRegion === 'ALL' || s.regionId === selectedExperienceRegion;
+                                      const matchCat = cat.id === 'ALL' || s.categoryType === cat.id;
+                                      return matchReg && matchCat;
+                                    }).length;
+
+                                    return (
+                                      <button
+                                        key={cat.id}
+                                        onClick={() => setSelectedExperienceTheme(cat.id)}
+                                        className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                                          isSelected ? cat.activeClass : cat.inactiveClass
+                                        }`}
+                                      >
+                                        <span>{cat.icon}</span>
+                                        <span>{language === 'KR' ? cat.labelKo : cat.labelEn}</span>
+                                        <span className={`text-[10px] font-extrabold ${isSelected ? 'text-white/80' : 'text-slate-600/80'}`}>
+                                          ({count})
+                                        </span>
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* 2. FILTERED EXPERIENCE SPOTS LIST */}
+                            {(() => {
+                              const filteredSteps = targetCourse.steps.filter((st) => {
+                                const matchRegion = selectedExperienceRegion === 'ALL' || st.regionId === selectedExperienceRegion;
+                                const matchTheme = selectedExperienceTheme === 'ALL' || st.categoryType === selectedExperienceTheme;
+                                return matchRegion && matchTheme;
+                              });
+
+                              if (filteredSteps.length === 0) {
+                                return (
+                                  <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center space-y-3">
+                                    <div className="text-4xl">🏛️</div>
+                                    <h4 className="text-base font-bold text-slate-800">
+                                      {language === 'KR' ? '선택하신 조건에 해당하는 추천 장소가 없습니다.' : 'No recommended spots match the selected filter.'}
+                                    </h4>
+                                    <p className="text-xs text-slate-500">
+                                      {language === 'KR' ? '다른 지역이나 체험 테마를 선택해 보세요.' : 'Try selecting a different region or theme.'}
+                                    </p>
+                                    <button
+                                      onClick={() => {
+                                        setSelectedExperienceRegion('ALL');
+                                        setSelectedExperienceTheme('ALL');
+                                      }}
+                                      className="mt-2 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-white cursor-pointer hover:bg-slate-800"
+                                    >
+                                      🔄 {language === 'KR' ? '전체 조건 초기화' : 'Reset All Filters'}
+                                    </button>
+                                  </div>
+                                );
+                              }
+
+                              return (
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 text-left">
+                                  {filteredSteps.map((st, idx) => {
+                                    const themeMeta = {
+                                      MUSEUM: {
+                                        labelKo: '박물관',
+                                        icon: '🏛️',
+                                        bg: 'bg-amber-200/90 text-amber-950 border-amber-300 font-bold',
+                                        cardBg: 'bg-gradient-to-br from-amber-50/95 via-amber-50/40 to-white border-amber-200',
+                                        borderAccent: 'border-t-4 border-t-amber-500',
+                                        titleHover: 'group-hover:text-amber-700',
+                                      },
+                                      ART: {
+                                        labelKo: '미술관',
+                                        icon: '🎨',
+                                        bg: 'bg-purple-200/90 text-purple-950 border-purple-300 font-bold',
+                                        cardBg: 'bg-gradient-to-br from-purple-50/95 via-purple-50/40 to-white border-purple-200',
+                                        borderAccent: 'border-t-4 border-t-purple-500',
+                                        titleHover: 'group-hover:text-purple-700',
+                                      },
+                                      SCIENCE_ECO: {
+                                        labelKo: '과학/수족관',
+                                        icon: '🐬',
+                                        bg: 'bg-cyan-200/90 text-cyan-950 border-cyan-300 font-bold',
+                                        cardBg: 'bg-gradient-to-br from-cyan-50/95 via-cyan-50/40 to-white border-cyan-200',
+                                        borderAccent: 'border-t-4 border-t-cyan-500',
+                                        titleHover: 'group-hover:text-cyan-700',
+                                      },
+                                      CULTURE: {
+                                        labelKo: '복합문화',
+                                        icon: '🎬',
+                                        bg: 'bg-emerald-200/90 text-emerald-950 border-emerald-300 font-bold',
+                                        cardBg: 'bg-gradient-to-br from-emerald-50/95 via-emerald-50/40 to-white border-emerald-200',
+                                        borderAccent: 'border-t-4 border-t-emerald-500',
+                                        titleHover: 'group-hover:text-emerald-700',
+                                      }
+                                    }[st.categoryType || 'MUSEUM'] || {
+                                      labelKo: '체험전시',
+                                      icon: '🏛️',
+                                      bg: 'bg-amber-200/90 text-amber-950 border-amber-300 font-bold',
+                                      cardBg: 'bg-white border-amber-200',
+                                      borderAccent: 'border-t-4 border-t-amber-500',
+                                      titleHover: 'group-hover:text-amber-700',
+                                    };
+
+                                    const regionBadgeStyleMap: Record<string, string> = {
+                                      'haeundae_gijang': 'bg-sky-600 text-white',
+                                      'gwangalli_centum': 'bg-teal-600 text-white',
+                                      'seomyeon_jeonpo': 'bg-indigo-600 text-white',
+                                      'nampo_yeongdo': 'bg-blue-600 text-white',
+                                      'others': 'bg-emerald-600 text-white',
+                                      '해운대 · 기장': 'bg-sky-600 text-white',
+                                      '광안리 · 센텀': 'bg-teal-600 text-white',
+                                      '서면 · 전포': 'bg-indigo-600 text-white',
+                                      '남포동 · 영도': 'bg-blue-600 text-white',
+                                      '그 외 지역': 'bg-emerald-600 text-white',
+                                    };
+                                    const regionBadgeClass = regionBadgeStyleMap[st.regionId] || regionBadgeStyleMap[st.regionNameKo || ''] || 'bg-slate-800 text-white';
+
+                                    const titleText = language === 'KR' ? st.titleKo : st.titleEn;
+                                    const descText = language === 'KR' ? st.descKo : st.descEn;
+                                    
+                                    const searchKeyword = st.titleKo.includes('부산') || st.titleKo.includes('서면') || st.titleKo.includes('전포') || st.titleKo.includes('본점')
+                                      ? st.titleKo 
+                                      : `부산 ${st.titleKo}`;
+                                    const naverMapUrl = `https://map.naver.com/v5/search/${encodeURIComponent(searchKeyword)}`;
+
+                                    return (
+                                      <div
+                                        key={idx}
+                                        className={`${themeMeta.cardBg} p-4 rounded-2xl border ${themeMeta.borderAccent} shadow-xs hover:shadow-md transition-all text-left flex flex-col justify-between gap-3 group`}
+                                      >
+                                        <div className="space-y-2">
+                                          {/* Badges row */}
+                                          <div className="flex items-center justify-between gap-2">
+                                            <div className="flex items-center gap-1.5 flex-wrap">
+                                              <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-bold ${regionBadgeClass}`}>
+                                                📍 {st.regionNameKo || '부산'}
+                                              </span>
+                                              <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold border ${themeMeta.bg}`}>
+                                                <span>{themeMeta.icon}</span>
+                                                <span>{themeMeta.labelKo}</span>
+                                              </span>
+                                            </div>
+                                            <span className="text-[10px] font-mono text-slate-400 font-bold">
+                                              #{idx + 1}
+                                            </span>
+                                          </div>
+
+                                          {/* Name */}
+                                          <h4 className={`text-base font-black text-slate-900 ${themeMeta.titleHover} transition-colors leading-snug`}>
+                                            {titleText}
+                                          </h4>
+
+                                          {/* Desc */}
+                                          <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                                            {descText}
+                                          </p>
+
+                                          {/* Transit */}
+                                          {st.stationInfoKo && (
+                                            <p className="text-[11px] text-blue-700 font-semibold flex items-start gap-1 leading-tight pt-1">
+                                              <span className="shrink-0">🚇</span>
+                                              <span>{language === 'KR' ? st.stationInfoKo : st.stationInfoEn}</span>
+                                            </p>
+                                          )}
+                                        </div>
+
+                                        {/* Action Link: Naver Map / Search */}
+                                        <div className="pt-2 border-t border-slate-200/60 flex items-center justify-between gap-2 text-xs">
+                                          <a
+                                            href={naverMapUrl}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-100/80 text-emerald-900 hover:bg-emerald-200 transition-colors"
+                                          >
+                                            <span>🗺️ 네이버지도</span>
+                                          </a>
+                                          <button
+                                            onClick={() => {
+                                              navigator.clipboard?.writeText(`${st.titleKo} (${st.stationInfoKo || ''})`);
+                                              alert(language === 'KR' ? '상호명이 복사되었습니다.' : 'Copied name.');
                                             }}
                                             className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-white/80 border border-slate-200 text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
                                           >
@@ -3460,7 +4135,11 @@ export default function BusanItinerariesView({
               // -------------------------------------------------------------
               // PAGE 6: GOURMET (식도락) - Styled like a premium Michelin Guide Card layout
               // -------------------------------------------------------------
-              case 'GOURMET':
+              case 'GOURMET': {
+                const filteredGourmetSteps = selectedGourmetRegion === 'ALL'
+                  ? course.steps
+                  : course.steps.filter(s => s.regionId === selectedGourmetRegion);
+
                 return (
                   <div className="space-y-6 animate-fade-in text-left">
                     {/* Gastro-guide Banner */}
@@ -3486,21 +4165,53 @@ export default function BusanItinerariesView({
                       </p>
                     </div>
 
+                    {/* Gourmet Regional Filter Tabs */}
+                    <div className="bg-white p-3.5 rounded-2xl border border-rose-100 shadow-sm space-y-2 text-left">
+                      <div className="flex items-center justify-between text-xs font-black text-rose-950 px-1">
+                        <span className="flex items-center gap-1.5">
+                          <span>🗺️</span>
+                          <span>{language === 'KR' ? '권역별 로컬 맛집 선택' : 'Select Gourmet Region'}</span>
+                        </span>
+                        <span className="text-[10.5px] font-bold text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-100">
+                          {language === 'KR' ? `총 ${filteredGourmetSteps.length}곳 추천` : `${filteredGourmetSteps.length} spots`}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+                        {REGION_FILTER_TABS.map((tab) => {
+                          const isSelected = selectedGourmetRegion === tab.id;
+                          return (
+                            <button
+                              key={tab.id}
+                              onClick={() => setSelectedGourmetRegion(tab.id)}
+                              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black transition-all cursor-pointer shrink-0 border ${
+                                isSelected
+                                  ? 'bg-rose-600 text-white border-rose-600 shadow-sm scale-[1.02]'
+                                  : 'bg-rose-50/40 hover:bg-rose-100/60 text-rose-900 border-rose-100'
+                              }`}
+                            >
+                              <span>{tab.icon}</span>
+                              <span>{language === 'KR' ? tab.nameKo : tab.nameEn}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
                     {/* Gourmet restaurant review catalog style! No dots or lines! */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5" id="gourmet-catalog">
-                      {course.steps.map((step, idx) => (
+                      {filteredGourmetSteps.map((step, idx) => (
                         <div 
                           key={idx} 
                           className="bg-white rounded-3xl border border-rose-100 hover:shadow-md transition-all duration-300 p-6 flex flex-col justify-between shadow-[0_2px_12px_rgba(244,63,94,0.01)] text-left"
                         >
                           <div className="space-y-3 text-left">
                             <div className="flex items-center justify-between border-b border-rose-50 pb-2">
-                              {/* Michelin like star ranking */}
-                              <span className="text-xs font-black text-amber-500">
+                              {/* Michelin like star ranking & region tag */}
+                              <span className="text-xs font-black text-amber-500 flex items-center gap-1">
                                 ⭐⭐⭐⭐⭐ <span className="text-stone-400 font-black text-[10px] ml-1">5.0</span>
                               </span>
-                              <span className="text-[10px] bg-rose-50 text-rose-800 font-extrabold px-2 py-0.5 rounded-lg">
-                                {idx === 0 ? (language === 'KR' ? '🍚 소울푸드' : 'Rice soup site') : (language === 'KR' ? '🍡 길거리간식' : 'Stall dessert')}
+                              <span className="text-[10px] bg-rose-50 text-rose-800 font-extrabold px-2 py-0.5 rounded-lg border border-rose-100/60">
+                                📍 {language === 'KR' ? (step.regionNameKo || '부산') : (step.regionNameEn || 'Busan')}
                               </span>
                             </div>
 
@@ -3548,71 +4259,207 @@ export default function BusanItinerariesView({
                     </div>
                   </div>
                 );
+              }
 
               // -------------------------------------------------------------
-              // PAGE 7: HISTORY (역사) - Styled like an antique memory scrapbook
+              // PAGE 7: EXPERIENCE (체험&박물관)
               // -------------------------------------------------------------
-              case 'HISTORY':
+              case 'EXPERIENCE': {
+                const filteredExperienceSteps = course.steps.filter(s => {
+                  const matchRegion = selectedExperienceRegion === 'ALL' || s.regionId === selectedExperienceRegion;
+                  const matchTheme = selectedExperienceTheme === 'ALL' || s.categoryType === selectedExperienceTheme;
+                  return matchRegion && matchTheme;
+                });
+
+                const getRegionStepCount = (regId: string) => {
+                  if (regId === 'ALL') return course.steps.length;
+                  return course.steps.filter(s => s.regionId === regId).length;
+                };
+
+                const getThemeStepCount = (themeId: string) => {
+                  if (themeId === 'ALL') return course.steps.length;
+                  return course.steps.filter(s => s.categoryType === themeId).length;
+                };
+
                 return (
                   <div className="space-y-6 animate-fade-in text-left">
-                    {/* Retro Parchment Scrapbook Header */}
+                    {/* Header Banner */}
                     <div className="bg-[#fcf8f2] p-6 sm:p-8 rounded-4xl border-2 border-[#d0c3ab] shadow-sm relative overflow-hidden text-left">
-                      <div className="absolute right-2 bottom-2 text-7xl select-none opacity-5 transform rotate-12">📜</div>
+                      <div className="absolute right-2 bottom-2 text-7xl select-none opacity-5 transform rotate-12">🏛️</div>
                       
                       <div className="flex flex-wrap items-center gap-2 mb-3">
                         <span className="bg-[#e9ded0] text-amber-950 text-[10px] font-black px-2.5 py-1 rounded-full uppercase border border-[#d6cbba]">
-                          {language === 'KR' ? '📜 근현대 피란 수도 부산 역사' : '📜 Historic Choryang Refugees Way'}
+                          {language === 'KR' ? '🏛️ 체험 & 박물관 다채로운 탐방' : '🏛️ Interactive Museum & Cultural Tour'}
                         </span>
                         <span className="bg-[#fadcb1]/40 text-amber-900 text-[10px] font-bold px-2.5 py-1 rounded-full">
-                          {language === 'KR' ? '체험: 산복도로 무료 전망 모노레일 탑승' : 'Experience: Free public glass monorail'}
+                          {language === 'KR' ? '체험: 날씨 상관없는 무장애 실내 코스' : 'Experience: All-weather barrier-free indoor route'}
                         </span>
                       </div>
 
                       <h3 className="text-xl sm:text-2xl font-black font-heading text-stone-800 tracking-tight leading-tight">
-                        {language === 'KR' ? '📜 초량 이바구길·산복도로 피란민 고갯길 역사 사색 산책' : '📜 Modern Historic Memoir Walkways: Choryang Ibagu Ridge Walk'}
+                        {language === 'KR' ? '오감만족 부산! 체험 & 박물관 다채로운 문화 탐방 가이드' : 'Hands-on & Culture: Busan Museums & Interactive Experience Guide'}
                       </h3>
                       <p className="text-xs sm:text-sm text-stone-600 mt-1 max-w-2xl font-semibold leading-relaxed">
                         {language === 'KR' 
-                          ? '한국 6·25 아픈 피란 역사를 가득 안고 살아온 소박하지만 정겨운 골목입니다. 높은 168 계단구간을 하늘 구름처럼 수월하게 오르내리도록 도와주는 공영 주민용 무료 모노레일을 타고 역사 속 정취를 만끽해보세요.' 
-                          : 'Discover Choryangs traditional steep slopes smoothly ascending using the free high-speed glass observation lift.'}
+                          ? '국립해양박물관, 부산시립미술관, F1963, 국립부산과학관 등 권역별 주요 박물관과 미술관, 체험형 문화공간을 무장애 편의 동선으로 즐기는 가이드예요.' 
+                          : 'Explore National Maritime Museum, Busan Museum of Art, F1963, and Busan National Science Museum categorized by themes and regions.'}
                       </p>
                     </div>
 
-                    {/* Historical Scrapbook Content Details */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                      {/* Left Sidebar block: Historial Story */}
-                      <div className="md:col-span-1 bg-[#fbf9f4] p-5.5 rounded-3xl border border-[#dcd1ba] text-left space-y-3 font-sans">
-                        <span className="text-[10px] font-black text-amber-800 tracking-wider block uppercase">HISTORY LOGS / 초량 이바구 돋보기</span>
-                        <h4 className="text-sm font-black text-amber-950 font-heading">{language === 'KR' ? '6.25 피란 수도와 산복도로' : 'Refugee Cap.'}</h4>
-                        <p className="text-xs text-stone-500 leading-relaxed font-semibold">
-                          {language === 'KR' 
-                            ? '6.25 전쟁 당시 수많은 피란민들이 도망쳐 내려와 영도와 초량 산기슭에 손수 돌을 쌓아 임시 가옥을 지으며 터전을 이룬 것이 오늘날 산복도로의 기원입니다. 과거에 물동이를 이고 힘겹게 오르던 고갯길은 이제 주민과 여행자를 위해 모노레일과 야자매트로 다정하게 정비되었습니다.' 
-                            : 'During the Korean War, thousands of refugees built stone homes on vertical cliffs surrounding Choryang.'}
-                        </p>
+                    {/* Regional & Category Filter Panel (Identical layout to Gourmet/식도락) */}
+                    <div className="bg-white p-5 sm:p-6 rounded-3xl border border-amber-200/80 shadow-xs space-y-5 text-left">
+                      {/* 1. Regional Filter Header & Pills */}
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between text-xs font-black text-stone-800 px-1">
+                          <span className="flex items-center gap-1.5 text-sm font-black text-stone-850">
+                            <span>📍</span>
+                            <span>{language === 'KR' ? '부산 지역 선택' : 'Select Location'}</span>
+                          </span>
+                          <span className="text-[11px] font-bold text-stone-400">
+                            {language === 'KR' ? '원하는 위치를 클릭하세요' : 'Click a location'}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+                          {REGION_FILTER_TABS.map((tab) => {
+                            const count = getRegionStepCount(tab.id);
+                            const isSelected = selectedExperienceRegion === tab.id;
+                            return (
+                              <button
+                                key={tab.id}
+                                onClick={() => setSelectedExperienceRegion(tab.id)}
+                                className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-black transition-all cursor-pointer shrink-0 border ${
+                                  isSelected
+                                    ? 'bg-stone-900 text-white border-stone-900 shadow-md scale-[1.02]'
+                                    : 'bg-stone-50/80 hover:bg-amber-50/60 text-stone-700 border-stone-200/70'
+                                }`}
+                              >
+                                <span>{tab.icon}</span>
+                                <span>{language === 'KR' ? tab.nameKo : tab.nameEn}</span>
+                                <span className={`px-2 py-0.5 rounded-full text-[10.5px] font-extrabold ${
+                                  isSelected ? 'bg-amber-500 text-stone-950' : 'bg-stone-200/80 text-stone-600'
+                                }`}>
+                                  {count}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
                       </div>
 
-                      {/* Right Timeline Cards block */}
-                      <div className="md:col-span-2 space-y-4">
-                        {course.steps.map((step, idx) => (
-                          <div 
-                            key={idx} 
-                            className="bg-white p-5 rounded-3xl border border-stone-200/80 shadow-[0_1px_8px_rgba(0,0,0,0.01)] text-left space-y-2 relative"
-                          >
-                            <span className="absolute right-5 top-5 text-xl opacity-35 select-none font-mono font-bold">#0{idx + 1}</span>
-                            
-                            <h5 className="text-sm sm:text-base font-black text-stone-850">{language === 'KR' ? step.titleKo : step.titleEn}</h5>
-                            <p className="text-xs sm:text-sm text-stone-500 font-semibold leading-relaxed font-sans">{language === 'KR' ? step.descKo : step.descEn}</p>
+                      {/* 2. Experience Category Filter Header & Pills */}
+                      <div className="pt-3 border-t border-stone-100 space-y-3">
+                        <div className="flex items-center justify-between text-xs font-black text-stone-800 px-1">
+                          <span className="flex items-center gap-1.5 text-xs font-bold text-stone-700">
+                            <span>🏛️</span>
+                            <span>{language === 'KR' ? '체험 카테고리 필터' : 'Filter by Category'}</span>
+                          </span>
+                        </div>
 
-                            {step.stationInfoKo && (
-                              <div className="mt-3.5 pt-2.5 border-t border-stone-100 flex items-center gap-1 text-[11.5px] font-extrabold text-[#004481]">
-                                <span>🚇</span>
-                                <span>{language === 'KR' ? step.stationInfoKo : step.stationInfoEn}</span>
-                              </div>
-                            )}
-                          </div>
-                        ))}
+                        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+                          {EXPERIENCE_THEME_TABS.map((tab) => {
+                            const count = getThemeStepCount(tab.id);
+                            const isSelected = selectedExperienceTheme === tab.id;
+                            return (
+                              <button
+                                key={tab.id}
+                                onClick={() => setSelectedExperienceTheme(tab.id)}
+                                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer shrink-0 border ${
+                                  isSelected
+                                    ? 'bg-amber-800 text-white border-amber-800 shadow-sm'
+                                    : 'bg-amber-50/50 hover:bg-amber-100/60 text-amber-950 border-amber-200/60'
+                                }`}
+                              >
+                                <span>{tab.icon}</span>
+                                <span>{language === 'KR' ? tab.nameKo : tab.nameEn}</span>
+                                <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
+                                  isSelected ? 'bg-amber-600 text-white' : 'bg-amber-200/60 text-amber-900'
+                                }`}>
+                                  ({count})
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
+
+                    {/* Spots Catalog Grid */}
+                    {filteredExperienceSteps.length === 0 ? (
+                      <div className="bg-white p-12 rounded-3xl border border-amber-200/60 text-center space-y-2">
+                        <div className="text-3xl">🏛️</div>
+                        <p className="text-stone-500 font-bold text-xs">
+                          {language === 'KR' ? '선택하신 조건의 체험 & 박물관 정보가 준비 중입니다.' : 'No museums found for selected criteria.'}
+                        </p>
+                        <button
+                          onClick={() => {
+                            setSelectedExperienceTheme('ALL');
+                            setSelectedExperienceRegion('ALL');
+                          }}
+                          className="mt-2 px-4 py-2 bg-stone-900 text-white text-xs font-bold rounded-xl cursor-pointer hover:bg-stone-800 transition-all"
+                        >
+                          {language === 'KR' ? '필터 초기화 (전체 보기)' : 'Reset Filters'}
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                        {filteredExperienceSteps.map((step, idx) => {
+                          const getThemeTagLabel = (cType?: string, defaultTime?: string) => {
+                            if (cType === 'MUSEUM') return language === 'KR' ? '박물관' : 'Museum';
+                            if (cType === 'ART') return language === 'KR' ? '미술관' : 'Art Gallery';
+                            if (cType === 'SCIENCE_ECO') return language === 'KR' ? '과학/수족관' : 'Science';
+                            if (cType === 'CULTURE') return language === 'KR' ? '복합문화' : 'Cultural Space';
+                            return defaultTime || (language === 'KR' ? '체험전시' : 'Interactive');
+                          };
+
+                          return (
+                            <div 
+                              key={idx} 
+                              className="bg-white rounded-3xl border border-amber-200/70 hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between shadow-[0_2px_12px_rgba(217,119,6,0.03)] text-left space-y-4"
+                            >
+                              <div className="space-y-3 text-left">
+                                {/* Top Badges Row */}
+                                <div className="flex items-center justify-between border-b border-amber-100 pb-2">
+                                  <span className="text-[10.5px] font-black text-amber-900 bg-amber-50 px-2.5 py-0.5 rounded-md border border-amber-200/60 flex items-center gap-1">
+                                    <span>📍</span>
+                                    <span>{language === 'KR' ? (step.regionNameKo || '부산') : (step.regionNameEn || 'Busan')}</span>
+                                  </span>
+                                  <span className="text-[10.5px] font-black text-amber-800 bg-amber-100/60 px-2.5 py-0.5 rounded-md border border-amber-200/50">
+                                    🏷️ {getThemeTagLabel(step.categoryType, step.time)}
+                                  </span>
+                                </div>
+
+                                {/* Title */}
+                                <h4 className="text-base font-black text-stone-850 leading-snug">
+                                  {language === 'KR' ? step.titleKo : step.titleEn}
+                                </h4>
+
+                                {/* Description */}
+                                <p className="text-xs sm:text-sm text-stone-600 font-semibold leading-relaxed font-sans text-left">
+                                  {language === 'KR' ? step.descKo : step.descEn}
+                                </p>
+                              </div>
+
+                              {/* Bottom Accessibility & Transit Info */}
+                              <div className="pt-3 border-t border-stone-100 space-y-2 text-left">
+                                <div className="flex flex-wrap items-center gap-1.5 text-[10.5px] font-black text-amber-900 bg-amber-50/60 p-2 rounded-xl border border-amber-100/60">
+                                  <span>✅ {language === 'KR' ? '엘리베이터 완비' : 'Elevators'}</span>
+                                  <span className="w-1 h-1 bg-amber-300 rounded-full"></span>
+                                  <span>✅ {language === 'KR' ? '무장애 평지/경사로' : 'Step-free ramps'}</span>
+                                </div>
+
+                                {step.stationInfoKo && (
+                                  <div className="text-[10.5px] font-extrabold text-[#004481] flex items-start gap-1.5 pt-0.5">
+                                    <span className="shrink-0">🚇</span>
+                                    <span className="leading-tight">{language === 'KR' ? step.stationInfoKo : step.stationInfoEn}</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
 
                     {/* Overall tip block */}
                     <div className="bg-[#fcfaf4] p-5 sm:p-6 text-left flex items-start gap-3.5 rounded-2xl border border-[#d6ccbb]">
@@ -3620,16 +4467,17 @@ export default function BusanItinerariesView({
                         <Info className="w-4 h-4 text-amber-800 shrink-0" />
                       </div>
                       <div className="space-y-1 select-none text-left">
-                        <span className="text-[10.5px] font-black text-[#5c4933] uppercase tracking-wide">
-                          {language === 'KR' ? '📜 역사 문화 답사 전용 편의 비결!' : '📜 HISTORICAL PATHWAY SENSING GUIDE'}
+                        <span className="text-[10.5px] font-black text-amber-900 uppercase tracking-wide">
+                          {language === 'KR' ? '💡 체험 & 박물관 방문 무장애 팁!' : '💡 ACCESSIBLE MUSEUM TIP'}
                         </span>
-                        <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-semibold">
+                        <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-semibold">
                           {language === 'KR' ? course.overallTipKo : course.overallTipEn}
                         </p>
                       </div>
                     </div>
                   </div>
                 );
+              }
 
               default:
                 return null;

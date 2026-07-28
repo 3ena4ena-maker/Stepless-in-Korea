@@ -1347,7 +1347,7 @@ export default function App() {
               setIsHomeLanding(false);
             }
             if (targetTab === 'tips') {
-              setSelectedItineraryCategory('DAY');
+              setSelectedItineraryCategory(null);
               setTipsSubPage('courses');
               setActiveRegionPage(null);
             }
@@ -1529,87 +1529,6 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* ⚡ At-A-Glance Mobile-Friendly Station Mobility Card */}
-                <div className="bg-gradient-to-br from-slate-900 via-[#002b54] to-[#004481] text-white p-4 sm:p-5 rounded-3xl shadow-md space-y-3">
-                  <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-                    <div className="flex items-center gap-2">
-                      <span className="p-1.5 rounded-xl bg-emerald-500/20 text-emerald-300">
-                        <Accessibility className="w-5 h-5" />
-                      </span>
-                      <div>
-                        <h3 className="font-extrabold text-sm sm:text-base tracking-tight text-white flex items-center gap-2">
-                          <span>{language === 'KR' ? `${activeStation.name} 한 눈에 보는 출구 요약` : `${activeStation.englishName} Step-Free Overview`}</span>
-                        </h3>
-                        <p className="text-[11px] text-slate-300 font-medium">
-                          {language === 'KR' ? '계단 없이 이용 가능한 출구 및 편의시설' : 'Accessible exits & station facilities at a glance'}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      {activeStation.lines.map(line => (
-                        <span key={line} className={`px-2.5 py-0.5 text-[11px] font-extrabold text-white rounded-full shadow-sm ${
-                          line === '1' ? 'bg-[#F06A00]' : 
-                          line === '2' ? 'bg-[#1b6d24]' : 
-                          line === '3' ? 'bg-[#906A3B]' : 
-                          line === '동해' ? 'bg-[#004960]' : 
-                          'bg-slate-500'
-                        }`}>
-                          {language === 'KR' 
-                            ? (line === '동해' ? '동해선' : `${line}호선`)
-                            : (line === '동해' ? 'Donghae' : `Line ${line}`)
-                          }
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-0.5">
-                    {/* Elevator Exits */}
-                    <div className="bg-white/10 backdrop-blur-sm p-3 rounded-2xl border border-white/10 flex items-center gap-3">
-                      <div className="p-2 bg-emerald-500/25 text-emerald-300 rounded-xl shrink-0">
-                        <ElevatorIcon className="w-5 h-5 text-emerald-300" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <span className="text-[10px] text-emerald-200 font-extrabold uppercase tracking-wider block">
-                          {language === 'KR' ? '엘리베이터 출구' : 'Elevator Exits'}
-                        </span>
-                        <span className="font-black text-white text-xs sm:text-sm truncate block mt-0.5">
-                          {activeStation.exits.filter(e => e.hasElevator).map(e => translateExitNumber(e.number, language)).join(', ') || (language === 'KR' ? '없음' : 'None')}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Escalator Exits */}
-                    <div className="bg-white/10 backdrop-blur-sm p-3 rounded-2xl border border-white/10 flex items-center gap-3">
-                      <div className="p-2 bg-blue-500/25 text-blue-300 rounded-xl shrink-0">
-                        <EscalatorIcon className="w-5 h-5 text-blue-300" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <span className="text-[10px] text-blue-200 font-extrabold uppercase tracking-wider block">
-                          {language === 'KR' ? '에스컬레이터 출구' : 'Escalator Exits'}
-                        </span>
-                        <span className="font-black text-white text-xs sm:text-sm truncate block mt-0.5">
-                          {activeStation.exits.filter(e => e.hasEscalator && !e.hasElevator).map(e => translateExitNumber(e.number, language)).join(', ') || (language === 'KR' ? '없음' : 'None')}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Lockers */}
-                    <div className="bg-white/10 backdrop-blur-sm p-3 rounded-2xl border border-white/10 flex items-center gap-3">
-                      <div className="p-2 bg-amber-500/25 text-amber-300 rounded-xl shrink-0">
-                        <Luggage className="w-5 h-5 text-amber-300" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <span className="text-[10px] text-amber-200 font-extrabold uppercase tracking-wider block">
-                          {language === 'KR' ? '역내 물품보관함' : 'Luggage Lockers'}
-                        </span>
-                        <span className="font-black text-amber-100 text-xs sm:text-sm truncate block mt-0.5">
-                          {getLockerInfoText(activeStation.id, language)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
                 {/* 🗺️ Naver Map-linked Station Map Component (Directly Below Selection Space) */}
                 <div id="station-map-container" className="bg-white rounded-3xl border border-slate-100 shadow-[0_4px_22px_rgb(0,0,0,0.02)] overflow-hidden">
