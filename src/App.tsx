@@ -519,7 +519,7 @@ export default function App() {
   const [activePathFilter, setActivePathFilter] = useState<'ALL' | 'ACCESSIBLE' | 'CARRY'>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedItineraryCategory, setSelectedItineraryCategory] = useState<string | null>(null);
-  const [tipsSubPage, setTipsSubPage] = useState<'index' | 'courses' | 'transit' | 'child-free' | 'transfer'>('index');
+  const [tipsSubPage, setTipsSubPage] = useState<'index' | 'courses' | 'transit' | 'child-free' | 'transfer' | 'taxi'>('index');
   const [activeRegionPage, setActiveRegionPage] = useState<'EAST' | 'WEST' | 'SOUTH' | 'NORTH' | null>(null);
   
   // Geolocation states
@@ -721,6 +721,9 @@ export default function App() {
               setActiveRegionPage(null);
             } else if (parts[2] === 'child-free') {
               setTipsSubPage('child-free');
+              setActiveRegionPage(null);
+            } else if (parts[2] === 'taxi') {
+              setTipsSubPage('taxi');
               setActiveRegionPage(null);
             } else if (parts[2] === 'transfer') {
               setTipsSubPage('transit');

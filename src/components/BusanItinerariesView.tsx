@@ -53,8 +53,8 @@ interface BusanItinerariesViewProps {
   initialCategory?: CategoryType | null;
   onBack?: () => void;
   onSelectCategory?: (category: CategoryType) => void;
-  tipsSubPage?: 'index' | 'courses' | 'transit' | 'child-free' | 'transfer';
-  setTipsSubPage?: (page: 'index' | 'courses' | 'transit' | 'child-free' | 'transfer') => void;
+  tipsSubPage?: 'index' | 'courses' | 'transit' | 'child-free' | 'transfer' | 'taxi';
+  setTipsSubPage?: (page: 'index' | 'courses' | 'transit' | 'child-free' | 'transfer' | 'taxi') => void;
   activeRegionPage?: 'EAST' | 'WEST' | 'SOUTH' | 'NORTH' | null;
   setActiveRegionPage?: (region: 'EAST' | 'WEST' | 'SOUTH' | 'NORTH' | null) => void;
 }
@@ -1153,7 +1153,7 @@ export default function BusanItinerariesView({
   const [selectedDurationFilter, setSelectedDurationFilter] = useState<'ALL' | 'DAY' | '1NIGHT' | '2NIGHTS' | '3NIGHTS' | '4NIGHTS'>('ALL');
   const [overviewSearchQuery, setOverviewSearchQuery] = useState<string>('');
 
-  const navigateToSubPage = (page: 'index' | 'courses' | 'transit' | 'child-free' | 'transfer') => {
+  const navigateToSubPage = (page: 'index' | 'courses' | 'transit' | 'child-free' | 'transfer' | 'taxi') => {
     if (setTipsSubPage) {
       if (page === 'transfer') {
         setTipsSubPage('transit');
@@ -1171,6 +1171,9 @@ export default function BusanItinerariesView({
       } else if (page === 'child-free') {
         setActiveSection('TRANSIT_TIPS');
         setTransitSection('CHILD_FREE');
+      } else if (page === 'taxi') {
+        setActiveSection('TRANSIT_TIPS');
+        setTransitSection('TAXI');
       }
     }
   };
@@ -1197,6 +1200,9 @@ export default function BusanItinerariesView({
     } else if (tipsSubPage === 'child-free') {
       setActiveSection('TRANSIT_TIPS');
       setTransitSection('CHILD_FREE');
+    } else if (tipsSubPage === 'taxi') {
+      setActiveSection('TRANSIT_TIPS');
+      setTransitSection('TAXI');
     } else if (tipsSubPage === 'transfer') {
       setActiveSection('TRANSIT_TIPS');
       setTransitSection('SUBMENU');
@@ -1234,7 +1240,7 @@ export default function BusanItinerariesView({
   // Transit page states
   const [activeTransitCategory, setActiveTransitCategory] = useState<'LINES' | 'BOARDING' | 'EMERGENCY' | 'TRANSITS'>('LINES');
   const [checkedRules, setCheckedRules] = useState<Record<number, boolean>>({});
-  const [transitSection, setTransitSection] = useState<'SUBMENU' | 'CHILD_FREE' | 'TRANSFERS'>('SUBMENU');
+  const [transitSection, setTransitSection] = useState<'SUBMENU' | 'CHILD_FREE' | 'TRANSFERS' | 'TAXI'>('SUBMENU');
 
   // Quiz States
   const [quizActive, setQuizActive] = useState(false);
@@ -4519,13 +4525,13 @@ export default function BusanItinerariesView({
               <div className="text-center py-4 sm:py-6 max-w-3xl mx-auto space-y-2 overflow-hidden">
                 <h1 className="text-base xs:text-lg min-[410px]:text-xl sm:text-3xl font-black text-slate-900 tracking-tight font-heading leading-tight whitespace-nowrap">
                   {language === 'KR' 
-                    ? '부산 대중교통 이용 혜택과 주요 수칙' 
-                    : 'Busan Public Transit Benefits & Rules'}
+                    ? '부산 대중교통 및 택시 이용 혜택과 주요 수칙' 
+                    : 'Busan Public Transit & Taxi Guide'}
                 </h1>
               </div>
 
               {/* CARD GRID (Style 1: Minimalist outline illustrations with numbers) */}
-              <div className="grid grid-cols-3 gap-2 sm:gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-5">
                 {/* CARD 01: 어린이 대중교통 요금 무료 */}
                 <div
                   onClick={() => navigateToSubPage('child-free')}
@@ -4757,6 +4763,87 @@ export default function BusanItinerariesView({
                         </>
                       )}
                     </span>
+                  </div>
+                </div>
+
+                {/* CARD 04: 부산 택시 이용 팁 & 호출 앱 */}
+                <div
+                  onClick={() => navigateToSubPage('taxi')}
+                  className="relative group bg-white p-3 sm:p-8 rounded-2xl sm:rounded-3xl border-2 border-slate-900 hover:border-[#004481] cursor-pointer shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,68,129,1)] transition-all duration-300 text-center flex flex-col justify-between min-h-[235px] sm:min-h-[380px]"
+                >
+                  <div>
+                    {/* Number Badge */}
+                    <div className="relative sm:absolute mx-auto sm:mx-0 sm:top-4 sm:left-4 w-5.5 h-5.5 sm:w-7 sm:h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-[11px] sm:text-xs font-black tracking-tight mb-1.5 sm:mb-0 shrink-0">
+                      04
+                    </div>
+
+                    {/* Title */}
+                    <div className="mt-0 sm:mt-4">
+                      <h3 className="text-[12px] min-[370px]:text-[13px] sm:text-lg font-black text-slate-900 tracking-tight leading-tight">
+                        {language === 'KR' ? (
+                          <>
+                            <span className="sm:hidden">부산 택시 이용 팁</span>
+                            <span className="hidden sm:inline">부산 택시 이용 & 호출 팁</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="sm:hidden">Busan Taxi Tips</span>
+                            <span className="hidden sm:inline">Busan Taxi & Calling Apps</span>
+                          </>
+                        )}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Minimalist Line-Art Illustration */}
+                  <div className="my-2 sm:my-6 flex justify-center items-center">
+                    <div className="p-2 sm:p-4 bg-amber-50/60 rounded-xl sm:rounded-2xl border border-amber-200 group-hover:bg-amber-100/80 transition-colors">
+                      <svg className="w-10 h-10 sm:w-24 sm:h-24 text-slate-800" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M42 22h16v6H42z" fill="#f59e0b" stroke="#1e293b" strokeWidth="1.5" />
+                        <text x="44" y="27" fontSize="5" fontWeight="bold" fill="#1e293b" stroke="none">TAXI</text>
+                        <path d="M25 45l8-14h34l8 14" strokeWidth="2" />
+                        <rect x="18" y="45" width="64" height="28" rx="6" fill="#fef3c7" stroke="#1e293b" strokeWidth="2" />
+                        <rect x="30" y="34" width="40" height="11" rx="2" fill="#ffffff" stroke="#1e293b" strokeWidth="1.5" />
+                        <circle cx="26" cy="58" r="4" fill="#fbbf24" stroke="#1e293b" strokeWidth="1.5" />
+                        <circle cx="74" cy="58" r="4" fill="#fbbf24" stroke="#1e293b" strokeWidth="1.5" />
+                        <path d="M38 58h24M38 62h24" stroke="#1e293b" strokeWidth="1.5" />
+                        <circle cx="28" cy="73" r="5" fill="#1e293b" />
+                        <circle cx="72" cy="73" r="5" fill="#1e293b" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Subtext */}
+                  <div className="space-y-2 sm:space-y-4">
+                    <p className="text-[10px] min-[370px]:text-[11px] sm:text-sm text-slate-500 font-bold leading-tight sm:leading-relaxed">
+                      {language === 'KR' ? (
+                        <>
+                          <span className="sm:hidden">기본요금 4,800원<br />k.ride · 우버 · 카카오T</span>
+                          <span className="hidden sm:inline">기본요금 4,800원, 카카오T/k.ride/우버 호출, 대형 수하물 및 영수증 팁</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="sm:hidden">Base Fare ₩4,800<br />k.ride · Uber · Kakao T</span>
+                          <span className="hidden sm:inline">Base fare ₩4,800, Kakao T/k.ride/Uber apps, luggage & receipt safety.</span>
+                        </>
+                      )}
+                    </p>
+                    <div className="inline-flex items-center justify-center gap-1 sm:gap-2 w-full bg-[#004481] hover:bg-[#003566] text-white border-2 border-slate-900 text-[11px] sm:text-sm font-black py-1.5 sm:py-2.5 px-2 sm:px-4 rounded-lg sm:rounded-xl shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] sm:shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] transition-all duration-200 group-hover:scale-[1.02]">
+                      <span>
+                        {language === 'KR' ? (
+                          <>
+                            <span className="sm:hidden">상세 정보</span>
+                            <span className="hidden sm:inline">상세 가이드 보기</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="sm:hidden">Guide</span>
+                            <span className="hidden sm:inline">View Full Guide</span>
+                          </>
+                        )}
+                      </span>
+                      <span className="text-xs sm:text-sm">➔</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -5303,6 +5390,393 @@ export default function BusanItinerariesView({
                       <span>{language === 'KR' ? '출처: 부산광역시 대표포털' : 'Source: Busan Metropolitan City Portal'}</span>
                       <ExternalLink className="w-3.5 h-3.5 stroke-[2.5]" />
                     </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {transitSection === 'TAXI' && (
+            <div className="space-y-6 animate-fade-in text-left">
+              {/* BRAND HEADER TITLE */}
+              <div className="text-center py-4 sm:py-6 max-w-2xl mx-auto space-y-2">
+                <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight uppercase font-heading">
+                  {language === 'KR' ? '부산 택시 이용법 & 호출 앱 가이드' : 'Busan Taxi Usage & Calling App Guide'}
+                </h1>
+                <p className="text-xs sm:text-sm text-slate-500 font-bold">
+                  {language === 'KR' 
+                    ? '기본 요금 체계부터 카카오T / k.ride / 우버 호출 앱 활용법, 대형 캐리어 적재 및 분실물 예방 영수증 팁까지 완벽 안내' 
+                    : 'Complete guide covering base fares, Kakao T / k.ride / Uber app usage, luggage loading, and receipt safety tips'}
+                </p>
+              </div>
+
+              {/* CARD GRID (Style 1: Minimalist outline illustrations matching flat card design) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                {/* SUB-CARD 01: Fares & Payments */}
+                <div className="relative bg-white p-5 rounded-3xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex flex-col justify-between text-center min-h-[340px]">
+                  <div className="absolute top-4 left-4 w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-xs font-black tracking-tight">
+                    01
+                  </div>
+
+                  <div className="mt-4">
+                    <h3 className="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-tight">
+                      {language === 'KR' ? '기본 요금 & 결제 수단' : 'Base Fare & Payments'}
+                    </h3>
+                  </div>
+
+                  <div className="my-4 flex justify-center items-center">
+                    <div className="p-3 bg-amber-50 rounded-2xl border border-amber-200">
+                      <svg className="w-16 h-16 text-slate-800" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M42 22h16v6H42z" fill="#f59e0b" stroke="#1e293b" strokeWidth="1.5" />
+                        <text x="44" y="27" fontSize="5" fontWeight="bold" fill="#1e293b" stroke="none">TAXI</text>
+                        <path d="M25 45l8-14h34l8 14" strokeWidth="2" />
+                        <rect x="18" y="45" width="64" height="28" rx="6" fill="#fef3c7" stroke="#1e293b" strokeWidth="2" />
+                        <rect x="30" y="34" width="40" height="11" rx="2" fill="#ffffff" stroke="#1e293b" strokeWidth="1.5" />
+                        <circle cx="26" cy="58" r="4" fill="#fbbf24" stroke="#1e293b" strokeWidth="1.5" />
+                        <circle cx="74" cy="58" r="4" fill="#fbbf24" stroke="#1e293b" strokeWidth="1.5" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <span className="text-amber-700 font-black text-xs block">{language === 'KR' ? '기본요금 4,800원 (2km)' : 'Base fare ₩4,800 (2km)'}</span>
+                    <p className="text-xs sm:text-[13px] text-slate-500 font-bold leading-relaxed">
+                      {language === 'KR' 
+                        ? '신용/체크카드, 교통카드(티머니 등), 삼성페이, 현금 결제 완비. (심야할증 23~02시 20%, 02~04시 30%)' 
+                        : 'Credit cards, T-money, Samsung Pay & cash accepted. Late night surcharge applies.'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* SUB-CARD 02: Calling Apps */}
+                <div className="relative bg-white p-5 rounded-3xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex flex-col justify-between text-center min-h-[340px]">
+                  <div className="absolute top-4 left-4 w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-xs font-black tracking-tight">
+                    02
+                  </div>
+
+                  <div className="mt-4">
+                    <h3 className="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-tight">
+                      {language === 'KR' ? '택시 호출 스마트 앱' : 'Taxi Calling Apps'}
+                    </h3>
+                  </div>
+
+                  <div className="my-4 flex justify-center items-center">
+                    <div className="p-3 bg-blue-50 rounded-2xl border border-blue-200">
+                      <svg className="w-16 h-16 text-slate-800" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="30" y="20" width="40" height="64" rx="8" fill="#ffffff" stroke="#1e293b" strokeWidth="2" />
+                        <rect x="34" y="26" width="32" height="42" rx="3" fill="#e0f2fe" stroke="#1e293b" strokeWidth="1" />
+                        <path d="M50 34c-4 0-7 3-7 7 0 5 7 12 7 12s7-7 7-12c0-4-3-7-7-7z" fill="#0284c7" stroke="#1e293b" strokeWidth="1" />
+                        <circle cx="50" cy="41" r="2" fill="#ffffff" />
+                        <circle cx="50" cy="74" r="3" fill="#1e293b" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <span className="text-blue-700 font-black text-xs block">{language === 'KR' ? '카카오T / k.ride / 우버 / 동백' : 'Kakao T / k.ride / Uber / Dongbaek'}</span>
+                    <p className="text-xs sm:text-[13px] text-slate-500 font-bold leading-relaxed">
+                      {language === 'KR' 
+                        ? '길거리 손잡기보다 앱 호출 시 위치 지정, 해외 카드 결제 및 예상 요금 확인이 가능해 편리' 
+                        : 'Calling via app allows accurate pickup pin, foreign card payments, and fare estimates.'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* SUB-CARD 03: Luggage & Vehicles */}
+                <div className="relative bg-white p-5 rounded-3xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex flex-col justify-between text-center min-h-[340px]">
+                  <div className="absolute top-4 left-4 w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-xs font-black tracking-tight">
+                    03
+                  </div>
+
+                  <div className="mt-4">
+                    <h3 className="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-tight">
+                      {language === 'KR' ? '수하물 적재 & 차종' : 'Luggage & Vehicle Types'}
+                    </h3>
+                  </div>
+
+                  <div className="my-4 flex justify-center items-center">
+                    <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+                      <svg className="w-16 h-16 text-slate-800" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="28" y="32" width="44" height="48" rx="6" fill="#f1f5f9" stroke="#1e293b" strokeWidth="2" />
+                        <path d="M42 32V20h16v12" stroke="#1e293b" strokeWidth="2" />
+                        <line x1="34" y1="44" x2="66" y2="44" stroke="#1e293b" strokeWidth="1.5" />
+                        <line x1="34" y1="54" x2="66" y2="54" stroke="#1e293b" strokeWidth="1.5" />
+                        <circle cx="36" cy="83" r="3" fill="#1e293b" />
+                        <circle cx="64" cy="83" r="3" fill="#1e293b" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <span className="text-emerald-700 font-black text-xs block">{language === 'KR' ? '대형 캐리어 트렁크 무상 적재' : 'Free Trunk Luggage Space'}</span>
+                    <p className="text-xs sm:text-[13px] text-slate-500 font-bold leading-relaxed">
+                      {language === 'KR' 
+                        ? '28인치 이상 캐리어도 추가 비용 없이 트렁크 이용. 인원이 많을 땐 카카오 벤티(대형) 추천' 
+                        : 'Suitcases & strollers fit in trunk without extra fees. Book Venti vans for groups.'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* SUB-CARD 04: Safety & Receipts */}
+                <div className="relative bg-white p-5 rounded-3xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex flex-col justify-between text-center min-h-[340px]">
+                  <div className="absolute top-4 left-4 w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-xs font-black tracking-tight">
+                    04
+                  </div>
+
+                  <div className="mt-4">
+                    <h3 className="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-tight">
+                      {language === 'KR' ? '안전 이용 & 영수증' : 'Safety & Receipt Tips'}
+                    </h3>
+                  </div>
+
+                  <div className="my-4 flex justify-center items-center">
+                    <div className="p-3 bg-emerald-50 rounded-2xl border border-emerald-200">
+                      <svg className="w-16 h-16 text-slate-800" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M30 20h40v60l-6-4-6 4-8-4-8 4-6-4-6 4V20z" fill="#ffffff" stroke="#1e293b" strokeWidth="2" />
+                        <line x1="38" y1="32" x2="62" y2="32" stroke="#1e293b" strokeWidth="2" />
+                        <line x1="38" y1="42" x2="62" y2="42" stroke="#1e293b" strokeWidth="1.5" />
+                        <line x1="38" y1="52" x2="54" y2="52" stroke="#1e293b" strokeWidth="1.5" />
+                        <circle cx="58" cy="60" r="8" fill="#10b981" />
+                        <path d="M55 60l2 2 4-4" stroke="#ffffff" strokeWidth="2" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <span className="text-slate-800 font-black text-xs block">{language === 'KR' ? '하차 시 영수증 꼭 보관' : 'Always Take Receipt'}</span>
+                    <p className="text-xs sm:text-[13px] text-slate-500 font-bold leading-relaxed">
+                      {language === 'KR' 
+                        ? '분실물(휴대폰, 가방) 발생 시 차량번호와 기사 연락처 확인의 결정적 열쇠. 유료도로 통행료는 정산에 자동 합산' 
+                        : 'Receipts contain driver contact & license plate info for lost item recovery.'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* DETAILED GUIDES & APP TUTORIALS */}
+              <div className="space-y-6 pt-6 border-t border-slate-150">
+                {/* 1. Kakao T & k.ride Calling App Tutorial Callouts */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                  {/* Kakao T Domestic */}
+                  <div className="bg-gradient-to-br from-amber-500/10 via-white to-amber-50/20 p-6 rounded-3xl border border-amber-200/80 shadow-xs space-y-4">
+                    <div className="flex items-center justify-between border-b border-amber-200/50 pb-3 gap-2">
+                      <div className="flex items-center gap-2.5">
+                        <span className="text-2xl">🟡</span>
+                        <div>
+                          <h3 className="text-base sm:text-lg font-black text-slate-900">
+                            {language === 'KR' ? '카카오 T (Kakao T)' : 'Kakao T App'}
+                          </h3>
+                          <p className="text-xs text-slate-500 font-bold">
+                            {language === 'KR' ? '국내 1위 이동 플랫폼' : 'Korea\'s No.1 Mobility App'}
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-[10px] bg-amber-400 text-slate-900 font-black px-2.5 py-1 rounded-full uppercase border border-amber-500/30">
+                        {language === 'KR' ? '국내 대표' : 'Domestic'}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                      <div className="bg-white p-3.5 rounded-2xl border border-amber-200/60 space-y-1">
+                        <span className="text-[10px] font-black text-amber-700 bg-amber-100 px-2 py-0.5 rounded-md inline-block">STEP 01</span>
+                        <h4 className="text-xs font-black text-slate-900">{language === 'KR' ? '앱 실행 후 [택시] 선택' : 'Select [Taxi]'}</h4>
+                        <p className="text-[11px] text-slate-600 font-medium leading-relaxed">
+                          {language === 'KR' ? '홈 화면에서 황색 [택시] 아이콘을 터치합니다.' : 'Tap yellow [Taxi] icon on home screen.'}
+                        </p>
+                      </div>
+
+                      <div className="bg-white p-3.5 rounded-2xl border border-amber-200/60 space-y-1">
+                        <span className="text-[10px] font-black text-amber-700 bg-amber-100 px-2 py-0.5 rounded-md inline-block">STEP 02</span>
+                        <h4 className="text-xs font-black text-slate-900">{language === 'KR' ? '출발지/목적지 검색' : 'Set Route'}</h4>
+                        <p className="text-[11px] text-slate-600 font-medium leading-relaxed">
+                          {language === 'KR' ? 'GPS 위치 확인 및 도착할 건물/명소를 검색합니다.' : 'GPS sets pickup pin, search destination name.'}
+                        </p>
+                      </div>
+
+                      <div className="bg-white p-3.5 rounded-2xl border border-amber-200/60 space-y-1">
+                        <span className="text-[10px] font-black text-amber-700 bg-amber-100 px-2 py-0.5 rounded-md inline-block">STEP 03</span>
+                        <h4 className="text-xs font-black text-slate-900">{language === 'KR' ? '차종 및 예상요금 확인' : 'Check Fare'}</h4>
+                        <p className="text-[11px] text-slate-600 font-medium leading-relaxed">
+                          {language === 'KR' ? '일반/벤티/블랙 중 선택하여 예상 금액을 확인합니다.' : 'Choose Regular or Venti van & review fare.'}
+                        </p>
+                      </div>
+
+                      <div className="bg-white p-3.5 rounded-2xl border border-amber-200/60 space-y-1">
+                        <span className="text-[10px] font-black text-amber-700 bg-amber-100 px-2 py-0.5 rounded-md inline-block">STEP 04</span>
+                        <h4 className="text-xs font-black text-slate-900">{language === 'KR' ? '호출 및 실시간 경로 추적' : 'Call & Track'}</h4>
+                        <p className="text-[11px] text-slate-600 font-medium leading-relaxed">
+                          {language === 'KR' ? '배차 후 차량 번호와 실시간 위치를 확인하고 탑승합니다.' : 'Track taxi arrival & license plate number.'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* k.ride Foreigner Global App */}
+                  <div className="bg-gradient-to-br from-purple-500/10 via-white to-purple-50/30 p-6 rounded-3xl border border-purple-200 shadow-xs space-y-4 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between border-b border-purple-200/60 pb-3 gap-2">
+                        <div className="flex items-center gap-2.5">
+                          <span className="text-2xl">🌐</span>
+                          <div>
+                            <h3 className="text-base sm:text-lg font-black text-slate-900">
+                              {language === 'KR' ? 'k.ride (외국인 전용 카카오T 전용 앱)' : 'k.ride (Kakao T for Foreign Tourists)'}
+                            </h3>
+                            <p className="text-xs text-slate-500 font-bold">
+                              {language === 'KR' ? '카카오모빌리티 출시 글로벌 택시 호출 플랫폼' : 'Official Global Taxi App by Kakao Mobility'}
+                            </p>
+                          </div>
+                        </div>
+                        <a
+                          href="https://www.kakaomobility.com/k-ride"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs bg-purple-600 hover:bg-purple-700 text-white font-black px-3 py-1.5 rounded-xl transition-all shadow-sm flex items-center gap-1 shrink-0"
+                        >
+                          <span>{language === 'KR' ? 'k.ride 공식 사이트' : 'k.ride Official'}</span>
+                          <ExternalLink className="w-3.5 h-3.5 stroke-[2.5]" />
+                        </a>
+                      </div>
+
+                      <div className="mt-3.5 space-y-2.5 text-xs text-slate-700 font-medium leading-relaxed">
+                        <div className="flex items-start gap-2 bg-white/80 p-2.5 rounded-xl border border-purple-100">
+                          <span className="text-purple-600 font-bold shrink-0">✔</span>
+                          <span>
+                            <strong className="text-slate-900 font-bold">{language === 'KR' ? '해외 신용카드 자동 결제:' : 'Foreign Cards Supported:'}</strong> {language === 'KR' ? 'Visa, Mastercard, AMEX, JCB 등 해외 신용카드가 앱에 간편 등록되어 자동 정산' : 'Registers foreign cards directly for seamless auto-payment.'}
+                          </span>
+                        </div>
+                        <div className="flex items-start gap-2 bg-white/80 p-2.5 rounded-xl border border-purple-100">
+                          <span className="text-purple-600 font-bold shrink-0">✔</span>
+                          <span>
+                            <strong className="text-slate-900 font-bold">{language === 'KR' ? '해외 휴대폰 번호 가입:' : 'Foreign Phone Registration:'}</strong> {language === 'KR' ? '전 세계 100여 개국 전화번호로 한국 본인인증 없이 손쉽게 계정 생성' : 'Sign up easily with foreign mobile numbers from 100+ countries.'}
+                          </span>
+                        </div>
+                        <div className="flex items-start gap-2 bg-white/80 p-2.5 rounded-xl border border-purple-100">
+                          <span className="text-purple-600 font-bold shrink-0">✔</span>
+                          <span>
+                            <strong className="text-slate-900 font-bold">{language === 'KR' ? '10개국 언어 지원 & 실시간 번역:' : '10 Languages & Auto-Translation:'}</strong> {language === 'KR' ? '영어, 중국어, 일본어 등 10개 언어 앱 UI 및 기사와 한글 실시간 자동번역 메신저' : 'Supports English, Chinese, Japanese, etc., with real-time chat translation.'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="pt-2">
+                      <a
+                        href="https://www.kakaomobility.com/k-ride"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-purple-900 hover:bg-slate-900 text-white font-black py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow-md"
+                      >
+                        <span>{language === 'KR' ? 'k.ride 서비스 자세히 보기 (kakaomobility.com/k-ride)' : 'Learn more about k.ride (kakaomobility.com/k-ride)'}</span>
+                        <ExternalLink className="w-4 h-4 stroke-[2.5]" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Foreigner & Local App Feature Comparison Box */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {/* Uber Card */}
+                  <div className="bg-white p-6 rounded-3xl border border-slate-300 shadow-xs space-y-3.5">
+                    <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">⚫</span>
+                        <h4 className="text-sm sm:text-base font-black text-slate-900">
+                          {language === 'KR' ? '우버 (Uber) - 글로벌 관광객 추천' : 'Uber — Recommended for Global Tourists'}
+                        </h4>
+                      </div>
+                      <span className="text-[10px] bg-slate-900 text-white font-black px-2 py-0.5 rounded uppercase">Global Uber</span>
+                    </div>
+                    <ul className="text-xs text-slate-600 font-medium space-y-2.5 leading-relaxed">
+                      <li className="flex items-start gap-2">
+                        <span className="text-slate-900 font-bold shrink-0">✔</span>
+                        <span>
+                          <strong className="text-slate-800 font-bold">{language === 'KR' ? '글로벌 우버 계정 그대로 이용:' : 'Global Uber Account:'}</strong> {language === 'KR' ? '해외에서 쓰던 우버(Uber) 앱과 결제 정보를 한국 부산에서도 변경 없이 바로 사용' : 'Use your existing global Uber app and registered cards in Busan directly.'}
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-slate-900 font-bold shrink-0">✔</span>
+                        <span>
+                          <strong className="text-slate-800 font-bold">{language === 'KR' ? '해외 신용카드 자동 결제:' : 'Foreign Credit Cards:'}</strong> {language === 'KR' ? 'Visa, Mastercard, AMEX 등 앱에 연결된 카드로 승차 후 자동 정산' : 'Automatic billing via your Uber account connected credit cards.'}
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-slate-900 font-bold shrink-0">✔</span>
+                        <span>
+                          <strong className="text-slate-800 font-bold">{language === 'KR' ? '인앱 메시지 자동 번역:' : 'Auto Translation:'}</strong> {language === 'KR' ? '기사님과의 인앱 채팅 대화가 한국어와 사용자의 언어로 자동 번역됨' : 'In-app messaging translates automatically between Korean and English.'}
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Dongbaek Taxi Card */}
+                  <div className="bg-white p-6 rounded-3xl border border-emerald-200/80 shadow-xs space-y-3.5">
+                    <div className="flex items-center justify-between border-b border-emerald-100 pb-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">🔵</span>
+                        <h4 className="text-sm sm:text-base font-black text-slate-900">
+                          {language === 'KR' ? '동백전 택시 - 부산 시민 & 장기 여행자 혜택' : 'Dongbaek Taxi — Local Currency Discounts'}
+                        </h4>
+                      </div>
+                      <span className="text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded uppercase">Cashback</span>
+                    </div>
+                    <ul className="text-xs text-slate-600 font-medium space-y-2.5 leading-relaxed">
+                      <li className="flex items-start gap-2">
+                        <span className="text-emerald-600 font-bold shrink-0">✔</span>
+                        <span>
+                          <strong className="text-slate-800 font-bold">{language === 'KR' ? '동백전 결제 캐시백:' : 'Local Cashback:'}</strong> {language === 'KR' ? '부산 지역화폐 동백전 카드로 정산 시 즉시 캐시백 할인 적용' : 'Earn immediate local currency cashback when paying with Dongbaekjeon card.'}
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-emerald-600 font-bold shrink-0">✔</span>
+                        <span>
+                          <strong className="text-slate-800 font-bold">{language === 'KR' ? '호출 수수료 무료:' : 'Zero Call Fee:'}</strong> {language === 'KR' ? '별도의 호출 수수료 없이 시내 정규 승차 요금만 부과' : 'No extra call dispatch fees; pay strictly standard meter rates.'}
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-emerald-600 font-bold shrink-0">✔</span>
+                        <span>
+                          <strong className="text-slate-800 font-bold">{language === 'KR' ? '부산 지역 택시 친절 서비스:' : 'Friendly Local Drivers:'}</strong> {language === 'KR' ? '부산 관내 전용 가맹 택시로 빠른 현지 배차 제공' : 'Exclusively connected to local licensed Busan taxi drivers.'}
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* 3. Key Taxi Stands & Emergency Contact Box */}
+                <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+                  <div className="flex items-center gap-2 text-slate-900">
+                    <span className="text-xl">📍</span>
+                    <h4 className="text-sm sm:text-base font-black">
+                      {language === 'KR' ? '부산 주요 거점 지정 택시 승강장 & 비상 연락처' : 'Major Taxi Stands & Emergency Contacts'}
+                    </h4>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-2">
+                      <h5 className="font-black text-slate-800 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-[#004481]"></span>
+                        <span>{language === 'KR' ? '주요 지정 승강장 위치' : 'Key Taxi Stand Locations'}</span>
+                      </h5>
+                      <ul className="space-y-1.5 text-slate-600 font-medium">
+                        <li>• <strong>부산역 (KTX):</strong> 1층 6번 출구 밖 택시 전용 승강장</li>
+                        <li>• <strong>김해공항:</strong> 국내선/국제선 1층 게이트 앞 전용 탑승장</li>
+                        <li>• <strong>해운대해수욕장:</strong> 이벤트 광장 및 조선호텔 입구 정류장</li>
+                        <li>• <strong>서면역:</strong> 7번 출구 / 15번 출구 앞 도로변 승강장</li>
+                      </ul>
+                    </div>
+
+                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-2">
+                      <h5 className="font-black text-slate-800 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-rose-500"></span>
+                        <span>{language === 'KR' ? '분실물 & 불친절 신고 긴급 연락처' : 'Lost & Found / Complaints Helpline'}</span>
+                      </h5>
+                      <ul className="space-y-1.5 text-slate-600 font-medium">
+                        <li>• <strong>부산시 120 콜센터:</strong> 051-120 (택시 분실물 및 승차거부 신고)</li>
+                        <li>• <strong>외국인 관광 통역 안내:</strong> 1330 (24시간 영/중/일 통역 지원)</li>
+                        <li>• <strong>개인택시 조합 분실물센터:</strong> 051-808-8181</li>
+                        <li>• <strong>법인택시 조합 분실물센터:</strong> 051-500-8500</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
