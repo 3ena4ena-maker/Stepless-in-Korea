@@ -729,7 +729,7 @@ export default function App() {
               setTipsSubPage('courses');
               setActiveRegionPage(parts[2].toUpperCase() as any);
             } else {
-              setTipsSubPage('transit');
+              setTipsSubPage('index');
               setActiveRegionPage(null);
             }
           }
@@ -1348,7 +1348,7 @@ export default function App() {
             }
             if (targetTab === 'tips') {
               setSelectedItineraryCategory(null);
-              setTipsSubPage('courses');
+              setTipsSubPage('index');
               setActiveRegionPage(null);
             }
           }} 
