@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { 
   Train, 
   Search, 
@@ -38,13 +38,23 @@ import {
 } from 'lucide-react';
 import Header from './components/Header';
 import TimelineVisualizer from './components/TimelineVisualizer';
-import SubwayStationMap from './components/SubwayStationMap';
-import BusanItinerariesView from './components/BusanItinerariesView';
-import BusanEventsCalendarView from './components/BusanEventsCalendarView';
 import { STATIONS, INITIAL_REPORTS } from './data';
 import { Station, ExitInfo, FacilityReport, StatusType, getExitDisplayName, translateExitNumber, getTranslatedStationName } from './types';
 import { translateRecommendation } from './utils';
 import { BUSAN_ITINERARIES } from './data/itineraries';
+
+// Lazy loaded heavy components for optimal bundle splitting and fast initial page load
+const SubwayStationMap = lazy(() => import('./components/SubwayStationMap'));
+const BusanItinerariesView = lazy(() => import('./components/BusanItinerariesView'));
+const BusanEventsCalendarView = lazy(() => import('./components/BusanEventsCalendarView'));
+
+// Dynamic tab loading fallback component for code-split views
+const TabLoadingFallback = ({ text = "정보를 신속하게 불러오는 중..." }: { text?: string }) => (
+  <div className="flex flex-col items-center justify-center min-h-[360px] p-8 text-center space-y-3 animate-fade-in">
+    <div className="w-10 h-10 border-3 border-blue-100 border-t-[#004481] rounded-full animate-spin"></div>
+    <p className="text-sm font-bold text-slate-600">{text}</p>
+  </div>
+);
 
 // Custom icons based on premium vector styles for seamless accessibility display
 const EscalatorIcon = ({ className = "w-5 h-5 text-slate-700 flex-shrink-0" }: { className?: string }) => (
@@ -1535,7 +1545,9 @@ export default function App() {
 
                 {/* 🗺️ Naver Map-linked Station Map Component (Directly Below Selection Space) */}
                 <div id="station-map-container" className="bg-white rounded-3xl border border-slate-100 shadow-[0_4px_22px_rgb(0,0,0,0.02)] overflow-hidden">
-                  <SubwayStationMap station={activeStation} language={language} focusedExitCoords={focusedExitCoords} />
+                  <Suspense fallback={<TabLoadingFallback text={language === 'KR' ? '지도를 불러오는 중...' : 'Loading map...'} />}>
+                    <SubwayStationMap station={activeStation} language={language} focusedExitCoords={focusedExitCoords} />
+                  </Suspense>
                 </div>
 
                 {/* Sub-Tabs selection representing companion types */}
@@ -1999,25 +2011,29 @@ export default function App() {
 
           {/* Tab 3: TRAVEL TIPS VIEW */}
           {currentTab === 'tips' && (
-            <BusanItinerariesView 
-              language={language}
-              initialCategory={selectedItineraryCategory as any}
-              onBack={() => {
-                setSelectedItineraryCategory(null);
-              }}
-              onSelectCategory={(category) => {
-                setSelectedItineraryCategory(category);
-              }}
-              tipsSubPage={tipsSubPage}
-              setTipsSubPage={setTipsSubPage}
-              activeRegionPage={activeRegionPage}
-              setActiveRegionPage={setActiveRegionPage}
-            />
+            <Suspense fallback={<TabLoadingFallback text={language === 'KR' ? '부산 여행 코스 가이드를 불러오는 중...' : 'Loading Busan itineraries...'} />}>
+              <BusanItinerariesView 
+                language={language}
+                initialCategory={selectedItineraryCategory as any}
+                onBack={() => {
+                  setSelectedItineraryCategory(null);
+                }}
+                onSelectCategory={(category) => {
+                  setSelectedItineraryCategory(category);
+                }}
+                tipsSubPage={tipsSubPage}
+                setTipsSubPage={setTipsSubPage}
+                activeRegionPage={activeRegionPage}
+                setActiveRegionPage={setActiveRegionPage}
+              />
+            </Suspense>
           )}
 
           {/* New Tab 4: BUSAN MAJOR EVENTS CALENDAR VIEW */}
           {currentTab === 'schedule' && (
-            <BusanEventsCalendarView language={language} />
+            <Suspense fallback={<TabLoadingFallback text={language === 'KR' ? '행사 달력을 불러오는 중...' : 'Loading events calendar...'} />}>
+              <BusanEventsCalendarView language={language} />
+            </Suspense>
           )}
 
           {/* New Tab 5: ABOUT THE SITE */}
@@ -2051,6 +2067,8 @@ export default function App() {
                     <img 
                       src="/images/busan_travelers_about_1782566089566.jpg" 
                       alt="Travelers in Busan" 
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover aspect-[4/3] hover:scale-102 transition-transform duration-500"
                       referrerPolicy="no-referrer"
                     />
@@ -2066,6 +2084,8 @@ export default function App() {
                     <img 
                       src="/images/accessible_path_about_1782566106628.jpg" 
                       alt="Accessible Path in Busan" 
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover aspect-[4/3] hover:scale-102 transition-transform duration-500"
                       referrerPolicy="no-referrer"
                     />
