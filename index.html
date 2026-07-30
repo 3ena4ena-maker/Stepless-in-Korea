@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="ko">
   <head>
+    <!-- Auto redirect from pages.dev to custom domain stepless.kr -->
+    <script>
+      if (window.location.hostname === 'steplessinkorea.pages.dev') {
+        window.location.replace('https://stepless.kr' + window.location.pathname + window.location.search + window.location.hash);
+      }
+    </script>
+
     <!-- Resource hints for fast network connection -->
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
     <link rel="preconnect" href="https://www.googletagmanager.com" />

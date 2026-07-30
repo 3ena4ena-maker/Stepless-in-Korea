@@ -1,2 +1,5 @@
+# Redirect pages.dev default domain to custom domain stepless.kr
+https://steplessinkorea.pages.dev/* https://stepless.kr/:splat 301!
+
 # Cloudflare Pages SPA Routing rule
 /*    /index.html   200
