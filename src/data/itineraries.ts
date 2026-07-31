@@ -268,113 +268,93 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
         time: 'Day 1 (10:00 - 12:30)',
         titleKo: '부산역 출발 & 부평깡통시장·국제시장',
         titleEn: 'Busan Station & Bupyeong Market Lunch',
-        descKo: '부산역 도착 후 1호선으로 5분 거리인 남포동/자갈치로 이동하여 부평깡통시장의 씨앗호떡, 비빔당면, 물떡으로 즐거운 로컬 점심을 맛봅니다.',
-        descEn: 'Arrive at Busan Station, take Line 1 to Nampo/Jagalchi, and enjoy local food favorites at Bupyeong Kkangtong Market.',
+        descKo: '부산역 도착 후 1호선으로 5분 거리인 남포동/자갈치로 이동하여 부평깡통시장의 씨앗호떡, 비빔당면, 물떡으로 즐거운 로컬 점심을 즐깁니다.',
+        descEn: 'Arrive at Busan Station and head to Nampodong for local market street food lunch.',
         icon: 'Food',
-        stationInfoKo: '자갈치역(1호선) 7번 출구 / 남포역 1번 출구',
-        stationInfoEn: 'Jagalchi Station (Line 1) Exit 7 or Nampo Station Exit 1.'
+        stationInfoKo: '지하철 1호선 자갈치역 / 남포역',
+        stationInfoEn: 'Line 1 Jagalchi / Nampo Stn.'
       },
       {
-        time: 'Day 1 (13:00 - 15:00)',
-        titleKo: '용두산공원 & 남포동 광복로 패션거리',
-        titleEn: 'Yongdusan Park & Gwangbok-dong Street',
-        descKo: '광복로 상가거리 에스컬레이터를 타고 용두산공원에 올라 부산타워와 도심 전경을 둘러본 뒤 아기자기한 보수동 책방골목까지 편하게 산책합니다.',
-        descEn: 'Ride the escalator to Yongdusan Park for Busan Tower views, then walk through the nostalgic Bosudong Book Alley.',
+        time: 'Day 1 (13:00 - 16:00)',
+        titleKo: '영도 흰여울문화마을 & 절영해안 산책',
+        titleEn: 'Huinnyeoul Culture Village & Jeolyung Coast Walk',
+        descKo: '절벽 앞 푸른 파도와 아기자기한 흰 벽 골목을 상부 전망로를 따라 계단 없이 편안하게 탐방합니다.',
+        descEn: 'A cliffside art village with vibrant cobalt lanes and level sea views.',
         icon: 'Walk',
-        stationInfoKo: '남포역(1호선) 1번 출구 도보 3분',
-        stationInfoEn: 'Nampo Station (Line 1) Exit 1, 3 mins walk.'
+        stationInfoKo: '남포역에서 영도 버스 10분',
+        stationInfoEn: '10 min bus from Nampo Station.'
       },
       {
-        time: 'Day 1 (15:30 - 18:30)',
-        titleKo: '영도 흰여울문화마을 & 태종대 다누비열차',
-        titleEn: 'Yeongdo Huinnyeoul Village & Taejongdae',
-        descKo: '남포동 바로 건너 영도 흰여울문화마을 바다 카페거리에서 티타임을 갖고, 태종대로 이동해 다누비열차를 타고 감탄을 자아내는 해안 절벽을 관람합니다.',
-        descEn: 'Cross over to Yeongdo for Huinnyeoul ocean-view cafes and take the Danubi train at Taejongdae scenic cliff park.',
+        time: 'Day 1 (17:00 - 20:00)',
+        titleKo: '용두산공원 & 부산타워 야경',
+        titleEn: 'Yongdusan Park & Busan Tower Night View',
+        descKo: '에스컬레이터와 엘리베이터로 편안하게 올라가 부산 원도심과 바다의 화려한 밤바다 야경을 감상합니다.',
+        descEn: 'Ascend via escalator to enjoy night vistas of Busan harbour.',
         icon: 'Sunset',
-        stationInfoKo: '남포역 6번 출구 버스정류장에서 시내버스 이용',
-        stationInfoEn: 'Catch local buses from Nampo Station Exit 6.'
+        stationInfoKo: '지하철 1호선 남포역 1번 출구 에스컬레이터',
+        stationInfoEn: 'Line 1 Nampo Stn Exit 1.'
       },
+      // Day 2: 서면 & 광안리 권역
       {
-        time: 'Day 1 (19:00 - 21:00)',
-        titleKo: '영도대교 도개 관람 & 원도심 야경',
-        titleEn: 'Yeongdo Bridge & Downtown Nightscape',
-        descKo: '영도웰컴센터 전망대와 남포동 수변공원에서 화려한 영도대교 및 원도심 야경을 감상하며 첫날 원도심 코스를 완벽하게 매듭짓습니다.',
-        descEn: 'Enjoy the vibrant harbor light show and Yeongdo Bridge panorama from the waterfront plaza to conclude Day 1.',
-        icon: 'Night',
-        stationInfoKo: '남포역(1호선) 6, 8번 출구 인접',
-        stationInfoEn: 'Nampo Station Exit 6 or 8.'
-      },
-      // Day 2: 서면·전포 & 광안리 권역
-      {
-        time: 'Day 2 (10:30 - 13:30)',
-        titleKo: '서면 젊음의거리 & 전포카페거리 / 전리단길',
-        titleEn: 'Seomyeon Youth Street & Jeonpo Cafe Street',
-        descKo: '부산 중심 서면/전포로 이동하여 트렌디한 감성의 디자이너 숍과 분위기 좋은 예쁜 단층 카페에서 수제 브런치와 에스프레소를 즐깁니다.',
-        descEn: 'Explore trendy boutiques and enjoy handmade brunch and specialty coffee along Jeonpo Cafe Street.',
+        time: 'Day 2 (10:00 - 12:30)',
+        titleKo: '전포카페거리 & 서면 로컬 미식 탐방',
+        titleEn: 'Jeonpo Cafe Street & Seomyeon Food Stroll',
+        descKo: '평탄한 아기자기 골목길에 트렌디한 감성 카페와 브런치 맛집이 모여있는 전포카페거리에서 아침 미식을 만끽합니다.',
+        descEn: 'Stroll Jeonpo’s level hipster alleyways filled with trendy brunch cafes and boutiques.',
         icon: 'Coffee',
-        stationInfoKo: '전포역(2호선) 7번 출구 / 서면역(1,2호선) 2번 출구',
-        stationInfoEn: 'Jeonpo Station (Line 2) Exit 7 or Seomyeon Station Exit 2.'
+        stationInfoKo: '지하철 1호선/2호선 서면역 & 2호선 전포역 7번 출구',
+        stationInfoEn: 'Line 1/2 Seomyeon Stn & Line 2 Jeonpo Stn Exit 7.'
       },
       {
-        time: 'Day 2 (14:00 - 16:30)',
-        titleKo: '망미골목 & F1963 복합문화공간',
-        titleEn: 'Mangmi-gil Alleys & F1963 Cultural Center',
-        descKo: '고즈넉한 감성 서점과 공방이 모여있는 망미골목을 거쳐, 고려제강 옛 공장을 리모델링한 대형 복합문화공간 F1963에서 예술 전시와 힐링 정원을 둘러봅니다.',
-        descEn: 'Stroll through peaceful Mangmi alleyways and visit F1963, a revitalized eco-friendly cultural art center.',
-        icon: 'Map',
-        stationInfoKo: '망미역(3호선) 2번 출구 및 시내버스 연계',
-        stationInfoEn: 'Mangmi Station (Line 3) Exit 2 with bus connections.'
+        time: 'Day 2 (13:00 - 16:30)',
+        titleKo: '광안리 해수욕장 & 안녕광안리 오션뷰 카페',
+        titleEn: 'Gwangalli Beach & Ocean View Cafe Relaxation',
+        descKo: '드넓은 광안대교 오션뷰가 펼쳐진 모래사장 산책로를 거닐며 턱 없는 오션뷰 카페에서 여유로운 티타임을 가집니다.',
+        descEn: 'Enjoy unobstructed ocean views of Gwangan Bridge from flat beachfront promenades and barrier-free cafes.',
+        icon: 'Walk',
+        stationInfoKo: '지하철 2호선 광안역 3번, 5번 출구 해변 방향',
+        stationInfoEn: 'Line 2 Gwangan Stn Exit 3 or 5 toward beach.'
       },
       {
-        time: 'Day 2 (17:00 - 19:00)',
-        titleKo: '광안리해수욕장 & 밀락더마켓',
-        titleEn: 'Gwangalli Beach & Millac The Market',
-        descKo: '광안리 바닷가로 이동하여 탁 트인 광안대교를 바라보며 해안 데크길을 걸은 뒤, 힙한 미식 복합공간 밀락더마켓에서 오션뷰와 함께 맛있는 저녁을 먹습니다.',
-        descEn: 'Walk along Gwangalli beach and head to Millac The Market, a trendy indoor seaside hub with delicious dinner options.',
-        icon: 'Food',
-        stationInfoKo: '광안역(2호선) 3번, 5번 출구 / 민락역 인접',
-        stationInfoEn: 'Gwangan Station (Line 2) Exit 3 or 5, close to Millac.'
-      },
-      {
-        time: 'Day 2 (19:30 - 21:00)',
-        titleKo: '광안대교 LED 라이팅 쇼 & 드론쇼 (토요일)',
-        titleEn: 'Gwangan Bridge Night Show & Drone Performance',
-        descKo: '밤하늘을 수놓는 광안대교의 오색 LED 미디어 쇼를 감상합니다. 토요일 방문 시 화려하게 펼쳐지는 광안리 M 드론 라이트쇼까지 관람하는 최고의 낭만을 선사합니다.',
-        descEn: 'Marvel at the illumination of Gwangan Bridge. If visiting on Saturday, catch the magical Gwangalli M Drone Light Show.',
+        time: 'Day 2 (17:00 - 20:00)',
+        titleKo: '민락더마켓 & 광안대교 야경 점등',
+        titleEn: 'Millak the Market & Gwangan Bridge Night Lighting',
+        descKo: '복합문화공간 민락더마켓에서 스탠드 계단 오션뷰와 함께 푸드홀 음식을 맛보고 화려하게 빛나는 광안대교 야경을 감상합니다.',
+        descEn: 'Visit Millak the Market, a seaside cultural hub, for dinner with front-row seats to the LED Gwangan Bridge lighting show.',
         icon: 'Sunset',
-        stationInfoKo: '광안리 해변 만남의 광장 앞',
-        stationInfoEn: 'In front of Gwangalli Beach Central Plaza.'
+        stationInfoKo: '광안리 해수욕장 끝자락 도보 10분 / 민락역 연계',
+        stationInfoEn: '10 min walk from Gwangalli Beach end / Millak Stn.'
       },
       // Day 3: 해운대 & 기장 오시리아 권역
       {
-        time: 'Day 3 (09:30 - 12:00)',
-        titleKo: '해운대해수욕장 송림공원 & 동백섬 APEC하우스',
-        titleEn: 'Haeundae Beach Pine Park & Dongbaekseom',
-        descKo: '해운대 해변을 병풍처럼 감싸는 송림공원 데크길과 동백섬 해안 산책로를 걸으며 아침 바다와 누리마루 APEC하우스의 명품 전경을 관람합니다.',
-        descEn: 'Walk through Songnim Pine Park and Dongbaekseom coastal trails for panoramic morning sea views.',
-        icon: 'Walk',
-        stationInfoKo: '해운대역(2호선) 3, 5번 출구 / 동백역 1번 출구',
-        stationInfoEn: 'Haeundae Station (Line 2) Exit 3/5 or Dongbaek Station Exit 1.'
-      },
-      {
-        time: 'Day 3 (12:30 - 15:00)',
-        titleKo: '해운대 그린레일웨이 & 청사포 해변열차',
-        titleEn: 'Haeundae Green Railway & Cheongsapo',
-        descKo: '미포에서 평탄한 그린레일웨이 산책로를 따라 걸어 청사포에 도착합니다. 알록달록 해변열차와 청사포 쌍둥이 등대 배경으로 인생 사진을 남깁니다.',
-        descEn: 'Walk the smooth Green Railway track or ride the Beach Train to Cheongsapo to take photos with iconic twin lighthouses.',
+        time: 'Day 3 (10:00 - 12:30)',
+        titleKo: '해운대 블루라인파크 (미포-청사포 해변열차)',
+        titleEn: 'Haeundae Blueline Park Beach Train',
+        descKo: '해운대 미포에서 청사포까지 동해 바다 평지 철길을 따라 귀여운 해변열차를 타고 청량한 해안 풍경을 누립니다.',
+        descEn: 'Ride the level coastal Beach Train from Haeundae Mipo to Cheongsapo along the blue ocean track.',
         icon: 'Train',
-        stationInfoKo: '미포 승강장 및 청사포 승강장 연계',
-        stationInfoEn: 'Connected via Mipo and Cheongsapo platforms.'
+        stationInfoKo: '해운대 미포 승강장 (엘리베이터 & 경사로 구비)',
+        stationInfoEn: 'Haeundae Mipo Platform (Ramps & Elevators available).'
       },
       {
-        time: 'Day 3 (15:30 - 17:30)',
-        titleKo: '해동용궁사 & 오시리아 오랑대 바다산책로',
-        titleEn: 'Haedong Yonggungsa & Osiria Orangdae Walk',
-        descKo: '기암절벽 위 수려한 사찰 해동용궁사를 방문해 시원한 바다 내음을 들이키고, 인근 오랑대 공원 해안 산책로를 걸으며 2박 3일 부산 여행을 만족스럽게 마무리합니다.',
-        descEn: 'Visit the oceanfront Haedong Yonggungsa Temple and walk Orangdae Park trails before departing for home.',
+        time: 'Day 3 (13:00 - 15:00)',
+        titleKo: '청사포 쌍둥이 등대 & 바다 조개구이 점심',
+        titleEn: 'Cheongsapo Twin Lighthouses & Grilled Clams Lunch',
+        descKo: '청사포의 랜드마크인 빨간색/흰색 쌍둥이 등대에서 인생샷을 찍고 바다 전망 식당에서 신선한 구이 요리를 맛봅니다.',
+        descEn: 'Snap photos at Cheongsapo’s red and white lighthouses and enjoy fresh seafood by the sea.',
+        icon: 'Food',
+        stationInfoKo: '청사포 해변열차 정류장 하차',
+        stationInfoEn: 'Get off at Cheongsapo Beach Train Station.'
+      },
+      {
+        time: 'Day 3 (15:30 - 18:00)',
+        titleKo: '해동용궁사 & 오시리아 바다산책로 (여정 마무리)',
+        titleEn: 'Haedong Yonggungsa Temple & Osiria Coastal Walk',
+        descKo: '해안 절벽 사찰 해동용궁사의 탁 트인 바다 전망을 감상하고, 오시리아 해안 산책길을 걸은 뒤 부산역으로 이동하여 여정을 마무리합니다.',
+        descEn: 'Marvel at Haedong Yonggungsa Temple on ocean cliffs and stroll Osiria coastal trail before departing.',
         icon: 'Sunset',
-        stationInfoKo: '오시리아역(동해선) 및 택시/시내버스 1001번 연계',
-        stationInfoEn: 'Osiria Station (Donghae Line) or city bus 1001.'
+        stationInfoKo: '동해선 오시리아역 / 부산역/공항 직행 버스 연계',
+        stationInfoEn: 'Donghae Line Osiria Stn / Direct buses to Busan Stn & Airport.'
       }
     ]
   },
@@ -382,8 +362,8 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
     id: 'itinerary-3nights',
     titleKo: '부산 전역 완전 정복! 여유로운 3박 4일 완벽 휴식 코스',
     titleEn: 'Full Busan Mastery! Relaxed 3N4D Ultimate Healing Route',
-    subtitleKo: 'Day 1 원도심·영도, Day 2 서면·온천천, Day 3 광안리·해운대, Day 4 기장 오시리아까지 부산의 4대 핵심 축을 여유롭게 거니는 최적 코스예요.',
-    subtitleEn: 'Day 1 Downtown, Day 2 Seomyeon & Oncheon, Day 3 Gwangalli & Haeundae, Day 4 Gijang Osiria for complete relaxation.',
+    subtitleKo: 'Day 1 원도심·영도, Day 2 서면·센텀·해운대, Day 3 동부산·광안리, Day 4 서부산·다대포까지 부산의 4대 핵심 축을 여유롭게 거니는 최적 코스예요.',
+    subtitleEn: 'Day 1 Downtown & Yeongdo, Day 2 Seomyeon & Haeundae, Day 3 East Busan & Gwangalli, Day 4 West Busan & Departure.',
     category: '3NIGHTS',
     durationKo: '3박 4일',
     durationEn: '3 Nights 4 Days',
@@ -391,84 +371,188 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
     tagEn: '3N4D Healing 🌿',
     difficultyKo: '보통',
     difficultyEn: 'Moderate',
-    overallTipKo: '하루에 한 권역만 집중 탐방하므로 짐 이동이 적고 이동 동선이 수평적으로 깔끔하게 이어집니다. 부산 지하철 1, 2, 3호선 환승 체계를 고려해 동선을 설계했습니다.',
-    overallTipEn: 'Focuses on one zone per day to minimize hotel changes and travel overhead. Engineered based on Busan Subway Lines 1, 2, and 3.',
+    overallTipKo: '하루에 한 권역(원도심, 서면/해운대, 동부산/광안리, 서부산)만 집중 탐방하여 이동 피로를 줄였습니다. 부산 지하철 1, 2, 3호선의 엘리베이터 동선과 평지 위주로 구성되어 있습니다.',
+    overallTipEn: 'Zone-based routing minimizes transit times. Engineered for level access using Busan Subway Lines 1, 2, and 3.',
+    steps: [
+      // Day 1: 원도심 & 영도
+      {
+        time: 'Day 1',
+        titleKo: '부산역 출발 & 감천문화마을',
+        titleEn: 'Busan Station & Gamcheon Culture Village',
+        descKo: '부산역 도착 후 알록달록한 감천문화마을의 완만하고 경사 없는 상부 주 도로 전망길을 따라 첫 여정을 시작합니다.',
+        descEn: 'Arrive at Busan Station and stroll along the gentle upper ridge path of Gamcheon Culture Village.',
+        icon: 'Map',
+        stationInfoKo: '지하철 1호선 부산역 / 토성역 버스 연계',
+        stationInfoEn: 'Line 1 Busan Stn / Toseong Stn bus transfer.'
+      },
+      {
+        time: 'Day 1',
+        titleKo: '부평깡통시장 & 자갈치시장 (점심 로컬 맛집)',
+        titleEn: 'Bupyeong Market & Jagalchi Fish Market Lunch',
+        descKo: '평탄한 현대식 아케이드 시장에서 돼지국밥, 씨앗호떡, 비빔당면 등 대표 로컬 점심을 맛봅니다.',
+        descEn: 'Enjoy local Busan street delicacies and warm pork soup lunch in level market arcades.',
+        icon: 'Food',
+        stationInfoKo: '지하철 1호선 자갈치역 7번 출구 / 남포역',
+        stationInfoEn: 'Line 1 Jagalchi Exit 7 / Nampo Stn.'
+      },
+      {
+        time: 'Day 1',
+        titleKo: '영도 흰여울문화마을 & 절영해안 산책',
+        titleEn: 'Yeongdo Huinnyeoul Culture Village & Ocean View',
+        descKo: '푸른 영도 바다 절벽 위 상부 전망로를 따라 계단 없이 탁 트인 오션뷰 수평선 풍경을 감상합니다.',
+        descEn: 'Walk the level upper coastal ridge path over Yeongdo cliffs facing open blue ocean horizons.',
+        icon: 'Walk',
+        stationInfoKo: '남포역에서 영도 방향 버스 10분',
+        stationInfoEn: '10 min bus from Nampo Station.'
+      },
+      {
+        time: 'Day 1',
+        titleKo: '용두산공원 & 부산타워 야경',
+        titleEn: 'Yongdusan Park & Busan Tower Night View',
+        descKo: '에스컬레이터와 엘리베이터로 편안하게 올라가 부산 원도심과 밤바다의 야경을 감상합니다.',
+        descEn: 'Ascend via escalator to enjoy breathtaking night vistas of Busan harbour.',
+        icon: 'Sunset',
+        stationInfoKo: '지하철 1호선 남포역 1번 출구 에스컬레이터',
+        stationInfoEn: 'Line 1 Nampo Exit 1 escalator link.'
+      },
+
+      // Day 2: 서면 & 센텀·해운대
+      {
+        time: 'Day 2',
+        titleKo: '전포카페거리 & 서면 도심 탐방',
+        titleEn: 'Jeonpo Cafe Street & Seomyeon Downtown',
+        descKo: '부산 도심의 활기찬 에너지와 감성 카페거리에서 여유로운 아침 커피와 브런치를 즐깁니다.',
+        descEn: 'Experience vibrant urban cafe culture and enjoy morning coffee in Jeonpo Alley.',
+        icon: 'Coffee',
+        stationInfoKo: '지하철 1·2호선 서면역 / 2호선 전포역',
+        stationInfoEn: 'Line 1 & 2 Seomyeon Stn / Line 2 Jeonpo Stn.'
+      },
+      {
+        time: 'Day 2',
+        titleKo: '센텀시티 & 영화의전당 복합문화공간',
+        titleEn: 'Centum City & Busan Cinema Center',
+        descKo: '실내 전체가 평지인 세계 최대 백화점과 웅장한 지붕 아래 넓은 광장에서 문화 예술과 전시를 마주합니다.',
+        descEn: 'Explore huge indoor barrier-free malls and the iconic cantilever roof space at Cinema Center.',
+        icon: 'Map',
+        stationInfoKo: '지하철 2호선 센텀시티역 지하 직접 연결',
+        stationInfoEn: 'Line 2 Centum City Stn direct underground connection.'
+      },
+      {
+        time: 'Day 2',
+        titleKo: '해운대 해변열차 (미포~청사포)',
+        titleEn: 'Haeundae Beach Train (Mipo to Cheongsapo)',
+        descKo: '휠체어와 유모차 무단계 탑승이 가능한 친환경 열차를 타고 동해안 해안 절경을 시원하게 달립니다.',
+        descEn: 'Ride the level-boarding coastal train along picturesque ocean waves from Mipo to Cheongsapo.',
+        icon: 'Train',
+        stationInfoKo: '지하철 2호선 중동역/장산역 도보 이동',
+        stationInfoEn: 'Line 2 Jungdong/Jangsan Stn nearby.'
+      },
+      {
+        time: 'Day 2',
+        titleKo: '해운대 해수욕장 & 동백섬 데크 산책',
+        titleEn: 'Haeundae Beach & Dongbaekseom Boardwalk',
+        descKo: '백사장 뒤편 울창한 송림 산책로와 평평한 동백섬 데크길을 거닐며 마린시티 야경을 감상합니다.',
+        descEn: 'Stroll smooth pine tree boardwalks around Dongbaekseom with view of Marine City skyline.',
+        icon: 'Walk',
+        stationInfoKo: '지하철 2호선 해운대역 / 동백역',
+        stationInfoEn: 'Line 2 Haeundae Stn / Dongbaek Stn.'
+      },
+
+      // Day 3: 동부산 & 광안리
+      {
+        time: 'Day 3',
+        titleKo: '해동용궁사 바다 사찰 탐방',
+        titleEn: 'Haedong Yonggungsa Ocean Temple',
+        descKo: '기암괴석과 바다가 맞닿은 관음 성지로, 계단 없는 평평한 지상 우회 통로를 통해 편안하게 관람합니다.',
+        descEn: 'Scenic seaside temple reached via flat ground bypass entrance avoiding 108 steps.',
+        icon: 'Map',
+        stationInfoKo: '기장 오시리아역 버스/택시 10분',
+        stationInfoEn: '10 min bus/taxi from Osiria Station.'
+      },
+      {
+        time: 'Day 3',
+        titleKo: '기장 오시리아 관광단지 & 해안 산책로',
+        titleEn: 'Gijang Osiria & Coastal Promenade',
+        descKo: '탁 트인 동부산 바다를 따라 조성된 단차 없는 해안 라운지와 오션뷰 테라스에서 힐링을 만끽합니다.',
+        descEn: 'Unwind at seaside oceanfront terraces with level rolling boardwalks.',
+        icon: 'Walk',
+        stationInfoKo: '동해선 오시리아역',
+        stationInfoEn: 'Donghae Line Osiria Station.'
+      },
+      {
+        time: 'Day 3',
+        titleKo: '광안리 해수욕장 & 광안대교 오션 테라스',
+        titleEn: 'Gwangalli Beach & Gwangan Bridge Ocean View',
+        descKo: '광안대교 수평선이 한눈에 조망되는 평탄한 야외 테라스 보도를 거닐며 바닷바람을 맞습니다.',
+        descEn: 'Walk the wide sea promenade looking out at the grand Gwangan Diamond Bridge.',
+        icon: 'Walk',
+        stationInfoKo: '지하철 2호선 금련산역 / 광안역',
+        stationInfoEn: 'Line 2 Geumryeonsan / Gwangan Stn.'
+      },
+      {
+        time: 'Day 3',
+        titleKo: '광안리 드론라이트쇼 & 밤바다 야경',
+        titleEn: 'Gwangalli Drone Light Show & Night View',
+        descKo: '주말 밤 광안리 하늘을 수놓는 드론쇼와 밤바다 버스킹을 턱 없는 넓은 광장에서 편안하게 관람합니다.',
+        descEn: 'Watch the brilliant weekend drone choreography from flat barrier-free beach plazas.',
+        icon: 'Sunset',
+        stationInfoKo: '지하철 2호선 광안역 3번·5번 출구',
+        stationInfoEn: 'Line 2 Gwangan Exit 3 or 5.'
+      },
+
+      // Day 4: 서부산 & 출발
+      {
+        time: 'Day 4',
+        titleKo: '송도 해수욕장 & 해상케이블카',
+        titleEn: 'Songdo Beach & Marine Cable Car',
+        descKo: '전용 승강 엘리베이터와 무단차 개찰구를 갖춘 바다 위 케이블카를 타고 시원한 해상 경관을 만끽합니다.',
+        descEn: 'Fly over ocean waves in barrier-free cable cars with level boarding ramps.',
+        icon: 'Train',
+        stationInfoKo: '지하철 1호선 자갈치역 버스 연계 10분',
+        stationInfoEn: 'Line 1 Jagalchi Stn 10 min bus transfer.'
+      },
+      {
+        time: 'Day 4',
+        titleKo: '다대포 해수욕장 & 몰운대 갈대 생태데크길',
+        titleEn: 'Dadaepo Beach & Reed Eco Boardwalk Sunset',
+        descKo: '광활한 갯벌 갈대밭 위로 평평하게 깔린 나무 데크길을 걸으며 황금빛 노을을 감상합니다.',
+        descEn: 'Stroll level eco-wood boardwalks through vast reed marshes watching golden sunsets.',
+        icon: 'Sunset',
+        stationInfoKo: '지하철 1호선 다대포해수욕장역 직접 연결',
+        stationInfoEn: 'Line 1 Dadaepo Beach Stn direct connection.'
+      },
+      {
+        time: 'Day 4',
+        titleKo: '여유로운 귀가 (부산역 / 김해공항)',
+        titleEn: 'Relaxed Departure (Busan Station / Gimhae Airport)',
+        descKo: '부산역 또는 공항으로 이동하여 알찬 3박 4일 부산 여행을 만족스럽게 마무리합니다.',
+        descEn: 'Head to Busan Station or Gimhae Airport to complete your memorable 4-day Busan tour.',
+        icon: 'Map',
+        stationInfoKo: '지하철 1호선 부산역 / 경전철 김해공항역',
+        stationInfoEn: 'Line 1 Busan Stn / Light Rail Gimhae Airport Stn.'
+      }
+    ]
+  },
+  {
+    id: 'itinerary-4nights',
+    titleKo: '부산 완벽 정복! 4박 5일 여유 만점 대장정',
+    titleEn: 'Ultimate Busan Mastery! 4N5D Grand Barrier-Free Tour',
+    subtitleKo: 'Day 1 동부산, Day 2 원도심, Day 3 서면·광안리, Day 4 서부산, Day 5 센텀시티까지 부산의 모든 매력을 구석구석 느긋하게 만끽하는 코스예요.',
+    subtitleEn: 'Day 1 East Busan, Day 2 Old Downtown, Day 3 Seomyeon & Gwangalli, Day 4 West Busan, Day 5 Centum City.',
+    category: '4NIGHTS',
+    durationKo: '4박 5일',
+    durationEn: '4 Nights 5 Days',
+    tagKo: '4박 5일 대장정 🏠',
+    tagEn: '4N5D Grand Tour 🏠',
+    difficultyKo: '쉬움',
+    difficultyEn: 'Easy',
+    overallTipKo: '부산의 주요 관광지를 총 5개 권역으로 세분화하여 동선의 중복을 최소화했습니다.',
+    overallTipEn: '5 distinct regional zones minimize transit redundancy.',
     steps: [
       {
-        time: 'Day 1 (원도심 & 영도)',
-        titleKo: '부산역 → 감천문화마을 → 부평깡통시장/국제시장 → 영도 흰여울전망대 & 태종대 → 용두산공원 야경',
-        titleEn: 'Busan Stn → Gamcheon → Markets → Yeongdo Huinnyeoul & Taejongdae → Yongdusan Nightscape',
-        descKo: '첫날은 부산역을 시작으로 원도심의 문화와 역사, 맛있는 미식 시장, 영도의 탁 트인 해안 절벽과 밤바다 야경을 하루 만에 알차게 둘러봅니다.',
-        descEn: 'Kickstart your trip with Busan Station, explore historic markets, admire Yeongdo ocean cliffs, and finish with Yongdusan night views.',
-        icon: 'Map',
-        stationInfoKo: '지하철 1호선 부산역 / 남포역 / 자갈치역 중심',
-        stationInfoEn: 'Centering Line 1 Busan Stn, Nampo, Jagalchi.'
-      },
-      {
-        time: 'Day 2 (서면 & 동래/온천천)',
-        titleKo: "서면 젊음의거리 → 전포카페거리 → 동래 온천천 수변공원 벚꽃/유채꽃 산책 → 망미골목 F1963",
-        titleEn: "Seomyeon → Jeonpo Cafe Street → Oncheoncheon Stream Walk → Mangmi Alley F1963",
-        descKo: "둘째 날은 부산 도심의 에너지와 카페 문화, 맑은 하천 산책로와 복합문화공간 F1963에서 예술적 감성을 경험합니다.",
-        descEn: "On Day 2, experience urban energy, trendy cafe culture, serene stream walks, and the artistic vibes at F1963 cultural center.",
-        icon: "Coffee",
-        stationInfoKo: "지하철 1·2호선 서면역, 1호선 동래역/온천장역, 3호선 망미역 연계",
-        stationInfoEn: "Connected via Line 1 & 2 Seomyeon Stn, Line 1 Dongnae, Line 3 Mangmi Stn."
-      },
-      {
         time: 'Day 1',
-        titleKo: '달맞이길 / 문탠로드',
-        titleEn: 'Dalmaji-gil / Moontan Road',
-        descKo: '송림과 벚나무가 울창하게 우거진 고즈넉한 힐링 숲길입니다. 울퉁불퉁한 흙길 대신 평평히 정비된 친환경 데크로드를 매끄럽게 따라가며 싱그러운 수목향을 누리기 좋습니다.',
-        descEn: 'A cozy pine-scented hillside forest path. Skip rugged dirt roads and slide up beautifully engineered flat boardwalks.',
-        icon: 'Walk'
-      },
-      {
-        time: 'Day 1',
-        titleKo: '해동용궁사',
-        titleEn: 'Haedong Yonggungsa Temple',
-        descKo: '기암괴석과 푸른 바다가 맞닿은 관음 성지 사찰입니다. 험난한 108 돌계단을 전면 우회해, 매표소 뒷길의 평평하고 넓은 지상의 우회 단층 통로를 공략하면 파도 절벽을 쾌적하고 편하게 바라봅니다.',
-        descEn: 'The scenic cliffside Buddhist temple. Bypassing the extreme 108 vertical steps completely by heading into the smooth side entry slope.',
-        icon: 'Map'
-      },
-      {
-        time: 'Day 1',
-        titleKo: '청사포',
-        titleEn: 'Cheongsapo',
-        descKo: '빨강·노랑 대비가 예쁜 등대와 한적한 전경이 머무는 항구입니다. 최근 새롭게 리모델링된 스카이워크 전용 엘리베이터로 편리하게 승강하여 청량한 유리바닥 뒤 바다 절경을 감상할 수 있습니다.',
-        descEn: 'A cozy fishing harbor with scenic twin lighthouses. Features a level skywalk with direct elevator lift cabins for effortless sightseeing.',
-        icon: 'Sunset'
-      },
-      {
-        time: 'Day 1',
-        titleKo: '송정해수욕장',
-        titleEn: 'Songjeong Beach',
-        descKo: '서퍼들이 가득한 활기찬 모래사장 뒤로 길게 정돈된 나무 데크를 타고 한 송이 연꽃처럼 고요한 죽도공원의 입구 완만 구간까지 모래 번거로움 없이 안전하게 들어옵니다.',
-        descEn: 'An open sandy shore filled with active surfers. Walk on beautifully laid flat wood paths leading calmly toward Jukdo Park.',
-        icon: 'Walk'
-      },
-      // Day 2
-      {
-        time: 'Day 2',
-        titleKo: '영도대교 도개 관람',
-        titleEn: 'Yeongdo Bridge Drawbridge View',
-        descKo: '우리나라 유일의 활개형 도개교입니다. 다리가 하늘 위로 높이 솟아오르는 이색 관람 시간에 맞춰 보도 정비된 평평한 전망 광장에서 역사의 숨결을 쾌적하게 마주합니다.',
-        descEn: 'Korea\'s only drawbridge. Gather at the step-free viewing plaza to capture the dynamic bridge lift ceremonies safely.',
-        icon: 'Map',
-        stationInfoKo: '남포역 6번·8번 출구 엘리베이터 인접 도보 1분',
-        stationInfoEn: 'Nampo Station Exit 6 or 8 lists convenient elevators 1 min away.'
-      },
-      {
-        time: 'Day 2',
-        titleKo: '영도 태종대 가로수 숲길: 다누비열차 투어',
-        titleEn: 'Taejongdae Forest: Danubi Train',
-        descKo: '신라 태종 무열왕이 반해 머물렀던 절벽 숲길입니다. 교통약자를 환대하는 친환경 순환 열차인 다누비열차를 타고 편안히 이동하여 대전망대 테라스의 시원한 기암괴석 비경을 감상해 보세요.',
-        descEn: 'A stunning seaside pinewood cliff path. Hop onto the friendly Danubi eco-friendly tourist train for level access straight to the cliffs.',
-        icon: 'Train'
-      },
-      {
-        time: 'Day 2',
-        titleKo: '흰여울문화마을·절영해안 산책',
-        titleEn: 'Huw潛yeoul Culture Village / Jeolyung Coast',
+        titleKo: '흰여울문화마을 / 절영해안산책로',
+        titleEn: 'Huinnyeoul Culture Village / Jeolyung Coast',
         descKo: '절벽 앞 푸른 파도와 그리스 산토리니를 닮은 아기자기한 흰 벽 골목입니다. 가파른 계단 골목길 윗자락의 평평한 상부 전망로를 공략하면 휠체어와 유모차로도 아름다운 흰여울 바다색을 품에 담습니다.',
         descEn: 'A cliffside art village with vibrant cobalt lanes. Choose the beautifully level upper sea-view line to enjoy deep visual horizons without stairs.',
         icon: 'Walk'
@@ -1396,7 +1480,7 @@ export const BUSAN_ITINERARIES: ItineraryCourse[] = [
         regionId: 'nampo_yeongdo',
         regionNameKo: '남포동 · 영도',
         regionNameEn: 'Nampo & Yeongdo',
-        categoryType: 'CULTURE',
+        categoryType: 'MUSEUM',
         time: '영화체험관',
         titleKo: '부산영화체험박물관',
         titleEn: 'Busan Museum of Movies',

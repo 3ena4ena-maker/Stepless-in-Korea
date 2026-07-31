@@ -1,0 +1,49 @@
+{
+  "entities": {
+    "TravelerRecommendation": {
+      "title": "TravelerRecommendation",
+      "description": "User created travel tips for Busan subway stations and venues",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "topic": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "category": {
+          "type": "string",
+          "enum": ["FOOD", "CAFE", "ATTRACTION", "TRANSIT", "OTHER"]
+        },
+        "stationOrExit": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "content": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "upvotes": {
+          "type": "number"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": ["author", "topic", "content", "category"]
+    }
+  },
+  "firestore": {
+    "recommendations/{recommendationId}": {
+      "schema": {
+        "$ref": "#/entities/TravelerRecommendation"
+      },
+      "description": "Public community travel recommendations for Busan stations"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    
+    function incoming() {
+      return request.resource.data;
+    }
+    
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidRecommendation(data) {
+      return data.keys().hasAll(['author', 'topic', 'content', 'category'])
+        && data.author is string && data.author.size() > 0 && data.author.size() <= 100
+        && data.topic is string && data.topic.size() > 0 && data.topic.size() <= 200
+        && data.content is string && data.content.size() > 0 && data.content.size() <= 2000
+        && data.category is string && data.category in ['FOOD', 'CAFE', 'ATTRACTION', 'TRANSIT', 'OTHER']
+        && (data.get('stationOrExit', '') is string)
+        && (data.get('upvotes', 0) is number);
+    }
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Public Recommendations collection - Cost-Optimized Reads (No get() calls inside list)
+    match /recommendations/{recommendationId} {
+      // 0 Extra Read Cost for reads
+      allow get, list: if true;
+
+      // Allow creating valid recommendations
+      allow create: if isValidId(recommendationId) && isValidRecommendation(incoming());
+
+      // Allow updating upvote counters or content without full document re-reads
+      allow update: if isValidId(recommendationId)
+        && isValidRecommendation(incoming())
+        && (
+          // Action 1: Atomic Upvote Delta
+          incoming().diff(existing()).affectedKeys().hasOnly(['upvotes'])
+          // Action 2: Content Edit
+          || incoming().diff(existing()).affectedKeys().hasAll(['author', 'topic', 'content', 'category', 'stationOrExit'])
+        );
+
+      // Allow deletion
+      allow delete: if isValidId(recommendationId);
+    }
+  }
+}
