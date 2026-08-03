@@ -33,176 +33,238 @@ export interface BusanEvent {
   dotClass: string;
 }
 
-// Curated Busan Events Data (Active & Upcoming as of June 27, 2026)
+// Curated Busan Events Data (Active & Upcoming as of August 2026)
 const BUSAN_EVENTS_DATA: BusanEvent[] = [
   {
-    id: 'busan-mobility-show-2026',
-    titleKo: '2026 부산모빌리티쇼',
-    titleEn: 'Busan International Mobility Show 2026',
-    category: 'culture',
-    categoryKo: '자동차 / 기술',
-    categoryEn: 'Mobility & Technology',
-    startDate: '2026-06-27',
-    endDate: '2026-07-05',
-    stationKo: '센텀시티역 (2호선)',
-    stationEn: 'Centum City Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '장애인 전용 주차 동선부터 메인 로비, 전시장 부스 동선까지 턱과 계단이 전혀 없는 그랜드 슬로프식 편의 인프라가 100% 촘촘히 구축된 안심 랜드마크입니다.',
-    accessibilityEn: 'Designed with maximum barrier-free logistics, from designated parking to the main halls, allowing all wheelchair-guided and stroller family units to explore.',
-    descriptionKo: '"내일의 길을 열다(Moving Tomorrow)"를 주제로 미래형 전기 모빌리티, 자율주행 차량, 수소 트럭, 도심항공교통(UAM) 실물 신기술을 보고 시승 체험까지 지원하는 국내 최대 모빌리티 대전입니다.',
-    descriptionEn: 'The signature motor show of Korea, displaying next-gen zero-emission electric vehicles, AI autopilots, eco hybrid power trains, and high-tech flying mobility modules.',
-    locationKo: '벡스코 (BEXCO) 제1전시장 및 제2전시장',
-    locationEn: 'BEXCO Exhibition Center I & II',
-    colorClass: 'bg-blue-50 text-blue-800 border-blue-100',
-    dotClass: 'bg-blue-500'
-  },
-  {
-    id: 'drone-show-july-04',
-    titleKo: '「광안리 M 드론라이트쇼」 스폰지밥 with 광안리',
-    titleEn: 'Gwangalli M Drone Light Show (SpongeBob with Gwangalli)',
-    category: 'drone',
-    categoryKo: '드론 연출',
-    categoryEn: 'Drone Exhibition',
-    startDate: '2026-07-04',
-    endDate: '2026-07-04',
-    stationKo: '광안역 (2호선)',
-    stationEn: 'Gwangan Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '광안해변 테마거리는 보행 장애물이 없는 완전 평탄 보도블록으로 구성되어 휠체어/유모차 전 구역 진입이 자유롭고, 주변 경사로 공중화장실이 촘촘히 마련되어 최고 수준입니다.',
-    accessibilityEn: 'The spacious Gwangalli Beach esplanade is paved with continuous non-slip flat bricks, allowing wheels and strollers to claim spectacular view spots easily.',
-    descriptionKo: '7월 4일 토요일 (20:00 / 22:00 2회 공연) 진행. 네모바지 스폰지밥과 친구들이 광안리 밤바다 위에서 펼치는 유쾌하고 기발한 라이트쇼입니다.',
-    descriptionEn: 'Saturday, July 4 (Two flights: 20:00 & 22:00). SpongeBob and buddies light up Gwangalli Beach with highly creative marine structures.',
-    locationKo: '광안리 해수욕장 생활체육공원 앞 해상',
-    locationEn: 'Gwangalli Beachfront Esplanade',
-    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
-    dotClass: 'bg-emerald-500'
-  },
-  {
-    id: 'drone-show-july-11',
-    titleKo: '「광안리 M 드론라이트쇼」 여름을 담다',
-    titleEn: 'Gwangalli M Drone Light Show (Vibe of Summer)',
-    category: 'drone',
-    categoryKo: '드론 연출',
-    categoryEn: 'Drone Exhibition',
-    startDate: '2026-07-11',
-    endDate: '2026-07-11',
-    stationKo: '광안역 (2호선)',
-    stationEn: 'Gwangan Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '광안해변 테마거리는 보행 장애물이 없는 완전 평탄 보도블록으로 구성되어 휠체어/유모차 전 구역 진입이 자유롭고, 주변 경사로 공중화장실이 촘촘히 마련되어 최고 수준입니다.',
-    accessibilityEn: 'The spacious Gwangalli Beach esplanade is paved with continuous non-slip flat bricks, allowing wheels and strollers to claim spectacular view spots easily.',
-    descriptionKo: '7월 11일 토요일 (20:00 / 22:00 2회 공연) 진행. 무더위를 날려버릴 시원하고 청량한 바다와 바캉스 감성을 표현한 환상적인 드론 아트입니다.',
-    descriptionEn: 'Saturday, July 11 (Two flights: 20:00 & 22:00). Capturing the cooling, refreshing midsummer beach energy with synchronized drones.',
-    locationKo: '광안리 해수욕장 생활체육공원 앞 해상',
-    locationEn: 'Gwangalli Beachfront Esplanade',
-    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
-    dotClass: 'bg-emerald-500'
-  },
-  {
-    id: 'drone-show-july-18',
-    titleKo: '「광안리 M 드론라이트쇼」 한국의 멋',
-    titleEn: 'Gwangalli M Drone Light Show (Beauty of Korea)',
-    category: 'drone',
-    categoryKo: '드론 연출',
-    categoryEn: 'Drone Exhibition',
-    startDate: '2026-07-18',
-    endDate: '2026-07-18',
-    stationKo: '광안역 (2호선)',
-    stationEn: 'Gwangan Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '광안해변 테마거리는 보행 장애물이 없는 완전 평탄 보도블록으로 구성되어 휠체어/유모차 전 구역 진입이 자유롭고, 주변 경사로 공중화장실이 촘촘히 마련되어 최고 수준입니다.',
-    accessibilityEn: 'The spacious Gwangalli Beach esplanade is paved with continuous non-slip flat bricks, allowing wheels and strollers to claim spectacular view spots easily.',
-    descriptionKo: '7월 18일 토요일 (20:00 / 22:00 2회 공연) 진행. 가장 한국적인 전통 선과 빛깔, 한옥과 민화의 감성적인 아름다움을 광안대교 상공에 그려냅니다.',
-    descriptionEn: 'Saturday, July 18 (Two flights: 20:00 & 22:00). Reimagining traditional Korean elegance and historic textures in night sky illumination.',
-    locationKo: '광안리 해수욕장 생활체육공원 앞 해상',
-    locationEn: 'Gwangalli Beachfront Esplanade',
-    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
-    dotClass: 'bg-emerald-500'
-  },
-  {
-    id: 'drone-show-july-25',
-    titleKo: '「광안리 M 드론라이트쇼」 포켓몬은 느긋느긋 바캉스 in 광안리',
-    titleEn: 'Gwangalli M Drone Light Show (Pokémon Lazy Vacation in Gwangalli)',
-    category: 'drone',
-    categoryKo: '드론 연출',
-    categoryEn: 'Drone Exhibition',
-    startDate: '2026-07-25',
-    endDate: '2026-07-25',
-    stationKo: '광안역 (2호선)',
-    stationEn: 'Gwangan Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '광안해변 테마거리는 보행 장애물이 없는 완전 평탄 보도블록으로 구성되어 휠체어/유모차 전 구역 진입이 자유롭고, 주변 경사로 공중화장실이 촘촘히 마련되어 최고 수준입니다.',
-    accessibilityEn: 'The spacious Gwangalli Beach esplanade is paved with continuous non-slip flat bricks, allowing wheels and strollers to claim spectacular view spots easily.',
-    descriptionKo: '7월 25일 토요일 (20:00 / 22:00 2회 공연) 진행. 귀여운 포켓몬들이 해수욕장에서 여유로운 피서를 보내는 테마의 한여름 스페셜 기획전입니다.',
-    descriptionEn: 'Saturday, July 25 (Two flights: 20:00 & 22:00). Features adorable pocket monsters relaxing on Gwangalli Beach with colorful drone paintings.',
-    locationKo: '광안리 해수욕장 생활체육공원 앞 해상',
-    locationEn: 'Gwangalli Beachfront Esplanade',
-    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
-    dotClass: 'bg-emerald-500'
-  },
-  {
-    id: 'hydrangea-festival-2026',
-    titleKo: '제16회 수국꽃문화축제',
-    titleEn: '16th Hydrangea Flower Cultural Festival',
-    category: 'festival',
-    categoryKo: '꽃 축제',
-    categoryEn: 'Flower Festival',
-    startDate: '2026-07-04',
-    endDate: '2026-07-12',
-    stationKo: '남포역 (1호선) 연계 버스 환승',
-    stationEn: 'Nampo Station then transfer bus',
-    metroLine: 'Line 1',
-    accessibilityKo: '태종대 순환 저상버스 및 다누비 열차 탑승 지점까지 무단차 경사로가 설치되어 있습니다. 단, 사찰(태종사) 진입 숲길과 본당 내부 일부는 흙길이므로 휠체어 동반 시 안전 우회로를 따라 진입해 주십시오.',
-    accessibilityEn: 'Taejongdae Park features standard low-floor bus services. The temple forest paths have scenic soil tracks; stroller and wheelchair companions are guided to use the flat bypass lane.',
-    descriptionKo: '태종대 유원지 태종사 일원에 만발하는 수십 종의 환상적인 수국꽃들이 연출하는 파스텔톤 꽃 바다 속에서 다채로운 전통 다도 체험, 수국 숲길 버스킹을 즐기는 대표 힐링 여름 축제입니다.',
-    descriptionEn: 'Busan\'s legendary midsummer flower celebration, blanketed with beautiful pastel blue, pink, and purple hydrangeas throughout the serene woods, offering traditional tea and live acoustics.',
-    locationKo: '영도구 태종대 유원지 내 태종사 일원',
-    locationEn: 'Taejongsa Temple Grounds, Yeongdo-gu',
-    colorClass: 'bg-teal-50 text-teal-850 border-teal-100',
-    dotClass: 'bg-teal-500'
-  },
-  {
-    id: 'busan-brand-festa-2026',
-    titleKo: '2026 부산브랜드페스타',
-    titleEn: '2026 Busan Brand Festa',
-    category: 'festival',
-    categoryKo: '지역 상생 축제',
-    categoryEn: 'Local Brand Festival',
-    startDate: '2026-07-10',
-    endDate: '2026-07-12',
-    stationKo: '센텀시티역 (2호선)',
-    stationEn: 'Centum City Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '넓고 평탄한 실내 전시장 내에서 평탄화가 100% 완료된 아스팔트 바닥면과 전용 휠체어 진입 전용 게이트를 완비하여, 유모차 동반 가족들도 안전하게 둘러볼 수 있습니다.',
-    accessibilityEn: 'Being a highly structured indoor pavilion, it offers complete floor leveling, stroller rentals, and broad walkways designed for absolute accessibility.',
-    descriptionKo: '부산 우수 강소기업들의 대표적인 식품, 리빙, 뷰티, 패션 명품들을 다채로운 부스 체험과 풍성한 무료 시식회, 대규모 라이브 커머스로 한자리에서 맛보고 즐기는 상생 대축제입니다.',
-    descriptionEn: 'An outstanding local brands trade show bringing Busan\'s signature crafts, lifestyle designs, and iconic foods with great discount packages and family hands-on booths.',
-    locationKo: '벡스코 (BEXCO) 제1전시장 3홀',
-    locationEn: 'BEXCO Exhibition Center I, Hall 3',
-    colorClass: 'bg-orange-50 text-orange-850 border-orange-100',
-    dotClass: 'bg-orange-500'
-  },
-
-  {
     id: 'sea-festival',
-    titleKo: '부산 바다축제',
-    titleEn: 'Busan Sea Festival',
+    titleKo: '제28회 부산 바다축제',
+    titleEn: '28th Busan Sea Festival',
     category: 'festival',
     categoryKo: '해변 축제',
     categoryEn: 'Beach Festival',
-    startDate: '2026-07-31',
-    endDate: '2026-08-04',
-    stationKo: '해운대역 / 광안역 (2호선)',
-    stationEn: 'Haeundae / Gwangan Station',
-    metroLine: 'Line 2',
-    accessibilityKo: '해운대를 비롯한 주요 행사장 평탄 구역에 시각 가이드 및 안내 부스가 배치됩니다. 바닷가 임시 매트 통로 구축으로 수변 평탄 도보 보행을 돕습니다.',
-    accessibilityEn: 'Special flat synthetic pathways and temporary plastic beach mats are laid out toward the water to provide sturdy support for wheels.',
-    descriptionKo: '뜨거운 한여름 밤 부산의 7대 해수욕장 전체에서 동시다발식으로 열리는 거대한 댄스카니발, 대규모 버스킹 축제, 워터파티가 시원하게 열립니다.',
-    descriptionEn: 'An epic mid-summer celebration spanning Busan\'s beaches, featuring live bands, street food stalls, and ocean parties engineered for universal entry.',
-    locationKo: '해운대 백사장, 다대포 수변공원',
-    locationEn: 'Haeundae & Dadaepo Coastal Parks',
+    startDate: '2026-08-07',
+    endDate: '2026-08-13',
+    stationKo: '다대포해수욕장역 (1호선)',
+    stationEn: 'Dadaepo Beach Station',
+    metroLine: 'Line 1',
+    accessibilityKo: '다대포해수욕장 및 수변공원 평탄 구역에 시각 가이드 및 안내 부스가 배치됩니다. 바닷가 임시 매트 통로 구축으로 수변 평탄 도보 보행을 돕습니다.',
+    accessibilityEn: 'Special flat synthetic pathways and temporary plastic beach mats are laid out toward the water at Dadaepo Beach to provide sturdy support for wheels.',
+    descriptionKo: '뜨거운 한여름 밤 다대포해수욕장 일원에서 열리는 거대한 댄스 카니발, 대규모 버스킹, 나이트 풀파티, 수변 라이브 무대입니다.',
+    descriptionEn: 'An epic mid-summer celebration spanning Dadaepo Beach, featuring live bands, street food stalls, and ocean parties engineered for universal entry.',
+    locationKo: '다대포해수욕장 일원',
+    locationEn: 'Dadaepo Beachfront & Coastal Park',
     colorClass: 'bg-sky-50 text-sky-850 border-sky-100',
     dotClass: 'bg-sky-500'
+  },
+  {
+    id: 'busan-buddhist-expo-2026',
+    titleKo: '2026 부산국제불교박람회',
+    titleEn: '2026 Busan International Buddhist Expo',
+    category: 'culture',
+    categoryKo: '전시 / 박람회',
+    categoryEn: 'Exhibition & Expo',
+    startDate: '2026-08-06',
+    endDate: '2026-08-09',
+    stationKo: '센텀시티역 (2호선)',
+    stationEn: 'Centum City Station',
+    metroLine: 'Line 2',
+    accessibilityKo: '벡스코 제1전시장은 단차가 전혀 없고 수직 승강기 및 장애인 전용 화장실이 완비되어 휠체어 및 유모차 이용객이 안전하고 쾌적하게 관람할 수 있습니다.',
+    accessibilityEn: 'BEXCO Exhibition Center I features 100% barrier-free flat floors, wide entrance aisles, and dedicated accessible facilities.',
+    descriptionKo: '한국 불교 문화 및 수행, 명상, 템플스테이, 불교 미술 및 전통 공예와 현대 웰니스 산업을 통합 선보이는 대표 박람회입니다.',
+    descriptionEn: 'A major international expo displaying Korean Buddhist culture, meditation, temple stays, art crafts, and modern wellness industries.',
+    locationKo: '벡스코 (BEXCO) 제1전시장 3홀',
+    locationEn: 'BEXCO Exhibition Center I, Hall 3',
+    colorClass: 'bg-amber-50 text-amber-850 border-amber-100',
+    dotClass: 'bg-amber-500'
+  },
+  {
+    id: 'north-port-ocean-sup-festa-2026',
+    titleKo: '북항 오션 SUP FESTA',
+    titleEn: 'North Port Ocean SUP FESTA',
+    category: 'festival',
+    categoryKo: '해양 레저',
+    categoryEn: 'Marine Sports',
+    startDate: '2026-07-31',
+    endDate: '2026-08-09',
+    stationKo: '부산역 / 초량역 (1호선)',
+    stationEn: 'Busan / Choryang Station',
+    metroLine: 'Line 1',
+    accessibilityKo: '북항 친수공원 보행 수변 도로는 무단차 평탄 블록으로 설계되어 유모차 및 휠체어 접근이 매우 편안합니다.',
+    accessibilityEn: 'The North Port Waterfront Park walkways are entirely flat and barrier-free for smooth wheel navigation.',
+    descriptionKo: '부산 북항 재개발지 친수공원에서 펼쳐지는 패들보드(SUP) 체험, 수변 레저 스포츠 프로그램 및 온 가족이 즐기는 시원한 일상 탈출 축제입니다.',
+    descriptionEn: 'Stand-up paddleboarding (SUP) and waterfront leisure sports festival held at the scenic North Port Waterfront Park.',
+    locationKo: '북항 친수공원 일원',
+    locationEn: 'North Port Waterfront Park Area',
+    colorClass: 'bg-indigo-50 text-indigo-850 border-indigo-100',
+    dotClass: 'bg-indigo-500'
+  },
+  {
+    id: 'dadaepo-sunset-movie-festival-2026',
+    titleKo: '다대포 선셋 영화축제',
+    titleEn: 'Dadaepo Sunset Movie Festival',
+    category: 'performance',
+    categoryKo: '영화 / 문화',
+    categoryEn: 'Movie & Culture',
+    startDate: '2026-08-14',
+    endDate: '2026-08-16',
+    stationKo: '다대포해수욕장역 (1호선)',
+    stationEn: 'Dadaepo Beach Station',
+    metroLine: 'Line 1',
+    accessibilityKo: '다대포 노을정원 및 수변 무대 관람 구역은 데크길과 평탄 잔디광장으로 연결되어 이동 편의성이 뛰어납니다.',
+    accessibilityEn: 'Viewing lawns and sunset boardwalks at Dadaepo Beach provide wide, barrier-free access.',
+    descriptionKo: '13:00~22:00 운영 (*부산 바다축제와 연계). 붉게 물드는 다대포 노을을 배경으로 야외 영화 상영, 감독/배우 토크쇼, 노을 버스킹이 함께하는 로맨틱 영화제입니다.',
+    descriptionEn: 'Operating 13:00~22:00 in connection with Busan Sea Festival. Outdoor cinema, director talk shows, and sunset acoustics set against Dadaepo\'s famous golden sunset.',
+    locationKo: '다대포해수욕장 일원',
+    locationEn: 'Dadaepo Beachfront Area',
+    colorClass: 'bg-rose-50 text-rose-850 border-rose-100',
+    dotClass: 'bg-rose-500'
+  },
+  {
+    id: 'night-sup-festival-2026',
+    titleKo: '2026 광안리 나이트 SUP & 해양레저 축제',
+    titleEn: '2026 Gwangalli Night SUP & Marine Leisure Festival',
+    category: 'festival',
+    categoryKo: '해양 레저',
+    categoryEn: 'Marine Sports',
+    startDate: '2026-08-07',
+    endDate: '2026-08-09',
+    stationKo: '광안역 / 금련산역 (2호선)',
+    stationEn: 'Gwangan / Geumnyeonsan Station',
+    metroLine: 'Line 2',
+    accessibilityKo: '광안리 해변 데크 통로 및 평탄 수변 공원에 무단차 관람 보도블록이 완비되어 휠체어 및 유모차로 안심 관람이 가능합니다.',
+    accessibilityEn: 'Gwangalli seaside deck and flat waterfront park walkways provide smooth, barrier-free viewing locations.',
+    descriptionKo: 'LED 조명을 밝힌 패들보드(SUP)와 윈드서핑이 광안대교 야경을 배경으로 수놓는 이색 해양 스포츠 축제 및 수변 라이브 버스킹 무대입니다.',
+    descriptionEn: 'Unique night marine sports festival featuring LED paddleboards (SUP) and windsurfing against the backdrop of Gwangandaegyo Bridge.',
+    locationKo: '광안리 해수욕장 및 수변 스탠드',
+    locationEn: 'Gwangalli Beachfront & Marine Park',
+    colorClass: 'bg-cyan-50 text-cyan-850 border-cyan-100',
+    dotClass: 'bg-cyan-500'
+  },
+  {
+    id: 'drone-show-aug-08',
+    titleKo: '「광안리 M 드론라이트쇼」 한여름 밤의 클래식',
+    titleEn: 'Gwangalli M Drone Light Show (Midsummer Night Classic)',
+    category: 'drone',
+    categoryKo: '드론 연출',
+    categoryEn: 'Drone Exhibition',
+    startDate: '2026-08-08',
+    endDate: '2026-08-08',
+    stationKo: '광안역 (2호선)',
+    stationEn: 'Gwangan Station',
+    metroLine: 'Line 2',
+    accessibilityKo: '광안해변 테마거리는 보행 장애물이 없는 완전 평탄 보도블록으로 구성되어 휠체어/유모차 전 구역 진입이 자유롭습니다.',
+    accessibilityEn: 'The spacious Gwangalli Beach esplanade is paved with continuous non-slip flat bricks, allowing wheels and strollers to claim spectacular view spots easily.',
+    descriptionKo: '8월 8일 토요일 (20:00 / 22:00 2회 공연) 진행. 클래식 명곡의 웅장한 선율에 맞춰 조율되는 빛의 오케스트라 퍼포먼스입니다.',
+    descriptionEn: 'Saturday, August 8 (Two flights: 20:00 & 22:00). Light orchestra performance synchronized with grand classical music melodies.',
+    locationKo: '광안리 해수욕장 생활체육공원 앞 해상',
+    locationEn: 'Gwangalli Beachfront Esplanade',
+    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
+    dotClass: 'bg-emerald-500'
+  },
+  {
+    id: 'craft-beer-festival-2026',
+    titleKo: '2026 부산 수제맥주 페스티벌',
+    titleEn: '2026 Busan Craft Beer Festival',
+    category: 'festival',
+    categoryKo: '수제맥주 / 푸드',
+    categoryEn: 'Craft Beer & Food',
+    startDate: '2026-08-13',
+    endDate: '2026-08-17',
+    stationKo: '센텀시티역 (2호선)',
+    stationEn: 'Centum City Station',
+    metroLine: 'Line 2',
+    accessibilityKo: '벡스코 야외광장은 단차가 전혀 없는 완벽한 평탄 우레탄 바닥으로, 휠체어와 유모차가 야외 테이블 및 부스를 수월하게 이용할 수 있습니다.',
+    accessibilityEn: 'The outdoor BEXCO plaza is paved completely flat, accommodating wheelchair users and stroller families with dedicated open tables.',
+    descriptionKo: '전국 유명 수제맥주 브루어리와 부산 대표 맛집 푸드트럭, 시원한 야외 라이브 버스킹 공연이 어우러지는 한여름 밤 야외 맥주 축제입니다.',
+    descriptionEn: 'A midsummer outdoor beer festival combining renowned Korean craft breweries, gourmet food trucks, and live acoustic music under the stars.',
+    locationKo: '벡스코 (BEXCO) 야외광장',
+    locationEn: 'BEXCO Outdoor Plaza, Centum City',
+    colorClass: 'bg-amber-50 text-amber-850 border-amber-100',
+    dotClass: 'bg-amber-500'
+  },
+  {
+    id: 'drone-show-aug-15',
+    titleKo: '「광안리 M 드론라이트쇼」 빛나는 광복의 밤',
+    titleEn: 'Gwangalli M Drone Light Show (Shining Liberation Night)',
+    category: 'drone',
+    categoryKo: '드론 연출',
+    categoryEn: 'Drone Exhibition',
+    startDate: '2026-08-15',
+    endDate: '2026-08-15',
+    stationKo: '광안역 (2호선)',
+    stationEn: 'Gwangan Station',
+    metroLine: 'Line 2',
+    accessibilityKo: '광안해변 테마거리는 보행 장애물이 없는 완전 평탄 보도블록으로 구성되어 휠체어/유모차 전 구역 진입이 자유롭습니다.',
+    accessibilityEn: 'The spacious Gwangalli Beach esplanade is paved with continuous non-slip flat bricks, allowing wheels and strollers to claim spectacular view spots easily.',
+    descriptionKo: '8월 15일 토요일 (20:00 / 22:00 2회 공연) 진행. 광복절 81주년을 기념하여 태극기와 빛의 서사시를 드론 아트워크로 연출하는 특별 라이트쇼입니다.',
+    descriptionEn: 'Saturday, August 15 (Two flights: 20:00 & 22:00). Special Liberation Day commemorative light show featuring Taegeukgi flag patterns.',
+    locationKo: '광안리 해수욕장 생활체육공원 앞 해상',
+    locationEn: 'Gwangalli Beachfront Esplanade',
+    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
+    dotClass: 'bg-emerald-500'
+  },
+  {
+    id: 'comedy-festival-2026',
+    titleKo: '제14회 부산 국제코미디페스티벌 (BICF)',
+    titleEn: '14th Busan International Comedy Festival (BICF)',
+    category: 'performance',
+    categoryKo: '코미디 / 공연',
+    categoryEn: 'Comedy & Performance',
+    startDate: '2026-08-21',
+    endDate: '2026-08-30',
+    stationKo: '센텀시티역 (2호선) / 부산역 (1호선)',
+    stationEn: 'Centum City Station / Busan Station',
+    metroLine: 'Line 2 / Line 1',
+    accessibilityKo: '영화의전당 및 주요 공연장은 휠체어 전용 관람석 및 수직 승강기, 전용 화장실이 완비되어 교통약자의 접근성이 매우 우수합니다.',
+    accessibilityEn: 'Venues including Busan Cinema Center feature elevators and accessible seating zones for smooth mobility access.',
+    descriptionKo: '아시아 최초이자 최대의 국제 코미디 페스티벌로, 국내외 최정상 코미디언들의 웃음 폭탄 스탠드업 코미디, 마임, 넌버벌 퍼포먼스가 펼쳐집니다.',
+    descriptionEn: 'Asia\'s largest comedy festival bringing top international comedians, stand-up, mime, and non-verbal shows to Busan.',
+    locationKo: '영화의전당, 부산시민회관, 봉오리 아트홀 등',
+    locationEn: 'Busan Cinema Center & Citizens\' Hall',
+    colorClass: 'bg-purple-50 text-purple-850 border-purple-100',
+    dotClass: 'bg-purple-500'
+  },
+  {
+    id: 'drone-show-aug-22',
+    titleKo: '「광안리 M 드론라이트쇼」 히어로즈 하모니',
+    titleEn: 'Gwangalli M Drone Light Show (Heroes Harmony)',
+    category: 'drone',
+    categoryKo: '드론 연출',
+    categoryEn: 'Drone Exhibition',
+    startDate: '2026-08-22',
+    endDate: '2026-08-22',
+    stationKo: '광안역 (2호선)',
+    stationEn: 'Gwangan Station',
+    metroLine: 'Line 2',
+    accessibilityKo: '광안해변 테마거리는 보행 장애물이 없는 완전 평탄 보도블록으로 구성되어 휠체어/유모차 전 구역 진입이 자유롭습니다.',
+    accessibilityEn: 'The spacious Gwangalli Beach esplanade is paved with continuous non-slip flat bricks, allowing wheels and strollers to claim spectacular view spots easily.',
+    descriptionKo: '8월 22일 토요일 (20:00 / 22:00 2회 공연) 진행. 신화 속 히어로와 현대 아이콘들이 결합된 역동적 시각 스펙터클 연출입니다.',
+    descriptionEn: 'Saturday, August 22 (Two flights: 20:00 & 22:00). Dynamic spectacle merging mythical heroes and modern pop-culture icons.',
+    locationKo: '광안리 해수욕장 생활체육공원 앞 해상',
+    locationEn: 'Gwangalli Beachfront Esplanade',
+    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
+    dotClass: 'bg-emerald-500'
+  },
+  {
+    id: 'drone-show-aug-29',
+    titleKo: '「광안리 M 드론라이트쇼」 굿바이 썸머 나이트',
+    titleEn: 'Gwangalli M Drone Light Show (Goodbye Summer Night)',
+    category: 'drone',
+    categoryKo: '드론 연출',
+    categoryEn: 'Drone Exhibition',
+    startDate: '2026-08-29',
+    endDate: '2026-08-29',
+    stationKo: '광안역 (2호선)',
+    stationEn: 'Gwangan Station',
+    metroLine: 'Line 2',
+    accessibilityKo: '광안해변 테마거리는 보행 장애물이 없는 완전 평탄 보도블록으로 구성되어 휠체어/유모차 전 구역 진입이 자유롭습니다.',
+    accessibilityEn: 'The spacious Gwangalli Beach esplanade is paved with continuous non-slip flat bricks, allowing wheels and strollers to claim spectacular view spots easily.',
+    descriptionKo: '8월 29일 토요일 (20:00 / 22:00 2회 공연) 진행. 여름의 마지막 밤을 아쉬워하며 가을의 서막을 여는 감성 드론 라이트쇼입니다.',
+    descriptionEn: 'Saturday, August 29 (Two flights: 20:00 & 22:00). Emotional drone light performance saying farewell to summer and welcoming autumn.',
+    locationKo: '광안리 해수욕장 생활체육공원 앞 해상',
+    locationEn: 'Gwangalli Beachfront Esplanade',
+    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-100',
+    dotClass: 'bg-emerald-500'
   },
   {
     id: 'rock-festival',
@@ -291,9 +353,18 @@ const BUSAN_EVENTS_DATA: BusanEvent[] = [
 ];
 
 export default function BusanEventsCalendarView({ language }: BusanEventsCalendarViewProps) {
-  // Present Year and Month (initialize to July 2026 for rich summer events preview)
-  const [currentYear, setCurrentYear] = useState<number>(2026);
-  const [currentMonth, setCurrentMonth] = useState<number>(7); // July by default
+  // Calculate today's date dynamically
+  const todayObj = useMemo(() => new Date(), []);
+  const todayYear = todayObj.getFullYear();
+  const todayMonth = todayObj.getMonth() + 1;
+  const todayDate = todayObj.getDate();
+  const todayDateStr = useMemo(() => {
+    return `${todayYear}-${String(todayMonth).padStart(2, '0')}-${String(todayDate).padStart(2, '0')}`;
+  }, [todayYear, todayMonth, todayDate]);
+
+  // Present Year and Month (initialize to current real year and month)
+  const [currentYear, setCurrentYear] = useState<number>(todayYear);
+  const [currentMonth, setCurrentMonth] = useState<number>(todayMonth);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   
@@ -407,18 +478,20 @@ export default function BusanEventsCalendarView({ language }: BusanEventsCalenda
     return daysArray;
   }, [currentYear, currentMonth]);
 
-  // Filter events based on currently selected category filter
+  // Filter events based on currently selected category filter and exclude past events
   const filteredEvents = useMemo(() => {
+    const activeOrUpcoming = BUSAN_EVENTS_DATA.filter(evt => evt.endDate >= todayDateStr);
+
     if (selectedCategory === 'all') {
-      return BUSAN_EVENTS_DATA;
+      return activeOrUpcoming;
     }
-    return BUSAN_EVENTS_DATA.filter(evt => {
+    return activeOrUpcoming.filter(evt => {
       if (selectedCategory === 'drone') return evt.category === 'drone';
       if (selectedCategory === 'festival') return evt.category === 'festival';
       if (selectedCategory === 'culture') return evt.category === 'culture' || evt.category === 'performance';
       return true;
     });
-  }, [selectedCategory]);
+  }, [selectedCategory, todayDateStr]);
 
   // Helper to find all filtered events active on a specific calendar day cell
   const getEventsForDay = (dateString: string) => {
@@ -545,8 +618,8 @@ export default function BusanEventsCalendarView({ language }: BusanEventsCalenda
               
               <button
                 onClick={() => {
-                  setCurrentYear(2026);
-                  setCurrentMonth(6);
+                  setCurrentYear(todayYear);
+                  setCurrentMonth(todayMonth);
                 }}
                 className="px-2 py-1 text-[10px] sm:text-[11px] font-black hover:bg-slate-50 border border-slate-200 rounded-lg cursor-pointer text-slate-500 hover:text-slate-800 transition-colors whitespace-nowrap"
               >
@@ -620,8 +693,8 @@ export default function BusanEventsCalendarView({ language }: BusanEventsCalenda
               const dayEvents = getEventsForDay(cell.dateString);
               const isSelected = selectedEventId ? dayEvents.some(e => e.id === selectedEventId) : false;
               
-              // Determine if the day is "today" (June 27, 2026 based on current context)
-              const isToday = cell.dateString === '2026-06-27';
+              // Determine if the day is "today" dynamically based on current date
+              const isToday = cell.dateString === todayDateStr;
 
               return (
                 <div
