@@ -2,9 +2,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Work Sans', system-ui, sans-serif;
-  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-mono: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-sans: 'Work Sans', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Hanken Grotesk', system-ui, monospace;
   
   --color-primary-navy: #004481;
   --color-primary-light: #d5e3ff;
@@ -14,10 +14,35 @@
   --color-secondary-container: #a0f399;
 }
 
-/* Custom smooth styling transitions */
-* {
-  transition-property: background-color, border-color, text-color, fill, stroke;
-  transition-duration: 200ms;
+/* Mobile-first HTML & Body smoothness & zero horizontal scroll overflow */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+  width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  width: 100%;
+  overflow-x: clip;
+  touch-action: manipulation;
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+#root {
+  width: 100%;
+  overflow-x: clip;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Smooth targeted transitions for interactive elements without heavy universal '*' layout jank */
+button, a, input, select, textarea, [role="button"], .smooth-transition {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow, transform, opacity;
+  transition-duration: 180ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -48,12 +73,21 @@
 
 /* Animation helpers */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
-  animation: fadeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Mobile-optimized scrollable containers */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Leaflet marker reset to guarantee pixel-perfect custom HTML markers */
@@ -63,4 +97,5 @@
   border: none !important;
   box-shadow: none !important;
 }
+
 

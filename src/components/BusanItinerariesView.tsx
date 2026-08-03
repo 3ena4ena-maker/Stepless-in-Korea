@@ -2438,20 +2438,14 @@ export default function BusanItinerariesView({
 
                         <div 
                           onClick={() => setDetailMapModalOpen(true)}
-                          className="relative aspect-[21/9] sm:aspect-[24/9] w-full rounded-2xl overflow-hidden border border-slate-200/70 shadow-xs bg-slate-50 cursor-pointer group"
+                          className="relative w-full rounded-2xl overflow-hidden border border-slate-200/80 shadow-xs bg-amber-50/20 cursor-pointer group"
                         >
                           <img 
                             src="/images/day_trip_b.png"
                             alt="Busan Central Essential Travel Map Illustration"
                             referrerPolicy="no-referrer"
-                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                            className="w-full h-auto block object-contain transition-transform duration-500 ease-out group-hover:scale-[1.008]"
                           />
-                          <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-slate-900/10 transition-colors flex items-center justify-center">
-                            <span className="bg-white/90 text-slate-900 text-xs font-black px-3.5 py-2 rounded-xl shadow-md border border-white flex items-center gap-1.5 transform group-hover:scale-105 transition-transform">
-                              <span>🔍</span>
-                              <span>{language === 'KR' ? '원도심 알짜배기 지도 원본 크게 보기' : 'Click to View Full Map'}</span>
-                            </span>
-                          </div>
                         </div>
                       </div>
 

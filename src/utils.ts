@@ -225,6 +225,14 @@ export function translateTopicOrContentFallback(text: string): string {
   return translated;
 }
 
+export function getTodayDateKR(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  return `${year}년 ${month}월 ${day}일`;
+}
+
 export function translateRecommendation(
   rec: { id: string; topic: string; content: string; stationOrExit: string },
   language: 'KR' | 'EN',

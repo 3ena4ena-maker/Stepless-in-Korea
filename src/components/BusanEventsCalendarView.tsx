@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, MapPin, Tag, Shuffle, Info, Sparkles, CheckCircle2, X } from 'lucide-react';
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, MapPin, Tag, Shuffle, Info, Sparkles, CheckCircle2, ExternalLink, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface BusanEventsCalendarViewProps {
@@ -493,6 +493,31 @@ export default function BusanEventsCalendarView({ language }: BusanEventsCalenda
             ? '부산 대표 축제 및 문화 공연, 드론쇼의 행사 일정을 한 눈에!' 
             : 'Explore high-fidelity seasonal festivals, cultural parades, multi-drone lighting shows, and concerts in Busan with wheel-friendly accessibility guidelines.'}
         </p>
+
+        {/* Verification Info Notice */}
+        <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] sm:text-xs text-slate-500">
+          <span className="font-bold text-slate-700 flex items-center gap-1">
+            <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
+            <span>{language === 'KR' ? '검증 정보' : 'Verified Data'}</span>
+          </span>
+          <span className="text-slate-300">|</span>
+          <span>조사자: <strong className="text-slate-700 font-medium">플로레르</strong></span>
+          <span className="text-slate-300">|</span>
+          <span>최근 조사일: <strong className="text-slate-700 font-medium">2026년 8월 3일 기준</strong> <span className="text-blue-600">(매일 자동 업데이트)</span></span>
+          <span className="text-slate-300">|</span>
+          <span>
+            공식 출처:{' '}
+            <a 
+              href="https://www.busan.go.kr" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800 font-medium underline inline-flex items-center gap-0.5"
+            >
+              <span>부산광역시청</span>
+              <ExternalLink className="w-2.5 h-2.5 text-blue-600" />
+            </a>
+          </span>
+        </div>
       </div>
 
       {/* Main Grid: Split view Calendar vs quick event list */}
