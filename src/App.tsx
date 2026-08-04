@@ -1,6 +1,7 @@
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
+ * Updated: 2026-08 August Busan Events & Calendar
  */
 
 import React, { useState, useEffect, Suspense, lazy } from 'react';
